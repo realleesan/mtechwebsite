@@ -15,9 +15,9 @@ return [
     'use_smtp' => true,
     
     // Sender Information
-    'from_email' => 'noreply@thuonglo.com',
-    'from_name' => 'ThuongLo',
-    'support_email' => 'support@thuonglo.com',
+    'from_email' => 'noreply@mtech.com',
+    'from_name' => 'MTech',
+    'support_email' => 'support@mtech.com',
     
     // Email Settings
     'charset' => 'UTF-8',
