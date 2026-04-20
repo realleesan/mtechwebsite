@@ -117,9 +117,9 @@ switch($page) {
         $title = 'Giới thiệu - Tên Website';
         $content = 'app/views/about/about.php';
         $showPageHeader = true;
+        $pageTitle = 'About Us';
         $showCTA = true;
         $showBreadcrumb = true;
-        // $breadcrumbs = generate_breadcrumb('about');
         break;
         
     // --------------------------------------
@@ -128,7 +128,12 @@ switch($page) {
     case 'teams':
         $title = 'Đội ngũ - Tên Website';
         $content = 'app/views/about/teams.php';
-        $showPageHeader = false;
+        $showPageHeader = true;
+        $pageTitle = 'Our Team';
+        $breadcrumbs = [
+            ['title' => 'About', 'url' => '?page=about'],
+            ['title' => 'Our Team']
+        ];
         $showCTA = false;
         $showBreadcrumb = false;
         break;
@@ -183,9 +188,9 @@ switch($page) {
         $title = 'Blog - Tên Website';
         $content = 'app/views/blogs/blogs.php';
         $showPageHeader = true;
+        $pageTitle = 'Blog';
         $showCTA = false;
         $showBreadcrumb = true;
-        // $breadcrumbs = generate_breadcrumb('blogs');
         break;
         
     // --------------------------------------
@@ -207,9 +212,9 @@ switch($page) {
         $title = 'Dự án - Tên Website';
         $content = 'app/views/projects/projects.php';
         $showPageHeader = true;
+        $pageTitle = 'Projects';
         $showCTA = false;
         $showBreadcrumb = true;
-        // $breadcrumbs = generate_breadcrumb('projects');
         break;
         
     // --------------------------------------
@@ -231,9 +236,9 @@ switch($page) {
         $title = 'Dịch vụ - Tên Website';
         $content = 'app/views/services/services.php';
         $showPageHeader = true;
+        $pageTitle = 'Services';
         $showCTA = false;
         $showBreadcrumb = true;
-        // $breadcrumbs = generate_breadcrumb('services');
         break;
         
     // --------------------------------------
@@ -264,20 +269,12 @@ switch($page) {
     // NOTE: Contact Page - Trang liên hệ
     // --------------------------------------
     case 'contact':
-        // NOTE: Xử lý POST request cho form liên hệ
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //     // Validate và xử lý form
-        //     header('Content-Type: application/json');
-        //     echo json_encode(['success' => true, 'message' => 'Đã gửi thành công']);
-        //     exit;
-        // }
-        
         $title = 'Liên hệ - Tên Website';
         $content = 'app/views/contact/contact.php';
         $showPageHeader = true;
+        $pageTitle = 'Contact Us';
         $showCTA = false;
         $showBreadcrumb = true;
-        // $breadcrumbs = generate_breadcrumb('contact');
         break;
         
     // --------------------------------------

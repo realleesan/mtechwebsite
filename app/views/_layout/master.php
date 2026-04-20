@@ -38,6 +38,9 @@ mb_http_output('UTF-8');
     $currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
     ?>
     
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <!-- ========================================== -->
     <!-- NOTE: External CSS Libraries - Thêm thư viện CSS CDN tại đây -->
     <!-- ========================================== -->
@@ -50,6 +53,7 @@ mb_http_output('UTF-8');
     <!-- NOTE: Core CSS Files - Thêm CSS chung tại đây -->
     <!-- ========================================== -->
     <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/pageheader.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     
     <!-- ========================================== -->
@@ -114,10 +118,10 @@ mb_http_output('UTF-8');
     <?php endif; ?>
     
     <!-- ========================================== -->
-    <!-- NOTE: Page Header - Banner/hero section cho trang -->
+    <!-- NOTE: Page Header (if needed) -->
     <!-- ========================================== -->
     <?php if (isset($showPageHeader) && $showPageHeader): ?>
-        <?php // include_once __DIR__ . '/pageheader.php'; ?>
+        <?php include_once __DIR__ . '/pageheader.php'; ?>
     <?php endif; ?>
     
     <!-- ========================================== -->
@@ -221,6 +225,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <script src="assets/js/header.js"></script>
     <script src="assets/js/footer.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Ví dụ các file JS khác:
     -->
     

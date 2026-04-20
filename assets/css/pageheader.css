@@ -1,0 +1,100 @@
+/* ========================================
+   Page Header / Banner Area
+   Theo cấu trúc Wokrate template
+   ======================================== */
+
+.banner_area {
+    background-image:
+        -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5))),
+        url('assets/images/banner_bg.png');
+    background-image:
+        -webkit-linear-gradient(rgba(0, 0, 0, 0.5)),
+        url('assets/images/banner_bg.png');
+    background-image:
+        -o-linear-gradient(rgba(0, 0, 0, 0.5)),
+        url('assets/images/banner_bg.png');
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.5)),
+        url('assets/images/banner_bg.png');
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    padding: 170px 0 80px;
+}
+
+/* Nội dung banner */
+.banner_content {
+    text-align: center;
+}
+
+/* Tiêu đề trang */
+.banner_content .page_title {
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-size: 42px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+}
+
+/* Breadcrumb */
+.banner_content .breadcrumb {
+    background: transparent;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.banner_content .breadcrumb-item {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Dấu phân cách > */
+.banner_content .breadcrumb-item + .breadcrumb-item::before {
+    content: '›';
+    color: #ffffff;
+    font-size: 16px;
+}
+
+/* Link Home - màu vàng */
+.banner_content .breadcrumb-item a {
+    color: #ffb600;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+.banner_content .breadcrumb-item a:hover {
+    color: #ffffff;
+}
+
+/* Item active (trang hiện tại) - màu trắng */
+.banner_content .breadcrumb-item.active {
+    color: #ffffff;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .banner_area {
+        padding: 130px 0 60px;
+    }
+
+    .banner_content .page_title {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner_area {
+        padding: 110px 0 50px;
+    }
+
+    .banner_content .page_title {
+        font-size: 24px;
+    }
+
+    .banner_content .breadcrumb-item {
+        font-size: 13px;
+    }
+}

@@ -12,7 +12,7 @@ $currentPage = $_GET['page'] ?? 'home';
     <nav class="navbar navbar-expand-lg navbar-light menu_absolute">
         <!-- Logo -->
         <a class="navbar-brand" href="./">
-            <img src="docs/template/_layout/screen/logo_header.svg" alt="MTech Logo">
+            <img src="assets/images/logo.png" alt="Wokrate Industrial">
         </a>
         
         <!-- Hamburger Menu Button for Mobile -->
@@ -32,6 +32,13 @@ $currentPage = $_GET['page'] ?? 'home';
         
         <!-- Navigation Menu -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
+            <!-- Close Button (Mobile only) -->
+            <button class="nav-close-btn" aria-label="Close menu">
+                <span class="nav-close-arrow">&#8592;</span>
+                <span class="nav-close-text">Back</span>
+            </button>
+            
             <ul class="navbar-nav menu">
                 
                 <!-- Home -->
@@ -40,13 +47,27 @@ $currentPage = $_GET['page'] ?? 'home';
                 </li>
                 
                 <!-- About -->
-                <li class="nav-item <?php echo ($currentPage === 'about') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="?page=about" title="About">About</a>
+                <li class="nav-item submenu <?php echo ($currentPage === 'about') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="#" title="About" onclick="return false;">
+                        About
+                        <span class="caret-drop"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=about" title="About Us">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=conpany.history" title="Company History">Company History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=teams" title="Teams">Teams</a>
+                        </li>
+                    </ul>
                 </li>
                 
                 <!-- Services -->
-                <li class="nav-item dropdown submenu <?php echo ($currentPage === 'services') ? 'active' : ''; ?>">
-                    <a class="nav-link dropdown-toggle" href="?page=services" title="Services" data-toggle="dropdown">
+                <li class="nav-item submenu <?php echo ($currentPage === 'services') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="#" title="Services" onclick="return false;">
                         Services
                         <span class="caret-drop"></span>
                     </a>
@@ -70,8 +91,8 @@ $currentPage = $_GET['page'] ?? 'home';
                 </li>
                 
                 <!-- Projects -->
-                <li class="nav-item dropdown submenu <?php echo ($currentPage === 'projects') ? 'active' : ''; ?>">
-                    <a class="nav-link dropdown-toggle" href="?page=projects" title="Projects" data-toggle="dropdown">
+                <li class="nav-item submenu <?php echo ($currentPage === 'projects') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="#" title="Projects" onclick="return false;">
                         Projects
                         <span class="caret-drop"></span>
                     </a>
@@ -92,8 +113,8 @@ $currentPage = $_GET['page'] ?? 'home';
                 </li>
                 
                 <!-- Blog -->
-                <li class="nav-item dropdown submenu <?php echo ($currentPage === 'blogs') ? 'active' : ''; ?>">
-                    <a class="nav-link dropdown-toggle" href="?page=blogs" title="Blog" data-toggle="dropdown">
+                <li class="nav-item submenu <?php echo ($currentPage === 'blogs') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="#" title="Blog" onclick="return false;">
                         Blog
                         <span class="caret-drop"></span>
                     </a>
@@ -119,6 +140,9 @@ $currentPage = $_GET['page'] ?? 'home';
                 </li>
                 
             </ul>
+            
+            <!-- Phone Number -->
+            <a href="tel:0123456789" class="header-phone">0123 456 789</a>
         </div>
     </nav>
 </header>
