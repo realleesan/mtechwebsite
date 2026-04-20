@@ -1,0 +1,289 @@
+/**
+ * Company History Page Styles
+ * Template: docs/template/about/code/company.history.html
+ */
+
+/* Company History Area */
+.company_history_area {
+    padding: 100px 0;
+    background-color: #f9f9f9;
+}
+
+.company_history_area .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* About History Section */
+.about_history {
+    display: flex;
+    align-items: center;
+    margin-bottom: 80px;
+    background-color: #fff;
+    padding: 50px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+}
+
+.about_history img {
+    max-width: 45%;
+    height: auto;
+    margin-right: 50px;
+}
+
+.about_history .media-body {
+    flex: 1;
+}
+
+.about_history h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.about_history .title_br {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #ff6b35;
+    margin-bottom: 25px;
+}
+
+.about_history h5 {
+    font-size: 20px;
+    font-weight: 400;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.about_history p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* History Timeline */
+.history_info {
+    position: relative;
+}
+
+.history_info::before {
+    content: '';
+    position: absolute;
+    left: 100px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e0e0e0;
+}
+
+.history_item {
+    display: flex;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.history_item:last-child {
+    margin-bottom: 0;
+}
+
+.history_date {
+    width: 200px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #ff6b35;
+    padding-right: 50px;
+    text-align: right;
+    position: relative;
+    z-index: 1;
+}
+
+.history_date::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 10px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ff6b35;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #ff6b35;
+}
+
+.history_item .media-body {
+    flex: 1;
+    padding-left: 50px;
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.history_item h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.history_item p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 0;
+}
+
+/* History Images */
+.history_img {
+    margin-top: 25px;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.history_img img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Utility Classes */
+.f_600 {
+    font-weight: 600;
+}
+
+.f_400 {
+    font-weight: 400;
+}
+
+.f_size_32 {
+    font-size: 32px;
+}
+
+.f_size_20 {
+    font-size: 20px;
+}
+
+.title_color {
+    color: #333;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}
+
+.mb_20 {
+    margin-bottom: 20px;
+}
+
+.sec_gap {
+    padding: 100px 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .company_history_area {
+        padding: 60px 0;
+    }
+
+    .about_history {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .about_history img {
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+
+    .about_history h2 {
+        font-size: 28px;
+    }
+
+    .history_info::before {
+        left: 80px;
+    }
+
+    .history_date {
+        width: 160px;
+        font-size: 20px;
+        padding-right: 30px;
+    }
+
+    .history_date::after {
+        right: -5px;
+    }
+
+    .history_item .media-body {
+        padding-left: 30px;
+    }
+
+    .sec_gap {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .company_history_area {
+        padding: 40px 0;
+    }
+
+    .about_history {
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+
+    .about_history h2 {
+        font-size: 24px;
+    }
+
+    .about_history h5 {
+        font-size: 16px;
+    }
+
+    .history_info::before {
+        left: 60px;
+    }
+
+    .history_item {
+        flex-direction: column;
+    }
+
+    .history_date {
+        width: 100%;
+        text-align: left;
+        padding-right: 0;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ff6b35;
+    }
+
+    .history_date::after {
+        display: none;
+    }
+
+    .history_item .media-body {
+        padding-left: 0;
+    }
+
+    .history_item h3 {
+        font-size: 18px;
+    }
+
+    .history_img {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .sec_gap {
+        padding: 40px 0;
+    }
+}

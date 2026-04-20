@@ -60,6 +60,9 @@ mb_http_output('UTF-8');
         case 'contact':
             // echo '<link rel="stylesheet" href="' . css_url('contact.css') . '">';
             break;
+        case 'company.history':
+            echo '<link rel="stylesheet" href="assets/css/company.history.css">';
+            break;
         // NOTE: Thêm các case khác tại đây
         default:
             break;
@@ -236,6 +239,9 @@ mb_http_output('UTF-8');
             break;
         case 'contact':
             // echo '<script src="' . js_url('contact.js') . '"></script>';
+            break;
+        case 'company.history':
+            echo '<script src="assets/js/company.history.js"></script>';
             break;
         // NOTE: Thêm các case khác tại đây
         default:
