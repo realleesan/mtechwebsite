@@ -1,0 +1,441 @@
+/* ========================================
+   Header CSS - MTech Website
+   Màu sắc và hiệu ứng theo template mẫu
+   ======================================== */
+
+/* Reset & Base Styles */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body padding for fixed header */
+body {
+    padding-top: 80px;
+}
+
+/* Main Menu Area */
+.main_menu_area {
+    display: block;
+    width: 100%;
+}
+
+/* Navbar Styles */
+.navbar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0 45px;
+}
+
+/* Menu Absolute - Position fixed at top */
+.menu_absolute {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    background: transparent;
+    transition: all 0.4s ease;
+    padding: 20px 0;
+}
+
+/* Sticky Header - khi scroll */
+.menu_absolute.sticky {
+    background: #000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    padding: 10px 0;
+}
+
+/* Logo/Brand */
+.navbar-brand {
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.navbar-brand img {
+    max-height: 50px;
+    width: auto;
+    display: block;
+}
+
+/* Navbar Toggler - Hamburger Button */
+.navbar-toggler {
+    padding: 0.25rem 0.75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+}
+
+/* Menu Toggle - Hamburger Icon */
+.menu_toggle {
+    display: inline-block;
+    width: 30px;
+    height: 24px;
+    position: relative;
+}
+
+.hamburger {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+}
+
+.hamburger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.hamburger span:last-child {
+    margin-bottom: 0;
+}
+
+/* Hamburger Cross - X icon when opened */
+.hamburger-cross {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.hamburger-cross span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hamburger-cross span:first-child {
+    transform: rotate(45deg);
+}
+
+.hamburger-cross span:last-child {
+    transform: rotate(-45deg);
+}
+
+/* Toggle state - when menu is open */
+.navbar-toggler:not(.collapsed) .hamburger {
+    display: none;
+}
+
+.navbar-toggler:not(.collapsed) .hamburger-cross {
+    display: block;
+}
+
+/* Navbar Collapse */
+.navbar-collapse {
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+/* Menu List */
+.navbar-nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    align-items: center;
+}
+
+.navbar-nav.menu {
+    margin-left: auto;
+}
+
+/* Nav Items */
+.menu > .nav-item {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0 20px;
+}
+
+/* Nav Links - Màu gốc chữ */
+.menu > .nav-item > .nav-link {
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 38px;
+    padding: 0;
+    position: relative;
+    text-decoration: none;
+    display: block;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Hover & Active State - Màu vàng khi hover */
+.menu > .nav-item:hover > .nav-link,
+.menu > .nav-item.active > .nav-link {
+    color: #ffb600;
+}
+
+/* Caret Drop - Dropdown arrow */
+.caret-drop {
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    min-width: 220px;
+    padding: 20px 0;
+    margin: 0;
+    margin-top: 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #000;
+    background-clip: padding-box;
+    border: none;
+    border-top: 3px solid #ffb600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+/* Show dropdown on hover */
+.nav-item.dropdown:hover .dropdown-menu,
+.nav-item.submenu:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Dropdown Items */
+.dropdown-menu .nav-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dropdown-menu .nav-link {
+    display: block;
+    padding: 12px 30px;
+    clear: both;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.dropdown-menu .nav-link:hover,
+.dropdown-menu .nav-item.active .nav-link {
+    color: #ffb600;
+    background-color: rgba(255, 182, 0, 0.05);
+    border-left-color: #ffb600;
+    padding-left: 35px;
+}
+
+/* ========================================
+   Responsive Styles
+   ======================================== */
+
+/* Desktop - Large screens */
+@media (min-width: 992px) {
+    .navbar-expand-lg {
+        -ms-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+    }
+    
+    .navbar-expand-lg .navbar-nav {
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+    
+    .navbar-expand-lg .navbar-collapse {
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-preferred-size: auto;
+        flex-basis: auto;
+    }
+    
+    .navbar-expand-lg .navbar-toggler {
+        display: none;
+    }
+}
+
+/* Tablet */
+@media (max-width: 1280px) {
+    .navbar {
+        margin: 0 20px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 991px) {
+    body {
+        padding-top: 70px;
+    }
+    
+    .navbar {
+        margin: 0 15px;
+    }
+    
+    .navbar-toggler {
+        display: block;
+    }
+    
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: #1a1a1a;
+        padding: 80px 20px 20px;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+        z-index: 999;
+    }
+    
+    .navbar-collapse.show {
+        right: 0;
+    }
+    
+    .navbar-nav {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .menu > .nav-item {
+        margin: 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .menu > .nav-item > .nav-link {
+        display: block;
+        padding: 15px 0;
+        line-height: 1.5;
+    }
+    
+    /* Dropdown on mobile */
+    .dropdown-menu {
+        position: static;
+        float: none;
+        width: 100%;
+        margin: 0;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+    
+    .nav-item.dropdown .dropdown-menu {
+        display: none;
+    }
+    
+    .nav-item.dropdown.show .dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-menu .nav-link {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    
+    /* Mobile overlay */
+    .navbar-collapse::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .navbar-collapse.show::before {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 576px) {
+    body {
+        padding-top: 60px;
+    }
+    
+    .navbar {
+        margin: 0 10px;
+    }
+    
+    .navbar-brand img {
+        max-height: 40px;
+    }
+    
+    .navbar-collapse {
+        width: 260px;
+    }
+    
+    .menu_absolute {
+        padding: 10px 0;
+    }
+}

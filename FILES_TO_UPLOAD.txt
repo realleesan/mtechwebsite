@@ -1,0 +1,107 @@
+DANH SÁCH FILES CẦN UPLOAD LÊN HOSTING
+========================================
+
+CÁC FILES QUAN TRỌNG NHẤT (PHẢI UPLOAD):
+-----------------------------------------
+
+1. CSS Files:
+   assets/css/header.css (9,086 bytes)
+   assets/css/header_simple.css (4,525 bytes)
+
+2. JavaScript Files:
+   assets/js/header.js
+
+3. PHP Files:
+   app/views/_layout/header.php
+   app/views/_layout/master.php (đã cập nhật)
+   app/views/home/home.php
+   index.php (đã cập nhật)
+
+4. Logo:
+   docs/template/_layout/screen/logo_header.svg
+
+5. Test File:
+   test_header.html
+
+
+CẤU TRÚC THỨ MỤC TRÊN HOSTING:
+-------------------------------
+
+public_html/
+├── assets/
+│   ├── css/
+│   │   ├── header.css          ← UPLOAD FILE NÀY
+│   │   └── header_simple.css   ← UPLOAD FILE NÀY
+│   └── js/
+│       └── header.js            ← UPLOAD FILE NÀY
+├── app/
+│   └── views/
+│       ├── _layout/
+│       │   ├── header.php       ← UPLOAD FILE NÀY
+│       │   └── master.php       ← UPLOAD FILE NÀY
+│       └── home/
+│           └── home.php         ← UPLOAD FILE NÀY
+├── docs/
+│   └── template/
+│       └── _layout/
+│           └── screen/
+│               └── logo_header.svg  ← UPLOAD FILE NÀY
+├── index.php                    ← UPLOAD FILE NÀY
+└── test_header.html             ← UPLOAD FILE NÀY
+
+
+CÁCH UPLOAD:
+------------
+
+PHƯƠNG PHÁP 1: FTP (FileZilla, WinSCP)
+1. Kết nối FTP đến hosting
+2. Navigate đến thư mục website (public_html hoặc www)
+3. Upload từng file vào đúng thư mục tương ứng
+
+PHƯƠNG PHÁP 2: cPanel File Manager
+1. Đăng nhập cPanel
+2. Mở File Manager
+3. Click Upload
+4. Chọn files từ: C:\xampp\htdocs\mtechwebsite\
+5. Upload vào đúng thư mục
+
+
+KIỂM TRA SAU KHI UPLOAD:
+-------------------------
+
+1. Mở trình duyệt, truy cập:
+   http://your-domain.com/assets/css/header.css
+   → Phải hiển thị nội dung CSS (KHÔNG phải 404)
+
+2. Truy cập:
+   http://your-domain.com/test_header.html
+   → Phải hiển thị header đẹp với styling
+
+3. Truy cập:
+   http://your-domain.com/
+   → Header phải hiển thị giống test_header.html
+
+
+LƯU Ý:
+-------
+- Sau khi upload, clear browser cache (Ctrl+Shift+Delete)
+- Đảm bảo cấu trúc thư mục đúng
+- Kiểm tra quyền files: 644 cho files, 755 cho folders
+- Tên files phân biệt hoa thường trên Linux hosting
+
+
+NẾU VẪN LỖI 404:
+-----------------
+1. Kiểm tra lại đường dẫn thư mục
+2. Kiểm tra tên files (case-sensitive)
+3. Kiểm tra .htaccess không block CSS
+4. Clear server cache
+5. Đợi 5-10 phút để cache clear
+
+
+HỖ TRỢ:
+-------
+Nếu cần hỗ trợ, cung cấp:
+- URL website
+- Screenshot File Manager (cấu trúc thư mục)
+- Screenshot khi truy cập URL CSS

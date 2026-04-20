@@ -26,9 +26,10 @@ mb_http_output('UTF-8');
     <link rel="icon" type="image/x-icon" href="<?php echo isset($favicon) ? $favicon : '/favicon.ico'; ?>">
     
     <!-- NOTE: Google Fonts/External Fonts - Thêm fonts tại đây -->
-    <!-- Ví dụ:
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ví dụ:
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     -->
     
@@ -40,9 +41,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Core CSS Files - Thêm CSS chung tại đây -->
     <!-- ========================================== -->
+    <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <!-- Ví dụ các file CSS khác:
-    <link rel="stylesheet" href="<?php echo css_url('header.css'); ?>">
     <link rel="stylesheet" href="<?php echo css_url('flash_messages.css'); ?>">
     -->
     
@@ -90,9 +91,7 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Header - Include file header tại đây -->
     <!-- ========================================== -->
-    <?php 
-    // Ví dụ: include_once __DIR__ . '/header.php';
-    ?>
+    <?php include_once __DIR__ . '/header.php'; ?>
     
     <!-- ========================================== -->
     <!-- NOTE: Navigation/Menu - Include navigation tại đây nếu cần -->
@@ -217,9 +216,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Core JavaScript Files - JS chung -->
     <!-- ========================================== -->
+    <script src="assets/js/header.js"></script>
     <script src="assets/js/footer.js"></script>
     <!-- Ví dụ các file JS khác:
-    <script src="<?php echo js_url('header.js'); ?>"></script>
     <script src="<?php echo js_url('flash_messages.js'); ?>"></script>
     -->
     

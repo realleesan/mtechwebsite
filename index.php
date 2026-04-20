@@ -150,6 +150,66 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Blogs Page - Trang tin tức/blog
+    // --------------------------------------
+    case 'blogs':
+        $title = 'Blog - Tên Website';
+        $content = 'app/views/blogs/blogs.php';
+        $showPageHeader = true;
+        $showCTA = false;
+        $showBreadcrumb = true;
+        // $breadcrumbs = generate_breadcrumb('blogs');
+        break;
+        
+    // --------------------------------------
+    // NOTE: Blog Details - Chi tiết blog
+    // --------------------------------------
+    case 'blog-details':
+        $title = 'Chi tiết blog - Tên Website';
+        $content = 'app/views/blogs/details.php';
+        $showPageHeader = false;
+        $showCTA = false;
+        $showBreadcrumb = true;
+        // NOTE: Xử lý breadcrumb động theo ID blog
+        break;
+        
+    // --------------------------------------
+    // NOTE: Projects Page - Trang dự án
+    // --------------------------------------
+    case 'projects':
+        $title = 'Dự án - Tên Website';
+        $content = 'app/views/projects/projects.php';
+        $showPageHeader = true;
+        $showCTA = false;
+        $showBreadcrumb = true;
+        // $breadcrumbs = generate_breadcrumb('projects');
+        break;
+        
+    // --------------------------------------
+    // NOTE: Project Details - Chi tiết dự án
+    // --------------------------------------
+    case 'project-details':
+        $title = 'Chi tiết dự án - Tên Website';
+        $content = 'app/views/projects/details.php';
+        $showPageHeader = false;
+        $showCTA = false;
+        $showBreadcrumb = true;
+        // NOTE: Xử lý breadcrumb động theo ID dự án
+        break;
+        
+    // --------------------------------------
+    // NOTE: Services Page - Trang dịch vụ
+    // --------------------------------------
+    case 'services':
+        $title = 'Dịch vụ - Tên Website';
+        $content = 'app/views/services/services.php';
+        $showPageHeader = true;
+        $showCTA = false;
+        $showBreadcrumb = true;
+        // $breadcrumbs = generate_breadcrumb('services');
+        break;
+        
+    // --------------------------------------
     // NOTE: News Page - Trang tin tức
     // --------------------------------------
     case 'news':
