@@ -40,9 +40,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Core CSS Files - Thêm CSS chung tại đây -->
     <!-- ========================================== -->
-    <!-- Ví dụ:
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <!-- Ví dụ các file CSS khác:
     <link rel="stylesheet" href="<?php echo css_url('header.css'); ?>">
-    <link rel="stylesheet" href="<?php echo css_url('footer.css'); ?>">
     <link rel="stylesheet" href="<?php echo css_url('flash_messages.css'); ?>">
     -->
     
@@ -69,7 +69,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: External CSS Libraries - Thêm thư viện CSS CDN tại đây -->
     <!-- ========================================== -->
-    <!-- Ví dụ: Font Awesome, Bootstrap, v.v. -->
+    <!-- Font Awesome for footer icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Ví dụ các thư viện khác: Bootstrap, v.v. -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
     
     <!-- ========================================== -->
@@ -203,9 +205,7 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Footer - Include file footer tại đây -->
     <!-- ========================================== -->
-    <?php 
-    // Ví dụ: include_once __DIR__ . '/footer.php';
-    ?>
+    <?php include_once __DIR__ . '/footer.php'; ?>
     
     <!-- ========================================== -->
     <!-- NOTE: Scroll to Top / Pusher Button -->
@@ -217,9 +217,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Core JavaScript Files - JS chung -->
     <!-- ========================================== -->
-    <!-- Ví dụ:
+    <script src="assets/js/footer.js"></script>
+    <!-- Ví dụ các file JS khác:
     <script src="<?php echo js_url('header.js'); ?>"></script>
-    <script src="<?php echo js_url('footer.js'); ?>"></script>
     <script src="<?php echo js_url('flash_messages.js'); ?>"></script>
     -->
     
