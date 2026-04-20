@@ -39,12 +39,18 @@ mb_http_output('UTF-8');
     ?>
     
     <!-- ========================================== -->
+    <!-- NOTE: External CSS Libraries - Thêm thư viện CSS CDN tại đây -->
+    <!-- ========================================== -->
+    <!-- Bootstrap Grid -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- ========================================== -->
     <!-- NOTE: Core CSS Files - Thêm CSS chung tại đây -->
     <!-- ========================================== -->
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
-    <!-- Ví dụ các file CSS khác:
-    -->
     
     <!-- ========================================== -->
     <!-- NOTE: Page-specific CSS - Thêm CSS theo từng trang -->
@@ -71,14 +77,6 @@ mb_http_output('UTF-8');
             break;
     }
     ?>
-    
-    <!-- ========================================== -->
-    <!-- NOTE: External CSS Libraries - Thêm thư viện CSS CDN tại đây -->
-    <!-- ========================================== -->
-    <!-- Font Awesome for footer icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Ví dụ các thư viện khác: Bootstrap, v.v. -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
     
     <!-- ========================================== -->
     <!-- NOTE: Additional CSS - CSS động từ Controller -->
@@ -255,8 +253,8 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: External JavaScript Libraries - CDN -->
     <!-- ========================================== -->
-    <!-- Ví dụ: jQuery, Bootstrap, Chart.js, v.v. -->
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
     
     <!-- ========================================== -->
     <!-- NOTE: Additional JS - JavaScript động từ Controller -->

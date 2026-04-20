@@ -1,108 +1,50 @@
-/* Teams Page Styles */
+/**
+ * Teams Page Styles
+ * Template: docs/template/about/code/teams.html
+ * Reference: Wokrate Theme
+ */
 
-/* Banner Area */
-.banner_area {
-    position: relative;
-    background-size: cover;
-    background-position: center center;
-    padding: 120px 0 80px;
-    min-height: 300px;
-    display: flex;
-    align-items: center;
+/* ========================================
+   Utility / Shared Classes
+   ======================================== */
+
+.sec_gap {
+    padding: 100px 0;
 }
 
-.banner_area .banner_content {
-    position: relative;
-    z-index: 2;
-}
-
-.banner_area .page_title {
-    font-size: 48px;
+.f_600 {
     font-weight: 600;
-    margin-bottom: 20px;
-    color: #fff;
 }
 
-.banner_area .breadcrumb {
-    background: transparent;
-    justify-content: center;
-    margin-bottom: 0;
-}
-
-.banner_area .breadcrumb-item {
-    font-size: 16px;
-    color: #fff;
-}
-
-.banner_area .breadcrumb-item a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.banner_area .breadcrumb-item.active {
-    color: #ffc107;
-}
-
-.banner_area .breadcrumb-item + .breadcrumb-item::before {
-    color: #fff;
-    content: "/";
-}
-
-/* Team Area */
-.team_area {
-    padding: 100px 0;
-    background: #f9f9f9;
-}
-
-.team_area.sec_gap {
-    padding: 100px 0;
-}
-
-.section_title {
-    text-align: center;
-    margin-bottom: 55px;
-}
-
-.section_title .title_color {
-    color: #222;
+.f_size_32 {
     font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 15px;
 }
 
-.section_title .title_br {
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: #ffc107;
-    margin: 0 auto 20px;
+.f_size_20 {
+    font-size: 20px;
 }
 
-.section_title .title_br.dark {
-    background: #222;
+.f_p {
+    font-family: "Poppins", sans-serif;
 }
 
-.section_title p {
-    color: #777;
-    font-size: 16px;
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 20px auto 0;
+.title_color {
+    color: #222222;
 }
 
-.section_title.mb_55 {
-    margin-bottom: 55px;
-}
-
-.section_title.mb_30 {
-    margin-bottom: 30px;
+.color_w {
+    color: #ffffff;
 }
 
 .mt_7 {
     margin-top: 7px;
 }
 
-.mb-30 {
+.mb_55 {
+    margin-bottom: 55px;
+}
+
+.mb_30 {
     margin-bottom: 30px;
 }
 
@@ -110,129 +52,278 @@
     margin-bottom: 30px;
 }
 
-/* Team Member */
+/* ========================================
+   Banner Area
+   ======================================== */
+
+.banner_area {
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #222;
+}
+
+.teams_banner {
+    background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/banner_bg-1.jpg');
+}
+
+.banner_area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 0;
+}
+
+.banner_area .container {
+    position: relative;
+    z-index: 1;
+}
+
+.banner_content {
+    padding: 80px 0;
+}
+
+.banner_content .page_title {
+    font-size: 48px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.banner_content .breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.banner_content .breadcrumb-item {
+    font-size: 15px;
+    color: #ffffff;
+}
+
+.banner_content .breadcrumb-item a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.banner_content .breadcrumb-item a:hover {
+    color: #ffb600;
+}
+
+.banner_content .breadcrumb-item.active {
+    color: #ffb600;
+}
+
+.banner_content .breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    color: #ffffff;
+    padding: 0 8px;
+}
+
+/* ========================================
+   Section Title
+   ======================================== */
+
+.section_title {
+    text-align: left;
+}
+
+.section_title h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #222222;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.section_title .title_br {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #ffb600;
+    margin-bottom: 20px;
+}
+
+.section_title .title_br.dark {
+    background-color: #222222;
+}
+
+.section_title p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #666666;
+    margin-top: 7px;
+    margin-bottom: 0;
+}
+
+/* ========================================
+   Team Area
+   ======================================== */
+
+.team_area {
+    background-color: #f9f9f9;
+}
+
+.team_inner {
+    margin-top: 0;
+}
+
+/* Team Member Card */
 .team_member {
-    background: #fff;
-    padding: 30px 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
     margin-bottom: 30px;
+    background: #ffffff;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .team_member:hover {
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
 }
 
-.team_member.text-center {
-    text-align: center;
-}
-
+/* Team Image */
 .team_img {
     position: relative;
     overflow: hidden;
-    margin-bottom: 20px;
-    border-radius: 5px;
 }
 
 .team_img img {
     width: 100%;
     height: auto;
     display: block;
-    transition: all 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
 .team_member:hover .team_img img {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
+/* Overlay */
 .team_img .overlay {
     position: absolute;
+    inset: 0;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: all 0.3s ease;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 182, 0, 0.75);
+    opacity: 0 !important;
+    transition: opacity 0.35s ease;
+    z-index: 1;
 }
 
 .team_member:hover .team_img .overlay {
-    opacity: 1;
+    opacity: 1 !important;
 }
 
+/* Social Icons */
 .team_img .social_icon {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
     padding: 0;
     margin: 0;
     list-style: none;
     opacity: 0;
-    transition: all 0.3s ease;
+    transform: translateY(15px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    z-index: 2;
 }
 
 .team_member:hover .team_img .social_icon {
     opacity: 1;
-    transform: translateX(-50%) translateY(-10px);
+    transform: translateY(0);
 }
 
 .team_img .social_icon li {
     display: inline-block;
-    margin: 0 5px;
 }
 
 .team_img .social_icon li a {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 36px;
     height: 36px;
-    line-height: 36px;
-    text-align: center;
-    background: #ffc107;
-    color: #222;
+    background: #ffffff;
+    color: #222222;
     border-radius: 50%;
+    font-size: 14px;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .team_img .social_icon li a:hover {
-    background: #222;
-    color: #fff;
+    background: #222222;
+    color: #ffffff;
 }
 
+/* Member Info */
 .team_member h5 {
     font-size: 20px;
     font-weight: 600;
-    color: #222;
-    margin-bottom: 5px;
+    color: #222222;
+    margin: 18px 0 5px;
+    line-height: 1.3;
 }
 
 .team_member p {
-    color: #777;
     font-size: 14px;
-    margin-bottom: 0;
+    color: #888888;
+    margin-bottom: 18px;
 }
 
-/* Question Area */
+/* ========================================
+   Question Area
+   ======================================== */
+
 .question_area {
-    padding: 100px 0;
-    background: linear-gradient(rgba(255, 182, 0, 0.87), rgba(255, 182, 0, 0.87));
+    position: relative;
+    background-color: #ffb600;
+    background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
-.question_area .section_title .title_color {
-    color: #fff;
+.question_area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 182, 0, 0.82);
+    z-index: 0;
 }
 
-.question_area .section_title p {
-    color: rgba(255, 255, 255, 0.9);
+.question_area .container {
+    position: relative;
+    z-index: 1;
 }
 
+.question_area .section_title h2 {
+    color: #222222;
+}
+
+.question_area .section_title .title_br.dark {
+    background-color: #222222;
+}
+
+/* Question Form */
 .question_form {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .question_form .form-group {
@@ -240,86 +331,113 @@
 }
 
 .question_form .form-control {
+    display: block;
     width: 100%;
-    padding: 12px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 5px;
+    height: 50px;
+    padding: 10px 0;
     font-size: 14px;
-    color: #333;
-    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    color: #222222;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(34, 34, 34, 0.4);
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .question_form .form-control:focus {
+    border-color: #222222;
+    box-shadow: none;
     outline: none;
-    border-color: #fff;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    background-color: transparent;
 }
 
 .question_form .form-control::placeholder {
-    color: #999;
+    color: #444444;
+    font-size: 14px;
 }
 
 .question_form textarea.form-control {
-    resize: vertical;
-    min-height: 120px;
+    height: auto;
+    min-height: 100px;
+    resize: none;
+    padding-top: 10px;
 }
 
 .question_form .submit_btn {
-    padding: 12px 40px;
-    background: #222;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    display: inline-block;
+    padding: 14px 40px;
+    background-color: #222222;
+    color: #ffffff;
+    font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid #222222;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .question_form .submit_btn:hover {
-    background: #fff;
-    color: #222;
+    background-color: transparent;
+    color: #222222;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .banner_area {
-        padding: 80px 0 60px;
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 991px) {
+    .sec_gap {
+        padding: 70px 0;
     }
-    
-    .banner_area .page_title {
+
+    .banner_content .page_title {
         font-size: 36px;
     }
-    
-    .team_area {
-        padding: 60px 0;
-    }
-    
-    .section_title .title_color {
+
+    .section_title h2 {
         font-size: 28px;
-    }
-    
-    .question_area {
-        padding: 60px 0;
-    }
-    
-    .question_form {
-        padding: 20px;
     }
 }
 
-@media (max-width: 576px) {
-    .banner_area .page_title {
+@media (max-width: 767px) {
+    .sec_gap {
+        padding: 50px 0;
+    }
+
+    .banner_content {
+        padding: 60px 0;
+    }
+
+    .banner_content .page_title {
         font-size: 28px;
     }
-    
-    .section_title .title_color {
+
+    .section_title h2 {
         font-size: 24px;
     }
-    
-    .team_member {
-        padding: 20px 15px;
+
+    .team_member h5 {
+        font-size: 18px;
+    }
+
+    .question_form .submit_btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 575px) {
+    .banner_content .page_title {
+        font-size: 24px;
     }
 }
