@@ -123,6 +123,17 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Teams Page - Trang đội ngũ
+    // --------------------------------------
+    case 'teams':
+        $title = 'Đội ngũ - Tên Website';
+        $content = 'app/views/about/teams.php';
+        $showPageHeader = false;
+        $showCTA = false;
+        $showBreadcrumb = false;
+        break;
+        
+    // --------------------------------------
     // NOTE: Company History Page - Lịch sử công ty
     // --------------------------------------
     case 'company.history':

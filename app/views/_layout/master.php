@@ -44,7 +44,6 @@ mb_http_output('UTF-8');
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <!-- Ví dụ các file CSS khác:
-    <link rel="stylesheet" href="<?php echo css_url('flash_messages.css'); ?>">
     -->
     
     <!-- ========================================== -->
@@ -63,6 +62,9 @@ mb_http_output('UTF-8');
             break;
         case 'company.history':
             echo '<link rel="stylesheet" href="assets/css/company.history.css">';
+            break;
+        case 'teams':
+            echo '<link rel="stylesheet" href="assets/css/teams.css">';
             break;
         // NOTE: Thêm các case khác tại đây
         default:
@@ -222,7 +224,6 @@ mb_http_output('UTF-8');
     <script src="assets/js/header.js"></script>
     <script src="assets/js/footer.js"></script>
     <!-- Ví dụ các file JS khác:
-    <script src="<?php echo js_url('flash_messages.js'); ?>"></script>
     -->
     
     <!-- ========================================== -->
@@ -241,6 +242,9 @@ mb_http_output('UTF-8');
             break;
         case 'company.history':
             echo '<script src="assets/js/company.history.js"></script>';
+            break;
+        case 'teams':
+            echo '<script src="assets/js/teams.js"></script>';
             break;
         // NOTE: Thêm các case khác tại đây
         default:

@@ -1,0 +1,325 @@
+/* Teams Page Styles */
+
+/* Banner Area */
+.banner_area {
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    padding: 120px 0 80px;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.banner_area .banner_content {
+    position: relative;
+    z-index: 2;
+}
+
+.banner_area .page_title {
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.banner_area .breadcrumb {
+    background: transparent;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.banner_area .breadcrumb-item {
+    font-size: 16px;
+    color: #fff;
+}
+
+.banner_area .breadcrumb-item a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.banner_area .breadcrumb-item.active {
+    color: #ffc107;
+}
+
+.banner_area .breadcrumb-item + .breadcrumb-item::before {
+    color: #fff;
+    content: "/";
+}
+
+/* Team Area */
+.team_area {
+    padding: 100px 0;
+    background: #f9f9f9;
+}
+
+.team_area.sec_gap {
+    padding: 100px 0;
+}
+
+.section_title {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section_title .title_color {
+    color: #222;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.section_title .title_br {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #ffc107;
+    margin: 0 auto 20px;
+}
+
+.section_title .title_br.dark {
+    background: #222;
+}
+
+.section_title p {
+    color: #777;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 20px auto 0;
+}
+
+.section_title.mb_55 {
+    margin-bottom: 55px;
+}
+
+.section_title.mb_30 {
+    margin-bottom: 30px;
+}
+
+.mt_7 {
+    margin-top: 7px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+/* Team Member */
+.team_member {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.team_member:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.team_member.text-center {
+    text-align: center;
+}
+
+.team_img {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.team_img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.team_member:hover .team_img img {
+    transform: scale(1.05);
+}
+
+.team_img .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.team_member:hover .team_img .overlay {
+    opacity: 1;
+}
+
+.team_img .social_icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.team_member:hover .team_img .social_icon {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+.team_img .social_icon li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.team_img .social_icon li a {
+    display: block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    background: #ffc107;
+    color: #222;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.team_img .social_icon li a:hover {
+    background: #222;
+    color: #fff;
+}
+
+.team_member h5 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 5px;
+}
+
+.team_member p {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+/* Question Area */
+.question_area {
+    padding: 100px 0;
+    background: linear-gradient(rgba(255, 182, 0, 0.87), rgba(255, 182, 0, 0.87));
+}
+
+.question_area .section_title .title_color {
+    color: #fff;
+}
+
+.question_area .section_title p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.question_form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.question_form .form-group {
+    margin-bottom: 20px;
+}
+
+.question_form .form-control {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.question_form .form-control:focus {
+    outline: none;
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.question_form .form-control::placeholder {
+    color: #999;
+}
+
+.question_form textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.question_form .submit_btn {
+    padding: 12px 40px;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.question_form .submit_btn:hover {
+    background: #fff;
+    color: #222;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .banner_area {
+        padding: 80px 0 60px;
+    }
+    
+    .banner_area .page_title {
+        font-size: 36px;
+    }
+    
+    .team_area {
+        padding: 60px 0;
+    }
+    
+    .section_title .title_color {
+        font-size: 28px;
+    }
+    
+    .question_area {
+        padding: 60px 0;
+    }
+    
+    .question_form {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .banner_area .page_title {
+        font-size: 28px;
+    }
+    
+    .section_title .title_color {
+        font-size: 24px;
+    }
+    
+    .team_member {
+        padding: 20px 15px;
+    }
+}
