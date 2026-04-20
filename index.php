@@ -123,6 +123,22 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Company History Page - Lịch sử công ty
+    // --------------------------------------
+    case 'company.history':
+        $title = 'Lịch sử công ty - Tên Website';
+        $content = 'app/views/about/company.history.php';
+        $showPageHeader = true;
+        $showCTA = true;
+        $showBreadcrumb = true;
+        $breadcrumbs = [
+            ['title' => 'Trang chủ', 'url' => './'],
+            ['title' => 'Giới thiệu', 'url' => '?page=about'],
+            ['title' => 'Lịch sử công ty']
+        ];
+        break;
+        
+    // --------------------------------------
     // NOTE: Products Page - Trang sản phẩm/danh sách
     // --------------------------------------
     case 'products':
