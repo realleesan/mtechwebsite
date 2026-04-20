@@ -6,20 +6,21 @@
 .banner_area {
     background-image:
         -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5))),
-        url('assets/images/banner_bg.png');
+        url('/assets/images/banner_bg.png');
     background-image:
         -webkit-linear-gradient(rgba(0, 0, 0, 0.5)),
-        url('assets/images/banner_bg.png');
+        url('/assets/images/banner_bg.png');
     background-image:
         -o-linear-gradient(rgba(0, 0, 0, 0.5)),
-        url('assets/images/banner_bg.png');
+        url('/assets/images/banner_bg.png');
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.5)),
-        url('assets/images/banner_bg.png');
+        url('/assets/images/banner_bg.png');
     background-size: cover, cover;
     background-position: center, center;
     background-repeat: no-repeat, no-repeat;
     padding: 170px 0 80px;
+    margin-top: 0;
 }
 
 /* Nội dung banner */

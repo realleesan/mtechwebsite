@@ -7,7 +7,6 @@
 }
 
 body {
-    padding-top: 80px;
     margin: 0;
 }
 
@@ -253,8 +252,6 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 }
 
 @media (max-width: 991px) {
-    body { padding-top: 70px; }
-
     .navbar { padding: 0 15px; }
 
     .navbar-toggler { display: block; }
@@ -395,7 +392,6 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 }
 
 @media (max-width: 576px) {
-    body { padding-top: 60px; }
     .navbar { padding: 0 10px; }
     .navbar-brand img { height: 40px; }
     .navbar-collapse { width: 260px; }
