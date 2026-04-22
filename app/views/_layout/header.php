@@ -134,19 +134,19 @@ $currentPage = $_GET['page'] ?? 'home';
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=services" title="All Services">All Services</a>
+                            <a class="nav-link" href="?page=categories" title="All Services">All Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=services&type=web-development" title="Web Development">Web Development</a>
+                            <a class="nav-link" href="?page=categories&type=web-development" title="Web Development">Web Development</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=services&type=mobile-app" title="Mobile App">Mobile App</a>
+                            <a class="nav-link" href="?page=categories&type=mobile-app" title="Mobile App">Mobile App</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=services&type=software-consulting" title="Software Consulting">Software Consulting</a>
+                            <a class="nav-link" href="?page=categories&type=software-consulting" title="Software Consulting">Software Consulting</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=services&type=cloud-solutions" title="Cloud Solutions">Cloud Solutions</a>
+                            <a class="nav-link" href="?page=categories&type=cloud-solutions" title="Cloud Solutions">Cloud Solutions</a>
                         </li>
                     </ul>
                 </li>
