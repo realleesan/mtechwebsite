@@ -12,28 +12,56 @@ body {
 
 /* ── Top Bar ── */
 .header_top_five {
-    background: rgba(0, 0, 0, 1);
-    padding: 10px 0;
+    background: transparent;
+    padding: 8px 0;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.4s ease;
+}
+
+.header_top_five.sticky {
+    background: #111;
+}
+
+/* Layout topbar: căn trái thẳng logo, căn phải thẳng menu */
+.topbar_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 45px;
+}
+
+.topbar_left {
+    display: flex;
+    align-items: center;
+}
+
+.topbar_right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
 .topbar_phone {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
     font-family: "Poppins", sans-serif;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 400;
+    display: flex;
+    align-items: center;
 }
 
 .topbar_phone a {
     color: #ffb600;
     text-decoration: none;
-    font-weight: 500;
-    margin-left: 6px;
+    font-weight: 600;
+    margin-left: 8px;
+    font-size: 16px;
     transition: color 0.25s ease;
 }
 
@@ -41,23 +69,46 @@ body {
     color: #fff;
 }
 
-.header_top_right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 15px;
-}
-
 .topbar_iso {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
     font-family: "Poppins", sans-serif;
-    font-size: 13px;
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
 }
 
 .topbar_divider {
     width: 1px;
-    height: 16px;
+    height: 18px;
     background: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Nút tải Hồ Sơ Năng Lực ── */
+.btn_profile_download {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #ffb600;
+    color: #111 !important;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none !important;
+    padding: 6px 16px;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    line-height: 1.4;
+}
+
+.btn_profile_download svg {
+    flex-shrink: 0;
+}
+
+.btn_profile_download:hover {
+    background: #e6a200;
+    color: #000 !important;
+    transform: translateY(-1px);
 }
 
 /* Language Switcher */
@@ -76,7 +127,7 @@ body {
     gap: 7px;
     color: #fff;
     font-family: "Poppins", sans-serif;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 400;
     padding: 4px 8px;
     border-radius: 3px;
@@ -89,14 +140,14 @@ body {
 }
 
 .lang_caret {
-    font-size: 9px;
+    font-size: 10px;
     opacity: 0.7;
     margin-left: 2px;
 }
 
 .flag_icon {
-    width: 18px;
-    height: 12px;
+    width: 22px;
+    height: 15px;
     object-fit: cover;
     border-radius: 2px;
     display: inline-block;
@@ -129,7 +180,7 @@ body {
     padding: 10px 16px;
     color: #333;
     font-family: "Poppins", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
 }
@@ -384,6 +435,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 
 @media (max-width: 1280px) {
     .navbar { padding: 0 20px; }
+    .topbar_inner { padding: 0 20px; }
 }
 
 @media (max-width: 991px) {

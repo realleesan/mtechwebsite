@@ -12,44 +12,59 @@ $currentPage = $_GET['page'] ?? 'home';
 
     <!-- Top Bar -->
     <div class="header_top_five">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-5">
-                    <span class="topbar_phone">
-                        Call Us Today
-                        <a href="tel:0123456789">0123 456 789</a>
-                    </span>
-                </div>
-                <div class="col-md-7">
-                    <div class="header_top_right">
-                        <div class="topbar_iso">ISO 9001 - 2010</div>
-                        <div class="topbar_divider"></div>
-                        <!-- Language Switcher - Elfsight sẽ thay thế div này -->
-                        <div class="topbar_lang" id="elfsight-language-switcher">
-                            <div class="lang_selector">
-                                <span class="lang_current">
-                                    <img src="assets/images/flags/en.png" alt="EN" class="flag_icon">
+        <div class="topbar_inner">
+            <!-- Left: Call Us Today (thẳng hàng logo) -->
+            <div class="topbar_left">
+                <span class="topbar_phone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;opacity:0.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    Call Us Today
+                    <a href="tel:0123456789">0123 456 789</a>
+                </span>
+            </div>
+
+            <!-- Right: ISO + Translate + Download Button (thẳng hàng menu) -->
+            <div class="topbar_right">
+                <div class="topbar_iso">ISO 9001 - 2010</div>
+                <div class="topbar_divider"></div>
+
+                <!-- Language Switcher -->
+                <div class="topbar_lang" id="elfsight-language-switcher">
+                    <div class="lang_selector">
+                        <span class="lang_current">
+                            <img src="assets/icons/flag-en.svg" alt="EN" class="flag_icon">
+                            English
+                            <span class="lang_caret">&#9660;</span>
+                        </span>
+                        <ul class="lang_dropdown">
+                            <li class="active">
+                                <a href="#" data-lang="en">
+                                    <img src="assets/icons/flag-en.svg" alt="EN" class="flag_icon">
                                     English
-                                    <span class="lang_caret">&#9660;</span>
-                                </span>
-                                <ul class="lang_dropdown">
-                                    <li class="active">
-                                        <a href="#" data-lang="en">
-                                            <img src="assets/images/flags/en.png" alt="EN" class="flag_icon">
-                                            English
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-lang="vi">
-                                            <img src="assets/images/flags/vi.png" alt="VI" class="flag_icon">
-                                            Tiếng Việt
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-lang="vi">
+                                    <img src="assets/icons/flag-vn.svg" alt="VI" class="flag_icon">
+                                    Tiếng Việt
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-lang="zh">
+                                    <img src="assets/icons/flag-cn.svg" alt="ZH" class="flag_icon">
+                                    中文
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+
+                <div class="topbar_divider"></div>
+
+                <!-- Nút tải Hồ Sơ Năng Lực -->
+                <a href="assets/files/ho-so-nang-luc.pdf" class="btn_profile_download" download title="Tải Hồ Sơ Năng Lực">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Hồ Sơ Năng Lực
+                </a>
             </div>
         </div>
     </div>

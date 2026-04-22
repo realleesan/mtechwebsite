@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20">
+  <!-- Nền xanh -->
+  <rect width="30" height="20" fill="#012169"/>
+  <!-- Đường chéo trắng X -->
+  <line x1="0" y1="0" x2="30" y2="20" stroke="#fff" stroke-width="4"/>
+  <line x1="30" y1="0" x2="0" y2="20" stroke="#fff" stroke-width="4"/>
+  <!-- Đường chéo đỏ X -->
+  <line x1="0" y1="0" x2="30" y2="20" stroke="#C8102E" stroke-width="2.4"/>
+  <line x1="30" y1="0" x2="0" y2="20" stroke="#C8102E" stroke-width="2.4"/>
+  <!-- Thập trắng -->
+  <rect x="12" y="0" width="6" height="20" fill="#fff"/>
+  <rect x="0" y="7" width="30" height="6" fill="#fff"/>
+  <!-- Thập đỏ -->
+  <rect x="13" y="0" width="4" height="20" fill="#C8102E"/>
+  <rect x="0" y="8" width="30" height="4" fill="#C8102E"/>
+</svg>
