@@ -1,0 +1,415 @@
+/* ========================================
+   About Page CSS - MTech Website
+   Màu chủ đạo: đen (#111) + vàng (#ffb600)
+   ======================================== */
+
+/* ── Scroll Animation Base ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.slide-left {
+    transform: translateX(-40px);
+}
+.reveal.slide-right {
+    transform: translateX(40px);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* ── Section chung ── */
+.about_section {
+    padding: 80px 0;
+}
+.about_section:nth-child(even) {
+    background: #f8f8f8;
+}
+.about_section:nth-child(odd) {
+    background: #fff;
+}
+
+.section_heading {
+    font-family: "Poppins", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 12px;
+    position: relative;
+    padding-bottom: 16px;
+}
+.section_heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: #ffb600;
+}
+.section_heading.center::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+.section_heading.center {
+    text-align: center;
+}
+
+.section_desc {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #555;
+    margin-top: 20px;
+}
+
+/* ── 1. Về chúng tôi ── */
+.about_intro {
+    background: #fff;
+}
+.about_intro_img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+.about_intro_content {
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+.about_badge {
+    display: inline-block;
+    background: #ffb600;
+    color: #111;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+}
+.about_stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+.stat_item {
+    text-align: center;
+    padding: 20px;
+    border: 2px solid #ffb600;
+    border-radius: 6px;
+    min-width: 100px;
+}
+.stat_number {
+    font-family: "Poppins", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffb600;
+    line-height: 1;
+}
+.stat_label {
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    color: #777;
+    margin-top: 6px;
+}
+
+/* ── 2. Chất lượng ── */
+.quality_section {
+    background: #111 !important;
+}
+.quality_section .section_heading {
+    color: #fff;
+}
+.quality_section .section_desc {
+    color: rgba(255,255,255,0.75);
+}
+.quality_card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,182,0,0.3);
+    border-radius: 8px;
+    padding: 30px 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.quality_card:hover {
+    background: rgba(255,182,0,0.1);
+    border-color: #ffb600;
+    transform: translateY(-5px);
+}
+.quality_icon {
+    width: 60px;
+    height: 60px;
+    background: #ffb600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 24px;
+    color: #111;
+}
+.quality_card h4 {
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 12px;
+}
+.quality_card p {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── 3. Timeline ── */
+.timeline_section {
+    background: #1565c0 !important;
+    position: relative;
+    overflow: hidden;
+}
+.timeline_section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=60') center/cover no-repeat;
+    opacity: 0.15;
+}
+.timeline_section .section_heading {
+    color: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+/* Timeline layout */
+.timeline_wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+/* Cột trái: danh sách năm */
+.timeline_nav {
+    flex: 0 0 200px;
+    position: relative;
+}
+.timeline_line {
+    position: absolute;
+    left: 18px;
+    top: 50px;
+    bottom: 50px;
+    width: 2px;
+    background: rgba(255,255,255,0.3);
+}
+.timeline_arrow {
+    width: 38px;
+    height: 38px;
+    background: #26c6da;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    margin-left: 0;
+    transition: background 0.25s ease;
+    position: relative;
+    z-index: 2;
+}
+.timeline_arrow:hover {
+    background: #ffb600;
+}
+.timeline_years {
+    list-style: none;
+    margin: 16px 0;
+    padding: 0;
+}
+.timeline_years li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+.timeline_years li .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+.timeline_years li .year_label {
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    transition: all 0.3s ease;
+}
+.timeline_years li.active .dot {
+    background: #fff;
+    width: 14px;
+    height: 14px;
+}
+.timeline_years li.active .year_label {
+    color: #fff;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+/* Cột phải: nội dung năm */
+.timeline_content {
+    flex: 1;
+    position: relative;
+    min-height: 300px;
+}
+.timeline_slide {
+    display: none;
+    animation: slideInRight 0.4s ease;
+}
+.timeline_slide.active {
+    display: block;
+}
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+.timeline_year_big {
+    font-family: "Poppins", sans-serif;
+    font-size: 100px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.15);
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -2px;
+}
+.timeline_divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin-bottom: 24px;
+}
+.timeline_text {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.85);
+}
+
+/* ── 4. Tầm nhìn - Sứ mệnh ── */
+.vision_section {
+    background: #fff !important;
+}
+.vision_card {
+    padding: 40px 35px;
+    border-radius: 8px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.vision_card.dark {
+    background: #111;
+}
+.vision_card.gold {
+    background: #ffb600;
+}
+.vision_card .card_icon {
+    font-size: 40px;
+    margin-bottom: 20px;
+    display: block;
+}
+.vision_card h3 {
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+.vision_card.dark h3 { color: #fff; }
+.vision_card.gold h3 { color: #111; }
+.vision_card p {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0;
+}
+.vision_card.dark p { color: rgba(255,255,255,0.7); }
+.vision_card.gold p { color: rgba(0,0,0,0.75); }
+
+/* ── 5. Giá trị cốt lõi ── */
+.values_section {
+    background: #f8f8f8 !important;
+}
+.value_item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 25px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.value_item:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    transform: translateY(-3px);
+}
+.value_num {
+    font-family: "Poppins", sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffb600;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 50px;
+}
+.value_text h4 {
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 8px;
+}
+.value_text p {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+    .about_intro_content { padding-left: 0; margin-top: 30px; }
+    .about_stats { flex-wrap: wrap; gap: 15px; }
+    .timeline_wrapper { flex-direction: column; gap: 30px; }
+    .timeline_nav { flex: none; width: 100%; }
+    .timeline_line { display: none; }
+    .timeline_years { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+    .timeline_years li { padding: 6px 12px; background: rgba(255,255,255,0.1); border-radius: 4px; }
+    .timeline_year_big { font-size: 60px; }
+}
+
+@media (max-width: 576px) {
+    .about_section { padding: 50px 0; }
+    .section_heading { font-size: 24px; }
+    .about_intro_img { height: 260px; }
+    .vision_card { padding: 25px 20px; }
+}

@@ -103,7 +103,7 @@ $currentPage = $_GET['page'] ?? 'home';
                             <a class="nav-link" href="?page=about" title="About Us">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=conpany.history" title="Company History">Company History</a>
+                            <a class="nav-link" href="?page=company.history" title="Company History">Company History</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="?page=teams" title="Teams">Teams</a>

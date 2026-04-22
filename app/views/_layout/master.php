@@ -67,7 +67,7 @@ mb_http_output('UTF-8');
             // echo '<link rel="stylesheet" href="' . css_url('home.css') . '">';
             break;
         case 'about':
-            // echo '<link rel="stylesheet" href="' . css_url('about.css') . '">';
+            echo '<link rel="stylesheet" href="assets/css/about.css">';
             break;
         case 'contact':
             // echo '<link rel="stylesheet" href="' . css_url('contact.css') . '">';
@@ -242,7 +242,7 @@ mb_http_output('UTF-8');
             // echo '<script src="' . js_url('home.js') . '"></script>';
             break;
         case 'about':
-            // echo '<script src="' . js_url('about.js') . '"></script>';
+            echo '<script src="assets/js/about.js"></script>';
             break;
         case 'contact':
             // echo '<script src="' . js_url('contact.js') . '"></script>';
