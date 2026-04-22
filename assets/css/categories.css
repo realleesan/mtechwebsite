@@ -1,0 +1,297 @@
+/* ============================================================
+   categories.css
+   Styles cho trang Our Services (categories)
+   ============================================================ */
+
+/* ---- Service Area ----------------------------------------- */
+.service_area {
+    padding: 80px 0;
+}
+
+.sec_gap {
+    padding: 80px 0;
+}
+
+/* ---- Section Title ---------------------------------------- */
+.section_title {
+    margin-bottom: 55px;
+}
+
+.section_title h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+}
+
+.section_title .title_br {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #f5a623;
+    margin: 12px 0;
+}
+
+.section_title p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 680px;
+}
+
+.mb_55 {
+    margin-bottom: 55px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}
+
+.mt_7 {
+    margin-top: 7px;
+}
+
+/* ---- Service Item ----------------------------------------- */
+.service_item {
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+
+.service_item:hover {
+    transform: translateY(-4px);
+}
+
+/* ---- Service Image ---------------------------------------- */
+.service_img {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 18px;
+}
+
+.service_img img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.service_item:hover .service_img img {
+    transform: scale(1.05);
+}
+
+/* ---- Hover Overlay ---------------------------------------- */
+.service_img .hover_content {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.service_item:hover .hover_content {
+    opacity: 1;
+}
+
+.hover_content .read_more {
+    display: inline-block;
+    padding: 10px 24px;
+    background-color: #f5a623;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease;
+}
+
+.hover_content .read_more:hover {
+    background-color: #e09510;
+    color: #fff;
+}
+
+/* ---- Service Title ---------------------------------------- */
+.service_item h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.service_item a:hover h3 {
+    color: #f5a623;
+}
+
+.service_item a {
+    text-decoration: none;
+}
+
+/* ---- Bottom Border ---------------------------------------- */
+.service_item .bottom_br {
+    display: block;
+    width: 40px;
+    height: 2px;
+    background-color: #f5a623;
+    margin-top: 6px;
+}
+
+/* ---- No Services Message ---------------------------------- */
+.no-services-message {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    font-size: 16px;
+}
+
+.no-services-message i {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    color: #ccc;
+}
+
+/* ---- Quality Service Section ------------------------------ */
+.lt_news_area {
+    background-color: #f8f8f8;
+}
+
+.lt_news_area .container-fluid {
+    padding: 0;
+}
+
+.lt_news_left {
+    position: relative;
+    width: 50%;
+    min-height: 420px;
+    overflow: hidden;
+}
+
+.lt_news_left .bg_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+}
+
+.lt_news_content {
+    position: relative;
+    z-index: 2;
+    padding: 60px 50px;
+    background: rgba(0, 0, 0, 0.55);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.lt_news_content h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.lt_news_content .title_br {
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: #f5a623;
+    margin: 12px 0 20px;
+}
+
+.lt_news_content p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.lt_news_content .read_more.btn_yellow {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #f5a623;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+    align-self: flex-start;
+}
+
+.lt_news_content .read_more.btn_yellow:hover {
+    background-color: #e09510;
+}
+
+.lt_news_right {
+    width: 50%;
+    padding: 60px 50px;
+    background-color: #fff;
+}
+
+.lt_news_inner.service_inner h4 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.lt_news_inner.service_inner p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+/* ---- Row layout for lt_news_area -------------------------- */
+.lt_news_area .row.ml-0.mr-0 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* ---- Responsive ------------------------------------------- */
+@media (max-width: 991px) {
+    .service_img img {
+        height: 190px;
+    }
+
+    .lt_news_left,
+    .lt_news_right {
+        width: 100%;
+    }
+
+    .lt_news_left {
+        min-height: 320px;
+    }
+
+    .lt_news_content {
+        padding: 40px 30px;
+    }
+
+    .lt_news_right {
+        padding: 40px 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .service_area,
+    .sec_gap {
+        padding: 50px 0;
+    }
+
+    .section_title h2 {
+        font-size: 26px;
+    }
+
+    .service_img img {
+        height: 200px;
+    }
+}
