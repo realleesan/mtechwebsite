@@ -196,8 +196,49 @@
                 if (collapse && collapse.classList.contains('show')) {
                     closeMenu();
                 }
+                // Đóng search overlay nếu đang mở
+                if (searchOverlay && searchOverlay.classList.contains('active')) {
+                    closeSearch();
+                }
             }
         });
+
+        // ── Search Overlay ─────────────────────────────────────────
+        const searchOverlay = document.getElementById('searchOverlay');
+        const searchToggle  = document.querySelector('.search_toggle');
+        const searchClose   = document.getElementById('searchClose');
+        const searchInput   = document.getElementById('searchInput');
+
+        function openSearch() {
+            if (!searchOverlay) return;
+            searchOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(function () { if (searchInput) searchInput.focus(); }, 100);
+        }
+
+        function closeSearch() {
+            if (!searchOverlay) return;
+            searchOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (searchToggle) {
+            searchToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                openSearch();
+            });
+        }
+
+        if (searchClose) {
+            searchClose.addEventListener('click', closeSearch);
+        }
+
+        // Click vào backdrop để đóng
+        if (searchOverlay) {
+            searchOverlay.addEventListener('click', function (e) {
+                if (e.target === searchOverlay) closeSearch();
+            });
+        }
 
     });
 

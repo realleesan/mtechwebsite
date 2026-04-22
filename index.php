@@ -86,7 +86,7 @@ if (ob_get_level() === 0) {
 // ==========================================
 // NOTE: Load Breadcrumb Config
 // ==========================================
-require_once 'app/views/breadcrumb.php';
+require_once 'app/views/_layout/breadcrumb.php';
 
 // ==========================================
 // NOTE: Get Current Page - Lấy trang hiện tại từ URL
