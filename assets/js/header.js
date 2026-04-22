@@ -7,6 +7,44 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
+        // ── Language Switcher ──────────────────────────────────────
+        const langSelector = document.querySelector('.lang_selector');
+        const langDropdown = document.querySelector('.lang_dropdown');
+        const langCurrent  = document.querySelector('.lang_current');
+
+        if (langSelector && langDropdown) {
+            langSelector.addEventListener('click', function (e) {
+                e.stopPropagation();
+                langDropdown.classList.toggle('show');
+            });
+
+            // Chọn ngôn ngữ
+            langDropdown.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const flag = this.querySelector('.flag_icon').cloneNode(true);
+                    const text = this.textContent.trim();
+
+                    // Cập nhật current
+                    langCurrent.innerHTML = '';
+                    langCurrent.appendChild(flag);
+                    langCurrent.insertAdjacentHTML('beforeend',
+                        ' ' + text + ' <span class="lang_caret">&#9660;</span>');
+
+                    // Active state
+                    langDropdown.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+                    this.closest('li').classList.add('active');
+
+                    langDropdown.classList.remove('show');
+                });
+            });
+
+            // Đóng khi click ngoài
+            document.addEventListener('click', function () {
+                langDropdown.classList.remove('show');
+            });
+        }
+
         // ── Sticky Header ──────────────────────────────────────────
         const header = document.querySelector('.menu_absolute');
 
