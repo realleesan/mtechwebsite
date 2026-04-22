@@ -113,10 +113,7 @@ mb_http_output('UTF-8');
     <!-- NOTE: Breadcrumb - Hiển thị đường dẫn breadcrumb -->
     <!-- ========================================== -->
     <?php if (isset($showBreadcrumb) && $showBreadcrumb && isset($breadcrumbs)): ?>
-        <?php 
-        // Ví dụ sử dụng: render_breadcrumb($breadcrumbs);
-        // Hoặc include file: include_once __DIR__ . '/breadcrumb.php';
-        ?>
+        <?php include_once __DIR__ . '/breadcrumb.php'; ?>
     <?php endif; ?>
     
     <!-- ========================================== -->
