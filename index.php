@@ -242,6 +242,17 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Categories Page - Trang danh mục dịch vụ
+    // --------------------------------------
+    case 'categories':
+        $title = 'Our Services - Tên Website';
+        $content = 'app/views/categories/categories.php';
+        $showPageHeader = false; // Banner được xử lý trong view
+        $showCTA = false;
+        $showBreadcrumb = false; // Breadcrumb được xử lý trong view
+        break;
+        
+    // --------------------------------------
     // NOTE: News Page - Trang tin tức
     // --------------------------------------
     case 'news':
