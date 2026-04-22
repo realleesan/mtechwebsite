@@ -84,6 +84,11 @@ if (ob_get_level() === 0) {
 }
 
 // ==========================================
+// NOTE: Load Breadcrumb Config
+// ==========================================
+require_once 'app/views/breadcrumb.php';
+
+// ==========================================
 // NOTE: Get Current Page - Lấy trang hiện tại từ URL
 // ==========================================
 $page = $_GET['page'] ?? 'home';
@@ -130,12 +135,8 @@ switch($page) {
         $content = 'app/views/about/teams.php';
         $showPageHeader = true;
         $pageTitle = 'Our Team';
-        $breadcrumbs = [
-            ['title' => 'About', 'url' => '?page=about'],
-            ['title' => 'Our Team']
-        ];
         $showCTA = false;
-        $showBreadcrumb = false;
+        $showBreadcrumb = true;
         break;
         
     // --------------------------------------
@@ -147,11 +148,6 @@ switch($page) {
         $showPageHeader = true;
         $showCTA = true;
         $showBreadcrumb = true;
-        $breadcrumbs = [
-            ['title' => 'Trang chủ', 'url' => './'],
-            ['title' => 'Giới thiệu', 'url' => '?page=about'],
-            ['title' => 'Lịch sử công ty']
-        ];
         break;
         
     // --------------------------------------
@@ -242,6 +238,17 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Categories Page - Trang danh mục dịch vụ
+    // --------------------------------------
+    case 'categories':
+        $title = 'Our Services - Tên Website';
+        $content = 'app/views/categories/categories.php';
+        $showPageHeader = false; // Banner được xử lý trong view
+        $showCTA = false;
+        $showBreadcrumb = false; // Breadcrumb được xử lý trong view
+        break;
+        
+    // --------------------------------------
     // NOTE: News Page - Trang tin tức
     // --------------------------------------
     case 'news':
@@ -323,54 +330,34 @@ switch($page) {
         $module = $_GET['module'] ?? 'dashboard';
         $action = $_GET['action'] ?? 'index';
         
-        // NOTE: Kiểm tra đăng nhập
-        // require_once __DIR__ . '/app/services/AuthService.php';
-        // $authService = new AuthService();
-        // if (!$authService->isAuthenticated()) {
-        //     header('Location: ?page=login');
-        //     exit;
-        // }
-        
         $title = 'Tài khoản - Tên Website';
         $showPageHeader = false;
         $showCTA = false;
         $showBreadcrumb = true;
         
-        // NOTE: Routing cho các module user
         switch($module) {
             case 'dashboard':
             default:
                 $content = 'app/views/users/dashboard.php';
                 $title = 'Tài khoản của tôi - Tên Website';
-                $breadcrumbs = [
-                    ['title' => 'Trang chủ', 'url' => './'],
-                    ['title' => 'Tài khoản', 'url' => '?page=users'],
-                    ['title' => 'Dashboard']
-                ];
                 break;
-                
             case 'account':
                 $content = 'app/views/users/account/index.php';
                 $title = 'Thông tin tài khoản - Tên Website';
                 break;
-                
             case 'orders':
                 $content = 'app/views/users/orders/index.php';
                 $title = 'Đơn hàng - Tên Website';
                 break;
-                
             case 'cart':
                 $content = 'app/views/users/cart/index.php';
                 $title = 'Giỏ hàng - Tên Website';
                 break;
-                
             case 'wishlist':
                 $content = 'app/views/users/wishlist/index.php';
                 $title = 'Yêu thích - Tên Website';
                 break;
         }
-        
-        // $currentService = $userService ?? $currentService;
         break;
         
     // --------------------------------------
@@ -452,6 +439,14 @@ switch($page) {
         $showBreadcrumb = false;
         http_response_code(404);
         break;
+}
+
+// ==========================================
+// NOTE: Auto-resolve breadcrumbs từ config tập trung
+// Chỉ set nếu chưa được gán thủ công trong switch
+// ==========================================
+if (!isset($breadcrumbs) && ($showBreadcrumb ?? false)) {
+    $breadcrumbs = get_breadcrumbs($page);
 }
 
 // ==========================================

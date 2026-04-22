@@ -81,6 +81,9 @@ mb_http_output('UTF-8');
         case 'projects':
             echo '<link rel="stylesheet" href="assets/css/projects.css">';
             break;
+        case 'categories':
+            echo '<link rel="stylesheet" href="assets/css/categories.css">';
+            break;
         // NOTE: Thêm các case khác tại đây
         default:
             break;
@@ -116,10 +119,7 @@ mb_http_output('UTF-8');
     <!-- NOTE: Breadcrumb - Hiển thị đường dẫn breadcrumb -->
     <!-- ========================================== -->
     <?php if (isset($showBreadcrumb) && $showBreadcrumb && isset($breadcrumbs)): ?>
-        <?php 
-        // Ví dụ sử dụng: render_breadcrumb($breadcrumbs);
-        // Hoặc include file: include_once __DIR__ . '/breadcrumb.php';
-        ?>
+        <?php include_once __DIR__ . '/breadcrumb.php'; ?>
     <?php endif; ?>
     
     <!-- ========================================== -->
@@ -258,6 +258,9 @@ mb_http_output('UTF-8');
             break;
         case 'projects':
             echo '<script src="assets/js/projects.js"></script>';
+            break;
+        case 'categories':
+            echo '<script src="assets/js/categories.js"></script>';
             break;
         // NOTE: Thêm các case khác tại đây
         default:

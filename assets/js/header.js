@@ -46,14 +46,17 @@
         }
 
         // ── Sticky Header ──────────────────────────────────────────
-        const header = document.querySelector('.menu_absolute');
+        const header  = document.querySelector('.menu_absolute');
+        const topbar  = document.querySelector('.header_top_five');
 
         if (header) {
             window.addEventListener('scroll', function () {
                 if (window.pageYOffset > 80) {
                     header.classList.add('sticky');
+                    if (topbar) topbar.classList.add('sticky');
                 } else {
                     header.classList.remove('sticky');
+                    if (topbar) topbar.classList.remove('sticky');
                 }
             });
         }
