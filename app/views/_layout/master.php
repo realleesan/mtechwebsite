@@ -78,6 +78,9 @@ mb_http_output('UTF-8');
         case 'teams':
             echo '<link rel="stylesheet" href="assets/css/teams.css">';
             break;
+        case 'projects':
+            echo '<link rel="stylesheet" href="assets/css/projects.css">';
+            break;
         // NOTE: Thêm các case khác tại đây
         default:
             break;
@@ -252,6 +255,9 @@ mb_http_output('UTF-8');
             break;
         case 'teams':
             echo '<script src="assets/js/teams.js"></script>';
+            break;
+        case 'projects':
+            echo '<script src="assets/js/projects.js"></script>';
             break;
         // NOTE: Thêm các case khác tại đây
         default:
