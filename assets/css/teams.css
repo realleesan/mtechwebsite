@@ -53,82 +53,33 @@
 }
 
 /* ========================================
-   Banner Area
+   Banner Area - dùng chung pageheader.css, không override
    ======================================== */
 
-.banner_area {
-    position: relative;
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: #222;
-}
-
-.teams_banner {
-    background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/banner_bg-1.jpg');
-}
-
-.banner_area::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    z-index: 0;
-}
-
-.banner_area .container {
-    position: relative;
-    z-index: 1;
-}
-
-.banner_content {
-    padding: 80px 0;
-}
-
-.banner_content .page_title {
-    font-size: 48px;
-    font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 20px;
-    line-height: 1.2;
-}
-
-.banner_content .breadcrumb {
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-}
-
 .banner_content .breadcrumb-item {
-    font-size: 15px;
+    font-size: 14px;
     color: #ffffff;
 }
 
 .banner_content .breadcrumb-item a {
-    color: #ffffff;
+    color: #ffb600;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .banner_content .breadcrumb-item a:hover {
-    color: #ffb600;
+    color: #ffffff;
 }
 
 .banner_content .breadcrumb-item.active {
-    color: #ffb600;
+    color: #ffffff;
 }
 
 .banner_content .breadcrumb-item + .breadcrumb-item::before {
-    content: "/";
+    content: '›';
     color: #ffffff;
-    padding: 0 8px;
+    font-size: 16px;
+    padding: 0 6px;
 }
 
 /* ========================================

@@ -116,11 +116,8 @@ mb_http_output('UTF-8');
     <?php endif; ?>
     
     <!-- ========================================== -->
-    <!-- NOTE: Breadcrumb - Hiển thị đường dẫn breadcrumb -->
+    <!-- NOTE: Breadcrumb - được render bên trong pageheader.php -->
     <!-- ========================================== -->
-    <?php if (isset($showBreadcrumb) && $showBreadcrumb && isset($breadcrumbs)): ?>
-        <?php include_once __DIR__ . '/breadcrumb.php'; ?>
-    <?php endif; ?>
     
     <!-- ========================================== -->
     <!-- NOTE: Page Header (if needed) -->
