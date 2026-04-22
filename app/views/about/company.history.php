@@ -7,7 +7,7 @@
 <section class="company_history_area sec_gap">
     <div class="container">
         <div class="media about_history">
-            <img src="assets/images/about_img-1.jpg" alt="about-img">
+            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/about_img-1.jpg" alt="about-img">
             <div class="media-body">
                 <h2 class="f_600 f_size_32 title_color d-inline-block">About Company</h2>
                 <span class="title_br"></span>
@@ -44,10 +44,10 @@
                     <h3 class="f_600 f_p title_color">5 + More Branches Open in City</h3>
                     <p>Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it. which of us ever undertakes laborious physical exercise, except to obtain some advantage from it. which of us ever undertakes laborious physical exercise, except to obtain some advantage from it</p>
                     <div class="history_img">
-                        <img src="assets/images/company_history_01.jpg" alt="Branch Office 1">
+                        <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/01.jpg" alt="">
                     </div>
                     <div class="history_img">
-                        <img src="assets/images/company_history_02.jpg" alt="Branch Office 2">
+                        <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/02.jpg" alt="">
                     </div>
                 </div>
             </div>
