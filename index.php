@@ -218,8 +218,9 @@ switch($page) {
     // --------------------------------------
     case 'project-details':
         $title = 'Chi tiết dự án - Tên Website';
-        $content = 'app/views/projects/details.php';
-        $showPageHeader = false;
+        $content = 'app/views/projects/projects.details.php';
+        $showPageHeader = true;
+        $pageTitle = 'Project Details';
         $showCTA = false;
         $showBreadcrumb = true;
         // NOTE: Xử lý breadcrumb động theo ID dự án

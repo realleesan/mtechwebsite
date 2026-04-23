@@ -1,0 +1,439 @@
+/* ==========================================
+   Projects Details Page Styles
+   ========================================== */
+
+/* Main Project Details Area */
+.project_details_area {
+    padding: 100px 0;
+    background-color: #fff;
+}
+
+.sec_gap {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+/* Project Image */
+.pr_image {
+    margin-bottom: 50px;
+}
+
+.pr_image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.pr_image .img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Project Info Box */
+.project_info {
+    background-color: #f8f9fa;
+    padding: 35px 40px;
+    border-left: 3px solid #ffb600;
+}
+
+.project_info ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.project_info ul li {
+    font-size: 16px;
+    color: #797979;
+    line-height: 26px;
+    margin-bottom: 15px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.project_info ul li:last-child {
+    margin-bottom: 0;
+}
+
+.project_info ul li span {
+    font-weight: 600;
+    color: #242424;
+    display: inline-block;
+    min-width: 120px;
+    font-family: "Poppins", sans-serif;
+}
+
+.project_info ul li a {
+    color: #ffb600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.project_info ul li a:hover {
+    color: #e55a2b;
+    text-decoration: underline;
+}
+
+/* Project Description */
+.project_description {
+    padding-top: 20px;
+}
+
+.project_description h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #242424;
+    margin-bottom: 20px;
+    font-family: "Poppins", sans-serif;
+    line-height: 1.3;
+}
+
+.project_description p {
+    font-size: 16px;
+    line-height: 26px;
+    color: #797979;
+    margin-bottom: 20px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.project_description p:last-child {
+    margin-bottom: 0;
+}
+
+.project_description p.mb_30 {
+    margin-bottom: 30px;
+}
+
+.project_description .mb-0 {
+    margin-bottom: 0;
+}
+
+/* Typography Helpers */
+.f_size_32 {
+    font-size: 32px;
+}
+
+.f_size_18 {
+    font-size: 18px;
+}
+
+.f_600 {
+    font-weight: 600;
+}
+
+.title_color {
+    color: #242424;
+}
+
+.mb_20 {
+    margin-bottom: 20px;
+}
+
+.mb_30 {
+    margin-bottom: 30px;
+}
+
+/* Project List Area - What We Did */
+.project_list_area {
+    background-color: #f8f9fa;
+    padding: 100px 0;
+}
+
+.bg_color_two {
+    background-color: #f8f9fa;
+}
+
+.project_list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.pr_content h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #242424;
+    margin-bottom: 20px;
+    font-family: "Poppins", sans-serif;
+}
+
+.pr_content > p {
+    font-size: 16px;
+    line-height: 26px;
+    color: #797979;
+    margin-bottom: 30px;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Project Item with Dot */
+.pr_item {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 25px;
+}
+
+.pr_item:last-child {
+    margin-bottom: 0;
+}
+
+.pr_item .dot {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    background-color: #ffb600;
+    border-radius: 50%;
+}
+
+.pr_item h5 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #242424;
+    margin-bottom: 10px;
+    font-family: "Poppins", sans-serif;
+    line-height: 1.4;
+}
+
+.pr_item p {
+    font-size: 16px;
+    line-height: 26px;
+    color: #797979;
+    margin-bottom: 0;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* What We Did Image */
+.project_list .col-lg-4 img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Results Area */
+.results_area {
+    padding: 100px 0;
+    background-color: #fff;
+}
+
+.result_content {
+    max-width: 900px;
+}
+
+.result_content h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #242424;
+    margin-bottom: 20px;
+    font-family: "Poppins", sans-serif;
+}
+
+.result_content > p {
+    font-size: 16px;
+    line-height: 26px;
+    color: #797979;
+    margin-bottom: 20px;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Result Items Grid */
+.pr_item_info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 40px;
+    margin-top: 30px;
+}
+
+.pr_item_info .pr_item {
+    margin-bottom: 0;
+}
+
+.pr_item_info .pr_item p {
+    font-size: 15px;
+    line-height: 24px;
+}
+
+/* Grid System */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-lg-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+    padding: 0 15px;
+}
+
+.col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    padding: 0 15px;
+}
+
+.col-lg-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .project_details_area,
+    .project_list_area,
+    .results_area {
+        padding: 70px 0;
+    }
+    
+    .sec_gap {
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+    
+    .col-lg-8,
+    .col-lg-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .pr_image {
+        margin-bottom: 30px;
+    }
+    
+    .project_info {
+        margin-bottom: 30px;
+    }
+    
+    .project_list .col-lg-4 {
+        margin-top: 40px;
+        order: 2;
+    }
+    
+    .project_list .col-lg-8 {
+        order: 1;
+    }
+    
+    .project_description h2,
+    .pr_content h2,
+    .result_content h2 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 767px) {
+    .project_details_area,
+    .project_list_area,
+    .results_area {
+        padding: 50px 0;
+    }
+    
+    .sec_gap {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    
+    .project_info {
+        padding: 25px 20px;
+    }
+    
+    .project_info ul li {
+        font-size: 14px;
+    }
+    
+    .project_info ul li span {
+        min-width: 100px;
+    }
+    
+    .project_description h2,
+    .pr_content h2,
+    .result_content h2 {
+        font-size: 24px;
+    }
+    
+    .pr_item h5 {
+        font-size: 16px;
+    }
+    
+    .pr_item_info {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+/* Elementor-like Classes (for compatibility) */
+.elementor-section {
+    position: relative;
+}
+
+.elementor-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.elementor-column {
+    position: relative;
+    min-height: 1px;
+    display: flex;
+}
+
+/* Loading State */
+.project-details-loading {
+    text-align: center;
+    padding: 100px 20px;
+    color: #797979;
+}
+
+.project-details-loading i {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: #ffb600;
+}
+
+/* Error State */
+.project-not-found {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.project-not-found i {
+    font-size: 80px;
+    color: #ddd;
+    margin-bottom: 30px;
+}
+
+.project-not-found h2 {
+    font-size: 28px;
+    color: #242424;
+    margin-bottom: 15px;
+}
+
+.project-not-found p {
+    font-size: 16px;
+    color: #797979;
+}
+
+.project-not-found .btn-back {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 30px;
+    background-color: #ffb600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.project-not-found .btn-back:hover {
+    background-color: #e55a2b;
+}
