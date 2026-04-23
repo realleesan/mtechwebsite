@@ -87,13 +87,12 @@
     justify-content: center;
     width: 60px;
     height: 60px;
-    background-color: #ff6b35;
+    background-color: #242424;
     color: #fff;
     border-radius: 50%;
     text-decoration: none;
     font-size: 20px;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
 }
 
 .lt_project_img .arrow a:hover {
@@ -113,7 +112,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: #ffb600cc;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -123,28 +122,25 @@
 }
 
 /* Project Content */
-.lt_project_item h5 {
+.lt_project_item .project-title {
     font-size: 18px;
     font-weight: 600;
-    color: #333;
+    color: #242424;
     margin: 25px 20px 10px;
     line-height: 1.4;
     transition: color 0.3s ease;
+    font-family: "Poppins", sans-serif;
 }
 
 .lt_project_item h5 a {
-    color: #333;
+    color: #242424;
     text-decoration: none;
     display: inline-block;
 }
 
-.lt_project_item h5 a:hover {
-    color: #ff6b35;
-}
-
-.lt_project_item p {
+.lt_project_item .project-category {
     font-size: 14px;
-    color: #797979;
+    color: #9b9ba2;
     margin: 0 20px 25px;
     font-family: "Open Sans", sans-serif;
 }
@@ -202,8 +198,8 @@
     }
     
     .col-lg-4 {
-        flex: 0 0 50%;
-        max-width: 50%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
     }
     
     .lt_project_img img {
@@ -223,8 +219,8 @@
     
     .col-lg-4,
     .col-sm-6 {
-        flex: 0 0 100%;
-        max-width: 100%;
+        flex: 0 0 50%;
+        max-width: 50%;
     }
     
     .lt_project_img img {
@@ -280,30 +276,4 @@
 .no-projects p {
     font-size: 16px;
     color: #797979;
-}
-
-/* Category Filter */
-.project-filters {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.project-filters button {
-    background: transparent;
-    border: 2px solid #ddd;
-    color: #797979;
-    padding: 10px 25px;
-    margin: 0 5px 10px;
-    border-radius: 30px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.project-filters button:hover,
-.project-filters button.active {
-    background-color: #ff6b35;
-    border-color: #ff6b35;
-    color: #fff;
 }

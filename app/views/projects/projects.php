@@ -17,18 +17,6 @@ $categories = $projectsModel->getCategories();
 <section class="projects_area sec_gap">
     <div class="container">
         
-        <?php if (!empty($categories)): ?>
-        <!-- Category Filters -->
-        <div class="project-filters">
-            <button class="active" data-filter="all">All Projects</button>
-            <?php foreach ($categories as $category): ?>
-            <button data-filter="<?php echo htmlspecialchars(strtolower(str_replace(' ', '-', $category))); ?>">
-                <?php echo htmlspecialchars($category); ?>
-            </button>
-            <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-        
         <!-- Projects Grid -->
         <div class="row project_info_two">
             <?php if (!empty($projects)): ?>
@@ -48,9 +36,9 @@ $categories = $projectsModel->getCategories();
                             </span>
                         </div>
                         <a href="<?php echo htmlspecialchars($projectUrl); ?>">
-                            <h5 class="f_600 f_size_18 title_color"><?php echo htmlspecialchars($project['title'] ?? ''); ?></h5>
+                            <h5 class="project-title"><?php echo htmlspecialchars($project['title'] ?? ''); ?></h5>
                         </a>
-                        <p><?php echo htmlspecialchars($project['category'] ?? ''); ?></p>
+                        <p class="project-category"><?php echo htmlspecialchars($project['category'] ?? ''); ?></p>
                     </div>
                 </div>
                 <?php endforeach; ?>
