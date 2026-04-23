@@ -70,7 +70,7 @@ mb_http_output('UTF-8');
             echo '<link rel="stylesheet" href="assets/css/about.css">';
             break;
         case 'contact':
-            // echo '<link rel="stylesheet" href="' . css_url('contact.css') . '">';
+            echo '<link rel="stylesheet" href="assets/css/contact.css">';
             break;
         case 'company.history':
             echo '<link rel="stylesheet" href="assets/css/company.history.css">';
@@ -248,7 +248,7 @@ mb_http_output('UTF-8');
             echo '<script src="assets/js/about.js"></script>';
             break;
         case 'contact':
-            // echo '<script src="' . js_url('contact.js') . '"></script>';
+            echo '<script src="assets/js/contact.js"></script>';
             break;
         case 'company.history':
             echo '<script src="assets/js/company.history.js"></script>';
