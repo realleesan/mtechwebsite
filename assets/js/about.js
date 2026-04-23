@@ -1,84 +1,49 @@
 /**
  * About Page JavaScript
- * - Scroll reveal animations
- * - Timeline navigation
+ * assets/js/about.js
  */
 
-(function () {
-    'use strict';
+document.addEventListener('DOMContentLoaded', function () {
 
-    document.addEventListener('DOMContentLoaded', function () {
+    // ============================================
+    // SCROLL REVEAL — vào khi scroll tới, ra khi scroll qua
+    // ============================================
+    const revealEls = document.querySelectorAll('.scroll-reveal');
 
-        // ── Scroll Reveal ──────────────────────────────────────────
-        const revealEls = document.querySelectorAll('.reveal');
+    if (!revealEls.length) return;
 
-        const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // chỉ animate 1 lần
-                }
-            });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        });
+    function checkReveal() {
+        const windowH = window.innerHeight;
 
         revealEls.forEach(function (el) {
-            observer.observe(el);
+            const rect = el.getBoundingClientRect();
+            const inView = rect.top < windowH * 0.88 && rect.bottom > windowH * 0.12;
+
+            if (inView) {
+                el.classList.add('is-visible');
+                el.classList.remove('is-hidden');
+            } else {
+                el.classList.remove('is-visible');
+                el.classList.add('is-hidden');
+            }
         });
+    }
 
-        // ── Timeline ──────────────────────────────────────────────
-        const yearItems  = document.querySelectorAll('.tl_item');
-        const slides     = document.querySelectorAll('.timeline_slide');
-        const btnUp      = document.getElementById('tl_up');
-        const btnDown    = document.getElementById('tl_down');
+    // Chạy lần đầu
+    checkReveal();
 
-        if (!yearItems.length) return;
+    // Lắng nghe scroll
+    window.addEventListener('scroll', checkReveal, { passive: true });
 
-        let currentIndex = Array.from(yearItems).findIndex(el => el.classList.contains('active'));
-        if (currentIndex < 0) currentIndex = 0;
-
-        function goToIndex(idx) {
-            if (idx < 0 || idx >= yearItems.length) return;
-
-            // Update year list
-            yearItems.forEach(el => el.classList.remove('active'));
-            yearItems[idx].classList.add('active');
-
-            // Update slides
-            const targetYear = yearItems[idx].dataset.year;
-            slides.forEach(function (slide) {
-                slide.classList.remove('active');
-                if (slide.dataset.slide === targetYear) {
-                    slide.classList.add('active');
-                }
-            });
-
-            currentIndex = idx;
-        }
-
-        // Click vào năm
-        yearItems.forEach(function (item, idx) {
-            item.addEventListener('click', function () {
-                goToIndex(idx);
-            });
-        });
-
-        // Nút lên
-        if (btnUp) {
-            btnUp.addEventListener('click', function () {
-                goToIndex(currentIndex - 1);
-            });
-        }
-
-        // Nút xuống
-        if (btnDown) {
-            btnDown.addEventListener('click', function () {
-                goToIndex(currentIndex + 1);
-            });
-        }
-
+    // ============================================
+    // TEAM MEMBER — touch device fallback
+    // ============================================
+    const teamMembers = document.querySelectorAll('.team_area .team_member');
+    teamMembers.forEach(function (member) {
+        member.addEventListener('touchstart', function () {
+            teamMembers.forEach(function (m) { m.classList.remove('touch-hover'); });
+            member.classList.toggle('touch-hover');
+        }, { passive: true });
     });
 
-})();
+});
