@@ -179,7 +179,7 @@ $contactInfo = [
                     <!-- Address -->
                     <div class="contact_info_item">
                         <div class="icon">
-                            <i class="fa fa-map-marker"></i>
+                            <img src="assets/icons/land-layer-location.svg" alt="Address" class="svg-icon">
                         </div>
                         <div class="content">
                             <h6 class="f_size_18 title_color f_500">Address :</h6>
@@ -190,7 +190,7 @@ $contactInfo = [
                     <!-- Phone -->
                     <div class="contact_info_item">
                         <div class="icon">
-                            <i class="fa fa-phone"></i>
+                            <img src="assets/icons/phone-call.svg" alt="Phone" class="svg-icon">
                         </div>
                         <div class="content">
                             <h6 class="f_size_18 title_color f_500">Phone :</h6>
@@ -208,7 +208,7 @@ $contactInfo = [
                     <!-- Email -->
                     <div class="contact_info_item">
                         <div class="icon">
-                            <i class="fa fa-envelope"></i>
+                            <img src="assets/icons/envelope.svg" alt="Email" class="svg-icon">
                         </div>
                         <div class="content">
                             <h6 class="f_size_18 title_color f_500">Email :</h6>

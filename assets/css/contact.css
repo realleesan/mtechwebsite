@@ -28,12 +28,13 @@
 .section_title h2 {
     font-size: 36px;
     font-weight: 500;
-    color: #333;
+    color: #242424;
     margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .title_color {
-    color: #333;
+    color: #242424;
 }
 
 .title_br {
@@ -55,10 +56,11 @@
     border-radius: 0;
     padding: 12px 20px;
     font-size: 15px;
-    color: #797979;
+    color: #333333;
     background: #fafafa;
     transition: all 0.3s ease;
     width: 100%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .contact_form .form-control:focus {
@@ -105,23 +107,25 @@
 
 /* Contact Info Section */
 .contact_info {
-    background: #f8f9fa;
-    padding: 40px;
+    background: transparent;
+    padding: 0;
     margin-left: 30px;
 }
 
 .contact_info h4 {
     font-size: 24px;
     font-weight: 500;
-    color: #333;
+    color: #242424;
     margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .contact_info > p {
-    color: #797979;
+    color: #333333;
     font-size: 15px;
     line-height: 1.8;
     margin-bottom: 30px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 /* Contact Info Items */
@@ -139,10 +143,12 @@
     padding-bottom: 0;
 }
 
+/* SVG Icon style - no background, just border */
 .contact_info_item .icon {
     width: 50px;
     height: 50px;
-    background: #ffc107;
+    background: transparent;
+    border: 2px solid #ffb600;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -151,29 +157,32 @@
     flex-shrink: 0;
 }
 
-.contact_info_item .icon i {
-    font-size: 20px;
-    color: #333;
+.contact_info_item .icon .svg-icon {
+    width: 22px;
+    height: 22px;
+    filter: invert(66%) sepia(85%) saturate(867%) hue-rotate(359deg) brightness(102%) contrast(101%);
 }
 
 .contact_info_item h6 {
     font-size: 18px;
     font-weight: 500;
-    color: #333;
+    color: #242424;
     margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .contact_info_item p,
 .contact_info_item a {
     font-size: 15px;
-    color: #797979;
+    color: #333333;
     text-decoration: none;
     transition: color 0.3s ease;
     margin: 0;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .contact_info_item a:hover {
-    color: #ffc107;
+    color: #ffb600;
 }
 
 .f_size_16 {
