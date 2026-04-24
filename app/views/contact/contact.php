@@ -67,6 +67,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'submit' && $_SERVER['REQUEST_
     
     // Nếu có lỗi validation
     if (!empty($errors)) {
+        if (ob_get_level()) ob_clean();
+        header('Content-Type: application/json');
         echo json_encode([
             'success' => false,
             'message' => 'Vui lòng kiểm tra lại thông tin',
@@ -90,6 +92,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'submit' && $_SERVER['REQUEST_
     
     if ($contactId) {
         // Gửi email thông báo
+        $emailError = null;
         try {
             require_once __DIR__ . '/../../services/EmailNotificationService.php';
             $emailService = new EmailNotificationService();
@@ -102,18 +105,25 @@ if (isset($_GET['action']) && $_GET['action'] === 'submit' && $_SERVER['REQUEST_
             }
         } catch (Exception $e) {
             // Log lỗi nhưng không ảnh hưởng đến kết quả
-            error_log('Email sending failed: ' . $e->getMessage());
+            $emailError = $e->getMessage();
+            error_log('Email sending failed: ' . $emailError);
         }
         
+        if (ob_get_level()) ob_clean();
+        header('Content-Type: application/json');
         echo json_encode([
             'success' => true,
             'message' => 'Cảm ơn bạn đã liên hệ! Hệ thống đã nhận được thông tin và sẽ phản hồi sớm nhất.'
         ]);
+        exit;
     } else {
+        if (ob_get_level()) ob_clean();
+        header('Content-Type: application/json');
         echo json_encode([
             'success' => false,
             'message' => 'Có lỗi xảy ra khi lưu thông tin. Vui lòng thử lại.'
         ]);
+        exit;
     }
     
     } catch (Throwable $e) {
@@ -130,8 +140,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'submit' && $_SERVER['REQUEST_
             'success' => false,
             'message' => 'Có lỗi hệ thống: ' . $e->getMessage()
         ]);
+        exit;
     }
-    exit;
 }
 
 // Thông tin liên hệ (có thể load từ config hoặc database)

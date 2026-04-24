@@ -89,6 +89,17 @@ if (ob_get_level() === 0) {
 require_once 'app/views/_layout/breadcrumb.php';
 
 // ==========================================
+// NOTE: Handle AJAX Form Submission (before routing)
+// ==========================================
+if (isset($_GET['page']) && $_GET['page'] === 'contact' && 
+    isset($_GET['action']) && $_GET['action'] === 'submit' &&
+    $_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Form submission - output JSON directly, no layout
+    require_once 'app/views/contact/contact.php';
+    // Script ends in contact.php after outputting JSON
+}
+
+// ==========================================
 // NOTE: Get Current Page - Lấy trang hiện tại từ URL
 // ==========================================
 $page = $_GET['page'] ?? 'home';
