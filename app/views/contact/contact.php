@@ -6,9 +6,43 @@
 
 // Xử lý form submission
 if (isset($_GET['action']) && $_GET['action'] === 'submit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Content-Type: application/json');
+    // Start output buffering để bắt mọi output
+    if (!ob_get_level()) {
+        ob_start();
+    }
     
-    // Validate input
+    // Enable error logging nhưng không hiển thị
+    error_reporting(E_ALL);
+    ini_set('display_errors', 0);
+    
+    // Global exception handler để trả về JSON
+    set_exception_handler(function($e) {
+        if (ob_get_level()) {
+            ob_clean();
+        }
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'message' => 'Exception: ' . $e->getMessage()
+        ]);
+        exit;
+    });
+    
+    // Global error handler
+    set_error_handler(function($errno, $errstr, $errfile, $errline) {
+        if (ob_get_level()) {
+            ob_clean();
+        }
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'message' => "Error [$errno]: $errstr in $errfile:$errline"
+        ]);
+        exit;
+    });
+    
+    try {
+        // Validate input
     $errors = [];
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
@@ -79,6 +113,22 @@ if (isset($_GET['action']) && $_GET['action'] === 'submit' && $_SERVER['REQUEST_
         echo json_encode([
             'success' => false,
             'message' => 'Có lỗi xảy ra khi lưu thông tin. Vui lòng thử lại.'
+        ]);
+    }
+    
+    } catch (Throwable $e) {
+        // Bắt mọi lỗi PHP và trả về JSON
+        error_log('Contact form error: ' . $e->getMessage());
+        error_log('Stack trace: ' . $e->getTraceAsString());
+        
+        // Clean buffer và set header
+        if (ob_get_level()) {
+            ob_clean();
+        }
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'message' => 'Có lỗi hệ thống: ' . $e->getMessage()
         ]);
     }
     exit;

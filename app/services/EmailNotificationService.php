@@ -9,14 +9,15 @@
 // Load cấu hình email từ core/email.php
 require_once __DIR__ . '/../../core/email.php';
 
-// Load PHPMailer (cần cài đặt qua composer: composer require phpmailer/phpmailer)
-// Giả sử PHPMailer đã được cài đặt trong vendor
-if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
-    require_once __DIR__ . '/../../vendor/autoload.php';
+// Load PHPMailer manually (not using composer)
+$phpmailerBasePath = __DIR__ . '/../../assets/vendor/phpmailer/src/';
+
+if (file_exists($phpmailerBasePath . 'PHPMailer.php')) {
+    require_once $phpmailerBasePath . 'PHPMailer.php';
+    require_once $phpmailerBasePath . 'SMTP.php';
+    require_once $phpmailerBasePath . 'Exception.php';
 } else {
-    // Nếu chưa có composer, cần include PHPMailer thủ công
-    // Hoặc báo lỗi để cài đặt
-    error_log('EmailNotificationService: PHPMailer not found. Please run: composer require phpmailer/phpmailer');
+    error_log('EmailNotificationService: PHPMailer not found in ' . $phpmailerBasePath);
 }
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -113,11 +114,17 @@ class EmailNotificationService
                 'message' => 'Email đã được gửi thành công'
             ];
             
-        } catch (Exception $e) {
-            error_log('EmailNotificationService::sendContactConfirmation() - ' . $e->getMessage());
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            error_log('EmailNotificationService::sendContactConfirmation() - PHPMailer: ' . $e->getMessage());
             return [
                 'success' => false,
                 'message' => 'Lỗi gửi email: ' . $e->getMessage()
+            ];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendContactConfirmation() - General: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Lỗi hệ thống: ' . $e->getMessage()
             ];
         }
     }
@@ -159,11 +166,17 @@ class EmailNotificationService
                 'message' => 'Email thông báo đã được gửi'
             ];
             
-        } catch (Exception $e) {
-            error_log('EmailNotificationService::sendNewContactNotification() - ' . $e->getMessage());
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            error_log('EmailNotificationService::sendNewContactNotification() - PHPMailer: ' . $e->getMessage());
             return [
                 'success' => false,
                 'message' => 'Lỗi gửi email: ' . $e->getMessage()
+            ];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendNewContactNotification() - General: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Lỗi hệ thống: ' . $e->getMessage()
             ];
         }
     }
