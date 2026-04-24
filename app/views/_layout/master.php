@@ -87,6 +87,9 @@ mb_http_output('UTF-8');
         case 'categories':
             echo '<link rel="stylesheet" href="assets/css/categories.css">';
             break;
+        case 'categories-details':
+            echo '<link rel="stylesheet" href="assets/css/categories.details.css">';
+            break;
         // NOTE: Thêm các case khác tại đây
         default:
             break;
@@ -264,6 +267,9 @@ mb_http_output('UTF-8');
             break;
         case 'categories':
             echo '<script src="assets/js/categories.js"></script>';
+            break;
+        case 'categories-details':
+            echo '<script src="assets/js/categories.details.js"></script>';
             break;
         // NOTE: Thêm các case khác tại đây
         default:

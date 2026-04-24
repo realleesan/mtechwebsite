@@ -1,0 +1,511 @@
+/* ============================================================
+   categories.details.css
+   ============================================================ */
+
+/* ── Variables ─────────────────────────────────────────────── */
+:root {
+    --title-color:   #2c3e50;
+    --accent-color:  #f9a825;
+    --text-color:    #797979;
+    --border-color:  #e8e8e8;
+    --active-bg:     #f9a825;
+    --active-text:   #fff;
+    --dl-bg:         #242424;
+}
+
+/* ── Section gap ── */
+.service_details_area.sec_gap {
+    padding: 80px 0;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.service_content h3.title_color,
+.service_content .f_size_28 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--title-color);
+    margin-bottom: 15px;
+}
+
+.service_content p,
+.service_content .benefit_list li,
+.service_content .servie_item p,
+.faq-accordion .card-body.panel-body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--text-color);
+}
+
+/* ============================================================
+   SIDEBAR TRÁI
+   ============================================================ */
+.service_left_sidebar {
+    padding-right: 10px;
+}
+
+/* Service menu tab */
+.service_menu_tab {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.service_menu_tab .nav-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.service_menu_tab .nav-item:last-child {
+    border-bottom: none;
+}
+
+.service_menu_tab .nav-link {
+    display: block;
+    padding: 12px 20px;
+    color: var(--title-color);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    text-decoration: none;
+    background: #fff;
+    transition: background 0.25s, color 0.25s, padding-left 0.25s;
+    border-left: 3px solid transparent;
+}
+
+.service_menu_tab .nav-link:hover,
+.service_menu_tab .nav-item.active .nav-link,
+.service_menu_tab .nav-link.active {
+    background: var(--active-bg);
+    color: var(--active-text);
+    border-left-color: #e08c00;
+    padding-left: 24px;
+}
+
+/* Sidebar contact info */
+.sidebar_contact_info {
+    border: 1px solid var(--border-color);
+    padding: 30px 15px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    color: #333333;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+.sidebar_contact_info h3.title_color {
+    font-family: 'Poppins', sans-serif;
+    color: var(--title-color);
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.title_br {
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent-color);
+    margin-bottom: 18px;
+}
+
+.sidebar_contact_info a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #333333;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+}
+
+.sidebar_contact_info a:hover {
+    color: var(--accent-color);
+}
+
+.sidebar_contact_info a i {
+    color: #888;
+    font-size: 16px;
+    width: 18px;
+    text-align: center;
+}
+
+/* Download buttons — nền #242424, chữ trắng, icon vàng, font Poppins 18px */
+.download_info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.download-btn2 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background: var(--dl-bg);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0;
+    transition: background 0.25s;
+}
+
+.download-btn2:hover {
+    background: var(--accent-color);
+    color: #fff;
+    text-decoration: none;
+}
+
+.download-btn2 i,
+.download-btn2 svg {
+    color: var(--accent-color);
+    fill: var(--accent-color);
+    font-size: 22px;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   NỘI DUNG CHÍNH PHẢI
+   ============================================================ */
+.service_right_sidebar {
+    padding-left: 10px;
+}
+
+/* ── Gallery 2 ảnh — 370×280 ── */
+.service_img.mr {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.service_img .image {
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.service_img .image img {
+    width: 370px;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.service_img .image:hover img {
+    transform: scale(1.04);
+}
+
+.service_img .w_55 { flex: 0 0 55%; max-width: 55%; }
+.service_img .w_45 { flex: 0 0 calc(45% - 10px); max-width: calc(45% - 10px); }
+.service_img .w_100 { flex: 0 0 100%; max-width: 100%; }
+
+/* ── Service content ── */
+.service_content {
+    margin-top: 10px;
+}
+
+.service_content p {
+    margin-bottom: 15px;
+}
+
+/* ============================================================
+   BENEFIT OF SERVICE — không có nền xám, layout thoáng
+   ============================================================ */
+.benefit_service.two {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin: 35px 0;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+}
+
+.benefit_service.two > img {
+    width: 450px;
+    min-width: 450px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.benefit_service .media-body {
+    flex: 1;
+}
+
+.benefit_service .s_title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--title-color);
+    margin-bottom: 12px;
+}
+
+.benefit_service .media-body p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--text-color);
+    margin-bottom: 14px;
+}
+
+/* Benefit list */
+.benefit_list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.benefit_list li {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: var(--text-color);
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.benefit_list li i {
+    color: var(--accent-color);
+    font-size: 14px;
+}
+
+/* ============================================================
+   FEATURE / MANUFACTURING UNIT — không có nền xám
+   ============================================================ */
+.feature_service {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin: 35px 0;
+    padding: 0;
+    background: none;
+}
+
+.feature_service > img {
+    width: 450px;
+    min-width: 450px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.feature_service .media-body {
+    flex: 1;
+}
+
+/* Service items */
+.servie_item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.servie_item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.servie_item .servie_icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.servie_item .servie_icon svg {
+    width: 40px;
+    height: 40px;
+    fill: var(--accent-color);
+}
+
+.servie_item .servie_text h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--title-color);
+    margin-bottom: 6px;
+}
+
+.servie_item .servie_text p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--text-color);
+    margin: 0;
+}
+
+/* ============================================================
+   FAQ ACCORDION — trượt mượt, toggle đóng/mở
+   ============================================================ */
+.faq-accordion.service_accordion {
+    margin-top: 35px;
+}
+
+.faq-accordion .s_title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--title-color);
+    margin-bottom: 20px;
+}
+
+.faq-accordion .card {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.faq-accordion .card-header {
+    background: #f8f8f8;
+    padding: 0;
+    border-bottom: none;
+}
+
+.faq-accordion .panel-title {
+    margin: 0;
+}
+
+.btn-accordion {
+    width: 100%;
+    text-align: left;
+    padding: 16px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--title-color);
+    background: #f8f8f8;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: normal;
+    line-height: 1.5;
+}
+
+.btn-accordion:hover {
+    background: #f0f0f0;
+    color: var(--title-color);
+    text-decoration: none;
+}
+
+/* Khi đang mở — nền vàng, chữ trắng */
+.btn-accordion:not(.collapsed) {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.btn-accordion .pluse,
+.btn-accordion .minus {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+}
+
+.btn-accordion.collapsed .minus  { display: none; }
+.btn-accordion.collapsed .pluse  { display: inline; }
+.btn-accordion:not(.collapsed) .pluse { display: none; }
+.btn-accordion:not(.collapsed) .minus { display: inline; }
+
+/* Panel body — trượt mượt qua CSS transition */
+.faq-accordion .panel-collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.faq-accordion .panel-collapse.show {
+    max-height: 500px;
+}
+
+.faq-accordion .card-body.panel-body {
+    padding: 16px 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    color: var(--text-color);
+    line-height: 26px;
+    background: #fafafa;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1199px) {
+    .benefit_service.two > img,
+    .feature_service > img {
+        width: 320px;
+        min-width: 320px;
+        height: 240px;
+    }
+}
+
+@media (max-width: 991px) {
+    .service_left_sidebar {
+        padding-right: 0;
+        margin-bottom: 40px;
+    }
+
+    .service_right_sidebar {
+        padding-left: 0;
+    }
+
+    .benefit_service.two,
+    .feature_service {
+        flex-direction: column;
+    }
+
+    .benefit_service.two > img,
+    .feature_service > img {
+        width: 100%;
+        min-width: unset;
+        height: 240px;
+    }
+}
+
+@media (max-width: 767px) {
+    .service_details_area.sec_gap {
+        padding: 50px 0;
+    }
+
+    .service_img.mr {
+        flex-direction: column;
+    }
+
+    .service_img .w_55,
+    .service_img .w_45 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .service_img .image img {
+        width: 100%;
+        height: 220px;
+    }
+}

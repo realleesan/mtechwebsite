@@ -259,6 +259,37 @@ switch($page) {
         $showCTA = false;
         $showBreadcrumb = false; // Breadcrumb được xử lý trong view
         break;
+
+    // --------------------------------------
+    // NOTE: Category Details - Chi tiết danh mục dịch vụ
+    // --------------------------------------
+    case 'categories-details':
+        $slug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
+        if (empty($slug)) {
+            header('Location: ?page=categories');
+            exit;
+        }
+        require_once 'app/models/CategoriesModel.php';
+        $categoriesModel  = new CategoriesModel();
+        $categoryDetail   = $categoriesModel->getCategoryDetailBySlug($slug);
+        $allCategories    = $categoriesModel->getAllCategories();
+        if (!$categoryDetail) {
+            $title   = 'Không tìm thấy - Tên Website';
+            $content = 'errors/404.php';
+            http_response_code(404);
+            break;
+        }
+        $title          = htmlspecialchars($categoryDetail['name']) . ' - Tên Website';
+        $content        = 'app/views/categories/categories_details.php';
+        $showPageHeader = true;
+        $pageTitle      = htmlspecialchars($categoryDetail['name']);
+        $showCTA        = false;
+        $showBreadcrumb = true;
+        $breadcrumbs    = [
+            ['title' => 'Services',                              'url' => '?page=categories'],
+            ['title' => htmlspecialchars($categoryDetail['name']), 'url' => null],
+        ];
+        break;
         
     // --------------------------------------
     // NOTE: News Page - Trang tin tức

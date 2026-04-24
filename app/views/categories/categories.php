@@ -61,14 +61,14 @@ $services        = $categoriesModel->getAllCategories();
                                     alt="<?php echo htmlspecialchars($service['name'], ENT_QUOTES, 'UTF-8'); ?>"
                                 >
                                 <div class="hover_content">
-                                    <a href="?page=categories&slug=<?php echo htmlspecialchars($service['slug'], ENT_QUOTES, 'UTF-8'); ?>" class="read_more">
+                                    <a href="?page=categories-details&slug=<?php echo htmlspecialchars($service['slug'], ENT_QUOTES, 'UTF-8'); ?>" class="read_more">
                                         Read More
                                     </a>
                                 </div>
                             </div>
 
                             <!-- Service Name -->
-                            <a href="?page=categories&slug=<?php echo htmlspecialchars($service['slug'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <a href="?page=categories-details&slug=<?php echo htmlspecialchars($service['slug'], ENT_QUOTES, 'UTF-8'); ?>">
                                 <h3 class="f_size_20 title_color f_600">
                                     <?php echo htmlspecialchars($service['name'], ENT_QUOTES, 'UTF-8'); ?>
                                 </h3>

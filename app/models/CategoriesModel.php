@@ -96,6 +96,46 @@ class CategoriesModel
     }
 
     /**
+     * Lấy chi tiết đầy đủ một category theo slug (bao gồm các cột detail).
+     * Dùng cho trang categories_details.php
+     *
+     * @param  string     $slug
+     * @return array|null
+     */
+    public function getCategoryDetailBySlug($slug)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, image, image_1, image_2,
+                        description, detail_description,
+                        benefit_image, benefit_title, benefit_description, benefit_items,
+                        feature_image, feature_1_icon, feature_1_title, feature_1_text,
+                        feature_2_icon, feature_2_title, feature_2_text,
+                        faq_items, sort_order
+                 FROM `{$this->table}`
+                 WHERE slug = ? AND status = 1
+                 LIMIT 1"
+            );
+            $stmt->execute([$slug]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$row) return null;
+
+            // Decode JSON fields
+            $row['benefit_items'] = !empty($row['benefit_items'])
+                ? json_decode($row['benefit_items'], true)
+                : [];
+            $row['faq_items'] = !empty($row['faq_items'])
+                ? json_decode($row['faq_items'], true)
+                : [];
+
+            return $row;
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::getCategoryDetailBySlug() - ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Đếm tổng số categories đang hoạt động.
      *
      * @return int
