@@ -18,6 +18,40 @@
 session_start();
 
 // ==========================================
+// NOTE: Coming Soon Mode Check - Kiểm tra chế độ bảo trì
+// ==========================================
+// NOTE: Kiểm tra sớm để chặn toàn bộ website nếu đang bảo trì
+require_once __DIR__ . '/core/database.php';
+require_once __DIR__ . '/app/models/ComingsoonModel.php';
+
+$comingsoonModel = new ComingsoonModel();
+$isComingSoonActive = false;
+
+try {
+    $isComingSoonActive = $comingsoonModel->isComingSoonActive();
+} catch (Exception $e) {
+    // Nếu lỗi DB, mặc định tắt coming soon để website vẫn chạy
+    $isComingSoonActive = false;
+}
+
+// NOTE: Kiểm tra nếu coming soon đang active
+if ($isComingSoonActive) {
+    // NOTE: Cho phép admin truy cập bình thường (có thể đăng nhập admin)
+    // Bạn có thể thay đổi logic này theo cách xác thực admin của mình
+    $isAdmin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+    $isComingSoonPage = isset($_GET['page']) && $_GET['page'] === 'comingsoon';
+    $isLoginPage = isset($_GET['page']) && in_array($_GET['page'], ['login', 'admin']);
+    
+    // Nếu không phải admin và không phải trang coming soon hoặc login
+    if (!$isAdmin && !$isComingSoonPage && !$isLoginPage) {
+        // Chuyển hướng đến trang coming soon
+        // Trang coming soon tự chứa HTML hoàn chỉnh nên include trực tiếp
+        include __DIR__ . '/app/views/comingsoon/comingsoon.php';
+        exit;
+    }
+}
+
+// ==========================================
 // NOTE: Error Reporting - Cấu hình hiển thị lỗi
 // ==========================================
 // Development mode:
@@ -472,6 +506,19 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Coming Soon Page - Trang bảo trì (có thể truy cập trực tiếp)
+    // --------------------------------------
+    case 'comingsoon':
+        $title = 'Coming Soon - Tên Website';
+        $content = 'app/views/comingsoon/comingsoon.php';
+        $showPageHeader = false;
+        $showCTA = false;
+        $showBreadcrumb = false;
+        // Trang coming soon tự có HTML đầy đủ nên không dùng master layout
+        $useStandaloneLayout = true;
+        break;
+        
+    // --------------------------------------
     // NOTE: 404 Page - Trang không tìm thấy
     // --------------------------------------
     default:
@@ -497,7 +544,10 @@ if (!isset($breadcrumbs) && ($showBreadcrumb ?? false)) {
 // ==========================================
 // Các biến truyền sang layout: $title, $content, $breadcrumbs, $showPageHeader, v.v.
 
-if (isset($useAdminLayout) && $useAdminLayout) {
+if (isset($useStandaloneLayout) && $useStandaloneLayout) {
+    // NOTE: Standalone layout - trang tự chứa HTML đầy đủ (coming soon)
+    include_once $content;
+} elseif (isset($useAdminLayout) && $useAdminLayout) {
     // NOTE: Sử dụng admin layout
     // include_once 'app/views/_layout/admin_master.php';
 } else {

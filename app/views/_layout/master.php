@@ -90,6 +90,9 @@ mb_http_output('UTF-8');
         case 'categories-details':
             echo '<link rel="stylesheet" href="assets/css/categories.details.css">';
             break;
+        case 'comingsoon':
+            echo '<link rel="stylesheet" href="assets/css/comingsoon.css">';
+            break;
         // NOTE: Thêm các case khác tại đây
         default:
             break;
@@ -270,6 +273,9 @@ mb_http_output('UTF-8');
             break;
         case 'categories-details':
             echo '<script src="assets/js/categories.details.js"></script>';
+            break;
+        case 'comingsoon':
+            echo '<script src="assets/js/comingsoon.js"></script>';
             break;
         // NOTE: Thêm các case khác tại đây
         default:
