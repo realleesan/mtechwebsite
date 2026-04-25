@@ -378,6 +378,26 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Testimonials Page
+    // --------------------------------------
+    case 'testimonials':
+        require_once 'app/models/TestimonialsModel.php';
+        $testimonialsModel  = new TestimonialsModel();
+        $currentPage        = isset($_GET['p']) ? max(1, (int)$_GET['p']) : 1;
+        $perPage            = 9;
+        $result             = $testimonialsModel->getTestimonials($currentPage, $perPage);
+        $testimonials       = $result['items'];
+        $totalTestimonials  = $result['total'];
+
+        $title          = 'Testimonials - MTECHJSC';
+        $content        = 'app/views/about/testimonials.php';
+        $showPageHeader = true;
+        $pageTitle      = 'Testimonials';
+        $showCTA        = false;
+        $showBreadcrumb = true;
+        break;
+
+    // --------------------------------------
     // NOTE: Contact Page - Trang liên hệ
     // --------------------------------------
     case 'contact':
