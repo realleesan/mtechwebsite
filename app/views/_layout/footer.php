@@ -57,10 +57,10 @@
 </div>
 <div class="mailchimp" method="post">
 <div class="input-group subscrib_form">
-        <span class="wpcf7-form-control-wrap email-149"><input type="email" name="email-149" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-email form-control memail" aria-invalid="false" placeholder="Enter your email"></span><br>
-        <span class="input-group-btn"><br>
-        <input type="submit" value="&#61536;" class="wpcf7-form-control wpcf7-submit btn btn-default submit_btn_b"><span class="ajax-loader"></span><br>
-        </span>
+        <input type="email" name="email" value="" class="form-control memail" aria-invalid="false" placeholder="Enter your email">
+        <button type="submit" class="submit_btn_b">
+            <img src="assets/icons/paper-plane.svg" alt="Subscribe">
+        </button>
     </div>
 </div>
 <div class="wpcf7-response-output wpcf7-display-none"></div></form></div>

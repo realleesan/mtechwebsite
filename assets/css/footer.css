@@ -5,14 +5,18 @@
 
 /* Footer Area */
 .footer_area {
-    background-color: #1a1a1a;
-    color: #a0a0a0;
-    font-family: 'Roboto', sans-serif;
+    background-image: linear-gradient(rgba(39, 39, 39, 0.94), rgba(39, 39, 39, 0.94)), url('../images/about_our_mission_bg.png');
+    background-size: cover, cover;
+    background-position: center, top;
+    background-repeat: no-repeat, no-repeat;
+    color: #8b8b8b;
+    font-family: 'Poppins', sans-serif;
+    padding-top: 90px;
 }
 
 /* Footer Top */
 .footer_top {
-    padding: 80px 0 60px;
+    padding-bottom: 60px;
 }
 
 /* Container */
@@ -92,30 +96,31 @@
     width: auto;
 }
 
-/* Widget Content */
-.f_widget_content p {
+/* About Widget */
+.about_widget p {
     font-size: 14px;
-    line-height: 24px;
-    color: #a0a0a0;
+    line-height: 26px;
+    color: #8b8b8b;
     margin-bottom: 15px;
 }
 
-.f_widget_content a {
-    color: #ff6b35;
+.about_widget > a {
+    color: #ffb600;
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.3s ease;
 }
 
-.f_widget_content a:hover {
-    color: #ffffff;
+.about_widget > a:hover {
+    color: #ffb600;
+    text-decoration: none;
 }
+
 
 /* Widget Title */
 .f_title {
     color: #ffffff;
     margin-bottom: 25px;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .f_size_20 {
@@ -123,7 +128,7 @@
 }
 
 .f_500 {
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .color_w {
@@ -138,29 +143,28 @@
 }
 
 .link_widget ul li {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .link_widget ul li a {
-    color: #a0a0a0;
+    color: #8b8b8b;
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
     display: inline-block;
 }
 
 .link_widget ul li a:hover {
-    color: #ff6b35;
-    padding-left: 5px;
+    color: #ffb600;
 }
 
 /* Newsletter Widget */
 .news_widget h5 {
-    color: #a0a0a0;
+    color: #8b8b8b;
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 20px;
-    margin-top: 10px;
+    margin-top: -5px;
 }
 
 /* Newsletter Form */
@@ -186,25 +190,30 @@
 
 .subscrib_form .form-control:focus {
     outline: none;
-    border-color: #ff6b35;
+    border-color: #ffb600;
 }
 
 .submit_btn_b {
     width: 50px;
     height: 50px;
-    background-color: #ff6b35;
+    background-color: #ffb600;
     border: none;
     color: #ffffff;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background-color 0.3s ease;
 }
 
 .submit_btn_b:hover {
-    background-color: #e55a2b;
+    background-color: #e6a400;
 }
 
-.submit_btn_b i {
-    font-size: 16px;
+.submit_btn_b img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
 }
 
 /* Newsletter Response */
@@ -231,10 +240,7 @@
     padding: 0;
     margin: 0;
     display: flex;
-}
-
-.social_icon li {
-    margin-right: 10px;
+    gap: 10px;
 }
 
 .social_icon li a {
@@ -243,27 +249,26 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: #2a2a2a;
-    color: #a0a0a0;
+    background-color: transparent;
+    border: 1px solid #4a4a4a;
+    color: #8b8b8b;
     border-radius: 50%;
     text-decoration: none;
     transition: all 0.3s ease;
+    font-size: 14px;
 }
 
 .social_icon li a:hover {
-    background-color: #ff6b35;
+    background-color: #ffb600;
+    border-color: #ffb600;
     color: #ffffff;
-}
-
-.social_icon li a i {
-    font-size: 14px;
 }
 
 /* Footer Copyright */
 .footer_copyright {
-    background-color: #111;
+    background-color: rgba(0, 0, 0, 0.2);
     padding: 25px 0;
-    border-top: 1px solid #2a2a2a;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .bottom_info {
@@ -271,18 +276,18 @@
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
-    color: #a0a0a0;
+    color: #8b8b8b;
 }
 
 .pull-left a,
 .pull-right a {
-    color: #ff6b35;
+    color: #ffb600;
     text-decoration: none;
 }
 
 .pull-left a:hover,
 .pull-right a:hover {
-    color: #ffffff;
+    color: #ffb600;
 }
 
 @media (max-width: 767px) {
