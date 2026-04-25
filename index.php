@@ -226,11 +226,27 @@ switch($page) {
     // NOTE: Blogs Page - Trang tin tức/blog
     // --------------------------------------
     case 'blogs':
-        $title = 'Blog - Tên Website';
-        $content = 'app/views/blogs/blogs.php';
+        require_once 'app/models/BlogsModel.php';
+        $blogsModel = new BlogsModel();
+
+        $filterCatId  = isset($_GET['cat'])    ? (int) $_GET['cat']          : 0;
+        $filterTag    = isset($_GET['tag'])     ? trim($_GET['tag'])          : '';
+        $searchQuery  = isset($_GET['search'])  ? trim(urldecode($_GET['search'])) : '';
+        $currentPage  = isset($_GET['p'])       ? max(1, (int) $_GET['p'])   : 1;
+        $perPage      = 6;
+
+        $blogsResult    = $blogsModel->getBlogs($currentPage, $perPage, $filterCatId, $filterTag, $searchQuery);
+        $blogs          = $blogsResult['blogs'];
+        $totalBlogs     = $blogsResult['total'];
+        $blogCategories = $blogsModel->getAllBlogCategories();
+        $recentBlogs    = $blogsModel->getRecentBlogs(4);
+        $allTags        = $blogsModel->getAllTags();
+
+        $title          = 'Blog - Tên Website';
+        $content        = 'app/views/blogs/blogs.php';
         $showPageHeader = true;
-        $pageTitle = 'Blog';
-        $showCTA = false;
+        $pageTitle      = 'Blog';
+        $showCTA        = false;
         $showBreadcrumb = true;
         break;
         

@@ -1,0 +1,386 @@
+/* ============================================================
+   blogs.css — Trang danh sách bài viết Blog
+   Thiết kế theo template Wokrate (khớp 100% ảnh mẫu)
+   ============================================================ */
+
+/* ---- Section wrapper ---- */
+.blog_area {
+    padding: 80px 0;
+    background: #fff;
+}
+
+/* ============================================================
+   LEFT — Danh sách bài viết
+   ============================================================ */
+.blog_left_sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* ---- Blog item — không có card/shadow, layout phẳng ---- */
+.lt_blog_item {
+    background: transparent;
+}
+
+/* ---- Thumbnail wrapper — position relative để đặt date badge ---- */
+.blog_img {
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+
+.blog_img img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+}
+
+.lt_blog_item:hover .blog_img img {
+    transform: scale(1.03);
+}
+
+/* ---- Date badge — đè lên ảnh, góc dưới trái ---- */
+.blog-date-badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #f9a825;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 18px;
+    letter-spacing: .3px;
+    line-height: 1.4;
+}
+
+/* ---- Post meta: By admin / tags ---- */
+.post_info {
+    padding: 14px 0 0;
+    text-align: right;
+}
+
+.blog_author_area {
+    font-size: 13px;
+    color: #888;
+}
+
+.blog_author_area a {
+    color: #555;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.blog_author_area a:hover {
+    color: #e65c00;
+}
+
+.blog_author_area .sep {
+    margin: 0 6px;
+    color: #bbb;
+}
+
+/* ---- Blog text body ---- */
+.blog-text {
+    padding: 16px 0 0;
+}
+
+.blog-text h4.title_color {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    transition: color .2s;
+}
+
+.blog-text a:hover h4.title_color {
+    color: #e65c00;
+}
+
+.blog-text p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* ---- Read More — outlined button ---- */
+.read_btn_two {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    padding: 8px 20px;
+    border-radius: 2px;
+    transition: background .2s, color .2s, border-color .2s;
+}
+
+.read_btn_two:hover {
+    background: #e65c00;
+    color: #fff;
+    border-color: #e65c00;
+}
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+.blog_pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.blog_pagination .pagination {
+    gap: 4px;
+}
+
+.blog_pagination .page-link {
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 2px !important;
+    padding: 7px 16px;
+    font-size: 14px;
+    transition: background .2s, color .2s;
+}
+
+.blog_pagination .page-item.active .page-link {
+    background: #e65c00;
+    border-color: #e65c00;
+    color: #fff;
+}
+
+.blog_pagination .page-link:hover {
+    background: #e65c00;
+    border-color: #e65c00;
+    color: #fff;
+}
+
+.blog_pagination .page-item.disabled .page-link {
+    color: #bbb;
+    pointer-events: none;
+}
+
+/* ============================================================
+   RIGHT SIDEBAR
+   ============================================================ */
+.blog_sidebar_area {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+/* ---- Widget chung — không có card nền, chỉ có nội dung ---- */
+.r_widget {
+    background: transparent;
+}
+
+/* ---- Widget title ---- */
+.r_widget_title {
+    margin-bottom: 18px;
+}
+
+.r_widget_title h3.title_color {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin: 0;
+    display: inline-block;
+}
+
+/* Gạch cam ngắn sau tiêu đề */
+.title_br {
+    display: inline-block;
+    width: 30px;
+    height: 3px;
+    background: #e65c00;
+    margin-left: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+
+/* ---- Search widget ---- */
+.search_widget .input-group {
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+    display: flex;
+}
+
+.search_widget .form-control {
+    border: none;
+    font-size: 13px;
+    padding: 10px 14px;
+    box-shadow: none;
+    outline: none;
+    color: #444;
+    flex: 1;
+}
+
+.search_widget .form-control::placeholder {
+    color: #aaa;
+}
+
+.search_widget .input-group-btn {
+    display: flex;
+}
+
+.search_widget .btn {
+    background: #2c2c2c;
+    border: none;
+    color: #fff;
+    padding: 0 16px;
+    cursor: pointer;
+    transition: background .2s;
+    border-radius: 0;
+}
+
+.search_widget .btn:hover {
+    background: #e65c00;
+}
+
+.search_widget .btn i {
+    font-size: 14px;
+}
+
+/* ---- Categories widget ---- */
+.widget_categories ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.widget_categories ul li {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.widget_categories ul li:last-child {
+    border-bottom: none;
+}
+
+.widget_categories ul li a {
+    display: block;
+    padding: 9px 0;
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.widget_categories ul li a:hover,
+.widget_categories ul li.active a {
+    color: #e65c00;
+}
+
+/* ---- Recent News widget ---- */
+.recent_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.recent_item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.recent_item img {
+    width: 70px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.recent_item .media-body {
+    flex: 1;
+}
+
+.recent_item .media-body a {
+    text-decoration: none;
+}
+
+.recent_item .media-body h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.45;
+    margin: 0 0 5px;
+    transition: color .2s;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.recent_item .media-body a:hover h4 {
+    color: #e65c00;
+}
+
+.recent_item .media-body h5 {
+    font-size: 12px;
+    color: #aaa;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* ---- Tags widget — pill/badge style ---- */
+.tagcloud .wp-tag-cloud {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tagcloud .wp-tag-cloud li a {
+    display: inline-block;
+    font-size: 13px !important;
+    color: #555;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 5px 14px;
+    text-decoration: none;
+    transition: background .2s, color .2s, border-color .2s;
+}
+
+.tagcloud .wp-tag-cloud li a:hover,
+.tagcloud .wp-tag-cloud li a.active {
+    background: #e65c00;
+    color: #fff;
+    border-color: #e65c00;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 991px) {
+    .blog_area {
+        padding: 50px 0;
+    }
+
+    .blog_img img {
+        height: 240px;
+    }
+
+    .blog_sidebar_area {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 575px) {
+    .blog_img img {
+        height: 200px;
+    }
+
+    .blog-text h4.title_color {
+        font-size: 17px;
+    }
+}
