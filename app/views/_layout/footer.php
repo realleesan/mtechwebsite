@@ -8,7 +8,7 @@
                             <img src="assets/images/logo.png" alt="logo">
                         </a>
                         <div id="custom_html-4"><div class="textwidget custom-html-widget"><p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide additional clickthroughs.</p>
-<a href="#">Read more...</a></div></div>
+</div></div>
                     </aside>
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-6">
@@ -80,10 +80,10 @@
     <div class="footer_copyright">
         <div class="container">
             <div class="bottom_info d-flex justify-content-between">
-                <div class="pull-left">                        Copyright © <a href="index.html">Infratek </a> 2021. All right reserved.
+                <div class="pull-left">                        Copyright © <a href="index.html">MTechjsc </a> 2026. All right reserved.
 <div id="eJOY__extension_root" style="all: unset;"></div>                          
                 </div>
-                <div class="pull-right">                        Created by: <a href="http://themeforest.net/user/designarc">DesignArc</a>
+                <div class="pull-right">                        Created by: <a href="https://www.mistydev.id.vn/">MistyTeam</a>
 <div id="eJOY__extension_root" style="all: unset;"></div>                         
                     
                 </div>

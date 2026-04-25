@@ -101,9 +101,9 @@
     content: '';
     position: absolute;
     left: 60px;
-    top: 0;
-    width: 1px;
-    height: 120px;
+    top: 60px;
+    width: 3px;
+    height: 100%;
     background-color: #f9f9f9;
     z-index: 2;
 }
@@ -123,7 +123,7 @@
     color: #242424;
     margin-right: 40px;
     position: relative;
-    z-index: 1;
+    z-index: 3;
 }
 
 .history_item .media-body {
@@ -238,6 +238,11 @@
         left: 50px;
     }
 
+    .history_item:last-child::before {
+        left: 50px;
+        top: 50px;
+    }
+
     .history_date {
         width: 100px;
         height: 100px;
@@ -275,6 +280,11 @@
 
     .history_info::before {
         left: 40px;
+    }
+
+    .history_item:last-child::before {
+        left: 40px;
+        top: 40px;
     }
 
     .history_item {

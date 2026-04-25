@@ -9,7 +9,24 @@
     // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', function() {
         initNewsletterForm();
+        updateCopyrightYear();
     });
+
+    /**
+     * Update Copyright Year
+     * NOTE: Tự động cập nhật năm trong copyright text
+     */
+    function updateCopyrightYear() {
+        var currentYear = new Date().getFullYear();
+        var copyrightElement = document.querySelector('.pull-left');
+
+        if (copyrightElement) {
+            var yearMatch = copyrightElement.innerHTML.match(/\d{4}/);
+            if (yearMatch) {
+                copyrightElement.innerHTML = copyrightElement.innerHTML.replace(yearMatch[0], currentYear);
+            }
+        }
+    }
 
     /**
      * Initialize Newsletter Form
