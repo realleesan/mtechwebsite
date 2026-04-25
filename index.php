@@ -152,12 +152,24 @@ switch($page) {
     // NOTE: Home Page - Trang chủ
     // --------------------------------------
     case 'home':
+        // Load models và lấy dữ liệu cho trang chủ
+        require_once 'app/models/CategoriesModel.php';
+        require_once 'app/models/ProjectsModel.php';
+        
+        $categoriesModel = new CategoriesModel();
+        $projectsModel = new ProjectsModel();
+        
+        // Lấy dữ liệu services (tối đa 6, có show_on_home=1)
+        $homeServices = $categoriesModel->getHomeServices(6);
+        
+        // Lấy dữ liệu projects (tối đa 5, có show_on_home=1)
+        $homeProjects = $projectsModel->getHomeProjects(5);
+        
         $title = 'Trang chủ - MTECH';
         $content = 'app/views/home/home.php';
         $showPageHeader = false;
         $showCTA = true;
         $showBreadcrumb = false;
-        // $currentService = $publicService ?? $currentService;
         break;
         
     // --------------------------------------

@@ -64,7 +64,7 @@ mb_http_output('UTF-8');
     <?php
     switch($currentPage) {
         case 'home':
-            // echo '<link rel="stylesheet" href="' . css_url('home.css') . '">';
+            echo '<link rel="stylesheet" href="assets/css/home.css">';
             break;
         case 'about':
             echo '<link rel="stylesheet" href="assets/css/about.css">';
@@ -254,7 +254,7 @@ mb_http_output('UTF-8');
     <?php
     switch($currentPage) {
         case 'home':
-            // echo '<script src="' . js_url('home.js') . '"></script>';
+            echo '<script src="assets/js/home.js"></script>';
             break;
         case 'about':
             echo '<script src="assets/js/about.js"></script>';
