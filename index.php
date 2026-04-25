@@ -152,7 +152,7 @@ switch($page) {
     // NOTE: Home Page - Trang chủ
     // --------------------------------------
     case 'home':
-        $title = 'Trang chủ - Tên Website';
+        $title = 'Trang chủ - MTECH';
         $content = 'app/views/home/home.php';
         $showPageHeader = false;
         $showCTA = true;
@@ -164,7 +164,7 @@ switch($page) {
     // NOTE: About Page - Trang giới thiệu
     // --------------------------------------
     case 'about':
-        $title = 'Giới thiệu - Tên Website';
+        $title = 'Giới thiệu - MTECHJSC';
         $content = 'app/views/about/about.php';
         $showPageHeader = true;
         $pageTitle = 'About Us';
@@ -176,7 +176,7 @@ switch($page) {
     // NOTE: Teams Page - Trang đội ngũ
     // --------------------------------------
     case 'teams':
-        $title = 'Đội ngũ - Tên Website';
+        $title = 'Đội ngũ - MTECHJSC';
         $content = 'app/views/about/teams.php';
         $showPageHeader = true;
         $pageTitle = 'Our Team';
@@ -188,7 +188,7 @@ switch($page) {
     // NOTE: Company History Page - Lịch sử công ty
     // --------------------------------------
     case 'company.history':
-        $title = 'Lịch sử công ty - Tên Website';
+        $title = 'Lịch sử công ty - MTECHJSC';
         $content = 'app/views/about/company.history.php';
         $showPageHeader = true;
         $showCTA = true;
@@ -199,7 +199,7 @@ switch($page) {
     // NOTE: Products Page - Trang sản phẩm/danh sách
     // --------------------------------------
     case 'products':
-        $title = 'Sản phẩm - Tên Website';
+        $title = 'Sản phẩm - MTECHJSC';
         $content = 'app/views/products/products.php';
         $showPageHeader = true;
         $showCTA = false;
@@ -211,7 +211,7 @@ switch($page) {
     // NOTE: Product Details - Chi tiết sản phẩm
     // --------------------------------------
     case 'details':
-        $title = 'Chi tiết sản phẩm - Tên Website';
+        $title = 'Chi tiết sản phẩm - MTECHJSC';
         $content = 'app/views/products/details.php';
         $showPageHeader = false;
         $showCTA = false;
@@ -233,7 +233,7 @@ switch($page) {
         $filterTag    = isset($_GET['tag'])     ? trim($_GET['tag'])          : '';
         $searchQuery  = isset($_GET['search'])  ? trim(urldecode($_GET['search'])) : '';
         $currentPage  = isset($_GET['p'])       ? max(1, (int) $_GET['p'])   : 1;
-        $perPage      = 6;
+        $perPage      = 5;
 
         $blogsResult    = $blogsModel->getBlogs($currentPage, $perPage, $filterCatId, $filterTag, $searchQuery);
         $blogs          = $blogsResult['blogs'];
@@ -242,7 +242,7 @@ switch($page) {
         $recentBlogs    = $blogsModel->getRecentBlogs(4);
         $allTags        = $blogsModel->getAllTags();
 
-        $title          = 'Blog - Tên Website';
+        $title          = 'Blog - MTECHJSC';
         $content        = 'app/views/blogs/blogs.php';
         $showPageHeader = true;
         $pageTitle      = 'Blog';
@@ -254,7 +254,7 @@ switch($page) {
     // NOTE: Blog Details - Chi tiết blog
     // --------------------------------------
     case 'blog-details':
-        $title = 'Chi tiết blog - Tên Website';
+        $title = 'Chi tiết blog - MTECHJSC';
         $content = 'app/views/blogs/details.php';
         $showPageHeader = false;
         $showCTA = false;
@@ -266,7 +266,7 @@ switch($page) {
     // NOTE: Projects Page - Trang dự án
     // --------------------------------------
     case 'projects':
-        $title = 'Dự án - Tên Website';
+        $title = 'Dự án - MTECHJSC';
         $content = 'app/views/projects/projects.php';
         $showPageHeader = true;
         $pageTitle = 'Projects';
@@ -278,7 +278,7 @@ switch($page) {
     // NOTE: Project Details - Chi tiết dự án
     // --------------------------------------
     case 'project-details':
-        $title = 'Chi tiết dự án - Tên Website';
+        $title = 'Chi tiết dự án - MTECHJSC';
         $content = 'app/views/projects/projects.details.php';
         $showPageHeader = true;
         $pageTitle = 'Project Details';
@@ -291,7 +291,7 @@ switch($page) {
     // NOTE: Services Page - Trang dịch vụ
     // --------------------------------------
     case 'services':
-        $title = 'Dịch vụ - Tên Website';
+        $title = 'Dịch vụ - MTECHJSC';
         $content = 'app/views/services/services.php';
         $showPageHeader = true;
         $pageTitle = 'Services';
@@ -303,7 +303,7 @@ switch($page) {
     // NOTE: Categories Page - Trang danh mục dịch vụ
     // --------------------------------------
     case 'categories':
-        $title = 'Our Services - Tên Website';
+        $title = 'Our Services - MTECHJSC';
         $content = 'app/views/categories/categories.php';
         $showPageHeader = false; // Banner được xử lý trong view
         $showCTA = false;
@@ -324,12 +324,12 @@ switch($page) {
         $categoryDetail   = $categoriesModel->getCategoryDetailBySlug($slug);
         $allCategories    = $categoriesModel->getAllCategories();
         if (!$categoryDetail) {
-            $title   = 'Không tìm thấy - Tên Website';
+            $title   = 'Không tìm thấy - MTECHJSC';
             $content = 'errors/404.php';
             http_response_code(404);
             break;
         }
-        $title          = htmlspecialchars($categoryDetail['name']) . ' - Tên Website';
+        $title          = htmlspecialchars($categoryDetail['name']) . ' - MTECHJSC';
         $content        = 'app/views/categories/categories_details.php';
         $showPageHeader = true;
         $pageTitle      = htmlspecialchars($categoryDetail['name']);
@@ -345,7 +345,7 @@ switch($page) {
     // NOTE: News Page - Trang tin tức
     // --------------------------------------
     case 'news':
-        $title = 'Tin tức - Tên Website';
+        $title = 'Tin tức - MTECHJSC';
         $content = 'app/views/news/news.php';
         $showPageHeader = true;
         $showCTA = false;
@@ -357,7 +357,7 @@ switch($page) {
     // NOTE: News Details - Chi tiết tin tức
     // --------------------------------------
     case 'news-details':
-        $title = 'Chi tiết tin tức - Tên Website';
+        $title = 'Chi tiết tin tức - MTECHJSC';
         $content = 'app/views/news/details.php';
         $showPageHeader = false;
         $showCTA = false;
@@ -369,7 +369,7 @@ switch($page) {
     // NOTE: Contact Page - Trang liên hệ
     // --------------------------------------
     case 'contact':
-        $title = 'Liên hệ - Tên Website';
+        $title = 'Liên hệ - MTECHJSC';
         $content = 'app/views/contact/contact.php';
         $showPageHeader = true;
         $pageTitle = 'Contact Us';
@@ -393,19 +393,19 @@ switch($page) {
         // $authController->login();
         // exit;
         
-        $title = 'Đăng nhập - Tên Website';
+        $title = 'Đăng nhập - MTECHJSC';
         $content = 'app/views/auth/login.php';
         break;
         
     case 'register':
         // NOTE: Tương tự login, xử lý register
-        $title = 'Đăng ký - Tên Website';
+        $title = 'Đăng ký - MTECHJSC';
         $content = 'app/views/auth/register.php';
         break;
         
     case 'forgot':
         // NOTE: Xử lý quên mật khẩu
-        $title = 'Quên mật khẩu - Tên Website';
+        $title = 'Quên mật khẩu - MTECHJSC';
         $content = 'app/views/auth/forgot.php';
         break;
         
@@ -423,7 +423,7 @@ switch($page) {
         $module = $_GET['module'] ?? 'dashboard';
         $action = $_GET['action'] ?? 'index';
         
-        $title = 'Tài khoản - Tên Website';
+        $title = 'Tài khoản - MTECHJSC';
         $showPageHeader = false;
         $showCTA = false;
         $showBreadcrumb = true;
@@ -432,23 +432,23 @@ switch($page) {
             case 'dashboard':
             default:
                 $content = 'app/views/users/dashboard.php';
-                $title = 'Tài khoản của tôi - Tên Website';
+                $title = 'Tài khoản của tôi - MTECHJSC';
                 break;
             case 'account':
                 $content = 'app/views/users/account/index.php';
-                $title = 'Thông tin tài khoản - Tên Website';
+                $title = 'Thông tin tài khoản - MTECHJSC';
                 break;
             case 'orders':
                 $content = 'app/views/users/orders/index.php';
-                $title = 'Đơn hàng - Tên Website';
+                $title = 'Đơn hàng - MTECHJSC';
                 break;
             case 'cart':
                 $content = 'app/views/users/cart/index.php';
-                $title = 'Giỏ hàng - Tên Website';
+                $title = 'Giỏ hàng - MTECHJSC';
                 break;
             case 'wishlist':
                 $content = 'app/views/users/wishlist/index.php';
-                $title = 'Yêu thích - Tên Website';
+                $title = 'Yêu thích - MTECHJSC';
                 break;
         }
         break;
@@ -457,7 +457,7 @@ switch($page) {
     // NOTE: Checkout/Payment - Thanh toán
     // --------------------------------------
     case 'checkout':
-        $title = 'Thanh toán - Tên Website';
+        $title = 'Thanh toán - MTECHJSC';
         $content = 'app/views/payment/checkout.php';
         $showPageHeader = false;
         $showCTA = false;
@@ -466,7 +466,7 @@ switch($page) {
         break;
         
     case 'payment':
-        $title = 'Thanh toán - Tên Website';
+        $title = 'Thanh toán - MTECHJSC';
         $content = 'app/views/payment/payment.php';
         $showPageHeader = false;
         $showCTA = false;
@@ -474,7 +474,7 @@ switch($page) {
         break;
         
     case 'payment_success':
-        $title = 'Thanh toán thành công - Tên Website';
+        $title = 'Thanh toán thành công - MTECHJSC';
         $content = 'app/views/payment/success.php';
         $showPageHeader = false;
         $showCTA = false;
@@ -495,7 +495,7 @@ switch($page) {
         //     exit;
         // }
         
-        $title = 'Admin Panel - Tên Website';
+        $title = 'Admin Panel - MTECHJSC';
         $useAdminLayout = true; // Flag để sử dụng admin layout
         
         // NOTE: Routing cho admin modules
@@ -525,7 +525,7 @@ switch($page) {
     // NOTE: Coming Soon Page - Trang bảo trì (có thể truy cập trực tiếp)
     // --------------------------------------
     case 'comingsoon':
-        $title = 'Coming Soon - Tên Website';
+        $title = 'Coming Soon - MTECHJSC';
         $content = 'app/views/comingsoon/comingsoon.php';
         $showPageHeader = false;
         $showCTA = false;
@@ -538,7 +538,7 @@ switch($page) {
     // NOTE: 404 Page - Trang không tìm thấy
     // --------------------------------------
     default:
-        $title = 'Không tìm thấy trang - Tên Website';
+        $title = 'Không tìm thấy trang - MTECHJSC';
         $content = 'errors/404.php';
         $showPageHeader = false;
         $showCTA = false;

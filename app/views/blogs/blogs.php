@@ -57,7 +57,7 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                             $tagLinks = [];
                             if (!empty($blog['tags'])) {
                                 foreach ($blog['tags'] as $t) {
-                                    $tagLinks[] = '<a href="?page=blogs&tag=' . urlencode($t['slug']) . '">'
+                                    $tagLinks[] = '<a href="?page=blogs&tag=' . urlencode($t['slug']) . '" class="tag-link">'
                                                   . htmlspecialchars($t['name']) . '</a>';
                                 }
                             }
@@ -147,7 +147,10 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                                        placeholder="Enter Search Keywords">
                                 <span class="input-group-btn">
                                     <button class="btn" type="submit">
-                                        <i class="fa fa-search"></i>
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="11" cy="11" r="7"/>
+                                            <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+                                        </svg>
                                     </button>
                                 </span>
                             </div>
@@ -162,6 +165,10 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                                 <span class="title_br"></span>
                             </div>
                             <ul>
+                                <!-- All Categories — luôn hiển thị để back về tổng hợp -->
+                                <li class="<?php echo $filterCatId === 0 && empty($filterTag) ? 'active' : ''; ?>">
+                                    <a href="?page=blogs">All Categories</a>
+                                </li>
                                 <?php foreach ($blogCategories as $cat): ?>
                                     <li class="<?php echo (int)$filterCatId === (int)$cat['id'] ? 'active' : ''; ?>">
                                         <a href="?page=blogs&cat=<?php echo $cat['id']; ?>">
