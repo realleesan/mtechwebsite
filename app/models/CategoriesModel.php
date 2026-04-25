@@ -106,7 +106,7 @@ class CategoriesModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, image, image_1, image_2,
+                "SELECT id, name, slug, image, image_1, image_2, image_3,
                         description, detail_description,
                         benefit_image, benefit_title, benefit_description, benefit_items,
                         feature_image, feature_1_icon, feature_1_title, feature_1_text,

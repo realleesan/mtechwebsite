@@ -45,8 +45,8 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                     <!-- Danh sách tất cả services -->
                     <ul class="nav service_menu_tab mb_40">
                         <?php foreach ($allCategories as $cat): ?>
-                            <li class="nav-item<?php echo ($cat['slug'] === $currentSlug) ? ' active' : ''; ?>">
-                                <a class="nav-link<?php echo ($cat['slug'] === $currentSlug) ? ' active' : ''; ?>"
+                            <li class="nav-item">
+                                <a class="nav-link"
                                    href="?page=categories-details&slug=<?php echo $h($cat['slug']); ?>"
                                    title="<?php echo $h($cat['name']); ?>">
                                     <?php echo $h($cat['name']); ?>
@@ -82,27 +82,32 @@ $currentSlug = $categoryDetail['slug'] ?? '';
             <div class="col-lg-9">
                 <div class="service_right_sidebar">
 
-                    <!-- ── Gallery 2 ảnh ── -->
-                    <?php if (!empty($categoryDetail['image_1']) || !empty($categoryDetail['image_2'])): ?>
-                    <div class="service_img mr">
-                        <?php if (!empty($categoryDetail['image_1'])): ?>
-                        <div class="image w_55">
-                            <img src="<?php echo $h($categoryDetail['image_1']); ?>"
-                                 alt="<?php echo $h($categoryDetail['name']); ?>">
-                        </div>
-                        <?php endif; ?>
-                        <?php if (!empty($categoryDetail['image_2'])): ?>
-                        <div class="image w_45">
-                            <img src="<?php echo $h($categoryDetail['image_2']); ?>"
-                                 alt="<?php echo $h($categoryDetail['name']); ?>">
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                    <?php elseif (!empty($categoryDetail['image'])): ?>
-                    <div class="service_img mr">
-                        <div class="image w_100">
-                            <img src="<?php echo $h($categoryDetail['image']); ?>"
-                                 alt="<?php echo $h($categoryDetail['name']); ?>">
+                    <!-- ── Image Slider ── -->
+                    <?php
+                    $slides = array_filter([
+                        $categoryDetail['image_1'] ?? '',
+                        $categoryDetail['image_2'] ?? '',
+                        $categoryDetail['image_3'] ?? '',
+                    ]);
+                    if (empty($slides) && !empty($categoryDetail['image'])) {
+                        $slides = [$categoryDetail['image']];
+                    }
+                    $slides = array_values($slides);
+                    $slidesJson = htmlspecialchars(json_encode($slides), ENT_QUOTES, 'UTF-8');
+                    $altText = $h($categoryDetail['name']);
+                    ?>
+                    <?php if (!empty($slides)): ?>
+                    <div class="service_slider" id="serviceSlider" data-slides="<?php echo $slidesJson; ?>">
+                        <div class="slider_main">
+                            <button class="slider_arrow slider_prev" aria-label="Previous">
+                                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                            </button>
+                            <img class="slider_main_img"
+                                 src="<?php echo $h($slides[0]); ?>"
+                                 alt="<?php echo $altText; ?>">
+                            <button class="slider_arrow slider_next" aria-label="Next">
+                                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                            </button>
                         </div>
                     </div>
                     <?php endif; ?>
@@ -163,17 +168,16 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                         if ($hasFeature):
                         ?>
                         <div class="feature_service">
-                            <?php if (!empty($categoryDetail['feature_image'])): ?>
-                            <img src="<?php echo $h($categoryDetail['feature_image']); ?>"
-                                 alt="Features">
-                            <?php endif; ?>
+                            <!-- Chữ bên trái -->
                             <div class="media-body">
                                 <?php if (!empty($categoryDetail['feature_1_title'])): ?>
                                 <div class="servie_item">
                                     <div class="servie_icon">
-                                        <!-- Icon: clock / time -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-                                            <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4zm0 52C18.745 56 8 45.255 8 32S18.745 8 32 8s24 10.745 24 24-10.745 24-24 24zm2-38h-4v18l10.586 10.586 2.828-2.828L34 33.172V18z"/>
+                                        <!-- Icon: clock outline chi tiết -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <polyline points="12 6 12 12 16.5 14.5"/>
+                                            <circle cx="12" cy="12" r="0.5" fill="currentColor"/>
                                         </svg>
                                     </div>
                                     <div class="servie_text">
@@ -189,9 +193,10 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                                 <?php if (!empty($categoryDetail['feature_2_title'])): ?>
                                 <div class="servie_item">
                                     <div class="servie_icon">
-                                        <!-- Icon: gear / settings -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-                                            <path d="M54.122 34.344a22.543 22.543 0 0 0 .2-2.344c0-.8-.078-1.578-.2-2.344l5.056-3.944a1.208 1.208 0 0 0 .288-1.534l-4.8-8.312a1.2 1.2 0 0 0-1.456-.528l-5.966 2.4a17.44 17.44 0 0 0-4.034-2.344l-.9-6.344A1.164 1.164 0 0 0 41.122 8h-9.6a1.164 1.164 0 0 0-1.188 1.022l-.9 6.344a18.3 18.3 0 0 0-4.034 2.344l-5.966-2.4a1.164 1.164 0 0 0-1.456.528l-4.8 8.312a1.176 1.176 0 0 0 .288 1.534l5.056 3.944A18.5 18.5 0 0 0 18.322 32c0 .778.078 1.556.2 2.344l-5.056 3.944a1.208 1.208 0 0 0-.288 1.534l4.8 8.312a1.2 1.2 0 0 0 1.456.528l5.966-2.4a17.44 17.44 0 0 0 4.034 2.344l.9 6.344A1.164 1.164 0 0 0 31.522 56h9.6a1.164 1.164 0 0 0 1.188-1.022l.9-6.344a18.3 18.3 0 0 0 4.034-2.344l5.966 2.4a1.164 1.164 0 0 0 1.456-.528l4.8-8.312a1.176 1.176 0 0 0-.288-1.534zM36.322 40a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/>
+                                        <!-- Icon: gear outline chi tiết -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <circle cx="12" cy="12" r="3"/>
+                                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                                         </svg>
                                     </div>
                                     <div class="servie_text">
@@ -205,6 +210,11 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                                 </div>
                                 <?php endif; ?>
                             </div>
+                            <!-- Ảnh bên phải -->
+                            <?php if (!empty($categoryDetail['feature_image'])): ?>
+                            <img src="<?php echo $h($categoryDetail['feature_image']); ?>"
+                                 alt="Features">
+                            <?php endif; ?>
                         </div>
                         <?php endif; ?>
 
@@ -221,7 +231,6 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                                 <div id="<?php echo $headingId; ?>" class="card-header">
                                     <h4 class="panel-title">
                                         <button class="btn btn-link btn-accordion collapsed"
-                                                data-toggle="collapse"
                                                 data-target="#<?php echo $collapseId; ?>"
                                                 aria-expanded="false"
                                                 aria-controls="<?php echo $collapseId; ?>">

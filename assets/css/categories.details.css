@@ -50,41 +50,95 @@
 /* Service menu tab */
 .service_menu_tab {
     list-style: none;
+    list-style-type: none;
     padding: 0;
+    padding-inline-start: 0;
     margin: 0 0 40px 0;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    overflow: hidden;
+    border: none;
+    border-radius: 0;
+    /* Override Bootstrap .nav flex */
+    display: block !important;
+    flex-wrap: unset;
+    background: transparent;
 }
 
 .service_menu_tab .nav-item {
-    border-bottom: 1px solid var(--border-color);
-}
-
-.service_menu_tab .nav-item:last-child {
-    border-bottom: none;
-}
-
-.service_menu_tab .nav-link {
+    margin-bottom: 3px;
+    position: relative;
     display: block;
-    padding: 12px 20px;
-    color: var(--title-color);
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Open Sans', sans-serif;
-    text-decoration: none;
-    background: #fff;
-    transition: background 0.25s, color 0.25s, padding-left 0.25s;
-    border-left: 3px solid transparent;
+    width: 100%;
 }
 
-.service_menu_tab .nav-link:hover,
+/* Thanh dọc xám đậm bên trái */
+.service_menu_tab .nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: #c8c8c8;
+    z-index: 2;
+}
+
+/* Link: nền #f1f1f1, Poppins 500 17px, color #242424 */
+.service_menu_tab .nav-item .nav-link {
+    display: block;
+    width: 100%;
+    font: 500 17px / 25px 'Poppins', sans-serif;
+    color: #242424;
+    border: 0;
+    padding: 15px 25px;
+    background: #f1f1f1;
+    border-radius: 0;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.3s linear;
+    box-sizing: border-box;
+}
+
+/* Pseudo fill vàng — nằm dưới text */
+.service_menu_tab .nav-item .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--accent-color);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s linear;
+    z-index: -1;
+}
+
+/* Hover: fill vàng trái → phải, chữ giữ #242424 */
+.service_menu_tab .nav-item .nav-link:hover {
+    color: #242424;
+    text-decoration: none;
+}
+
+.service_menu_tab .nav-item .nav-link:hover::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+}
+
+/* Rời chuột: reverse phải → trái */
+.service_menu_tab .nav-item .nav-link:not(:hover)::before {
+    transform: scaleX(0);
+    transform-origin: right center;
+}
+
+/* Bỏ hoàn toàn active state */
 .service_menu_tab .nav-item.active .nav-link,
-.service_menu_tab .nav-link.active {
-    background: var(--active-bg);
-    color: var(--active-text);
-    border-left-color: #e08c00;
-    padding-left: 24px;
+.service_menu_tab .nav-item .nav-link.active {
+    background: #f1f1f1;
+    color: #242424;
+    font-weight: 500;
+}
+
+.service_menu_tab .nav-item.active .nav-link::before,
+.service_menu_tab .nav-item .nav-link.active::before {
+    display: block;
 }
 
 /* Sidebar contact info */
@@ -93,15 +147,17 @@
     padding: 30px 15px;
     border-radius: 4px;
     margin-bottom: 30px;
-    color: #333333;
+    color: #7A7A7A;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
+    font-weight: 700;
 }
 
 .sidebar_contact_info h3.title_color {
     font-family: 'Poppins', sans-serif;
-    color: var(--title-color);
+    color: #242424;
     font-size: 18px;
+    font-weight: 700;
     margin-bottom: 8px;
 }
 
@@ -117,9 +173,9 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #333333;
+    color: #7A7A7A;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
     margin-bottom: 12px;
     transition: color 0.2s;
@@ -182,33 +238,67 @@
     padding-left: 10px;
 }
 
-/* ── Gallery 2 ảnh — 370×280 ── */
-.service_img.mr {
-    display: flex;
-    gap: 10px;
+/* ── Image Slider — bỏ thumbnail, ảnh full ── */
+.service_slider {
     margin-bottom: 30px;
+    user-select: none;
 }
 
-.service_img .image {
+.slider_main {
+    position: relative;
+    width: 100%;
     overflow: hidden;
     border-radius: 4px;
+    background: #111;
 }
 
-.service_img .image img {
-    width: 370px;
-    height: 280px;
+.slider_main_img {
+    width: 100%;
+    height: 420px;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
+    transition: opacity 0.35s ease;
 }
 
-.service_img .image:hover img {
-    transform: scale(1.04);
+.slider_main_img.fading {
+    opacity: 0;
 }
 
-.service_img .w_55 { flex: 0 0 55%; max-width: 55%; }
-.service_img .w_45 { flex: 0 0 calc(45% - 10px); max-width: calc(45% - 10px); }
-.service_img .w_100 { flex: 0 0 100%; max-width: 100%; }
+/* Arrow buttons */
+.slider_arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    background: rgba(0,0,0,0.45);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    padding: 0;
+}
+
+.slider_arrow:hover {
+    background: var(--accent-color);
+}
+
+.slider_arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+.slider_prev { left: 12px; }
+.slider_next { right: 12px; }
+
+@media (max-width: 767px) {
+    .slider_main_img { height: 240px; }
+}
 
 /* ── Service content ── */
 .service_content {
@@ -284,7 +374,7 @@
 }
 
 /* ============================================================
-   FEATURE / MANUFACTURING UNIT — không có nền xám
+   FEATURE / MANUFACTURING UNIT — chữ trái, ảnh phải
    ============================================================ */
 .feature_service {
     display: flex;
@@ -295,17 +385,20 @@
     background: none;
 }
 
+/* Ảnh bên phải */
 .feature_service > img {
-    width: 450px;
-    min-width: 450px;
+    width: 320px;
+    min-width: 320px;
     height: 270px;
     object-fit: cover;
     border-radius: 4px;
     flex-shrink: 0;
+    order: 2;
 }
 
 .feature_service .media-body {
     flex: 1;
+    order: 1;
 }
 
 /* Service items */
@@ -326,17 +419,20 @@
 
 .servie_item .servie_icon {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Icon dùng stroke (outline) */
 .servie_item .servie_icon svg {
-    width: 40px;
-    height: 40px;
-    fill: var(--accent-color);
+    width: 38px;
+    height: 38px;
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 1.5;
 }
 
 .servie_item .servie_text h4 {
@@ -356,29 +452,32 @@
 }
 
 /* ============================================================
-   FAQ ACCORDION — trượt mượt, toggle đóng/mở
+   FAQ ACCORDION
    ============================================================ */
 .faq-accordion.service_accordion {
     margin-top: 35px;
 }
 
+/* Tiêu đề More information */
 .faq-accordion .s_title {
     font-family: 'Poppins', sans-serif;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
-    color: var(--title-color);
+    color: #242424;
     margin-bottom: 20px;
 }
 
+/* Card mặc định: chỉ border, không nền xám */
 .faq-accordion .card {
-    border: 1px solid var(--border-color);
+    border: 1px solid #d8d8d8;
     border-radius: 4px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     overflow: hidden;
+    background: #fff;
 }
 
 .faq-accordion .card-header {
-    background: #f8f8f8;
+    background: #fff;
     padding: 0;
     border-bottom: none;
 }
@@ -387,45 +486,57 @@
     margin: 0;
 }
 
+/* Button mặc định: nền trắng, chữ #000, 17px, không vàng */
 .btn-accordion {
     width: 100%;
     text-align: left;
-    padding: 16px 20px;
+    padding: 18px 22px;
     font-family: 'Poppins', sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 600;
-    color: var(--title-color);
-    background: #f8f8f8;
+    color: #000000;
+    background: #fff;
     border: none;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     white-space: normal;
     line-height: 1.5;
-}
-
-.btn-accordion:hover {
-    background: #f0f0f0;
-    color: var(--title-color);
     text-decoration: none;
 }
 
-/* Khi đang mở — nền vàng, chữ trắng */
+.btn-accordion:hover {
+    background: #fff;
+    color: #000000;
+    text-decoration: none;
+}
+
+/* Khi đang mở: nền xám nhạt, KHÔNG vàng */
 .btn-accordion:not(.collapsed) {
-    background: var(--accent-color);
-    color: #fff;
+    background: #F5F5F5;
+    color: #000000;
+}
+
+.btn-accordion,
+.btn-accordion:hover,
+.btn-accordion:focus,
+.btn-accordion:active {
+    text-decoration: none !important;
+    outline: none;
+    box-shadow: none;
 }
 
 .btn-accordion .pluse,
 .btn-accordion .minus {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 400;
     line-height: 1;
     flex-shrink: 0;
     width: 20px;
     text-align: center;
+    color: #000000;
 }
 
 .btn-accordion.collapsed .minus  { display: none; }
@@ -433,25 +544,30 @@
 .btn-accordion:not(.collapsed) .pluse { display: none; }
 .btn-accordion:not(.collapsed) .minus { display: inline; }
 
-/* Panel body — trượt mượt qua CSS transition */
+/* Card khi mở: nền xám nhạt toàn bộ */
+.faq-accordion .card.open {
+    background: #F5F5F5;
+}
+
+.faq-accordion .card.open .card-header {
+    background: #F5F5F5;
+}
+
+/* Panel body — trượt xuống mượt 0.3s, max-height set bằng JS */
 .faq-accordion .panel-collapse {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s ease;
-}
-
-.faq-accordion .panel-collapse.show {
-    max-height: 500px;
+    transition: max-height 0.3s ease;
 }
 
 .faq-accordion .card-body.panel-body {
-    padding: 16px 20px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
+    padding: 0 22px 20px 56px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
     color: var(--text-color);
     line-height: 26px;
-    background: #fafafa;
-    border-top: 1px solid var(--border-color);
+    background: #F5F5F5;
+    border-top: none;
 }
 
 /* ============================================================
@@ -486,6 +602,7 @@
         width: 100%;
         min-width: unset;
         height: 240px;
+        order: 0;
     }
 }
 

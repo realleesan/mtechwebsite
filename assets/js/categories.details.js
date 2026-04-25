@@ -8,55 +8,85 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        // ── Accordion: toggle đóng/mở, chỉ 1 item mở tại 1 thời điểm ──
+        // ── Image Slider ─────────────────────────────────────────
+        var sliderEl = document.getElementById('serviceSlider');
+        if (sliderEl) {
+            var slides     = JSON.parse(sliderEl.getAttribute('data-slides') || '[]');
+            var mainImg    = sliderEl.querySelector('.slider_main_img');
+            var thumbs     = sliderEl.querySelectorAll('.slider_thumb');
+            var btnPrev    = sliderEl.querySelector('.slider_prev');
+            var btnNext    = sliderEl.querySelector('.slider_next');
+            var current    = 0;
+
+            function goTo(index) {
+                if (slides.length === 0) return;
+                current = (index + slides.length) % slides.length;
+
+                // Fade transition
+                mainImg.classList.add('fading');
+                setTimeout(function () {
+                    mainImg.src = slides[current];
+                    mainImg.classList.remove('fading');
+                }, 200);
+
+                // Update thumbnails
+                thumbs.forEach(function (t, i) {
+                    t.classList.toggle('active', i === current);
+                });
+            }
+
+            if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
+            if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
+
+            thumbs.forEach(function (thumb) {
+                thumb.addEventListener('click', function () {
+                    goTo(parseInt(thumb.getAttribute('data-index'), 10));
+                });
+            });
+        }
+
+        // ── Accordion ────────────────────────────────────────────
         var accordion = document.getElementById('accordion');
         if (accordion) {
-            var buttons = accordion.querySelectorAll('.btn-accordion');
+            accordion.querySelectorAll('.btn-accordion').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-            buttons.forEach(function (btn) {
-                btn.addEventListener('click', function () {
                     var targetId = btn.getAttribute('data-target');
                     var panel    = document.querySelector(targetId);
-                    if (!panel) return;
+                    var card     = btn.closest('.card');
+                    if (!panel || !card) return;
 
                     var isOpen = panel.classList.contains('show');
 
-                    // Đóng tất cả panels
+                    // Đóng tất cả — set max-height về 0
                     accordion.querySelectorAll('.panel-collapse').forEach(function (p) {
+                        p.style.maxHeight = '0px';
                         p.classList.remove('show');
                     });
                     accordion.querySelectorAll('.btn-accordion').forEach(function (b) {
                         b.classList.add('collapsed');
                         b.setAttribute('aria-expanded', 'false');
                     });
+                    accordion.querySelectorAll('.card').forEach(function (c) {
+                        c.classList.remove('open');
+                    });
 
-                    // Nếu panel đang đóng thì mở lên, nếu đang mở thì giữ đóng
+                    // Nếu trước đó đang đóng → mở với đúng scrollHeight
                     if (!isOpen) {
                         panel.classList.add('show');
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
                         btn.classList.remove('collapsed');
                         btn.setAttribute('aria-expanded', 'true');
+                        card.classList.add('open');
                     }
                 });
             });
         }
 
-        // ── Highlight active sidebar item ──
-        var params      = new URLSearchParams(window.location.search);
-        var currentSlug = params.get('slug') || '';
-        var sidebarLinks = document.querySelectorAll('.service_menu_tab .nav-link');
-
-        sidebarLinks.forEach(function (link) {
-            var href       = link.getAttribute('href') || '';
-            var linkParams = new URLSearchParams(href.replace(/^.*\?/, ''));
-            if (linkParams.get('slug') === currentSlug) {
-                link.classList.add('active');
-                var li = link.closest('.nav-item');
-                if (li) li.classList.add('active');
-            }
-        });
-
         // ── Smooth scroll to top khi chuyển service ──
-        sidebarLinks.forEach(function (link) {
+        document.querySelectorAll('.service_menu_tab .nav-link').forEach(function (link) {
             link.addEventListener('click', function () {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });

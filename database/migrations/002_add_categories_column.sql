@@ -6,8 +6,9 @@
 
 -- Ảnh gallery chính (2 ảnh hiển thị song song ở đầu trang detail)
 ALTER TABLE `categories`
-    ADD COLUMN `image_1`               VARCHAR(500) DEFAULT NULL COMMENT 'Ảnh gallery 1 (w_55)' AFTER `image`,
-    ADD COLUMN `image_2`               VARCHAR(500) DEFAULT NULL COMMENT 'Ảnh gallery 2 (w_45)' AFTER `image_1`,
+    ADD COLUMN `image_1`               VARCHAR(500) DEFAULT NULL COMMENT 'Ảnh slider 1' AFTER `image`,
+    ADD COLUMN `image_2`               VARCHAR(500) DEFAULT NULL COMMENT 'Ảnh slider 2' AFTER `image_1`,
+    ADD COLUMN `image_3`               VARCHAR(500) DEFAULT NULL COMMENT 'Ảnh slider 3' AFTER `image_2`,
 
     -- Mô tả chi tiết dài (phần service_content)
     ADD COLUMN `detail_description`    TEXT         DEFAULT NULL COMMENT 'Mô tả chi tiết đầy đủ hiển thị trong trang detail' AFTER `description`,
@@ -39,6 +40,7 @@ ALTER TABLE `categories`
 UPDATE `categories` SET
     `image_1`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_1.jpg',
     `image_2`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_2.jpg',
+    `image_3`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `detail_description`  = 'Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art customer service.\n\nObjectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top-line web services vis-a-vis cutting-edge deliverables.',
     `benefit_image`       = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `benefit_title`       = 'Benefit of Service',
@@ -58,6 +60,7 @@ WHERE `slug` = 'agricultural-processing';
 UPDATE `categories` SET
     `image_1`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_1.jpg',
     `image_2`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_2.jpg',
+    `image_3`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `detail_description`  = 'Leverage agile frameworks to provide a robust synopsis for high level overviews in the chemical industry. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.\n\nOrganically grow the holistic world view of disruptive innovation via workplace diversity and empowerment. Bring to the table win-win survival strategies to ensure proactive domination of chemical processing solutions.',
     `benefit_image`       = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `benefit_title`       = 'Benefit of Service',
@@ -77,6 +80,7 @@ WHERE `slug` = 'chemical-industry';
 UPDATE `categories` SET
     `image_1`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_1.jpg',
     `image_2`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_2.jpg',
+    `image_3`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `detail_description`  = 'Bring to the table win-win survival strategies to ensure proactive domination in civil engineering and infrastructure development. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution.\n\nCapitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop.',
     `benefit_image`       = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `benefit_title`       = 'Benefit of Service',
@@ -96,6 +100,7 @@ WHERE `slug` = 'civil-engineering';
 UPDATE `categories` SET
     `image_1`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_1.jpg',
     `image_2`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_2.jpg',
+    `image_3`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `detail_description`  = 'Dynamically innovate resource-leveling customer service for state of the art energy solutions. Objectively innovate empowered manufactured products whereas parallel platforms in the power sector.\n\nHolisticly predominate extensible testing procedures for reliable energy supply chains. Dramatically engage top-line web services vis-a-vis cutting-edge power generation deliverables. Proactively envisioned multimedia based expertise and cross-media growth strategies.',
     `benefit_image`       = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `benefit_title`       = 'Benefit of Service',
@@ -115,6 +120,7 @@ WHERE `slug` = 'energy-power';
 UPDATE `categories` SET
     `image_1`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_1.jpg',
     `image_2`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_2.jpg',
+    `image_3`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `detail_description`  = 'Professionally cultivate one-to-one customer service with robust mechanical engineering ideas. Dynamically innovate resource-leveling customer service for state of the art manufacturing solutions.\n\nSeamlessly visualize quality intellectual capital without superior collaboration and idea-sharing in mechanical design. Completely synergize resource taxing relationships via premier niche markets in precision engineering.',
     `benefit_image`       = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `benefit_title`       = 'Benefit of Service',
@@ -134,6 +140,7 @@ WHERE `slug` = 'mechanical-engineering';
 UPDATE `categories` SET
     `image_1`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_1.jpg',
     `image_2`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_2.jpg',
+    `image_3`             = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `detail_description`  = 'Objectively innovate empowered manufactured products whereas parallel platforms in the oil and gas sector. Holisticly predominate extensible testing procedures for reliable upstream and downstream supply chains.\n\nDramatically engage top-line web services vis-a-vis cutting-edge oil and gas deliverables. Proactively envisioned multimedia based expertise and cross-media growth strategies for energy exploration and extraction.',
     `benefit_image`       = 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/ag_3.jpg',
     `benefit_title`       = 'Benefit of Service',
@@ -148,3 +155,4 @@ UPDATE `categories` SET
     `feature_2_text`      = 'Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop.',
     `faq_items`           = '[{"question":"What oil and gas engineering services do you specialize in?","answer":"Objectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top web services vis-a-vis cutting-edge deliverables."},{"question":"How do you manage HSE compliance on oil and gas projects?","answer":"Objectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top web services vis-a-vis cutting-edge deliverables."},{"question":"Do you provide pipeline inspection and integrity services?","answer":"Objectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top web services vis-a-vis cutting-edge deliverables."},{"question":"What is your experience with offshore oil and gas projects?","answer":"Objectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top web services vis-a-vis cutting-edge deliverables."}]'
 WHERE `slug` = 'oil-gas-engineering';
+
