@@ -7,10 +7,20 @@
 // Lấy trang hiện tại để xác định active menu
 $currentPage = $_GET['page'] ?? 'home';
 
+// Lấy header settings động
+require_once __DIR__ . '/../../models/HeaderModel.php';
+$headerModel    = new HeaderModel();
+$headerSettings = $headerModel->getSettingsWithFallback();
+
 // Lấy projects hiển thị trong menu dropdown
 require_once __DIR__ . '/../../models/ProjectsModel.php';
 $projectsModel = new ProjectsModel();
-$menuProjects = $projectsModel->getMenuProjects(10);
+$menuProjects  = $projectsModel->getMenuProjects(10);
+
+// Lấy services hiển thị trong menu dropdown
+require_once __DIR__ . '/../../models/CategoriesModel.php';
+$categoriesModel = new CategoriesModel();
+$menuServices    = $categoriesModel->getMenuServices(10);
 ?>
 
 <header class="main_menu_area">
@@ -23,13 +33,13 @@ $menuProjects = $projectsModel->getMenuProjects(10);
                 <span class="topbar_phone">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;opacity:0.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     Call Us Today
-                    <a href="tel:0123456789">0123 456 789</a>
+                    <a href="tel:<?php echo htmlspecialchars($headerSettings['phone_href']); ?>"><?php echo htmlspecialchars($headerSettings['phone']); ?></a>
                 </span>
             </div>
 
             <!-- Right: ISO + Translate + Download Button (thẳng hàng menu) -->
             <div class="topbar_right">
-                <div class="topbar_iso">ISO 9001 - 2010</div>
+                <div class="topbar_iso"><?php echo htmlspecialchars($headerSettings['iso_text']); ?></div>
                 <div class="topbar_divider"></div>
 
                 <!-- Language Switcher -->
@@ -66,9 +76,9 @@ $menuProjects = $projectsModel->getMenuProjects(10);
                 <div class="topbar_divider"></div>
 
                 <!-- Nút tải Hồ Sơ Năng Lực -->
-                <a href="assets/files/ho-so-nang-luc.pdf" class="btn_profile_download" download title="Tải Hồ Sơ Năng Lực">
+                <a href="<?php echo htmlspecialchars($headerSettings['profile_pdf_path']); ?>" class="btn_profile_download" download title="Tải Hồ Sơ Năng Lực">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Hồ Sơ Năng Lực
+                    <?php echo htmlspecialchars($headerSettings['profile_pdf_label']); ?>
                 </a>
             </div>
         </div>
@@ -78,7 +88,7 @@ $menuProjects = $projectsModel->getMenuProjects(10);
     <nav class="navbar navbar-expand-lg navbar-light menu_absolute">
         <!-- Logo -->
         <a class="navbar-brand" href="./">
-            <img src="assets/images/logo.png" alt="Wokrate Industrial">
+            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>">
         </a>
         
         <!-- Hamburger Menu Button for Mobile -->
@@ -135,7 +145,7 @@ $menuProjects = $projectsModel->getMenuProjects(10);
                 </li>
                 
                 <!-- Services -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'services') ? 'active' : ''; ?>">
+                <li class="nav-item submenu <?php echo ($currentPage === 'categories') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Services" onclick="return false;">
                         Services
                         <span class="caret-drop"></span>
@@ -144,18 +154,13 @@ $menuProjects = $projectsModel->getMenuProjects(10);
                         <li class="nav-item">
                             <a class="nav-link" href="?page=categories" title="All Services">All Services</a>
                         </li>
+                        <?php foreach ($menuServices as $service): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=categories&type=web-development" title="Web Development">Web Development</a>
+                            <a class="nav-link" href="?page=categories-details&slug=<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
+                                <?php echo htmlspecialchars($service['name']); ?>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=categories&type=mobile-app" title="Mobile App">Mobile App</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=categories&type=software-consulting" title="Software Consulting">Software Consulting</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=categories&type=cloud-solutions" title="Cloud Solutions">Cloud Solutions</a>
-                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </li>
                 
