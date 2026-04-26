@@ -383,9 +383,7 @@ switch($page) {
     case 'testimonials':
         require_once 'app/models/TestimonialsModel.php';
         $testimonialsModel  = new TestimonialsModel();
-        $currentPage        = isset($_GET['p']) ? max(1, (int)$_GET['p']) : 1;
-        $perPage            = 9;
-        $result             = $testimonialsModel->getTestimonials($currentPage, $perPage);
+        $result             = $testimonialsModel->getTestimonials(1, 0); // 0 = lấy tất cả
         $testimonials       = $result['items'];
         $totalTestimonials  = $result['total'];
 

@@ -128,6 +128,9 @@ $menuProjects = $projectsModel->getMenuProjects(10);
                         <li class="nav-item">
                             <a class="nav-link" href="?page=teams" title="Teams">Teams</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=testimonials" title="Testimonials">Testimonials</a>
+                        </li>
                     </ul>
                 </li>
                 
