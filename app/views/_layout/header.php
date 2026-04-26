@@ -42,35 +42,9 @@ $menuServices    = $categoriesModel->getMenuServices(10);
                 <div class="topbar_iso"><?php echo htmlspecialchars($headerSettings['iso_text']); ?></div>
                 <div class="topbar_divider"></div>
 
-                <!-- Language Switcher -->
-                <div class="topbar_lang" id="elfsight-language-switcher">
-                    <div class="lang_selector">
-                        <span class="lang_current">
-                            <img src="assets/icons/flag-en.svg" alt="EN" class="flag_icon">
-                            English
-                            <span class="lang_caret">&#9660;</span>
-                        </span>
-                        <ul class="lang_dropdown">
-                            <li class="active">
-                                <a href="#" data-lang="en">
-                                    <img src="assets/icons/flag-en.svg" alt="EN" class="flag_icon">
-                                    English
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" data-lang="vi">
-                                    <img src="assets/icons/flag-vn.svg" alt="VI" class="flag_icon">
-                                    Tiếng Việt
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" data-lang="zh">
-                                    <img src="assets/icons/flag-cn.svg" alt="ZH" class="flag_icon">
-                                    中文
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <!-- Language Switcher (Elfsight) -->
+                <div class="topbar_lang">
+                    <div class="elfsight-app-0f1ebd7d-aee6-4ddc-b2ba-1eba802b9ca5" data-elfsight-app-lazy></div>
                 </div>
 
                 <div class="topbar_divider"></div>

@@ -114,6 +114,19 @@ body {
 /* Language Switcher */
 .topbar_lang {
     position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ẩn dòng branding "Free Website Translator Widget by Elfsight" */
+.eapps-widget-toolbar,
+.eapps-link,
+[class*="eapps-"][class*="-branding"],
+[class*="eapps-"][class*="-powered"] {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
 }
 
 .lang_selector {
@@ -193,7 +206,7 @@ body {
 
 /* Đẩy navbar xuống dưới topbar */
 .menu_absolute {
-    top: 41px !important;
+    top: 81px !important;
 }
 
 /* ── Wrapper ── */
