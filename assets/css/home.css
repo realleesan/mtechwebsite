@@ -1,0 +1,456 @@
+/* ==========================================
+   Home Page Styles - Segment 2
+   Services Section & Featured Projects Section
+   ========================================== */
+
+/* ==========================================
+   SECTION 1: PLACEHOLDER FOR OTHER MEMBERS
+   ========================================== */
+/* NOTE: Segment 1 - Để trống cho thành viên khác code */
+
+
+/* ==========================================
+   SECTION 2: SERVICES & FEATURED PROJECTS
+   ========================================== */
+
+/* Common Section Styles */
+.sec_gap {
+    padding: 100px 0;
+}
+
+.section_title {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section_title h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.section_title .title_br {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #ffb600;
+    margin: 20px 0;
+}
+
+.section_title p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: #797979;
+    line-height: 26px;
+    max-width: 600px;
+    margin: 7px auto 0;
+}
+
+/* Font utilities */
+.f_600 {
+    font-weight: 600;
+}
+
+.f_500 {
+    font-weight: 500;
+}
+
+.f_700 {
+    font-weight: 700;
+}
+
+.f_size_32 {
+    font-size: 32px;
+}
+
+.f_size_20 {
+    font-size: 20px;
+}
+
+.title_color {
+    color: #333;
+}
+
+.color_w {
+    color: #fff;
+}
+
+.f_play {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+}
+
+.mb_55 {
+    margin-bottom: 55px;
+}
+
+.mt_7 {
+    margin-top: 7px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+/* ==========================================
+   SERVICES SECTION
+   ========================================== */
+.service_area {
+    background: #efefef;
+    padding: 100px 0;
+}
+
+.service_area .section_title {
+    text-align: left;
+}
+
+.service_area .section_title p {
+    margin: 7px 0 0;
+    max-width: 600px;
+}
+
+.service_item {
+    position: relative;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.service_img {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.service_img img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: all 0.5s ease;
+}
+
+.service_item:hover .service_img img {
+    transform: scale(1.05);
+}
+
+.hover_content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 182, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.service_item:hover .hover_content {
+    opacity: 1;
+}
+
+.read_more {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.read_more:hover {
+    background: rgba(255, 182, 0, 0.6);
+    color: #fff;
+    text-decoration: none;
+}
+
+.service_item h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.service_item h3:hover {
+    color: #ffb600;
+}
+
+.service_item a {
+    text-decoration: none;
+}
+
+.bottom_br {
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: #ffb600;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.service_item:hover .bottom_br {
+    width: 60px;
+}
+
+/* ==========================================
+   FEATURED PROJECTS SECTION
+   ========================================== */
+.featured_area {
+    background: #1a1a1a;
+    padding: 100px 0 70px;
+}
+
+.featured_area .section_title {
+    text-align: left;
+}
+
+.featured_area .section_title .title_br {
+    margin: 20px 0;
+}
+
+.featured_area .section_title p {
+    color: #b0b0b0;
+    margin: 7px 0 0;
+}
+
+.featured_area .section_title h2 {
+    color: #fff;
+}
+
+.featured_project {
+    width: 100%;
+    padding: 0 50px;
+}
+
+.featured_project .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+    gap: 20px;
+    justify-content: center;
+}
+
+.f_width {
+    width: calc(20% - 16px);
+    min-width: 200px;
+    flex: 0 0 auto;
+}
+
+.featured_pr_item {
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+}
+
+.featured_pr_item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.5s ease;
+}
+
+.featured_pr_item:hover img {
+    transform: scale(1.1);
+}
+
+.featured_pr_item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
+}
+
+.featured_pr_item:hover .overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.featured_pr_item p {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    color: #1a1a1a;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    padding: 15px;
+    z-index: 2;
+    transition: all 0.4s ease;
+    background: rgba(255, 182, 0, 0.7);
+    text-align: center;
+}
+
+.featured_pr_item:hover p {
+    bottom: 0;
+}
+
+.featured_pr_item a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+/* ==========================================
+   QUOTE/CTA SECTION
+   ========================================== */
+.quote_area {
+    background: #ffb600;
+    padding: 80px 0;
+}
+
+.quote_area .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.quote_area h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.quote_area h2 span {
+    color: #1a1a1a;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+}
+
+.quote_button {
+    flex-shrink: 0;
+    margin-left: 30px;
+}
+
+.quote_btn {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 15px 35px;
+    font-size: 14px;
+    border-radius: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.quote_btn:hover {
+    background: #fff;
+    color: #1a1a1a;
+}
+
+/* ==========================================
+   SECTION 3: PLACEHOLDER FOR OTHER MEMBERS
+   ========================================== */
+/* NOTE: Segment 3 - Để trống cho thành viên khác code */
+
+
+/* ==========================================
+   RESPONSIVE STYLES
+   ========================================== */
+@media (max-width: 1199px) {
+    .f_width {
+        width: 33.333%;
+    }
+    
+    .featured_pr_item {
+        height: 300px;
+    }
+}
+
+@media (max-width: 991px) {
+    .sec_gap {
+        padding: 70px 0;
+    }
+    
+    .service_img img {
+        height: 220px;
+    }
+    
+    .f_width {
+        width: 50%;
+    }
+    
+    .featured_area {
+        padding: 70px 0 40px;
+    }
+    
+    .quote_area .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .quote_area h2 {
+        margin-bottom: 30px;
+    }
+    
+    .quote_button {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .sec_gap {
+        padding: 50px 0;
+    }
+    
+    .section_title h2 {
+        font-size: 28px;
+    }
+    
+    .service_img img {
+        height: 200px;
+    }
+    
+    .f_width {
+        width: 100%;
+    }
+    
+    .featured_pr_item {
+        height: 280px;
+    }
+    
+    .quote_area {
+        padding: 50px 0;
+    }
+    
+    .quote_area h2 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 575px) {
+    .section_title h2 {
+        font-size: 24px;
+    }
+    
+    .featured_pr_item p {
+        font-size: 16px;
+    }
+}

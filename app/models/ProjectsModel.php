@@ -300,4 +300,29 @@ class ProjectsModel {
             return false;
         }
     }
+
+    /**
+     * Lấy projects hiển thị trên trang chủ (show_on_home=1).
+     * Giới hạn tối đa 5 projects.
+     *
+     * @param int $limit Số lượng tối đa (mặc định 5)
+     * @return array Mảng projects cho trang chủ
+     */
+    public function getHomeProjects($limit = 5) {
+        try {
+            $sql = "SELECT id, title, slug, category, description, image, client, location 
+                    FROM {$this->table} 
+                    WHERE status = 1 
+                    AND show_on_home = 1 
+                    AND deleted_at IS NULL 
+                    ORDER BY sort_order ASC, created_at DESC 
+                    LIMIT ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getHomeProjects Error: " . $e->getMessage());
+            return [];
+        }
+    }
 }

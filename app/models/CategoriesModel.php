@@ -153,4 +153,29 @@ class CategoriesModel
             return 0;
         }
     }
+
+    /**
+     * Lấy services hiển thị trên trang chủ (show_on_home=1).
+     * Giới hạn tối đa 6 services.
+     *
+     * @param int $limit Số lượng tối đa (mặc định 6)
+     * @return array Mảng services cho trang chủ
+     */
+    public function getHomeServices($limit = 6)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, image, description, sort_order
+                 FROM `{$this->table}`
+                 WHERE status = 1 AND show_on_home = 1
+                 ORDER BY sort_order ASC, id ASC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::getHomeServices() - ' . $e->getMessage());
+            return [];
+        }
+    }
 }
