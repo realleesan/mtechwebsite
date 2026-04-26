@@ -7,9 +7,86 @@
     'use strict';
 
     // ==========================================
-    // SECTION 1: PLACEHOLDER FOR OTHER MEMBERS
+    // SECTION 1: HOME BANNER SLIDER
     // ==========================================
-    // NOTE: Segment 1 - Để trống cho thành viên khác code
+
+    /**
+     * Initialize Hero Slider
+     */
+    function initHomeBannerSlider() {
+        const slider = document.getElementById('homeBannerSlider');
+        if (!slider) return;
+
+        const slides = slider.querySelectorAll('.slider_item');
+        const prevBtn = slider.querySelector('.slider_prev');
+        const nextBtn = slider.querySelector('.slider_next');
+        let current = 0;
+        let isAnimating = false;
+        let autoTimer = null;
+
+        // Khởi tạo: hiện caption slide đầu tiên ngay
+        const firstCaption = slides[0].querySelector('.slider_caption');
+        if (firstCaption) {
+            firstCaption.classList.add('caption-in');
+        }
+
+        function goTo(index) {
+            if (isAnimating) return;
+            const next = (index + slides.length) % slides.length;
+            if (next === current) return;
+            isAnimating = true;
+
+            const currentSlide = slides[current];
+            const nextSlide = slides[next];
+            const currentCaption = currentSlide.querySelector('.slider_caption');
+            const nextCaption = nextSlide.querySelector('.slider_caption');
+
+            // 1. Caption hiện tại: trượt xuống và ẩn
+            if (currentCaption) {
+                currentCaption.classList.remove('caption-in');
+                currentCaption.classList.add('caption-out');
+            }
+
+            // 2. Slide mới: đặt z-index cao hơn rồi fade in — tạo cross-blend với slide cũ
+            nextSlide.style.zIndex = 2;
+            nextSlide.classList.add('active'); // bắt đầu fade in (opacity 0 → 1)
+
+            // 3. Sau 1s (cross-fade xong): dọn dẹp slide cũ
+            setTimeout(() => {
+                currentSlide.classList.remove('active');
+                currentSlide.style.zIndex = '';
+                nextSlide.style.zIndex = '';
+                if (currentCaption) currentCaption.classList.remove('caption-out');
+                current = next;
+
+                // 4. Sau thêm 1s: hiện caption mới
+                setTimeout(() => {
+                    if (nextCaption) nextCaption.classList.add('caption-in');
+                    isAnimating = false;
+                }, 1000);
+
+            }, 1000);
+        }
+
+        function startAuto() {
+            autoTimer = setInterval(() => goTo(current + 1), 6000);
+        }
+
+        function resetAuto() {
+            clearInterval(autoTimer);
+            startAuto();
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { goTo(current - 1); resetAuto(); }
+            if (e.key === 'ArrowRight') { goTo(current + 1); resetAuto(); }
+        });
+
+        startAuto();
+    }
 
 
     // ==========================================
@@ -204,6 +281,7 @@
     // Initialize on DOM Ready
     // ==========================================
     function init() {
+        initHomeBannerSlider();
         initServices();
         initFeaturedProjects();
         initQuoteSection();
