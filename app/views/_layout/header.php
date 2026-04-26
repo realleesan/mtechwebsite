@@ -6,6 +6,11 @@
 
 // Lấy trang hiện tại để xác định active menu
 $currentPage = $_GET['page'] ?? 'home';
+
+// Lấy projects hiển thị trong menu dropdown
+require_once __DIR__ . '/../../models/ProjectsModel.php';
+$projectsModel = new ProjectsModel();
+$menuProjects = $projectsModel->getMenuProjects(10);
 ?>
 
 <header class="main_menu_area">
@@ -161,15 +166,13 @@ $currentPage = $_GET['page'] ?? 'home';
                         <li class="nav-item">
                             <a class="nav-link" href="?page=projects" title="All Projects">All Projects</a>
                         </li>
+                        <?php foreach ($menuProjects as $project): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=projects&category=web" title="Web Projects">Web Projects</a>
+                            <a class="nav-link" href="?page=project-details&slug=<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
+                                <?php echo htmlspecialchars($project['title']); ?>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=projects&category=mobile" title="Mobile Projects">Mobile Projects</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=projects&id=1" title="Project Details">Project Details</a>
-                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </li>
                 

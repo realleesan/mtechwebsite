@@ -325,4 +325,29 @@ class ProjectsModel {
             return [];
         }
     }
+
+    /**
+     * Lấy projects hiển thị trong dropdown menu (show_in_menu=1).
+     * Chỉ lấy các project active và chưa bị xóa.
+     *
+     * @param int $limit Số lượng tối đa (mặc định 10)
+     * @return array Mảng projects cho menu dropdown
+     */
+    public function getMenuProjects($limit = 10) {
+        try {
+            $sql = "SELECT id, title, slug 
+                    FROM {$this->table} 
+                    WHERE status = 1 
+                    AND show_in_menu = 1 
+                    AND deleted_at IS NULL 
+                    ORDER BY sort_order ASC, created_at DESC 
+                    LIMIT ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getMenuProjects Error: " . $e->getMessage());
+            return [];
+        }
+    }
 }
