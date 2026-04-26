@@ -178,4 +178,29 @@ class CategoriesModel
             return [];
         }
     }
+
+    /**
+     * Lấy services hiển thị ở footer (show_in_footer=1).
+     * Các mục này sẽ hiển thị trong cột Services của footer.
+     *
+     * @param int $limit Số lượng tối đa (mặc định 10)
+     * @return array Mảng services cho footer
+     */
+    public function getFooterServices($limit = 10)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, sort_order
+                 FROM `{$this->table}`
+                 WHERE status = 1 AND show_in_footer = 1
+                 ORDER BY sort_order ASC, id ASC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::getFooterServices() - ' . $e->getMessage());
+            return [];
+        }
+    }
 }
