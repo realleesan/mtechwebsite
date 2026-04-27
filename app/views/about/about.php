@@ -166,24 +166,4 @@
 </section>
 
 <!-- ===== SECTION 5: Clients Logo ===== -->
-<section class="clients_logo_area">
-    <div class="container">
-        <div class="d-flex justify-content-between flex-wrap">
-            <div class="clients_logo_item">
-                <a href="#"><img src="https://via.placeholder.com/120x60?text=Client+1" alt="Client 1"></a>
-            </div>
-            <div class="clients_logo_item">
-                <a href="#"><img src="https://via.placeholder.com/120x60?text=Client+2" alt="Client 2"></a>
-            </div>
-            <div class="clients_logo_item">
-                <a href="#"><img src="https://via.placeholder.com/120x60?text=Client+3" alt="Client 3"></a>
-            </div>
-            <div class="clients_logo_item">
-                <a href="#"><img src="https://via.placeholder.com/120x60?text=Client+4" alt="Client 4"></a>
-            </div>
-            <div class="clients_logo_item">
-                <a href="#"><img src="https://via.placeholder.com/120x60?text=Client+5" alt="Client 5"></a>
-            </div>
-        </div>
-    </div>
-</section>
+<?php include_once __DIR__ . '/../_layout/client_logos.php'; ?>

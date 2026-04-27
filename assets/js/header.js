@@ -46,17 +46,20 @@
         }
 
         // ── Sticky Header ──────────────────────────────────────────
-        const header  = document.querySelector('.menu_absolute');
+        const header  = document.querySelector('.main_menu_area');
         const topbar  = document.querySelector('.header_top_five');
+        const navbar  = document.querySelector('.menu_absolute');
 
         if (header) {
             window.addEventListener('scroll', function () {
-                if (window.pageYOffset > 80) {
+                if (window.pageYOffset > 50) {
                     header.classList.add('sticky');
                     if (topbar) topbar.classList.add('sticky');
+                    if (navbar) navbar.classList.add('sticky');
                 } else {
                     header.classList.remove('sticky');
                     if (topbar) topbar.classList.remove('sticky');
+                    if (navbar) navbar.classList.remove('sticky');
                 }
             });
         }

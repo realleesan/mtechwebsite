@@ -87,13 +87,27 @@
 
 /* Footer Logo */
 .f_logo {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 25px;
+    text-decoration: none;
 }
 
 .f_logo img {
     max-height: 40px;
     width: auto;
+}
+
+.footer_logo_text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: #FFFFFF;
+    letter-spacing: 3px;
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
 }
 
 /* About Widget */

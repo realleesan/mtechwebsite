@@ -6,6 +6,7 @@
                     <aside class="f_widget about_widget">
                         <a href="./" class="f_logo">
                             <img src="assets/images/logo.png" alt="logo">
+                            <span class="footer_logo_text">MTECH.JSC</span>
                         </a>
                         <div id="custom_html-4"><div class="textwidget custom-html-widget"><p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide additional clickthroughs.</p>
 </div></div>

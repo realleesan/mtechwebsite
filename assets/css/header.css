@@ -10,15 +10,11 @@ body {
     margin: 0;
 }
 
-/* â”€â”€ Top Bar â”€â”€ */
+/* -- Top Bar -- */
 .header_top_five {
     background: transparent;
     padding: 8px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    z-index: 10000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     transition: background 0.4s ease;
 }
@@ -27,7 +23,7 @@ body {
     background: #0D1B3E;
 }
 
-/* Layout topbar: cÄƒn trÃ¡i tháº³ng logo, cÄƒn pháº£i tháº³ng menu */
+/* Layout topbar */
 .topbar_inner {
     display: flex;
     align-items: center;
@@ -83,7 +79,7 @@ body {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* â”€â”€ NÃºt táº£i Há»“ SÆ¡ NÄƒng Lá»±c â”€â”€ */
+/* -- Nut tai Ho So Nang Luc -- */
 .btn_profile_download {
     display: inline-flex;
     align-items: center;
@@ -118,7 +114,7 @@ body {
     align-items: center;
 }
 
-/* áº¨n dÃ²ng branding "Free Website Translator Widget by Elfsight" */
+/* An dong branding Elfsight */
 .eapps-widget-toolbar,
 .eapps-link,
 [class*="eapps-"][class*="-branding"],
@@ -204,34 +200,33 @@ body {
     color: #fff;
 }
 
-/* Äáº©y navbar xuá»‘ng dÆ°á»›i topbar */
-.menu_absolute {
-    top: 81px !important;
-}
-
-/* â”€â”€ Wrapper â”€â”€ */
+/* -- Wrapper: fixed, boc ca topbar + navbar -- */
 .main_menu_area {
-    width: 100%;
-}
-
-.menu_absolute {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 9999;
+}
+
+.menu_absolute {
+    width: 100%;
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     transition: background 0.4s ease;
     padding: 18px 0;
 }
 
-.menu_absolute.sticky {
+.main_menu_area.sticky,
+.main_menu_area.sticky .header_top_five {
     background: #0D1B3E;
+}
+
+.main_menu_area.sticky {
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* â”€â”€ Navbar container â”€â”€ */
+/* -- Navbar container -- */
 .navbar {
     display: flex;
     align-items: center;
@@ -240,14 +235,13 @@ body {
     padding: 0 45px;
 }
 
-/* â”€â”€ Logo â”€â”€ */
+/* -- Logo -- */
 .navbar-brand img {
     height: 50px;
     width: auto;
     display: block;
 }
 
-/* Logo tổng hợp: icon + chữ */
 .navbar-brand {
     display: flex;
     align-items: center;
@@ -274,20 +268,20 @@ body {
     text-transform: uppercase;
 }
 
-/* â”€â”€ Collapse wrapper â”€â”€ */
+/* -- Collapse wrapper -- */
 .navbar-collapse {
     display: flex;
     align-items: center;
     flex: 1;
     justify-content: flex-end;
     padding-right: 20px;
-    height: auto;           /* Cho phÃ©p chiá»u cao tá»± Ä‘á»™ng theo ná»™i dung */
-    padding-top: 15px;      /* Táº¡o khoáº£ng cÃ¡ch trÃªn logo/menu */
-    padding-bottom: 15px;   /* Táº¡o khoáº£ng cÃ¡ch dÆ°á»›i logo/menu */
+    height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
     min-height: 80px;
 }
 
-/* â”€â”€ Menu list â”€â”€ */
+/* -- Menu list -- */
 ul.menu {
     display: flex;
     align-items: center;
@@ -296,14 +290,14 @@ ul.menu {
     padding: 0;
 }
 
-/* â”€â”€ Menu item â”€â”€ */
+/* -- Menu item -- */
 ul.menu > li.nav-item {
     position: relative;
     margin: 0;
     padding: 0 12px;
 }
 
-/* â”€â”€ Nav link (top level) â”€â”€ */
+/* -- Nav link (top level) -- */
 ul.menu > li.nav-item > a.nav-link {
     color: #fff !important;
     font-family: "Poppins", sans-serif;
@@ -323,7 +317,7 @@ ul.menu > li.nav-item.active > a.nav-link {
     color: #4D7FFF !important;
 }
 
-/* â”€â”€ Caret arrow â”€â”€ */
+/* -- Caret arrow -- */
 .caret-drop {
     display: inline-block;
     width: 0;
@@ -336,7 +330,7 @@ ul.menu > li.nav-item.active > a.nav-link {
     flex-shrink: 0;
 }
 
-/* â”€â”€ Dropdown menu â”€â”€ */
+/* -- Dropdown menu -- */
 ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     display: none;
     position: absolute;
@@ -357,7 +351,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
 
 /* Desktop: hover handled by JS with delay */
 
-/* â”€â”€ Dropdown items â”€â”€ */
+/* -- Dropdown items -- */
 ul.menu > li.nav-item.submenu > ul.dropdown-menu > li {
     margin: 0;
     padding: 0;
@@ -385,7 +379,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
     padding-left: 32px !important;
 }
 
-/* â”€â”€ Phone number â”€â”€ */
+/* -- Phone number -- */
 .header-phone {
     color: #fff !important;
     font-family: "Poppins", sans-serif;
@@ -404,7 +398,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
     color: #1A3FBF !important;
 }
 
-/* â”€â”€ Hamburger toggler â”€â”€ */
+/* -- Hamburger toggler -- */
 .navbar-toggler {
     display: none;
     background: none;
@@ -465,10 +459,11 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 .navbar-toggler:not(.collapsed) .hamburger      { display: none; }
 .navbar-toggler:not(.collapsed) .hamburger-cross { display: block; }
 
-/* â”€â”€ Mobile Close Button â”€â”€ */
+/* -- Mobile Close Button -- */
 .nav-close-btn {
     display: none;
 }
+
 /* ========================================
    Responsive
    ======================================== */
@@ -526,7 +521,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         pointer-events: auto;
     }
 
-    /* â”€â”€ Close Button â”€â”€ */
+    /* -- Close Button -- */
     .nav-close-btn {
         display: flex;
         align-items: center;
@@ -584,7 +579,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         justify-content: space-between;
     }
 
-    /* Mobile dropdown - áº©n máº·c Ä‘á»‹nh, animate báº±ng max-height */
+    /* Mobile dropdown */
     ul.menu > li.nav-item.submenu > ul.dropdown-menu {
         position: static;
         display: block;
@@ -612,7 +607,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         padding-left: 42px !important;
     }
 
-    /* Caret rotate khi má»Ÿ */
+    /* Caret rotate khi mo */
     ul.menu > li.nav-item.submenu .caret-drop {
         transition: transform 0.3s ease;
     }
@@ -630,7 +625,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
     .menu_absolute { padding: 12px 0; }
 }
 
-/* â”€â”€ Search Icon Button â”€â”€ */
+/* -- Search Icon Button -- */
 .nav-search-btn {
     padding: 0 8px !important;
 }
@@ -651,7 +646,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
     color: #1A3FBF;
 }
 
-/* â”€â”€ Search Overlay â”€â”€ */
+/* -- Search Overlay -- */
 .search_overlay {
     position: fixed;
     inset: 0;
@@ -753,5 +748,3 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 .search_overlay_submit:hover {
     color: #1A3FBF;
 }
-
-

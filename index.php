@@ -155,32 +155,36 @@ switch($page) {
         // Load models và lấy dữ liệu cho trang chủ
         require_once 'app/models/CategoriesModel.php';
         require_once 'app/models/ProjectsModel.php';
-        
-        $categoriesModel = new CategoriesModel();
-        $projectsModel = new ProjectsModel();
-        
-        // Lấy dữ liệu services (tối đa 6, có show_on_home=1)
-        $homeServices = $categoriesModel->getHomeServices(6);
-        
-        // Lấy dữ liệu projects (tối đa 5, có show_on_home=1)
-        $homeProjects = $projectsModel->getHomeProjects(5);
-        
-        $title = 'Trang chủ - MTECH';
-        $content = 'app/views/home/home.php';
+        require_once 'app/models/ClientLogosModel.php';
+
+        $categoriesModel  = new CategoriesModel();
+        $projectsModel    = new ProjectsModel();
+        $clientLogosModel = new ClientLogosModel();
+
+        $homeServices  = $categoriesModel->getHomeServices(6);
+        $homeProjects  = $projectsModel->getHomeProjects(5);
+        $clientLogos   = $clientLogosModel->getAllActive();
+
+        $title          = 'Trang chủ - MTECH';
+        $content        = 'app/views/home/home.php';
         $showPageHeader = false;
-        $showCTA = true;
+        $showCTA        = true;
         $showBreadcrumb = false;
         break;
-        
+
     // --------------------------------------
     // NOTE: About Page - Trang giới thiệu
     // --------------------------------------
     case 'about':
-        $title = 'Giới thiệu - MTECHJSC';
-        $content = 'app/views/about/about.php';
+        require_once 'app/models/ClientLogosModel.php';
+        $clientLogosModel = new ClientLogosModel();
+        $clientLogos      = $clientLogosModel->getAllActive();
+
+        $title          = 'Giới thiệu - MTECHJSC';
+        $content        = 'app/views/about/about.php';
         $showPageHeader = true;
-        $pageTitle = 'About Us';
-        $showCTA = true;
+        $pageTitle      = 'About Us';
+        $showCTA        = true;
         $showBreadcrumb = true;
         break;
         

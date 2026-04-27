@@ -129,6 +129,9 @@
      SECTION 2: SERVICES & FEATURED PROJECTS
      ========================================== -->
 
+<!-- Client Logos — Đối tác chiến lược -->
+<?php include_once __DIR__ . '/../_layout/client_logos.php'; ?>
+
 <!-- Services Section -->
 <section class="service_area sec_gap">
     <div class="container">
