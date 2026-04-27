@@ -1,74 +1,48 @@
 ﻿/* ============================================================
-   categories.css
-   Styles cho trang Our Services (categories)
+   categories.css — Trang Our Services
    ============================================================ */
 
-/* ---- Service Area ----------------------------------------- */
-.service_area {
-    padding: 80px 0;
-}
+/* ---- Utilities -------------------------------------------- */
+.sec_gap  { padding: 80px 0; }
+.mb_55    { margin-bottom: 55px; }
+.mt_7     { margin-top: 7px; }
 
-.sec_gap {
-    padding: 80px 0;
+/* ---- Service Area Background ----------------------------- */
+.service_area {
+    background: #f5f5f5;
 }
 
 /* ---- Section Title ---------------------------------------- */
-.section_title {
-    margin-bottom: 55px;
-}
-
 .section_title h2 {
     font-size: 32px;
     font-weight: 600;
     color: #1a1a2e;
-    margin-bottom: 12px;
+    margin-bottom: 0;
 }
-
 .section_title .title_br {
     display: block;
     width: 60px;
     height: 3px;
     background-color: #1A3FBF;
-    margin: 12px 0;
+    margin: 14px 0 18px;
 }
-
 .section_title p {
     color: #666;
     font-size: 15px;
     line-height: 1.7;
     max-width: 680px;
+    margin: 0;
 }
 
-.mb_55 {
-    margin-bottom: 55px;
-}
-
-.mb-50 {
-    margin-bottom: 50px;
-}
-
-.mt_7 {
-    margin-top: 7px;
-}
-
-/* ---- Service Item ----------------------------------------- */
+/* ---- Service Grid Item ------------------------------------ */
 .service_item {
     margin-bottom: 30px;
-    transition: transform 0.3s ease;
 }
-
-.service_item:hover {
-    transform: translateY(-4px);
-}
-
-/* ---- Service Image ---------------------------------------- */
 .service_img {
     position: relative;
     overflow: hidden;
-    border-radius: 4px;
     margin-bottom: 18px;
 }
-
 .service_img img {
     width: 100%;
     height: 220px;
@@ -76,12 +50,9 @@
     display: block;
     transition: transform 0.4s ease;
 }
-
 .service_item:hover .service_img img {
     transform: scale(1.05);
 }
-
-/* ---- Hover Overlay ---------------------------------------- */
 .service_img .hover_content {
     position: absolute;
     inset: 0;
@@ -92,11 +63,9 @@
     opacity: 0;
     transition: opacity 0.3s ease;
 }
-
 .service_item:hover .hover_content {
     opacity: 1;
 }
-
 .hover_content .read_more {
     display: inline-block;
     padding: 10px 24px;
@@ -106,34 +75,24 @@
     font-weight: 600;
     text-decoration: none;
     border-radius: 3px;
-    letter-spacing: 0.5px;
     transition: background-color 0.2s ease;
 }
-
 .hover_content .read_more:hover {
     background-color: #1530A0;
-    color: #fff;
 }
-
-/* ---- Service Title ---------------------------------------- */
+.service_item a {
+    text-decoration: none;
+}
 .service_item h3 {
     font-size: 20px;
     font-weight: 600;
     color: #1a1a2e;
     margin-bottom: 10px;
-    text-decoration: none;
     transition: color 0.2s ease;
 }
-
 .service_item a:hover h3 {
     color: #1A3FBF;
 }
-
-.service_item a {
-    text-decoration: none;
-}
-
-/* ---- Bottom Border ---------------------------------------- */
 .service_item .bottom_br {
     display: block;
     width: 40px;
@@ -142,158 +101,198 @@
     margin-top: 6px;
 }
 
-/* ---- No Services Message ---------------------------------- */
-.no-services-message {
-    text-align: center;
-    padding: 60px 20px;
-    color: #888;
-    font-size: 16px;
-}
+/* ============================================================
+   QUALITY SERVICE SECTION
+   - .qs_section  : flex container full-width, không dùng Bootstrap
+   - .qs_left     : cột trái hẹp hơn (calc 50% - 115px), nền tối + ảnh mờ
+   - .qs_right    : cột phải rộng hơn (flex: 1), nền trắng
+   - Nội dung bên trong mỗi cột được căn về phía trung tâm trang
+     bằng max-width + margin auto
+   ============================================================ */
 
-.no-services-message i {
-    font-size: 48px;
-    display: block;
-    margin-bottom: 16px;
-    color: #ccc;
-}
-
-/* ---- Quality Service Section ------------------------------ */
-.lt_news_area {
-    background-color: #f8f8f8;
-}
-
-.lt_news_area .container-fluid {
+/* --- Wrapper section full-width --- */
+.qs_section {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    margin: 0;
     padding: 0;
-}
-
-.lt_news_left {
-    position: relative;
-    width: 50%;
-    min-height: 420px;
     overflow: hidden;
 }
 
-.lt_news_left .bg_img {
+/* ---- Cột TRÁI -------------------------------------------- */
+.qs_left {
+    position: relative;
+    /* Hẹp hơn 50% — khớp với template gốc */
+    width: calc(50% - 115px);
+    flex: 0 0 calc(50% - 115px);
+    background-color: #2a2a2a;
+    overflow: hidden;
+}
+
+/* Ảnh nền mờ phủ toàn bộ cột trái */
+.qs_bg_img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: absolute;
-    inset: 0;
-}
-
-.lt_news_content {
-    position: relative;
-    z-index: 2;
-    padding: 60px 50px;
-    background: rgba(0, 0, 0, 0.55);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.lt_news_content h2 {
-    font-size: 32px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 12px;
-}
-
-.lt_news_content .title_br {
+    opacity: 0.12;
     display: block;
-    width: 50px;
-    height: 3px;
+    z-index: 0;
+}
+
+/* Nội dung cột trái:
+   - max-width 555px giới hạn độ rộng nội dung
+   - margin-left: auto đẩy nội dung về phía phải (sát trung tâm trang)
+   - padding-right lớn hơn để tạo khoảng cách với đường giữa */
+.qs_left_inner {
+    position: relative;
+    z-index: 1;
+    max-width: 555px;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 90px 70px 90px 30px;
+}
+
+.qs_title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+}
+
+.qs_divider {
+    display: block;
+    width: 60px;
+    height: 4px;
     background-color: #1A3FBF;
-    margin: 12px 0 20px;
+    margin: 22px 0 26px;
 }
 
-.lt_news_content p {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 15px;
-    line-height: 1.7;
-    margin-bottom: 28px;
+.qs_desc {
+    font-family: 'Open Sans', sans-serif;
+    color: #e0e0e0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.85;
+    margin: 0 0 35px;
 }
 
-.lt_news_content .read_more.btn_yellow {
+.qs_btn {
     display: inline-block;
-    padding: 12px 28px;
+    font-family: 'Poppins', sans-serif;
+    padding: 14px 38px;
     background-color: #1A3FBF;
-    color: #fff;
+    color: #ffffff;
+    font-size: 15px;
     font-weight: 600;
     text-decoration: none;
-    border-radius: 3px;
-    transition: background-color 0.2s ease;
-    align-self: flex-start;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.25s ease, transform 0.2s ease;
 }
-
-.lt_news_content .read_more.btn_yellow:hover {
+.qs_btn:hover {
     background-color: #1530A0;
+    color: #ffffff;
+    transform: translateY(-2px);
+    text-decoration: none;
 }
 
-.lt_news_right {
-    width: 50%;
-    padding: 60px 50px;
-    background-color: #fff;
-}
-
-.lt_news_inner.service_inner h4 {
-    font-size: 22px;
-    font-weight: 600;
-    color: #1a1a2e;
-    margin-bottom: 20px;
-    line-height: 1.4;
-}
-
-.lt_news_inner.service_inner p {
-    color: #666;
-    font-size: 15px;
-    line-height: 1.8;
-    margin-bottom: 16px;
-}
-
-/* ---- Row layout for lt_news_area -------------------------- */
-.lt_news_area .row.ml-0.mr-0 {
+/* ---- Cột PHẢI -------------------------------------------- */
+.qs_right {
+    flex: 1;
+    background-color: #ffffff;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
-/* ---- Responsive ------------------------------------------- */
+/* Nội dung cột phải:
+   - max-width 555px giới hạn độ rộng nội dung
+   - margin-right: auto đẩy nội dung về phía trái (sát trung tâm trang)
+   - padding-left lớn hơn để tạo khoảng cách với đường giữa */
+.qs_right_inner {
+    max-width: 555px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 70px 40px 70px 80px;
+}
+
+.qs_right_title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.4;
+    margin: 0 0 24px;
+    letter-spacing: -0.3px;
+}
+
+.qs_right_inner p {
+    font-family: 'Open Sans', sans-serif;
+    color: #555555;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.85;
+    margin: 0 0 18px;
+}
+.qs_right_inner p:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 991px) {
     .service_img img {
         height: 190px;
     }
 
-    .lt_news_left,
-    .lt_news_right {
+    /* Stack dọc trên tablet / mobile */
+    .qs_section {
+        flex-direction: column;
+    }
+
+    .qs_left {
         width: 100%;
+        flex: none;
     }
 
-    .lt_news_left {
-        min-height: 320px;
+    .qs_left_inner {
+        max-width: 100%;
+        margin: 0;
+        padding: 60px 30px;
     }
 
-    .lt_news_content {
-        padding: 40px 30px;
-    }
-
-    .lt_news_right {
-        padding: 40px 30px;
+    .qs_right_inner {
+        max-width: 100%;
+        margin: 0;
+        padding: 50px 30px;
     }
 }
 
 @media (max-width: 767px) {
-    .service_area,
     .sec_gap {
         padding: 50px 0;
     }
-
     .section_title h2 {
         font-size: 26px;
     }
-
     .service_img img {
         height: 200px;
     }
+    .qs_title {
+        font-size: 26px;
+    }
+    .qs_left_inner {
+        padding: 50px 20px;
+    }
+    .qs_right_inner {
+        padding: 40px 20px;
+    }
 }
-
-

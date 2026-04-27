@@ -105,7 +105,7 @@ mb_http_output('UTF-8');
             echo '<link rel="stylesheet" href="assets/css/blogs.css">';
             break;
         case 'blog-details':
-            echo '<link rel="stylesheet" href="assets/css/blogs.details.css">';
+            echo '<link rel="stylesheet" href="assets/css/blog.details.css">';
             break;
         case 'testimonials':
             echo '<link rel="stylesheet" href="assets/css/testimonials.css">';
@@ -298,7 +298,7 @@ mb_http_output('UTF-8');
             echo '<script src="assets/js/blogs.js"></script>';
             break;
         case 'blog-details':
-            echo '<script src="assets/js/blogs.js"></script>';
+            echo '<script src="assets/js/blog.details.js"></script>';
             break;
         case 'testimonials':
             echo '<script src="assets/js/testimonials.js"></script>';

@@ -22,13 +22,14 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 -- ============================================================
 -- Seed data: 6 dịch vụ mẫu tương ứng với template
+-- Ảnh lấy từ: docs/template/categories/code/categories.html
 -- ============================================================
 
 INSERT INTO `categories` (`name`, `slug`, `image`, `description`, `status`, `sort_order`) VALUES
 (
     'Agricultural Processing',
     'agricultural-processing',
-    'assets/images/categories/service_img1.jpg',
+    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img1.jpg',
     'We provide comprehensive agricultural processing solutions to optimize production efficiency and quality.',
     1,
     1
@@ -36,7 +37,7 @@ INSERT INTO `categories` (`name`, `slug`, `image`, `description`, `status`, `sor
 (
     'Chemical Industry',
     'chemical-industry',
-    'assets/images/categories/service_img2.jpg',
+    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img2.jpg',
     'Advanced chemical industry services with a focus on safety, sustainability, and innovation.',
     1,
     2
@@ -44,7 +45,7 @@ INSERT INTO `categories` (`name`, `slug`, `image`, `description`, `status`, `sor
 (
     'Civil Engineering',
     'civil-engineering',
-    'assets/images/categories/service_img3.jpg',
+    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img3.jpg',
     'Expert civil engineering services for infrastructure, construction, and urban development projects.',
     1,
     3
@@ -52,7 +53,7 @@ INSERT INTO `categories` (`name`, `slug`, `image`, `description`, `status`, `sor
 (
     'Energy & Power',
     'energy-power',
-    'assets/images/categories/service_img4.jpg',
+    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img4.jpg',
     'Reliable energy and power solutions covering renewable sources, grid management, and efficiency.',
     1,
     4
@@ -60,7 +61,7 @@ INSERT INTO `categories` (`name`, `slug`, `image`, `description`, `status`, `sor
 (
     'Mechanical Engineering',
     'mechanical-engineering',
-    'assets/images/categories/service_img5.jpg',
+    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img5.jpg',
     'Precision mechanical engineering services for design, manufacturing, and maintenance.',
     1,
     5
@@ -68,7 +69,7 @@ INSERT INTO `categories` (`name`, `slug`, `image`, `description`, `status`, `sor
 (
     'Oil & Gas Engineering',
     'oil-gas-engineering',
-    'assets/images/categories/service_img6.jpg',
+    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img6.jpg',
     'Specialized oil and gas engineering services covering exploration, extraction, and refining.',
     1,
     6

@@ -270,12 +270,42 @@ switch($page) {
     // NOTE: Blog Details - Chi tiết blog
     // --------------------------------------
     case 'blog-details':
-        $title = 'Chi tiết blog - MTECHJSC';
-        $content = 'app/views/blogs/details.php';
-        $showPageHeader = false;
-        $showCTA = false;
+        $slug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
+        if (empty($slug)) {
+            header('Location: ?page=blogs');
+            exit;
+        }
+
+        require_once 'app/models/BlogsModel.php';
+        $blogsModel = new BlogsModel();
+
+        // Lấy chi tiết blog
+        $blogDetail = $blogsModel->getBlogDetailsBySlug($slug);
+        if (!$blogDetail) {
+            $title   = 'Không tìm thấy - MTECHJSC';
+            $content = 'errors/404.php';
+            http_response_code(404);
+            break;
+        }
+
+        // Tăng lượt xem
+        $blogsModel->incrementViews($blogDetail['id']);
+
+        // Lấy dữ liệu sidebar (giống trang blogs)
+        $blogCategories = $blogsModel->getAllBlogCategories();
+        $recentBlogs    = $blogsModel->getRecentBlogs(4);
+        $allTags        = $blogsModel->getAllTags();
+
+        $title          = htmlspecialchars($blogDetail['title']) . ' - MTECHJSC';
+        $content        = 'app/views/blogs/blog.details.php';
+        $showPageHeader = true;
+        $pageTitle      = 'Blog Single';
+        $showCTA        = false;
         $showBreadcrumb = true;
-        // NOTE: Xử lý breadcrumb động theo ID blog
+        $breadcrumbs    = [
+            ['title' => 'Blog',                                  'url' => '?page=blogs'],
+            ['title' => htmlspecialchars($blogDetail['title']), 'url' => null],
+        ];
         break;
         
     // --------------------------------------

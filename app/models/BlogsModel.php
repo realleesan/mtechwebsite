@@ -272,4 +272,40 @@ class BlogsModel
             error_log('BlogsModel::incrementViews() - ' . $e->getMessage());
         }
     }
+
+    // ----------------------------------------------------------------
+    // BLOG DETAILS - Chi tiết bài viết
+    // ----------------------------------------------------------------
+
+    /**
+     * Lấy chi tiết đầy đủ của một blog bao gồm nội dung mở rộng.
+     *
+     * @param  string     $slug
+     * @return array|null
+     */
+    public function getBlogDetailsBySlug($slug)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT b.*, 
+                        bc.name AS category_name, bc.slug AS category_slug,
+                        bd.full_content, bd.meta_title, bd.meta_description, 
+                        bd.meta_keywords, bd.reading_time
+                 FROM `blogs` b
+                 LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
+                 LEFT JOIN `blog_details` bd ON bd.blog_id = b.id
+                 WHERE b.slug = ? AND b.status = 1
+                 LIMIT 1"
+            );
+            $stmt->execute([$slug]);
+            $blog = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$blog) return null;
+
+            $blog['tags'] = $this->getTagsByBlogId($blog['id']);
+            return $blog;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getBlogDetailsBySlug() - ' . $e->getMessage());
+            return null;
+        }
+    }
 }
