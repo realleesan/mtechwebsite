@@ -3,6 +3,16 @@
    assets/css/about.css
    ============================================ */
 
+/* Global: chặn scroll ngang */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 /* ---- Utility spacing ---- */
 .sec_gap       { padding: 100px 0; }
 .mb_20         { margin-bottom: 20px !important; }
@@ -101,6 +111,8 @@
 .mission_area {
     display: flex;
     min-height: 600px;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .mission_area .mission_left_img {
