@@ -102,7 +102,7 @@
     font-family: 'Playfair Display', serif;
     font-size: 50px;
     font-weight: 700;
-    color: #FFB600;
+    color: #1A3FBF;
     font-style: italic;
 }
 
@@ -122,8 +122,8 @@
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: #242424;
-    background: #FFB600;
+    color: #FFFFFF;
+    background: #1A3FBF;
     padding: 12px 42px;
     border-radius: 30px;
     text-decoration: none;
@@ -132,8 +132,8 @@
 }
 
 .slider_btn:hover {
-    background: #e0a200;
-    color: #242424;
+    background: #1530A0;
+    color: #FFFFFF;
     text-decoration: none;
 }
 
@@ -158,7 +158,7 @@
 }
 
 .slider_arrow:hover {
-    background: rgba(255, 182, 0, 0.8);
+    background: rgba(26, 63, 191, 0.8);
 }
 
 .slider_prev { left: 20px; }
@@ -213,21 +213,21 @@
 
 /* Box vàng */
 .box_one {
-    background: #FFB600;
-    color: #242424;
+    background: #1A3FBF;
+    color: #FFFFFF;
 }
 
 .box_one .promo_box_icon,
 .box_one .promo_box_icon svg,
 .box_one h3,
 .box_one p {
-    color: #242424;
-    stroke: #242424;
+    color: #FFFFFF;
+    stroke: #FFFFFF;
 }
 
 /* Box đen */
 .box_two {
-    background: #232323;
+    background: #0F1A40;
 }
 
 .box_two .promo_box_icon svg,
@@ -237,12 +237,12 @@
 }
 
 .box_two p {
-    color: #B4B4B4;
+    color: #A8B8D8;
 }
 
 /* Box xám */
 .box_three {
-    background: #3B3B3B;
+    background: #1E2D5A;
 }
 
 .box_three .promo_box_icon svg,
@@ -252,7 +252,7 @@
 }
 
 .box_three p {
-    color: #B4B4B4;
+    color: #A8B8D8;
 }
 
 /* ---------- 1C: WELCOME INFO ---------- */
@@ -447,7 +447,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 32px;
     font-weight: 600;
-    color: #333;
+    color: #1E3070;
     margin-bottom: 15px;
 }
 
@@ -455,14 +455,14 @@
     display: block;
     width: 60px;
     height: 3px;
-    background: #ffb600;
+    background: #1A3FBF;
     margin: 20px 0;
 }
 
 .section_title p {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
-    color: #797979;
+    color: #8AA0C8;
     line-height: 26px;
     max-width: 600px;
     margin: 7px auto 0;
@@ -490,7 +490,7 @@
 }
 
 .title_color {
-    color: #333;
+    color: #1E3070;
 }
 
 .color_w {
@@ -608,7 +608,7 @@
 }
 
 .service_item h3:hover {
-    color: #ffb600;
+    color: #1A3FBF;
 }
 
 .service_item a {
@@ -619,7 +619,7 @@
     display: block;
     width: 40px;
     height: 2px;
-    background: #ffb600;
+    background: #1A3FBF;
     margin-top: 15px;
     transition: all 0.3s ease;
 }
@@ -632,7 +632,7 @@
    FEATURED PROJECTS SECTION
    ========================================== */
 .featured_area {
-    background: #1a1a1a;
+    background: #0D1B3E;
     padding: 100px 0 70px;
 }
 
@@ -708,7 +708,7 @@
     bottom: -50px;
     left: 0;
     right: 0;
-    color: #1a1a1a;
+    color: #0D1B3E;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 500;
@@ -716,7 +716,7 @@
     padding: 15px;
     z-index: 2;
     transition: all 0.4s ease;
-    background: rgba(255, 182, 0, 0.7);
+    background: rgba(26, 63, 191, 0.85);
     text-align: center;
 }
 
@@ -735,7 +735,7 @@
    QUOTE/CTA SECTION
    ========================================== */
 .quote_area {
-    background: #ffb600;
+    background: #1A3FBF;
     padding: 80px 0;
 }
 
@@ -749,13 +749,13 @@
     font-family: 'Poppins', sans-serif;
     font-size: 28px;
     font-weight: 600;
-    color: #333;
+    color: #FFFFFF;
     line-height: 1.4;
     margin: 0;
 }
 
 .quote_area h2 span {
-    color: #1a1a1a;
+    color: #A8C8FF;
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-weight: 700;
@@ -767,22 +767,22 @@
 }
 
 .quote_btn {
-    background: #1a1a1a;
-    color: #fff;
+    background: #FFFFFF;
+    color: #0D1B3E;
     padding: 15px 35px;
     font-size: 14px;
     border-radius: 25px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     display: inline-block;
     transition: all 0.3s ease;
 }
 
 .quote_btn:hover {
-    background: #fff;
-    color: #1a1a1a;
+    background: #0D1B3E;
+    color: #fff;
 }
 
 /* ==========================================

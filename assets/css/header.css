@@ -1,4 +1,4 @@
-/* ========================================
+﻿/* ========================================
    Header CSS - MTech Website
    ======================================== */
 
@@ -10,7 +10,7 @@ body {
     margin: 0;
 }
 
-/* ── Top Bar ── */
+/* â”€â”€ Top Bar â”€â”€ */
 .header_top_five {
     background: transparent;
     padding: 8px 0;
@@ -24,10 +24,10 @@ body {
 }
 
 .header_top_five.sticky {
-    background: #111;
+    background: #0D1B3E;
 }
 
-/* Layout topbar: căn trái thẳng logo, căn phải thẳng menu */
+/* Layout topbar: cÄƒn trÃ¡i tháº³ng logo, cÄƒn pháº£i tháº³ng menu */
 .topbar_inner {
     display: flex;
     align-items: center;
@@ -57,7 +57,7 @@ body {
 }
 
 .topbar_phone a {
-    color: #ffb600;
+    color: #1A3FBF;
     text-decoration: none;
     font-weight: 600;
     margin-left: 8px;
@@ -83,13 +83,13 @@ body {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* ── Nút tải Hồ Sơ Năng Lực ── */
+/* â”€â”€ NÃºt táº£i Há»“ SÆ¡ NÄƒng Lá»±c â”€â”€ */
 .btn_profile_download {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: #ffb600;
-    color: #111 !important;
+    background: #1A3FBF;
+    color: #FFFFFF !important;
     font-family: "Poppins", sans-serif;
     font-size: 16px;
     font-weight: 600;
@@ -106,8 +106,8 @@ body {
 }
 
 .btn_profile_download:hover {
-    background: #e6a200;
-    color: #000 !important;
+    background: #1530A0;
+    color: #FFFFFF !important;
     transform: translateY(-1px);
 }
 
@@ -118,7 +118,7 @@ body {
     align-items: center;
 }
 
-/* Ẩn dòng branding "Free Website Translator Widget by Elfsight" */
+/* áº¨n dÃ²ng branding "Free Website Translator Widget by Elfsight" */
 .eapps-widget-toolbar,
 .eapps-link,
 [class*="eapps-"][class*="-branding"],
@@ -200,16 +200,16 @@ body {
 
 .lang_dropdown li a:hover,
 .lang_dropdown li.active a {
-    background: #ffb600;
+    background: #1A3FBF;
     color: #fff;
 }
 
-/* Đẩy navbar xuống dưới topbar */
+/* Äáº©y navbar xuá»‘ng dÆ°á»›i topbar */
 .menu_absolute {
     top: 81px !important;
 }
 
-/* ── Wrapper ── */
+/* â”€â”€ Wrapper â”€â”€ */
 .main_menu_area {
     width: 100%;
 }
@@ -227,11 +227,11 @@ body {
 }
 
 .menu_absolute.sticky {
-    background: #111;
+    background: #0D1B3E;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Navbar container ── */
+/* â”€â”€ Navbar container â”€â”€ */
 .navbar {
     display: flex;
     align-items: center;
@@ -240,27 +240,54 @@ body {
     padding: 0 45px;
 }
 
-/* ── Logo ── */
+/* â”€â”€ Logo â”€â”€ */
 .navbar-brand img {
     height: 50px;
     width: auto;
     display: block;
 }
 
-/* ── Collapse wrapper ── */
+/* Logo tổng hợp: icon + chữ */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+.logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 3px;
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+/* â”€â”€ Collapse wrapper â”€â”€ */
 .navbar-collapse {
     display: flex;
     align-items: center;
     flex: 1;
     justify-content: flex-end;
     padding-right: 20px;
-    height: auto;           /* Cho phép chiều cao tự động theo nội dung */
-    padding-top: 15px;      /* Tạo khoảng cách trên logo/menu */
-    padding-bottom: 15px;   /* Tạo khoảng cách dưới logo/menu */
+    height: auto;           /* Cho phÃ©p chiá»u cao tá»± Ä‘á»™ng theo ná»™i dung */
+    padding-top: 15px;      /* Táº¡o khoáº£ng cÃ¡ch trÃªn logo/menu */
+    padding-bottom: 15px;   /* Táº¡o khoáº£ng cÃ¡ch dÆ°á»›i logo/menu */
     min-height: 80px;
 }
 
-/* ── Menu list ── */
+/* â”€â”€ Menu list â”€â”€ */
 ul.menu {
     display: flex;
     align-items: center;
@@ -269,14 +296,14 @@ ul.menu {
     padding: 0;
 }
 
-/* ── Menu item ── */
+/* â”€â”€ Menu item â”€â”€ */
 ul.menu > li.nav-item {
     position: relative;
     margin: 0;
     padding: 0 12px;
 }
 
-/* ── Nav link (top level) ── */
+/* â”€â”€ Nav link (top level) â”€â”€ */
 ul.menu > li.nav-item > a.nav-link {
     color: #fff !important;
     font-family: "Poppins", sans-serif;
@@ -293,10 +320,10 @@ ul.menu > li.nav-item > a.nav-link {
 
 ul.menu > li.nav-item:hover > a.nav-link,
 ul.menu > li.nav-item.active > a.nav-link {
-    color: #ffb600 !important;
+    color: #4D7FFF !important;
 }
 
-/* ── Caret arrow ── */
+/* â”€â”€ Caret arrow â”€â”€ */
 .caret-drop {
     display: inline-block;
     width: 0;
@@ -309,15 +336,15 @@ ul.menu > li.nav-item.active > a.nav-link {
     flex-shrink: 0;
 }
 
-/* ── Dropdown menu ── */
+/* â”€â”€ Dropdown menu â”€â”€ */
 ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     display: none;
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
     min-width: 210px;
-    background: rgba(10, 10, 10, 0.97);
-    border-top: 3px solid #ffb600;
+    background: rgba(13, 27, 62, 0.97);
+    border-top: 3px solid #1A3FBF;
     border-left: none;
     border-right: none;
     border-bottom: none;
@@ -330,7 +357,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
 
 /* Desktop: hover handled by JS with delay */
 
-/* ── Dropdown items ── */
+/* â”€â”€ Dropdown items â”€â”€ */
 ul.menu > li.nav-item.submenu > ul.dropdown-menu > li {
     margin: 0;
     padding: 0;
@@ -354,11 +381,11 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
 }
 
 ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
-    color: #ffb600 !important;
+    color: #1A3FBF !important;
     padding-left: 32px !important;
 }
 
-/* ── Phone number ── */
+/* â”€â”€ Phone number â”€â”€ */
 .header-phone {
     color: #fff !important;
     font-family: "Poppins", sans-serif;
@@ -374,10 +401,10 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 }
 
 .header-phone:hover {
-    color: #ffb600 !important;
+    color: #1A3FBF !important;
 }
 
-/* ── Hamburger toggler ── */
+/* â”€â”€ Hamburger toggler â”€â”€ */
 .navbar-toggler {
     display: none;
     background: none;
@@ -438,7 +465,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 .navbar-toggler:not(.collapsed) .hamburger      { display: none; }
 .navbar-toggler:not(.collapsed) .hamburger-cross { display: block; }
 
-/* ── Mobile Close Button ── */
+/* â”€â”€ Mobile Close Button â”€â”€ */
 .nav-close-btn {
     display: none;
 }
@@ -469,7 +496,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         right: -320px;
         width: 300px;
         height: 100vh;
-        background: #111;
+        background: #0D1B3E;
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
@@ -499,7 +526,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         pointer-events: auto;
     }
 
-    /* ── Close Button ── */
+    /* â”€â”€ Close Button â”€â”€ */
     .nav-close-btn {
         display: flex;
         align-items: center;
@@ -517,7 +544,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 
     .nav-close-btn:hover,
     .nav-close-btn:active {
-        color: #ffb600;
+        color: #1A3FBF;
     }
 
     .nav-close-arrow {
@@ -531,7 +558,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
     .nav-close-btn:hover .nav-close-arrow,
     .nav-close-btn:active .nav-close-arrow {
         transform: translateX(-5px);
-        color: #ffb600;
+        color: #1A3FBF;
     }
 
     .nav-close-text {
@@ -557,7 +584,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         justify-content: space-between;
     }
 
-    /* Mobile dropdown - ẩn mặc định, animate bằng max-height */
+    /* Mobile dropdown - áº©n máº·c Ä‘á»‹nh, animate báº±ng max-height */
     ul.menu > li.nav-item.submenu > ul.dropdown-menu {
         position: static;
         display: block;
@@ -585,7 +612,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         padding-left: 42px !important;
     }
 
-    /* Caret rotate khi mở */
+    /* Caret rotate khi má»Ÿ */
     ul.menu > li.nav-item.submenu .caret-drop {
         transition: transform 0.3s ease;
     }
@@ -597,12 +624,13 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 
 @media (max-width: 576px) {
     .navbar { padding: 0 10px; }
-    .navbar-brand img { height: 40px; }
+    .navbar-brand img { height: 45px; }
+    .logo-text { font-size: 22px; }
     .navbar-collapse { width: 260px; }
     .menu_absolute { padding: 12px 0; }
 }
 
-/* ── Search Icon Button ── */
+/* â”€â”€ Search Icon Button â”€â”€ */
 .nav-search-btn {
     padding: 0 8px !important;
 }
@@ -620,10 +648,10 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 }
 
 .search_toggle:hover {
-    color: #ffb600;
+    color: #1A3FBF;
 }
 
-/* ── Search Overlay ── */
+/* â”€â”€ Search Overlay â”€â”€ */
 .search_overlay {
     position: fixed;
     inset: 0;
@@ -644,7 +672,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 }
 
 .search_overlay_box {
-    background: #2b2b2b;
+    background: #122050;
     width: 100%;
     max-width: 560px;
     padding: 36px 40px 40px;
@@ -676,7 +704,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 }
 
 .search_overlay_close:hover {
-    color: #ffb600;
+    color: #1A3FBF;
 }
 
 .search_overlay_label {
@@ -723,5 +751,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 }
 
 .search_overlay_submit:hover {
-    color: #ffb600;
+    color: #1A3FBF;
 }
+
+

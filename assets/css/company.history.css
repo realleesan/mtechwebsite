@@ -1,7 +1,7 @@
-/**
+﻿/**
  * Company History Page Styles
  * Template: docs/template/about/code/company.history.html
- * Màu chủ đạo: #ffb600 (vàng cam)
+ * Màu chủ đạo: #1A3FBF (vàng cam)
  */
 
 /* Company History Area */
@@ -40,7 +40,7 @@
 .about_history h2 {
     font-size: 32px;
     font-weight: 600;
-    color: #242424;
+    color: #0D1B3E;
     margin-bottom: 15px;
     font-family: "Poppins", sans-serif;
 }
@@ -49,14 +49,14 @@
     display: block;
     width: 60px;
     height: 3px;
-    background-color: #ffb600;
+    background-color: #1A3FBF;
     margin-bottom: 25px;
 }
 
 .about_history h5 {
     font-size: 20px;
     font-weight: 400;
-    color: #242424;
+    color: #0D1B3E;
     line-height: 1.6;
     margin-bottom: 20px;
     font-family: "Lora", serif;
@@ -66,12 +66,12 @@
 .about_history p {
     font-size: 15px;
     line-height: 1.8;
-    color: #333333;
+    color: #0F1A40;
     margin-bottom: 15px;
     font-family: "Open Sans", sans-serif;
 }
 
-/* History Timeline - Style với hình tròn màu #ffb600 */
+/* History Timeline - Style với hình tròn màu #1A3FBF */
 .history_info {
     position: relative;
 }
@@ -108,19 +108,19 @@
     z-index: 2;
 }
 
-/* History Date - Hình tròn màu vàng cam #ffb600 */
+/* History Date - Hình tròn màu vàng cam #1A3FBF */
 .history_date {
     width: 120px;
     height: 120px;
     min-width: 120px;
-    background-color: #ffb600;
+    background-color: #1A3FBF;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     font-weight: 700;
-    color: #242424;
+    color: #ffffff;
     margin-right: 40px;
     position: relative;
     z-index: 3;
@@ -134,7 +134,7 @@
 .history_item h3 {
     font-size: 22px;
     font-weight: 600;
-    color: #242424;
+    color: #0D1B3E;
     margin-bottom: 15px;
     font-family: "Poppins", sans-serif;
 }
@@ -142,7 +142,7 @@
 .history_item p {
     font-size: 15px;
     line-height: 1.8;
-    color: #333333;
+    color: #0F1A40;
     margin-bottom: 0;
     font-family: "Open Sans", sans-serif;
 }
@@ -177,7 +177,7 @@
 }
 
 .title_color {
-    color: #242424;
+    color: #0D1B3E;
 }
 
 /* Font family utility classes */
@@ -320,3 +320,4 @@
         padding: 40px 0;
     }
 }
+

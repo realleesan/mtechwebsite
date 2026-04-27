@@ -1,4 +1,4 @@
-/* ==========================================
+﻿/* ==========================================
    Projects Page Styles
    ========================================== */
 
@@ -80,7 +80,7 @@
     justify-content: center;
     width: 60px;
     height: 60px;
-    background-color: #242424;
+    background-color: #0D1B3E;
     color: #fff;
     border-radius: 50%;
     text-decoration: none;
@@ -89,7 +89,7 @@
 }
 
 .lt_project_img .arrow a:hover {
-    background-color: #e55a2b;
+    background-color: #1530A0;
     transform: scale(1.1);
 }
 
@@ -105,7 +105,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #ffb600cc;
+    background: #1A3FBFcc;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -118,7 +118,7 @@
 .lt_project_item .project-title {
     font-size: 18px;
     font-weight: 600;
-    color: #242424;
+    color: #0D1B3E;
     margin: 25px 20px 10px;
     line-height: 1.4;
     transition: color 0.3s ease;
@@ -126,18 +126,18 @@
 }
 
 .lt_project_item > a {
-    color: #242424;
+    color: #0D1B3E;
     text-decoration: none;
     display: inline-block;
     transition: color 0.3s ease;
 }
 
 .lt_project_item > a:hover {
-    color: #ffb600;
+    color: #1A3FBF;
 }
 
 .lt_project_item > a:hover .project-title {
-    color: #ffb600;
+    color: #1A3FBF;
 }
 
 .lt_project_item .project-category {
@@ -279,3 +279,5 @@
     font-size: 16px;
     color: #797979;
 }
+
+

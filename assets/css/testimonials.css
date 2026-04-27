@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    testimonials.css — Trang Testimonials
    Theo mẫu Wokrate + yêu cầu thiết kế
    ============================================================ */
@@ -21,7 +21,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 32px;
     font-weight: 600;
-    color: #242424;
+    color: #0D1B3E;
     margin-bottom: 8px;
     line-height: 1.3;
 }
@@ -31,7 +31,7 @@
     display: inline-block;
     width: 40px;
     height: 3px;
-    background: #FFB600;
+    background: #1A3FBF;
     border-radius: 2px;
     margin-bottom: 16px;
     vertical-align: middle;
@@ -100,7 +100,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: #242424;
+    color: #0D1B3E;
     margin: 0 0 4px;
     line-height: 1.4;
 }
@@ -123,7 +123,7 @@
 .testimonial_item p {
     font-family: 'Open Sans', sans-serif;
     font-size: 15px;
-    color: #333333;
+    color: #0F1A40;
     line-height: 1.75;
     flex: 1;
     margin-bottom: 16px;
@@ -133,7 +133,7 @@
 .q_icon {
     display: block;
     font-size: 36px;
-    color: #FFB600;
+    color: #1A3FBF;
     line-height: 1;
     margin-top: auto;
 }
@@ -143,7 +143,7 @@
     content: '\201C\201C';
     font-family: Georgia, serif;
     font-size: 40px;
-    color: #FFB600;
+    color: #1A3FBF;
     font-style: normal;
 }
 
@@ -209,8 +209,8 @@
 }
 
 .testi_arrow:hover {
-    background: #FFB600;
-    border-color: #FFB600;
+    background: #1A3FBF;
+    border-color: #1A3FBF;
     transform: scale(1.08);
 }
 
@@ -243,12 +243,12 @@
 }
 
 .testi_dot.active {
-    background: #FFB600;
+    background: #1A3FBF;
     transform: scale(1.3);
 }
 
 .testi_dot:hover {
-    background: #FFB600;
+    background: #1A3FBF;
 }
 
 /* ============================================================
@@ -281,3 +281,5 @@
         font-size: 26px;
     }
 }
+
+

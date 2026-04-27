@@ -1,4 +1,4 @@
-/* ========================================
+﻿/* ========================================
    Page Header / Banner Area
    Theo cấu trúc Wokrate template
    ======================================== */
@@ -54,13 +54,13 @@
 /* Dấu phân cách > */
 .banner_content .breadcrumb-item + .breadcrumb-item::before {
     content: '›';
-    color: #ffffff;
+    color: #7EB3FF;
     font-size: 16px;
 }
 
-/* Link Home - màu vàng */
+/* Link Home - màu xanh sáng */
 .banner_content .breadcrumb-item a {
-    color: #ffb600;
+    color: #7EB3FF;
     text-decoration: none;
     transition: color 0.25s ease;
 }
@@ -98,3 +98,6 @@
         font-size: 13px;
     }
 }
+
+
+

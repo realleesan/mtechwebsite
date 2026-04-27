@@ -220,7 +220,7 @@ if (!$project) {
             <a href="?page=projects" class="btn-back" style="
                 display: inline-block;
                 padding: 12px 30px;
-                background-color: #ffb600;
+                background-color: #1A3FBF;
                 color: #fff;
                 text-decoration: none;
                 font-weight: 600;

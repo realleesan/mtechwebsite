@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    categories.css
    Styles cho trang Our Services (categories)
    ============================================================ */
@@ -28,7 +28,7 @@
     display: block;
     width: 60px;
     height: 3px;
-    background-color: #f5a623;
+    background-color: #1A3FBF;
     margin: 12px 0;
 }
 
@@ -100,7 +100,7 @@
 .hover_content .read_more {
     display: inline-block;
     padding: 10px 24px;
-    background-color: #f5a623;
+    background-color: #1A3FBF;
     color: #fff;
     font-size: 14px;
     font-weight: 600;
@@ -111,7 +111,7 @@
 }
 
 .hover_content .read_more:hover {
-    background-color: #e09510;
+    background-color: #1530A0;
     color: #fff;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .service_item a:hover h3 {
-    color: #f5a623;
+    color: #1A3FBF;
 }
 
 .service_item a {
@@ -138,7 +138,7 @@
     display: block;
     width: 40px;
     height: 2px;
-    background-color: #f5a623;
+    background-color: #1A3FBF;
     margin-top: 6px;
 }
 
@@ -203,7 +203,7 @@
     display: block;
     width: 50px;
     height: 3px;
-    background-color: #f5a623;
+    background-color: #1A3FBF;
     margin: 12px 0 20px;
 }
 
@@ -217,7 +217,7 @@
 .lt_news_content .read_more.btn_yellow {
     display: inline-block;
     padding: 12px 28px;
-    background-color: #f5a623;
+    background-color: #1A3FBF;
     color: #fff;
     font-weight: 600;
     text-decoration: none;
@@ -227,7 +227,7 @@
 }
 
 .lt_news_content .read_more.btn_yellow:hover {
-    background-color: #e09510;
+    background-color: #1530A0;
 }
 
 .lt_news_right {
@@ -295,3 +295,5 @@
         height: 200px;
     }
 }
+
+

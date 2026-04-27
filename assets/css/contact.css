@@ -1,4 +1,4 @@
-/* ============================================
+﻿/* ============================================
    Contact Page Styles
    ============================================ */
 
@@ -28,20 +28,20 @@
 .section_title h2 {
     font-size: 36px;
     font-weight: 500;
-    color: #242424;
+    color: #0D1B3E;
     margin-bottom: 15px;
     font-family: 'Poppins', sans-serif;
 }
 
 .title_color {
-    color: #242424;
+    color: #0D1B3E;
 }
 
 .title_br {
     display: block;
     width: 50px;
     height: 3px;
-    background: #ffc107;
+    background: #1A3FBF;
     margin-top: 15px;
 }
 
@@ -56,7 +56,7 @@
     border-radius: 0;
     padding: 12px 20px;
     font-size: 15px;
-    color: #333333;
+    color: #0F1A40;
     background: #fafafa;
     transition: all 0.3s ease;
     width: 100%;
@@ -64,7 +64,7 @@
 }
 
 .contact_form .form-control:focus {
-    border-color: #ffc107;
+    border-color: #1A3FBF;
     background: #fff;
     box-shadow: none;
     outline: none;
@@ -84,8 +84,8 @@
 
 /* Submit Button */
 .btn_yellow {
-    background: #ffc107;
-    color: #333;
+    background: #1A3FBF;
+    color: #fff;
     border: none;
     padding: 15px 40px;
     font-size: 15px;
@@ -97,8 +97,8 @@
 }
 
 .btn_yellow:hover {
-    background: #e6ac00;
-    color: #333;
+    background: #1530A0;
+    color: #fff;
 }
 
 .wpcf7-submit {
@@ -115,13 +115,13 @@
 .contact_info h4 {
     font-size: 24px;
     font-weight: 500;
-    color: #242424;
+    color: #0D1B3E;
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
 }
 
 .contact_info > p {
-    color: #333333;
+    color: #0F1A40;
     font-size: 15px;
     line-height: 1.8;
     margin-bottom: 30px;
@@ -148,7 +148,7 @@
     width: 50px;
     height: 50px;
     background: transparent;
-    border: 2px solid #ffb600;
+    border: 2px solid #1A3FBF;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -160,13 +160,13 @@
 .contact_info_item .icon .svg-icon {
     width: 22px;
     height: 22px;
-    filter: invert(66%) sepia(85%) saturate(867%) hue-rotate(359deg) brightness(102%) contrast(101%);
+    filter: invert(27%) sepia(89%) saturate(1200%) hue-rotate(210deg) brightness(90%) contrast(95%);
 }
 
 .contact_info_item h6 {
     font-size: 18px;
     font-weight: 500;
-    color: #242424;
+    color: #0D1B3E;
     margin-bottom: 8px;
     font-family: 'Poppins', sans-serif;
 }
@@ -174,7 +174,7 @@
 .contact_info_item p,
 .contact_info_item a {
     font-size: 15px;
-    color: #333333;
+    color: #0F1A40;
     text-decoration: none;
     transition: color 0.3s ease;
     margin: 0;
@@ -182,7 +182,7 @@
 }
 
 .contact_info_item a:hover {
-    color: #ffb600;
+    color: #1A3FBF;
 }
 
 .f_size_16 {
@@ -381,3 +381,5 @@
 html {
     scroll-behavior: smooth;
 }
+
+

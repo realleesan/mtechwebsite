@@ -62,7 +62,8 @@ $menuServices    = $categoriesModel->getMenuServices(10);
     <nav class="navbar navbar-expand-lg navbar-light menu_absolute">
         <!-- Logo -->
         <a class="navbar-brand" href="./">
-            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>">
+            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" class="logo-img">
+            <span class="logo-text">MTECH.JSC</span>
         </a>
         
         <!-- Hamburger Menu Button for Mobile -->

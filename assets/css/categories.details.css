@@ -1,16 +1,16 @@
-/* ============================================================
+﻿/* ============================================================
    categories.details.css
    ============================================================ */
 
 /* ── Variables ─────────────────────────────────────────────── */
 :root {
     --title-color:   #2c3e50;
-    --accent-color:  #f9a825;
+    --accent-color:  #1A3FBF;
     --text-color:    #797979;
     --border-color:  #e8e8e8;
-    --active-bg:     #f9a825;
+    --active-bg:     #1A3FBF;
     --active-text:   #fff;
-    --dl-bg:         #242424;
+    --dl-bg:         #0D1B3E;
 }
 
 /* ── Section gap ── */
@@ -80,12 +80,12 @@
     z-index: 2;
 }
 
-/* Link: nền #f1f1f1, Poppins 500 17px, color #242424 */
+/* Link: nền #f1f1f1, Poppins 500 17px, color #0D1B3E */
 .service_menu_tab .nav-item .nav-link {
     display: block;
     width: 100%;
     font: 500 17px / 25px 'Poppins', sans-serif;
-    color: #242424;
+    color: #0D1B3E;
     border: 0;
     padding: 15px 25px;
     background: #f1f1f1;
@@ -111,9 +111,9 @@
     z-index: -1;
 }
 
-/* Hover: fill vàng trái → phải, chữ giữ #242424 */
+/* Hover: fill cobalt trái → phải, chữ trắng */
 .service_menu_tab .nav-item .nav-link:hover {
-    color: #242424;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -132,7 +132,7 @@
 .service_menu_tab .nav-item.active .nav-link,
 .service_menu_tab .nav-item .nav-link.active {
     background: #f1f1f1;
-    color: #242424;
+    color: #0D1B3E;
     font-weight: 500;
 }
 
@@ -155,7 +155,7 @@
 
 .sidebar_contact_info h3.title_color {
     font-family: 'Poppins', sans-serif;
-    color: #242424;
+    color: #0D1B3E;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 8px;
@@ -192,7 +192,7 @@
     text-align: center;
 }
 
-/* Download buttons — nền #242424, chữ trắng, icon vàng, font Poppins 18px */
+/* Download buttons — nền #0D1B3E, chữ trắng, icon vàng, font Poppins 18px */
 .download_info {
     display: flex;
     flex-direction: column;
@@ -249,7 +249,7 @@
     width: 100%;
     overflow: hidden;
     border-radius: 4px;
-    background: #111;
+    background: #0D1B3E;
 }
 
 .slider_main_img {
@@ -463,7 +463,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 600;
-    color: #242424;
+    color: #0D1B3E;
     margin-bottom: 20px;
 }
 
@@ -626,3 +626,5 @@
         height: 220px;
     }
 }
+
+
