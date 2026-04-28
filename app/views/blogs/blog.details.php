@@ -63,6 +63,9 @@ $tagsStr = implode(' , ', $tagLinks);
                             </div>
                         </div>
 
+                        <!-- Đường kẻ ngang phân cách sau meta -->
+                        <hr class="border_bottom mt-0 mb_20">
+
                         <!-- Title -->
                         <div class="blog-text">
                             <a href="#">
@@ -77,7 +80,13 @@ $tagsStr = implode(' , ', $tagLinks);
                             <?php echo $blogDetail['full_content']; ?>
                         <?php elseif (!empty($blogDetail['content'])): ?>
                             <div class="blog-text">
-                                <?php echo $blogDetail['content']; ?>
+                                <p><?php echo $blogDetail['content']; ?></p>
+
+                                <h3 class="f_600 title_color">Key Insights &amp; Industry Perspective</h3>
+                                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est. Temporibus autem quibusdam et aut officiis debitis rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint molestiae non recusandae.</p>
+                            </div>
+                            <div class="s_main_text">
+                                <p>Here is main text quis nostrud exercitation ullamco laboris nisi here is <em>italic text</em> ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla rure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat <a href="#">here is link</a> cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                             </div>
                         <?php endif; ?>
 

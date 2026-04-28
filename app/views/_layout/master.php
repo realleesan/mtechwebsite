@@ -110,6 +110,12 @@ mb_http_output('UTF-8');
         case 'testimonials':
             echo '<link rel="stylesheet" href="assets/css/testimonials.css">';
             break;
+        case '404':
+            echo '<link rel="stylesheet" href="assets/css/errors.css">';
+            break;
+        case '500':
+            echo '<link rel="stylesheet" href="assets/css/errors.css">';
+            break;
         // NOTE: Thêm các case khác tại đây
         default:
             break;
@@ -132,7 +138,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Header - Include file header tại đây -->
     <!-- ========================================== -->
-    <?php include_once __DIR__ . '/header.php'; ?>
+    <?php if (!isset($hideHeader) || !$hideHeader): ?>
+        <?php include_once __DIR__ . '/header.php'; ?>
+    <?php endif; ?>
     
     <!-- ========================================== -->
     <!-- NOTE: Navigation/Menu - Include navigation tại đây nếu cần -->
@@ -251,7 +259,9 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Core JavaScript Files - JS chung -->
     <!-- ========================================== -->
-    <script src="assets/js/header.js"></script>
+    <?php if (!isset($hideHeader) || !$hideHeader): ?>
+        <script src="assets/js/header.js"></script>
+    <?php endif; ?>
     <script src="assets/js/footer.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -302,6 +312,12 @@ mb_http_output('UTF-8');
             break;
         case 'testimonials':
             echo '<script src="assets/js/testimonials.js"></script>';
+            break;
+        case '404':
+            echo '<script src="assets/js/errors.js"></script>';
+            break;
+        case '500':
+            echo '<script src="assets/js/errors.js"></script>';
             break;
         // NOTE: Thêm các case khác tại đây
         default:

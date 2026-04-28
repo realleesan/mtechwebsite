@@ -282,8 +282,13 @@ switch($page) {
         // Lấy chi tiết blog
         $blogDetail = $blogsModel->getBlogDetailsBySlug($slug);
         if (!$blogDetail) {
+            $page    = '404';
             $title   = 'Không tìm thấy - MTECHJSC';
             $content = 'errors/404.php';
+            $showPageHeader = false;
+            $showCTA = false;
+            $showBreadcrumb = false;
+            $hideHeader = true;
             http_response_code(404);
             break;
         }
@@ -370,8 +375,13 @@ switch($page) {
         $categoryDetail   = $categoriesModel->getCategoryDetailBySlug($slug);
         $allCategories    = $categoriesModel->getAllCategories();
         if (!$categoryDetail) {
+            $page    = '404';
             $title   = 'Không tìm thấy - MTECHJSC';
             $content = 'errors/404.php';
+            $showPageHeader = false;
+            $showCTA = false;
+            $showBreadcrumb = false;
+            $hideHeader = true;
             http_response_code(404);
             break;
         }
@@ -599,14 +609,30 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: 500 Page - Trang lỗi server
+    // --------------------------------------
+    case '500':
+        $page = '500';
+        $title = 'Lỗi máy chủ - MTECHJSC';
+        $content = 'errors/500.php';
+        $showPageHeader = false;
+        $showCTA = false;
+        $showBreadcrumb = false;
+        $hideHeader = true;
+        http_response_code(500);
+        break;
+
+    // --------------------------------------
     // NOTE: 404 Page - Trang không tìm thấy
     // --------------------------------------
     default:
+        $page = '404'; // Gán lại để master.php load đúng CSS/JS
         $title = 'Không tìm thấy trang - MTECHJSC';
         $content = 'errors/404.php';
         $showPageHeader = false;
         $showCTA = false;
         $showBreadcrumb = false;
+        $hideHeader = true; // Ẩn header trong trang 404
         http_response_code(404);
         break;
 }
