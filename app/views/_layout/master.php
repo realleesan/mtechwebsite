@@ -40,7 +40,9 @@ mb_http_output('UTF-8');
     
     <?php
     // Determine current page for conditional CSS/JS loading
-    $currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
+    // Ưu tiên dùng $page từ index.php (đã xử lý 404/500 override)
+    // thay vì $_GET['page'] để CSS/JS load đúng cho trang lỗi
+    $currentPage = isset($page) ? $page : (isset($_GET['page']) ? $_GET['page'] : 'home');
     ?>
     
     <!-- Elfsight Platform Script -->
@@ -202,7 +204,15 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Main Content - Nội dung chính từ Controller -->
     <!-- ========================================== -->
+    <?php
+    // Trang 404/500 cần full viewport, không dùng main wrapper
+    $isErrorPage = (isset($page) && in_array($page, ['404', '500']));
+    ?>
+    
+    <?php if (!$isErrorPage): ?>
     <main class="main-content">
+    <?php endif; ?>
+    
         <?php 
         /**
          * Nội dung trang được truyền từ Controller qua biến $content
@@ -226,7 +236,10 @@ mb_http_output('UTF-8');
             echo "<div class='error'>Không có nội dung để hiển thị.</div>";
         }
         ?>
+    
+    <?php if (!$isErrorPage): ?>
     </main>
+    <?php endif; ?>
     
     <!-- ========================================== -->
     <!-- NOTE: Sidebar - Sidebar nếu layout có sidebar -->

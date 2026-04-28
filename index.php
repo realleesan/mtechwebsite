@@ -18,6 +18,98 @@
 session_start();
 
 // ==========================================
+// NOTE: Output Buffering - Bật output buffering SỚM
+// Phải bật trước mọi thứ để error handler có thể
+// xóa output cũ và render trang 500 sạch sẽ
+// ==========================================
+if (ob_get_level() === 0) {
+    ob_start();
+}
+
+// ==========================================
+// NOTE: Global Error Handler - Bắt lỗi 500
+// Đăng ký TRƯỚC KHI load bất kỳ thứ gì khác
+// ==========================================
+
+/**
+ * Hàm hiển thị trang lỗi 500
+ * Dùng chung cho cả exception handler và error handler
+ */
+function render500Page(string $logMessage = ''): void
+{
+    // Ghi log lỗi (không hiển thị ra user)
+    if ($logMessage) {
+        error_log('[500 Error] ' . $logMessage);
+    }
+
+    // Xóa toàn bộ output buffer đang có (tránh HTML dở dang)
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+
+    // Trả HTTP status 500
+    http_response_code(500);
+
+    // Set các biến cần thiết cho master layout
+    $page           = '500';
+    $title          = 'Lỗi máy chủ - MTECHJSC';
+    $content        = 'errors/500.php';
+    $showPageHeader = false;
+    $showCTA        = false;
+    $showBreadcrumb = false;
+    $hideHeader     = true;
+
+    // Render layout
+    include_once __DIR__ . '/app/views/_layout/master.php';
+    exit;
+}
+
+/**
+ * Exception Handler - Bắt tất cả Uncaught Exception & Error
+ * Ví dụ: throw new Exception(), TypeError, RuntimeException...
+ */
+set_exception_handler(function (Throwable $e): void {
+    render500Page(
+        get_class($e) . ': ' . $e->getMessage() .
+        ' in ' . $e->getFile() . ' on line ' . $e->getLine()
+    );
+});
+
+/**
+ * Error Handler - Bắt các lỗi PHP runtime
+ * Ví dụ: E_ERROR, E_WARNING, E_NOTICE, E_PARSE...
+ * Chuyển chúng thành ErrorException để exception handler xử lý
+ */
+set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline): bool {
+    // Chỉ xử lý các lỗi nghiêm trọng thành trang 500
+    // Bỏ qua E_NOTICE, E_DEPRECATED, E_STRICT (không phải lỗi server)
+    $fatalErrors = E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR;
+    if ($errno & $fatalErrors) {
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    }
+    // Trả false để PHP xử lý các lỗi nhẹ theo cách mặc định
+    return false;
+});
+
+/**
+ * Shutdown Handler - Bắt Fatal Error xảy ra khi PHP tắt
+ * Ví dụ: memory exhausted, maximum execution time exceeded...
+ * set_error_handler() không bắt được loại này
+ */
+register_shutdown_function(function (): void {
+    $error = error_get_last();
+    if ($error !== null) {
+        $fatalTypes = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+        if (in_array($error['type'], $fatalTypes, true)) {
+            render500Page(
+                'Fatal Error [' . $error['type'] . ']: ' . $error['message'] .
+                ' in ' . $error['file'] . ' on line ' . $error['line']
+            );
+        }
+    }
+});
+
+// ==========================================
 // NOTE: Coming Soon Mode Check - Kiểm tra chế độ bảo trì
 // ==========================================
 // NOTE: Kiểm tra sớm để chặn toàn bộ website nếu đang bảo trì
@@ -109,13 +201,6 @@ $base_dir = __DIR__;
 // ==========================================
 // require_once $base_dir . '/core/view_init.php';
 // init_url_builder();
-
-// ==========================================
-// NOTE: Output Buffering - Bật output buffering
-// ==========================================
-if (ob_get_level() === 0) {
-    ob_start();
-}
 
 // ==========================================
 // NOTE: Load Breadcrumb Config
