@@ -21,6 +21,32 @@ class TestimonialsModel
     }
 
     /**
+     * Lấy N testimonials mới nhất / ưu tiên nhất cho trang Home.
+     * Chỉ lấy tối đa $limit items, sắp xếp theo sort_order rồi id.
+     *
+     * @param int $limit Mặc định 3
+     * @return array  Mảng phẳng các testimonial item
+     */
+    public function getHomeTestimonials($limit = 3)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, company_name, company_logo,
+                        location_city, location_country, review_content
+                 FROM `{$this->table}`
+                 WHERE status = 1
+                 ORDER BY sort_order ASC, id ASC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('TestimonialsModel::getHomeTestimonials() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Lấy tất cả testimonials đang active, có phân trang.
      *
      * @param int $page

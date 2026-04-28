@@ -289,8 +289,12 @@
         initScrollAnimations();
         initSmoothScroll();
         initLazyLoad();
-        
-        console.log('[Home] Initialized Segment 2 - Services & Featured Projects');
+        // Section 3
+        initTestimonials();
+        initLatestNews();
+        initHomeContactForm();
+
+        console.log('[Home] Initialized — Sections 1, 2, 3');
     }
 
     // Run initialization
@@ -301,8 +305,153 @@
     }
 
     // ==========================================
-    // SECTION 3: PLACEHOLDER FOR OTHER MEMBERS
-    // ==========================================}
-    // NOTE: Segment 3 - Để trống cho thành viên khác code
+    // SECTION 3: TESTIMONIALS, LATEST NEWS, PROMO, CTA
+    // ==========================================
+
+    /**
+     * Scroll animation cho testimonial items
+     */
+    function initTestimonials() {
+        const items = document.querySelectorAll('.testimonial_item_width');
+        if (!items.length) return;
+
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach((entry, i) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, i * 120);
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            items.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(40px)';
+                item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                obs.observe(item);
+            });
+        }
+    }
+
+    /**
+     * Scroll animation cho latest news items
+     */
+    function initLatestNews() {
+        const newsItems = document.querySelectorAll('.lt_news_item');
+        if (!newsItems.length) return;
+
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach((entry, i) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }, i * 100);
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            newsItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(30px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                obs.observe(item);
+            });
+        }
+    }
+
+    /**
+     * Xử lý form "Drop a Message" trên trang chủ
+     */
+    function initHomeContactForm() {
+        const form = document.getElementById('homeContactForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const btn = form.querySelector('.submit_btn');
+            const originalText = btn.textContent;
+
+            // Validate cơ bản
+            let valid = true;
+            form.querySelectorAll('[required]').forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#dc3545';
+                    valid = false;
+                } else {
+                    field.style.borderColor = '#e0e0e0';
+                }
+            });
+
+            if (!valid) return;
+
+            // Loading state
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            // Gửi form qua fetch
+            const formData = new FormData(form);
+
+            fetch('?page=contact&action=submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    form.reset();
+                    showFormMessage(form, 'Your message has been sent successfully!', 'success');
+                } else {
+                    showFormMessage(form, data.message || 'Something went wrong. Please try again.', 'error');
+                }
+            })
+            .catch(() => {
+                showFormMessage(form, 'Network error. Please try again.', 'error');
+            })
+            .finally(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+        });
+
+        // Reset border màu khi user gõ lại
+        form.querySelectorAll('.form-control').forEach(field => {
+            field.addEventListener('input', function() {
+                this.style.borderColor = '#e0e0e0';
+            });
+        });
+    }
+
+    /**
+     * Hiển thị thông báo sau khi submit form
+     */
+    function showFormMessage(form, message, type) {
+        const old = form.querySelector('.form-feedback');
+        if (old) old.remove();
+
+        const div = document.createElement('div');
+        div.className = 'form-feedback';
+        div.style.cssText = [
+            'padding: 12px 18px',
+            'margin-top: 12px',
+            'border-radius: 4px',
+            'font-size: 14px',
+            'font-family: Open Sans, sans-serif',
+            type === 'success'
+                ? 'background:#d4edda;color:#155724;border:1px solid #c3e6cb'
+                : 'background:#f8d7da;color:#721c24;border:1px solid #f5c6cb'
+        ].join(';');
+        div.textContent = message;
+
+        form.appendChild(div);
+        setTimeout(() => div.remove(), 5000);
+    }
 
 })();

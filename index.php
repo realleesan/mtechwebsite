@@ -241,14 +241,22 @@ switch($page) {
         require_once 'app/models/CategoriesModel.php';
         require_once 'app/models/ProjectsModel.php';
         require_once 'app/models/ClientLogosModel.php';
+        require_once 'app/models/TestimonialsModel.php';
 
-        $categoriesModel  = new CategoriesModel();
-        $projectsModel    = new ProjectsModel();
-        $clientLogosModel = new ClientLogosModel();
+        $categoriesModel    = new CategoriesModel();
+        $projectsModel      = new ProjectsModel();
+        $clientLogosModel   = new ClientLogosModel();
+        $testimonialsModel  = new TestimonialsModel();
 
-        $homeServices  = $categoriesModel->getHomeServices(6);
-        $homeProjects  = $projectsModel->getHomeProjects(5);
-        $clientLogos   = $clientLogosModel->getAllActive();
+        $homeServices       = $categoriesModel->getHomeServices(6);
+        $homeProjects       = $projectsModel->getHomeProjects(5);
+        $clientLogos        = $clientLogosModel->getAllActive();
+        // Lấy tối đa 3 testimonials cho trang home
+        $homeTestimonials   = $testimonialsModel->getHomeTestimonials(3);
+        // Lấy tối đa 3 blogs mới nhất cho trang home
+        require_once 'app/models/BlogsModel.php';
+        $blogsModel         = new BlogsModel();
+        $homeBlogs          = $blogsModel->getHomeBlogs(3);
 
         $title          = 'Trang chủ - MTECH';
         $content        = 'app/views/home/home.php';
@@ -708,16 +716,20 @@ switch($page) {
         break;
 
     // --------------------------------------
-    // NOTE: 404 Page - Trang không tìm thấy
+    // NOTE: 404 Page - Tường minh (từ .htaccess redirect hoặc link trực tiếp)
+    // --------------------------------------
+    case '404':
+    // --------------------------------------
+    // NOTE: Default - Mọi page không tồn tại → 404
     // --------------------------------------
     default:
-        $page = '404'; // Gán lại để master.php load đúng CSS/JS
+        $page = '404';
         $title = 'Không tìm thấy trang - MTECHJSC';
         $content = 'errors/404.php';
         $showPageHeader = false;
         $showCTA = false;
         $showBreadcrumb = false;
-        $hideHeader = true; // Ẩn header trong trang 404
+        $hideHeader = true;
         http_response_code(404);
         break;
 }

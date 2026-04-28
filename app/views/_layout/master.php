@@ -74,6 +74,7 @@ mb_http_output('UTF-8');
     <?php
     switch($currentPage) {
         case 'home':
+            echo '<link rel="stylesheet" href="assets/css/testimonials.css">';
             echo '<link rel="stylesheet" href="assets/css/home.css">';
             break;
         case 'about':

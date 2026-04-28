@@ -255,6 +255,35 @@ class BlogsModel
     }
 
     // ----------------------------------------------------------------
+    // HOME PAGE - Latest News (tối đa 3 bài)
+    // ----------------------------------------------------------------
+
+    /**
+     * Lấy N bài viết mới nhất cho section Latest News trên trang home.
+     *
+     * @param int $limit Mặc định 3
+     * @return array
+     */
+    public function getHomeBlogs($limit = 3)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT b.id, b.title, b.slug, b.image, b.excerpt,
+                        b.author, b.created_at
+                 FROM `blogs` b
+                 WHERE b.status = 1
+                 ORDER BY b.created_at DESC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getHomeBlogs() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // ----------------------------------------------------------------
     // VIEWS counter
     // ----------------------------------------------------------------
 
@@ -306,6 +335,35 @@ class BlogsModel
         } catch (PDOException $e) {
             error_log('BlogsModel::getBlogDetailsBySlug() - ' . $e->getMessage());
             return null;
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // MENU - Blog Categories hiển thị trong dropdown menu header
+    // ----------------------------------------------------------------
+
+    /**
+     * Lấy blog categories hiển thị trong dropdown menu header (show_in_menu=1).
+     * Chỉ lấy các category active.
+     *
+     * @param int $limit Số lượng tối đa (mặc định 10)
+     * @return array Mảng blog categories cho menu dropdown
+     */
+    public function getMenuBlogCategories($limit = 10)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug
+                 FROM `blog_categories`
+                 WHERE status = 1 AND show_in_menu = 1
+                 ORDER BY sort_order ASC, id ASC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getMenuBlogCategories() - ' . $e->getMessage());
+            return [];
         }
     }
 }

@@ -21,6 +21,11 @@ $menuProjects  = $projectsModel->getMenuProjects(10);
 require_once __DIR__ . '/../../models/CategoriesModel.php';
 $categoriesModel = new CategoriesModel();
 $menuServices    = $categoriesModel->getMenuServices(10);
+
+// Lấy blog categories hiển thị trong menu dropdown
+require_once __DIR__ . '/../../models/BlogsModel.php';
+$blogsModel = new BlogsModel();
+$menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
 ?>
 
 <header class="main_menu_area">
@@ -169,15 +174,13 @@ $menuServices    = $categoriesModel->getMenuServices(10);
                         <li class="nav-item">
                             <a class="nav-link" href="?page=blogs" title="All Blogs">All Blogs</a>
                         </li>
+                        <?php foreach ($menuBlogCategories as $category): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=blogs&category=technology" title="Technology">Technology</a>
+                            <a class="nav-link" href="?page=blogs&cat=<?php echo urlencode($category['id']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
+                                <?php echo htmlspecialchars($category['name']); ?>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=blogs&category=business" title="Business">Business</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=blogs&id=1" title="Blog Details">Blog Details</a>
-                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </li>
                 
