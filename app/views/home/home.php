@@ -11,6 +11,101 @@
  * - $homeServices: Mảng 6 services từ bảng categories (show_on_home=1)
  * - $homeProjects: Mảng 5 projects từ bảng projects (show_on_home=1)
  */
+
+// ==========================================
+// AJAX: Xử lý form "Drop a Message" (giống pattern contact.php)
+// URL: ?page=home&action=contact-submit  METHOD: POST
+// ==========================================
+if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (!ob_get_level()) ob_start();
+
+    // Trả JSON khi có lỗi PHP
+    set_exception_handler(function (Throwable $e) {
+        if (ob_get_level()) ob_clean();
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'Lỗi hệ thống: ' . $e->getMessage()]);
+        exit;
+    });
+    set_error_handler(function (int $errno, string $errstr) {
+        if (ob_get_level()) ob_clean();
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => "Error [$errno]: $errstr"]);
+        exit;
+        return true;
+    });
+
+    try {
+        // ── 1. Validate ────────────────────────────────────────────────────
+        $name    = trim($_POST['Name']    ?? '');
+        $email   = trim($_POST['email']   ?? '');
+        $phone   = trim($_POST['tphone']  ?? '');
+        $subject = trim($_POST['subject'] ?? '');
+        $message = trim($_POST['Message'] ?? '');
+
+        $errors = [];
+        if (empty($name))                                  $errors['Name']    = 'Vui lòng nhập họ tên';
+        if (empty($email))                                 $errors['email']   = 'Vui lòng nhập email';
+        elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email']  = 'Email không hợp lệ';
+        if (empty($message))                               $errors['Message'] = 'Vui lòng nhập nội dung';
+
+        if (!empty($errors)) {
+            if (ob_get_level()) ob_clean();
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Vui lòng kiểm tra lại thông tin', 'errors' => $errors]);
+            exit;
+        }
+
+        // ── 2. Lưu DB ──────────────────────────────────────────────────────
+        require_once __DIR__ . '/../../models/ContactsModel.php';
+        $contactsModel = new ContactsModel();
+
+        $contactData = [
+            'name'    => $name,
+            'email'   => $email,
+            'phone'   => $phone,
+            'subject' => $subject,
+            'message' => $message,
+        ];
+
+        $contactId = $contactsModel->create($contactData);
+
+        if (!$contactId) {
+            if (ob_get_level()) ob_clean();
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Có lỗi khi lưu thông tin. Vui lòng thử lại.']);
+            exit;
+        }
+
+        // ── 3. Gửi email ───────────────────────────────────────────────────
+        try {
+            require_once __DIR__ . '/../../services/EmailNotificationService.php';
+            $emailService = new EmailNotificationService();
+
+            if ($emailService->isConfigured()) {
+                // Thông báo đến contact@mtech.com
+                $emailService->sendHomeContactToAdmin($contactData);
+                // Xác nhận cho người gửi
+                $emailService->sendContactConfirmation($contactData);
+            }
+        } catch (Throwable $emailEx) {
+            error_log('[HomeContact] Lỗi gửi email: ' . $emailEx->getMessage());
+        }
+
+        // ── 4. Trả kết quả ─────────────────────────────────────────────────
+        if (ob_get_level()) ob_clean();
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'message' => 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 48 giờ.']);
+        exit;
+
+    } catch (Throwable $e) {
+        error_log('[HomeContact] Exception: ' . $e->getMessage());
+        if (ob_get_level()) ob_clean();
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'Có lỗi hệ thống. Vui lòng thử lại sau.']);
+        exit;
+    }
+}
 ?>
 
 <!-- ==========================================
@@ -527,9 +622,9 @@
                             <h2 class="f_600 f_size_32 title_color">Drop a Message</h2>
                             <span class="title_br"></span>
                         </div>
-                        <form class="contact_form row" id="homeContactForm" method="post" action="?page=contact&action=submit" novalidate>
+                        <form class="contact_form row" id="homeContactForm" method="post" action="?page=home&action=contact-submit" novalidate>
                             <div class="form-group col-md-6">
-                                <input type="text" name="Name" class="form-control" id="hc_name" placeholder="Name" required>
+                                <input type="text" name="name" class="form-control" id="hc_name" placeholder="Name" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <input type="email" name="email" class="form-control" id="hc_email" placeholder="E-mail" required>
@@ -541,7 +636,7 @@
                                 <input type="text" name="subject" class="form-control" id="hc_subject" placeholder="Subject" required>
                             </div>
                             <div class="form-group col-md-12">
-                                <textarea name="Message" class="form-control" id="hc_message" rows="6" placeholder="Message" required></textarea>
+                                <textarea name="message" class="form-control" id="hc_message" rows="6" placeholder="Message" required></textarea>
                             </div>
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn_blue submit_btn">Submit now</button>

@@ -22,8 +22,19 @@ mb_http_output('UTF-8');
     <!-- NOTE: Title - Thay đổi tiêu đề mặc định tại đây -->
     <title><?php echo isset($title) ? $title : 'Tiêu đề mặc định - Tên Website'; ?></title>
     
-    <!-- NOTE: Favicon - Thêm đường dẫn favicon tại đây -->
-    <link rel="icon" type="image/x-icon" href="<?php echo isset($favicon) ? $favicon : '/favicon.ico'; ?>">
+    <!-- NOTE: Favicon
+         File: assets/icons/favicon.ico
+         Dùng BASE_URL động để đúng cả localhost/subfolder lẫn hosting root
+    -->
+    <?php
+    // Tính base URL động: hoạt động đúng cả localhost/subfolder và hosting root
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host     = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $script   = $_SERVER['SCRIPT_NAME'] ?? '/index.php';          // /mtechwebsite/index.php
+    $basePath = rtrim(dirname($script), '/\\');                    // /mtechwebsite  (hoặc '' nếu root)
+    $baseUrl  = $protocol . '://' . $host . $basePath;            // http://localhost/mtechwebsite
+    ?>
+    <link rel="icon" href="<?php echo $baseUrl; ?>/assets/icons/favicon.ico?v=1.1">
     
     <!-- NOTE: Google Fonts/External Fonts - Thêm fonts tại đây -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,6 +78,7 @@ mb_http_output('UTF-8');
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/pageheader.css">
     <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/pusher.css">
     
     <!-- ========================================== -->
     <!-- NOTE: Page-specific CSS - Thêm CSS theo từng trang -->
@@ -266,9 +278,7 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Scroll to Top / Pusher Button -->
     <!-- ========================================== -->
-    <?php if (isset($showScrollTop) && $showScrollTop): ?>
-        <?php // include_once __DIR__ . '/pusher.php'; ?>
-    <?php endif; ?>
+    <?php include_once __DIR__ . '/pusher.php'; ?>
     
     <!-- ========================================== -->
     <!-- NOTE: Core JavaScript Files - JS chung -->
@@ -277,6 +287,7 @@ mb_http_output('UTF-8');
         <script src="assets/js/header.js"></script>
     <?php endif; ?>
     <script src="assets/js/footer.js"></script>
+    <script src="assets/js/pusher.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

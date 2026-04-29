@@ -42,17 +42,18 @@ class ContactsModel
     {
         try {
             $stmt = $this->db->prepare(
-                "INSERT INTO `{$this->table}` (name, email, phone, message, ip_address, user_agent, status, created_at) 
-                 VALUES (:name, :email, :phone, :message, :ip_address, :user_agent, 0, NOW())"
+                "INSERT INTO `{$this->table}` (name, email, phone, subject, message, ip_address, user_agent, status, created_at) 
+                 VALUES (:name, :email, :phone, :subject, :message, :ip_address, :user_agent, 0, NOW())"
             );
 
             $stmt->execute([
-                ':name' => $data['name'],
-                ':email' => $data['email'],
-                ':phone' => $data['phone'] ?? null,
-                ':message' => $data['message'],
-                ':ip_address' => $_SERVER['REMOTE_ADDR'] ?? null,
-                ':user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null
+                ':name'       => $data['name'],
+                ':email'      => $data['email'],
+                ':phone'      => $data['phone']   ?? null,
+                ':subject'    => $data['subject'] ?? null,
+                ':message'    => $data['message'],
+                ':ip_address' => $_SERVER['REMOTE_ADDR']     ?? null,
+                ':user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
             ]);
 
             return (int) $this->db->lastInsertId();

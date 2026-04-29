@@ -368,6 +368,7 @@
 
     /**
      * Xử lý form "Drop a Message" trên trang chủ
+     * Gửi AJAX đến api/home-contact.php → email đến contact@mtech.com
      */
     function initHomeContactForm() {
         const form = document.getElementById('homeContactForm');
@@ -379,36 +380,60 @@
             const btn = form.querySelector('.submit_btn');
             const originalText = btn.textContent;
 
-            // Validate cơ bản
+            // ── Validate required fields ──────────────────────────────────
             let valid = true;
             form.querySelectorAll('[required]').forEach(field => {
                 if (!field.value.trim()) {
                     field.style.borderColor = '#dc3545';
                     valid = false;
                 } else {
-                    field.style.borderColor = '#e0e0e0';
+                    field.style.borderColor = '';
                 }
             });
 
-            if (!valid) return;
+            // Validate email format
+            const emailField = form.querySelector('[name="email"]');
+            if (emailField && emailField.value.trim()) {
+                const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value.trim());
+                if (!emailOk) {
+                    emailField.style.borderColor = '#dc3545';
+                    valid = false;
+                }
+            }
 
-            // Loading state
+            if (!valid) {
+                showFormMessage(form, 'Vui lòng điền đầy đủ thông tin hợp lệ.', 'error');
+                return;
+            }
+
+            // ── Loading state ─────────────────────────────────────────────
             btn.textContent = 'Sending...';
             btn.disabled = true;
 
-            // Gửi form qua fetch
-            const formData = new FormData(form);
-
-            fetch('?page=contact&action=submit', {
+            // ── Gửi đến API endpoint ──────────────────────────────────────
+            fetch('?page=home&action=contact-submit', {
                 method: 'POST',
-                body: formData
+                body: new FormData(form)
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok && res.status !== 422) {
+                    throw new Error('Server error: ' + res.status);
+                }
+                return res.json();
+            })
             .then(data => {
                 if (data.success) {
                     form.reset();
-                    showFormMessage(form, 'Your message has been sent successfully!', 'success');
+                    form.querySelectorAll('.form-control').forEach(f => f.style.borderColor = '');
+                    showFormMessage(form, data.message || 'Your message has been sent successfully!', 'success');
                 } else {
+                    // Highlight các field lỗi nếu server trả về
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(fieldName => {
+                            const field = form.querySelector('[name="' + fieldName + '"]');
+                            if (field) field.style.borderColor = '#dc3545';
+                        });
+                    }
                     showFormMessage(form, data.message || 'Something went wrong. Please try again.', 'error');
                 }
             })
@@ -421,10 +446,10 @@
             });
         });
 
-        // Reset border màu khi user gõ lại
+        // Reset border khi user gõ lại
         form.querySelectorAll('.form-control').forEach(field => {
             field.addEventListener('input', function() {
-                this.style.borderColor = '#e0e0e0';
+                this.style.borderColor = '';
             });
         });
     }

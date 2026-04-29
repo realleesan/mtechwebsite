@@ -218,6 +218,14 @@ if (isset($_GET['page']) && $_GET['page'] === 'contact' &&
     // Script ends in contact.php after outputting JSON
 }
 
+// ── Home contact form AJAX (same pattern as contact page) ──────────────────
+if (isset($_GET['page']) && $_GET['page'] === 'home' &&
+    isset($_GET['action']) && $_GET['action'] === 'contact-submit' &&
+    $_SERVER['REQUEST_METHOD'] === 'POST') {
+    require 'app/views/home/home.php';
+    exit;
+}
+
 // ==========================================
 // NOTE: Get Current Page - Lấy trang hiện tại từ URL
 // ==========================================
@@ -746,6 +754,10 @@ if (!isset($breadcrumbs) && ($showBreadcrumb ?? false)) {
 // NOTE: Include Master Layout - Load layout chính
 // ==========================================
 // Các biến truyền sang layout: $title, $content, $breadcrumbs, $showPageHeader, v.v.
+// Global assets được load trong master.php:
+//   - assets/css/pusher.css  → Scroll to Top button styles
+//   - assets/js/pusher.js    → Scroll to Top button logic
+//   - app/views/_layout/pusher.php → Scroll to Top button HTML
 
 if (isset($useStandaloneLayout) && $useStandaloneLayout) {
     // NOTE: Standalone layout - trang tự chứa HTML đầy đủ (coming soon)
