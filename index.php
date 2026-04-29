@@ -226,6 +226,15 @@ if (isset($_GET['page']) && $_GET['page'] === 'home' &&
     exit;
 }
 
+// ── Teams question form AJAX ────────────────────────────────────────────────
+// Cover cả page=teams (URL mới) và page=about (URL cũ có thể còn trong cache)
+if (isset($_GET['action']) && $_GET['action'] === 'submit_question' &&
+    isset($_GET['page']) && in_array($_GET['page'], ['teams', 'about']) &&
+    $_SERVER['REQUEST_METHOD'] === 'POST') {
+    require 'app/views/about/teams.php';
+    exit;
+}
+
 // ==========================================
 // NOTE: Get Current Page - Lấy trang hiện tại từ URL
 // ==========================================
