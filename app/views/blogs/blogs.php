@@ -9,7 +9,7 @@
 
 $blogs          = $blogs          ?? [];
 $totalBlogs     = $totalBlogs     ?? 0;
-$currentPage    = $currentPage    ?? 1;
+$currentPage    = (int) ($currentPage ?? 1);
 $perPage        = $perPage        ?? 6;
 $blogCategories = $blogCategories ?? [];
 $recentBlogs    = $recentBlogs    ?? [];
