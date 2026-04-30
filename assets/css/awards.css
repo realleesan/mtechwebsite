@@ -1,0 +1,195 @@
+/* ============================================================
+   AWARDS PAGE STYLES
+   assets/css/awards.css
+   Carousel giống client_logos — không có grayscale/color effect
+   ============================================================ */
+
+/* ---- Section wrapper ---- */
+.awards_area {
+    background: #f5f6f8;
+    padding: 100px 0;
+    overflow: hidden;
+}
+
+/* ---- Section title (dùng lại utility classes từ layout) ---- */
+.awards_area .section_title {
+    text-align: left;
+}
+
+/* ============================================================
+   CAROUSEL — clone 100% từ client.logos.css
+   ============================================================ */
+
+/* Wrapper: full width, overflow hidden, cursor grab */
+.awards_carousel_wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+}
+
+.awards_carousel_wrapper:active {
+    cursor: grabbing;
+}
+
+/* Track: flex ngang, gap đều, chạy bằng rAF (không dùng CSS animation) */
+.awards_carousel_track {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 20px 0 30px;
+    will-change: transform;
+}
+
+/* ============================================================
+   SLIDE — khung ảnh dọc + text bên dưới
+   ============================================================ */
+.awards_slide {
+    flex-shrink: 0;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Khung ảnh hình chữ nhật dọc */
+.awards_img_wrap {
+    width: 220px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.awards_slide:hover .awards_img_wrap {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+    transform: translateY(-4px);
+}
+
+/* Ảnh thực tế */
+.awards_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Placeholder khi chưa có ảnh */
+.awards_img_placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e8ecf4 0%, #d0d8ea 100%);
+    color: #8a9bbf;
+}
+
+.awards_img_placeholder svg {
+    stroke: #8a9bbf;
+    opacity: 0.7;
+}
+
+.awards_img_placeholder span {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #8a9bbf;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ---- Text bên dưới ảnh ---- */
+.awards_info {
+    width: 100%;
+    text-align: center;
+    padding: 0 4px;
+}
+
+.awards_name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E3070;
+    line-height: 1.4;
+    margin: 0 0 5px;
+}
+
+.awards_cert {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: #8a9bbf;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 991px) {
+    .awards_area {
+        padding: 70px 0;
+    }
+
+    .awards_slide {
+        width: 180px;
+    }
+
+    .awards_img_wrap {
+        width: 180px;
+        height: 245px;
+    }
+
+    .awards_carousel_track {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .awards_area {
+        padding: 50px 0;
+    }
+
+    .awards_slide {
+        width: 155px;
+    }
+
+    .awards_img_wrap {
+        width: 155px;
+        height: 210px;
+    }
+
+    .awards_carousel_track {
+        gap: 20px;
+    }
+
+    .awards_name {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 575px) {
+    .awards_slide {
+        width: 140px;
+    }
+
+    .awards_img_wrap {
+        width: 140px;
+        height: 190px;
+    }
+
+    .awards_carousel_track {
+        gap: 16px;
+    }
+}

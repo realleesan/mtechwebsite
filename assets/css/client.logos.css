@@ -1,0 +1,168 @@
+/* ============================================
+   CLIENT LOGO CAROUSEL STYLES
+   assets/css/client.logos.css
+   Carousel tự động chạy từ phải qua trái
+   ============================================ */
+
+.clients_logo_area {
+    padding: 60px 0;
+    background: #ffffff;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    overflow: hidden;
+}
+
+/* Wrapper chứa carousel */
+.client_logo_carousel_wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+}
+
+.client_logo_carousel_wrapper:active {
+    cursor: grabbing;
+}
+
+/* Track chứa tất cả slides */
+.client_logo_carousel_track {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    /* Animation chạy từ phải qua trái */
+    animation: scrollLeft 14s linear infinite;
+    will-change: transform;
+}
+
+/* Pause animation khi hover (desktop) hoặc đang drag */
+.client_logo_carousel_track.is-dragging {
+    animation-play-state: paused;
+}
+
+/* Keyframe giữ lại để fallback nếu JS chưa load */
+@keyframes scrollLeft {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+}
+
+/* Mỗi slide logo */
+.client_logo_slide {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
+    height: 120px;
+}
+
+.client_logo_slide a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+/* Logo image - kích thước đồng nhất */
+.client_logo_img {
+    max-width: 180px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    /* Mặc định: grayscale (đơn sắc) */
+    filter: grayscale(100%) brightness(1.1);
+    transition: filter 0.5s ease, transform 0.3s ease;
+}
+
+/* Desktop: hover vào logo → màu nguyên bản */
+@media (min-width: 992px) {
+    .client_logo_slide:hover .client_logo_img {
+        filter: grayscale(0%) brightness(1);
+        transform: scale(1.05);
+    }
+}
+
+/* Mobile: tự động chuyển màu sau 1s khi scroll vào viewport */
+@media (max-width: 991px) {
+    .clients_logo_area.in-viewport .client_logo_img {
+        animation: mobileColorReveal 0.8s ease forwards 1s;
+    }
+}
+
+@keyframes mobileColorReveal {
+    0% {
+        filter: grayscale(100%) brightness(1.1);
+    }
+    100% {
+        filter: grayscale(0%) brightness(1);
+    }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 991px) {
+    .clients_logo_area {
+        padding: 50px 0;
+    }
+    
+    .client_logo_carousel_track {
+        gap: 60px;
+        animation-duration: 18s;
+    }
+    
+    .client_logo_slide {
+        min-width: 160px;
+        height: 100px;
+    }
+    
+    .client_logo_img {
+        max-width: 150px;
+        max-height: 80px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .clients_logo_area {
+        padding: 40px 0;
+    }
+    
+    .client_logo_carousel_track {
+        gap: 50px;
+        animation-duration: 14s;
+    }
+    
+    .client_logo_slide {
+        min-width: 140px;
+        height: 80px;
+    }
+    
+    .client_logo_img {
+        max-width: 130px;
+        max-height: 70px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 575px) {
+    .client_logo_carousel_track {
+        gap: 40px;
+    }
+    
+    .client_logo_slide {
+        min-width: 120px;
+        height: 70px;
+    }
+    
+    .client_logo_img {
+        max-width: 110px;
+        max-height: 60px;
+    }
+}

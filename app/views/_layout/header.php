@@ -119,7 +119,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                             <a class="nav-link" href="?page=teams" title="Teams">Teams</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=testimonials" title="Testimonials">Testimonials</a>
+                            <a class="nav-link" href="?page=awards" title="Awards">Awards</a>
                         </li>
                     </ul>
                 </li>

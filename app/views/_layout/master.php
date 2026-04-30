@@ -79,6 +79,7 @@ mb_http_output('UTF-8');
     <link rel="stylesheet" href="assets/css/pageheader.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/pusher.css">
+    <link rel="stylesheet" href="assets/css/client.logos.css">
     
     <!-- ========================================== -->
     <!-- NOTE: Page-specific CSS - Thêm CSS theo từng trang -->
@@ -86,8 +87,8 @@ mb_http_output('UTF-8');
     <?php
     switch($currentPage) {
         case 'home':
-            echo '<link rel="stylesheet" href="assets/css/testimonials.css">';
             echo '<link rel="stylesheet" href="assets/css/home.css">';
+            echo '<link rel="stylesheet" href="assets/css/awards.css">';
             break;
         case 'about':
             echo '<link rel="stylesheet" href="assets/css/about.css">';
@@ -122,8 +123,8 @@ mb_http_output('UTF-8');
         case 'blog-details':
             echo '<link rel="stylesheet" href="assets/css/blog.details.css">';
             break;
-        case 'testimonials':
-            echo '<link rel="stylesheet" href="assets/css/testimonials.css">';
+        case 'awards':
+            echo '<link rel="stylesheet" href="assets/css/awards.css">';
             break;
         case '404':
             echo '<link rel="stylesheet" href="assets/css/errors.css">';
@@ -288,6 +289,7 @@ mb_http_output('UTF-8');
     <?php endif; ?>
     <script src="assets/js/footer.js"></script>
     <script src="assets/js/pusher.js"></script>
+    <script src="assets/js/client.logos.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -301,6 +303,7 @@ mb_http_output('UTF-8');
     switch($currentPage) {
         case 'home':
             echo '<script src="assets/js/home.js"></script>';
+            echo '<script src="assets/js/awards.js"></script>';
             break;
         case 'about':
             echo '<script src="assets/js/about.js"></script>';
@@ -335,8 +338,8 @@ mb_http_output('UTF-8');
         case 'blog-details':
             echo '<script src="assets/js/blog.details.js"></script>';
             break;
-        case 'testimonials':
-            echo '<script src="assets/js/testimonials.js"></script>';
+        case 'awards':
+            echo '<script src="assets/js/awards.js"></script>';
             break;
         case '404':
             echo '<script src="assets/js/errors.js"></script>';

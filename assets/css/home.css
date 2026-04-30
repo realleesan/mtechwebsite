@@ -1556,32 +1556,5 @@
 
 /* ============================================
    Client Logo Area — Đối tác chiến lược
+   Styles moved to assets/css/client.logos.css
    ============================================ */
-.clients_logo_area {
-    padding: 50px 0;
-    border-top: 2px solid #d0d0d0;
-}
-
-.clients_logo_item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    opacity: 0.6;
-    transition: opacity 0.3s;
-}
-
-.clients_logo_item:hover {
-    opacity: 1;
-}
-
-.clients_logo_item img {
-    max-height: 84px;
-    width: auto;
-    filter: grayscale(100%);
-    transition: filter 0.3s;
-}
-
-.clients_logo_item:hover img {
-    filter: grayscale(0%);
-}

@@ -209,10 +209,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                     <h5 class="welcome_sub">Welcome to our Industry</h5>
                     <h1 class="welcome_title">25+ years of experiences for give you better results.</h1>
                     <p class="welcome_desc">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward ew normal that has evolved.</p>
-                    <h6 class="welcome_ceo">Company CEO : <a href="#">Michale John</a></h6>
-                    <a href="#" class="sign_btn">
-                        <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/sign.png" alt="signature">
-                    </a>
+                    <h6 class="welcome_ceo">Company CEO : Michale John</a></h6>
                 </div>
             </div>
         </div>
@@ -419,73 +416,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
 
 
 <!-- ==========================================
-     SECTION 3: TESTIMONIALS, LATEST NEWS, PROMO, CTA
+     SECTION 3: AWARDS, LATEST NEWS, PROMO, CTA
      ========================================== -->
 
-<!-- ---- 3A: WHAT OUR CLIENTS SAY ---- -->
-<section class="testimonial_area sec_gap">
-    <div class="container">
-        <div class="section_title mb_55 text-center">
-            <h2 class="f_600 f_size_32 title_color d-block mb_3">What Our Clients Says</h2>
-            <span class="title_br mx-auto"></span>
-        </div>
-        <div class="testimonial_inner">
-            <?php if (!empty($homeTestimonials)): ?>
-                <?php foreach ($homeTestimonials as $item): ?>
-                    <?php
-                    $logo    = !empty($item['company_logo'])
-                               ? $item['company_logo']
-                               : 'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/t_img1.png';
-                    $city    = htmlspecialchars($item['location_city'] ?? '');
-                    $country = htmlspecialchars($item['location_country'] ?? '');
-                    $name    = htmlspecialchars($item['company_name'] ?? '');
-                    $review  = htmlspecialchars($item['review_content'] ?? '');
-                    ?>
-                    <div class="testimonial_item_width">
-                        <div class="testimonial_item text-center">
-                            <img class="testimonial_img rounded-circle" src="<?php echo $logo; ?>" alt="<?php echo $name; ?>">
-                            <h6 class="f_600 title_color"><?php echo $name; ?></h6>
-                            <div class="country_name">
-                                <?php if ($city): ?><span><?php echo $city; ?></span><?php endif; ?>
-                                <?php if ($country): ?><span><?php echo $country; ?></span><?php endif; ?>
-                            </div>
-                            <p><?php echo $review; ?></p>
-                            <i class="q_icon"></i>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="testimonial_item_width">
-                    <div class="testimonial_item text-center">
-                        <img class="testimonial_img rounded-circle" src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/t_img1.png" alt="Romani John">
-                        <h6 class="f_600 title_color">Romani John</h6>
-                        <div class="country_name"><span>Melborne</span><span>Australia</span></div>
-                        <p>Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing.</p>
-                        <i class="q_icon"></i>
-                    </div>
-                </div>
-                <div class="testimonial_item_width">
-                    <div class="testimonial_item text-center">
-                        <img class="testimonial_img rounded-circle" src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/t_img2.png" alt="David Smith">
-                        <h6 class="f_600 title_color">David Smith</h6>
-                        <div class="country_name"><span>New York</span><span>USA</span></div>
-                        <p>Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing.</p>
-                        <i class="q_icon"></i>
-                    </div>
-                </div>
-                <div class="testimonial_item_width">
-                    <div class="testimonial_item text-center">
-                        <img class="testimonial_img rounded-circle" src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/t_img3.png" alt="Sarah Lee">
-                        <h6 class="f_600 title_color">Sarah Lee</h6>
-                        <div class="country_name"><span>London</span><span>UK</span></div>
-                        <p>Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing.</p>
-                        <i class="q_icon"></i>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-</section>
+<!-- ---- 3A: AWARDS CAROUSEL ---- -->
+<?php
+require_once __DIR__ . '/../../models/AwardsModel.php';
+$awardsModel = new AwardsModel();
+$awards = $awardsModel->getAllActive();
+include_once __DIR__ . '/../about/awards.php';
+?>
 
 <!-- ---- 3B: LATEST NEWS ---- -->
 <section class="lt_news_area bg_color">

@@ -258,18 +258,14 @@ switch($page) {
         require_once 'app/models/CategoriesModel.php';
         require_once 'app/models/ProjectsModel.php';
         require_once 'app/models/ClientLogosModel.php';
-        require_once 'app/models/TestimonialsModel.php';
 
         $categoriesModel    = new CategoriesModel();
         $projectsModel      = new ProjectsModel();
         $clientLogosModel   = new ClientLogosModel();
-        $testimonialsModel  = new TestimonialsModel();
 
         $homeServices       = $categoriesModel->getHomeServices(6);
         $homeProjects       = $projectsModel->getHomeProjects(5);
         $clientLogos        = $clientLogosModel->getAllActive();
-        // Lấy tối đa 3 testimonials cho trang home
-        $homeTestimonials   = $testimonialsModel->getHomeTestimonials(3);
         // Lấy tối đa 3 blogs mới nhất cho trang home
         require_once 'app/models/BlogsModel.php';
         $blogsModel         = new BlogsModel();
@@ -532,19 +528,17 @@ switch($page) {
         break;
         
     // --------------------------------------
-    // NOTE: Testimonials Page
+    // NOTE: Awards Page (Giải thưởng & Chứng chỉ)
     // --------------------------------------
-    case 'testimonials':
-        require_once 'app/models/TestimonialsModel.php';
-        $testimonialsModel  = new TestimonialsModel();
-        $result             = $testimonialsModel->getTestimonials(1, 0); // 0 = lấy tất cả
-        $testimonials       = $result['items'];
-        $totalTestimonials  = $result['total'];
+    case 'awards':
+        require_once 'app/models/AwardsModel.php';
+        $awardsModel = new AwardsModel();
+        $awards      = $awardsModel->getAllActive();
 
-        $title          = 'Testimonials - MTECHJSC';
-        $content        = 'app/views/about/testimonials.php';
+        $title          = 'Awards - MTECHJSC';
+        $content        = 'app/views/about/awards.php';
         $showPageHeader = true;
-        $pageTitle      = 'Testimonials';
+        $pageTitle      = 'Awards';
         $showCTA        = false;
         $showBreadcrumb = true;
         break;
