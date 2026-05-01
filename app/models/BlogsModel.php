@@ -53,19 +53,30 @@ class BlogsModel
             if (!empty($tagSlug)) {
                 $baseJoin .= " INNER JOIN `blog_tag_map` btm ON btm.blog_id = b.id
                                INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id AND bt.slug = ?";
-                // tag param phải đứng trước các param khác trong JOIN
-                array_unshift($params, $tagSlug);
-                // Rebuild: tag param cần đứng sau JOIN nhưng trước WHERE params
-                // Reset và xây lại đúng thứ tự
+                // Rebuild params: tag slug phải đứng đúng vị trí trong JOIN
                 $params = [];
                 if (!empty($tagSlug)) $params[] = $tagSlug;
-                if ($catId > 0)      $params[] = $catId;
+                if ($catId > 0)       $params[] = $catId;
             }
 
             if (!empty($search)) {
-                $where .= " AND (b.title LIKE ? OR b.excerpt LIKE ?)";
-                $params[] = "%{$search}%";
-                $params[] = "%{$search}%";
+                // Tìm theo title, excerpt, category name, và tag name
+                $where .= " AND (
+                    b.title    LIKE ? OR
+                    b.excerpt  LIKE ? OR
+                    bc.name    LIKE ? OR
+                    EXISTS (
+                        SELECT 1 FROM `blog_tag_map` stm
+                        INNER JOIN `blog_tags` st ON st.id = stm.tag_id
+                        WHERE stm.blog_id = b.id AND (st.name LIKE ? OR st.slug LIKE ?)
+                    )
+                )";
+                $like = "%{$search}%";
+                $params[] = $like;
+                $params[] = $like;
+                $params[] = $like;
+                $params[] = $like;
+                $params[] = $like;
             }
 
             // Count total

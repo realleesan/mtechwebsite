@@ -1,11 +1,13 @@
 ﻿/* ============================================================
    BLOG DETAILS PAGE STYLES
-   Copy 100% từ blogs.css để đồng bộ hoàn toàn
+   Dùng chung toàn bộ style từ blogs.css,
+   chỉ override/thêm những gì riêng của trang chi tiết.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap');
+/* Import toàn bộ style từ blogs.css */
+@import url('blogs.css');
 
-/* ---- Section wrapper ---- */
+/* ---- Section wrapper riêng cho details ---- */
 .blog_details_area {
     padding: 80px 0;
     background: #fff;
@@ -20,127 +22,14 @@
     flex-wrap: wrap;
 }
 
-/* ============================================================
-   LEFT — Nội dung chi tiết bài viết
-   ============================================================ */
-.blog_left_sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-/* ---- Blog post item ---- */
-.lt_blog_item {
-    background: transparent;
-    padding-bottom: 48px;
-    margin-bottom: 48px;
-    border-bottom: 1px solid #e8e8e8;
-}
-
-.lt_blog_item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
+/* ---- Blog post item — không có border-bottom ở trang details ---- */
 .blog_post_item {
-    background: transparent;
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
-/* ---- Thumbnail: full width, hover overlay tối ---- */
-.blog_img {
-    display: block;
-    overflow: hidden;
-    position: relative;
-}
-
-.blog_img img {
-    width: 100%;
-    height: 420px;
-    object-fit: cover;
-    display: block;
-    transition: transform .45s ease;
-}
-
-/* Overlay tối khi hover */
-.blog_img::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0);
-    transition: background .35s ease;
-    pointer-events: none;
-}
-
-.lt_blog_item:hover .blog_img::after {
-    background: rgba(0, 0, 0, 0.35);
-}
-
-.lt_blog_item:hover .blog_img img {
-    transform: scale(1.05);
-}
-
-/* ---- Date badge — đè lên ảnh, góc dưới trái ---- */
-/* Font: Poppins theo yêu cầu (ngày tạo) */
-.blog-date-badge {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: #1A3FBF;
-    color: #ffffff;
-    font-family: 'Poppins', sans-serif;
-    font-size: 19px;
-    font-weight: 700;
-    padding: 12px 26px;
-    letter-spacing: .2px;
-    line-height: 1.4;
-    z-index: 2;
-}
-
-/* ---- Post meta: By admin / tags — dưới ảnh, bên phải ---- */
-/* Font: Poppins (người tạo, tags dưới bài) */
-.post_info {
-    padding: 19px 0 0;
-    text-align: right;
-}
-
-.blog_author_area {
-    font-family: 'Poppins', sans-serif;
-    font-size: 19px;
-    color: #B8B8B8;
-    line-height: 1.6;
-}
-
-.blog_author_area a {
-    font-family: 'Poppins', sans-serif;
-    color: #B8B8B8;
-    font-weight: 600;
-    text-decoration: none;
-    transition: color .2s;
-}
-
-/* Author hover → xanh */
-.blog_author_area a:hover {
-    color: #1A3FBF;
-}
-
-.blog_author_area .sep {
-    margin: 0 8px;
-    color: #d0d0d0;
-}
-
-/* Tags dưới bài viết — Poppins */
-.blog_author_area .tag-link {
-    font-family: 'Poppins', sans-serif;
-    color: #B8B8B8;
-    text-decoration: none;
-    transition: color .2s;
-}
-
-.blog_author_area .tag-link:hover {
-    color: #1A3FBF;
-}
-
-/* ---- Đường kẻ ngang phân cách sau meta (By: admin / tags) ---- */
+/* ---- Đường kẻ ngang phân cách sau meta ---- */
 .border_bottom {
     border: none;
     border-top: 1px solid #e0e0e0;
@@ -152,40 +41,7 @@
     margin-bottom: 20px !important;
 }
 
-/* ---- Blog text body ---- */
-.blog-text {
-    padding: 24px 0 0;
-}
-
-/* Tiêu đề bài viết — Poppins, hover xanh, không gạch dưới */
-.blog-text h4.title_color {
-    font-family: 'Poppins', sans-serif;
-    font-size: 26px;
-    font-weight: 600;
-    color: #2c2c2c;
-    margin-bottom: 16px;
-    line-height: 1.4;
-    transition: color .2s;
-    text-decoration: none;
-}
-
-.blog-text a {
-    text-decoration: none !important;
-}
-
-.blog-text a:hover h4.title_color {
-    color: #1A3FBF;
-}
-
-/* Nội dung — Open Sans */
-.blog-text p {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 17px;
-    color: #0F1A40;
-    line-height: 1.85;
-    margin-bottom: 26px;
-}
-
+/* ---- Heading trong nội dung bài viết ---- */
 .blog-text h3 {
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
@@ -195,7 +51,7 @@
     margin-top: 30px;
 }
 
-/* Links trong content */
+/* ---- Links trong content bài viết ---- */
 .blog-text a,
 .s_main_text a {
     color: #1A3FBF;
@@ -209,7 +65,7 @@
     text-decoration: underline;
 }
 
-/* Main Text Section */
+/* ---- Main Text Section ---- */
 .s_main_text {
     margin: 30px 0;
 }
@@ -231,292 +87,10 @@
 }
 
 /* ============================================================
-   RIGHT SIDEBAR — Copy 100% từ blogs.css
-   ============================================================ */
-.blog_sidebar_area {
-    display: flex;
-    flex-direction: column;
-    gap: 43px;
-}
-
-.r_widget {
-    background: transparent;
-}
-
-/* ---- Widget title — Poppins, bold, không có title_br dạng inline ---- */
-.r_widget_title {
-    margin-bottom: 22px;
-}
-
-.r_widget_title h3.title_color {
-    font-family: 'Poppins', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: #2c2c2c;
-    margin: 0;
-    display: inline-block;
-}
-
-/* Đường gạch ngang nhỏ sau tiêu đề widget — inline, xanh */
-.title_br {
-    display: inline-block;
-    width: 34px;
-    height: 3px;
-    background: #1A3FBF;
-    margin-left: 10px;
-    vertical-align: middle;
-    border-radius: 2px;
-}
-
-/* ---- Search widget — toàn bộ nền đen, placeholder xám, icon trắng ---- */
-.search_widget .input-group {
-    border-radius: 3px;
-    overflow: hidden;
-    display: flex;
-    width: 100%;
-    background: #222222;
-}
-
-.search_widget .form-control {
-    border: none;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-    padding: 16px 18px;
-    box-shadow: none;
-    outline: none;
-    background: #222222;
-    color: #c8cdd4;
-    flex: 1;
-    min-width: 0;
-    width: 0;
-    border-radius: 0;
-}
-
-.search_widget .form-control::placeholder {
-    color: #8a9099;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-}
-
-.search_widget .input-group-btn {
-    display: flex;
-    flex-shrink: 0;
-}
-
-.search_widget .btn {
-    background: #222222;
-    border: none;
-    color: #c8cdd4;
-    padding: 0 18px;
-    cursor: pointer;
-    transition: color .2s;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.search_widget .btn:hover {
-    color: #ffffff;
-}
-
-.search_widget .btn svg {
-    width: 20px;
-    height: 20px;
-    fill: none;
-    stroke: #c8cdd4;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.search_widget .btn:hover svg {
-    stroke: #ffffff;
-}
-
-/* ---- Categories widget — Poppins, hover xanh ---- */
-.widget_categories ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.widget_categories ul li {
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.widget_categories ul li:last-child {
-    border-bottom: none;
-}
-
-.widget_categories ul li a {
-    display: block;
-    padding: 13px 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 17px;
-    color: #555;
-    text-decoration: none;
-    transition: color .2s;
-}
-
-.widget_categories ul li a:hover,
-.widget_categories ul li.active a {
-    color: #1A3FBF;
-}
-
-/* ---- Recent News widget ---- */
-.recent_inner {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-
-.recent_item {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-}
-
-.recent_item img {
-    width: 86px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 2px;
-    flex-shrink: 0;
-}
-
-.recent_item .media-body {
-    flex: 1;
-}
-
-.recent_item .media-body a {
-    text-decoration: none;
-}
-
-/* Tiêu đề recent news — Open Sans, hover xanh */
-.recent_item .media-body h4 {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    line-height: 1.45;
-    margin: 0 0 6px;
-    transition: color .2s;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.recent_item .media-body a:hover h4 {
-    color: #1A3FBF;
-}
-
-/* Ngày tạo recent news — Poppins */
-.recent_item .media-body h5 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    color: #aaa;
-    margin: 0;
-    font-weight: 400;
-}
-
-/* ---- Tags widget — Open Sans, pill/badge ---- */
-.tagcloud .wp-tag-cloud {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.tagcloud .wp-tag-cloud li a {
-    display: inline-block;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 15px !important;
-    color: #555;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    padding: 8px 20px;
-    text-decoration: none;
-    transition: background .2s, color .2s, border-color .2s;
-}
-
-.tagcloud .wp-tag-cloud li a:hover,
-.tagcloud .wp-tag-cloud li a.active {
-    background: #1A3FBF;
-    color: #fff;
-    border-color: #1A3FBF;
-}
-
-/* ============================================================
-   UTILITY CLASSES
-   ============================================================ */
-.f_600 {
-    font-weight: 600;
-}
-
-.f_500 {
-    font-weight: 500;
-}
-
-.title_color {
-    color: #2c2c2c;
-}
-
-.d-inline-block {
-    display: inline-block;
-}
-
-.mb-0 {
-    margin-bottom: 0;
-}
-
-/* ============================================================
-   RESPONSIVE STYLES
+   RESPONSIVE — override thêm cho details nếu cần
    ============================================================ */
 @media (max-width: 991px) {
     .blog_details_area {
         padding: 50px 0;
-    }
-    
-    .blog_img img {
-        height: 280px;
-    }
-    
-    .blog_sidebar_area {
-        margin-top: 50px;
-    }
-    
-    .blog-text h4.title_color {
-        font-size: 22px;
-    }
-    
-    .r_widget_title h3.title_color {
-        font-size: 22px;
-    }
-}
-
-@media (max-width: 575px) {
-    .blog_img img {
-        height: 220px;
-    }
-    
-    .blog-text h4.title_color {
-        font-size: 19px;
-    }
-    
-    .blog-date-badge {
-        font-size: 16px;
-        padding: 9px 18px;
-    }
-    
-    .blog_author_area {
-        font-size: 15px;
     }
 }

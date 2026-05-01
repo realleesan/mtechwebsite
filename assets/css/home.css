@@ -1261,7 +1261,7 @@
    - Mẫu: 3 phần đè xanh / 7 phần đè trắng → margin-top = -(padding-bottom - gap_trên)
 */
 .contact_inner.m_top {
-    background: #fff;
+    background: #0D1B3E;
     border-radius: 6px;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
     padding: 50px 40px;
@@ -1285,10 +1285,10 @@
 }
 
 .c_logo_text {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
     font-size: 22px;
     font-weight: 700;
-    color: #0D1B3E;
+    color: #A1A6B4;
     letter-spacing: 1px;
 }
 
@@ -1329,7 +1329,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: #0D1B3E;
+    color: #A1A6B4;
     text-decoration: none;
     display: block;
     margin-bottom: 4px;

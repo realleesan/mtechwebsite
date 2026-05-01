@@ -424,6 +424,40 @@ switch($page) {
         break;
         
     // --------------------------------------
+    // NOTE: Search Page - Trang tìm kiếm toàn site
+    // --------------------------------------
+    case 'search':
+        require_once 'app/models/SearchModel.php';
+        $searchModel = new SearchModel();
+
+        $searchQuery  = isset($_GET['q'])    ? trim(urldecode($_GET['q'])) : '';
+        $searchType   = isset($_GET['type']) ? trim($_GET['type'])         : '';
+        $currentPage  = isset($_GET['p'])    ? max(1, (int) $_GET['p'])   : 1;
+        $perPage      = 10;
+
+        // Chỉ chấp nhận type hợp lệ
+        if (!in_array($searchType, ['blog', 'service', 'project', ''])) {
+            $searchType = '';
+        }
+
+        if (!empty($searchQuery)) {
+            $searchResult  = $searchModel->search($searchQuery, $currentPage, $perPage, $searchType);
+            $searchResults = $searchResult['results'];
+            $totalResults  = $searchResult['total'];
+        } else {
+            $searchResults = [];
+            $totalResults  = 0;
+        }
+
+        $title          = 'Search Results - MTECHJSC';
+        $content        = 'app/views/search/search.php';
+        $showPageHeader = true;
+        $pageTitle      = 'Search Results';
+        $showCTA        = false;
+        $showBreadcrumb = true;
+        break;
+
+    // --------------------------------------
     // NOTE: Projects Page - Trang dự án
     // --------------------------------------
     case 'projects':

@@ -120,6 +120,16 @@ $tagsStr = implode(' , ', $tagLinks);
                         </form>
                     </aside>
 
+                    <?php
+                    // Lấy tag slugs của bài viết hiện tại để highlight trong sidebar
+                    $currentTagSlugs = [];
+                    if (!empty($blogDetail['tags'])) {
+                        foreach ($blogDetail['tags'] as $t) {
+                            $currentTagSlugs[] = $t['slug'];
+                        }
+                    }
+                    ?>
+
                     <!-- Categories -->
                     <?php if (!empty($blogCategories)): ?>
                         <aside class="r_widget widget_categories">
@@ -180,6 +190,7 @@ $tagsStr = implode(' , ', $tagLinks);
                                     <?php foreach ($allTags as $tag): ?>
                                         <li>
                                             <a href="?page=blogs&tag=<?php echo urlencode($tag['slug']); ?>"
+                                               class="<?php echo in_array($tag['slug'], $currentTagSlugs) ? 'active' : ''; ?>"
                                                aria-label="<?php echo htmlspecialchars($tag['name']); ?> (<?php echo $tag['post_count']; ?> items)">
                                                 <?php echo htmlspecialchars($tag['name']); ?>
                                             </a>
