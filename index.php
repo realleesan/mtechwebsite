@@ -406,6 +406,9 @@ switch($page) {
         $blogCategories = $blogsModel->getAllBlogCategories();
         $recentBlogs    = $blogsModel->getRecentBlogs(4);
         $allTags        = $blogsModel->getAllTags();
+        
+        // Lấy danh sách vị trí tuyển dụng đang mở (cho form ứng tuyển)
+        $hiringPositions = $blogsModel->getAllHiringPositions();
 
         $title          = htmlspecialchars($blogDetail['title']) . ' - MTECHJSC';
         $content        = 'app/views/blogs/blog.details.php';
@@ -419,6 +422,40 @@ switch($page) {
         ];
         break;
         
+    // --------------------------------------
+    // NOTE: Search Page - Trang tìm kiếm toàn site
+    // --------------------------------------
+    case 'search':
+        require_once 'app/models/SearchModel.php';
+        $searchModel = new SearchModel();
+
+        $searchQuery  = isset($_GET['q'])    ? trim(urldecode($_GET['q'])) : '';
+        $searchType   = isset($_GET['type']) ? trim($_GET['type'])         : '';
+        $currentPage  = isset($_GET['p'])    ? max(1, (int) $_GET['p'])   : 1;
+        $perPage      = 10;
+
+        // Chỉ chấp nhận type hợp lệ
+        if (!in_array($searchType, ['blog', 'service', 'project', ''])) {
+            $searchType = '';
+        }
+
+        if (!empty($searchQuery)) {
+            $searchResult  = $searchModel->search($searchQuery, $currentPage, $perPage, $searchType);
+            $searchResults = $searchResult['results'];
+            $totalResults  = $searchResult['total'];
+        } else {
+            $searchResults = [];
+            $totalResults  = 0;
+        }
+
+        $title          = 'Search Results - MTECHJSC';
+        $content        = 'app/views/search/search.php';
+        $showPageHeader = true;
+        $pageTitle      = 'Search Results';
+        $showCTA        = false;
+        $showBreadcrumb = true;
+        break;
+
     // --------------------------------------
     // NOTE: Projects Page - Trang dự án
     // --------------------------------------
@@ -725,6 +762,79 @@ switch($page) {
         $hideHeader = true;
         http_response_code(500);
         break;
+
+    // --------------------------------------
+    // NOTE: Job Application Submit - Xử lý nộp CV ứng tuyển
+    // --------------------------------------
+    case 'job-application-submit':
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ?page=blogs');
+            exit;
+        }
+
+        require_once 'app/models/BlogsModel.php';
+        require_once 'app/models/JobApplicationModel.php';
+        
+        $blogsModel = new BlogsModel();
+        $jobAppModel = new JobApplicationModel();
+
+        // Lấy dữ liệu từ form
+        $blogId   = (int) ($_POST['blog_id'] ?? 0);
+        $fullName = trim($_POST['full_name'] ?? '');
+        $email    = trim($_POST['email'] ?? '');
+        $phone    = trim($_POST['phone'] ?? '');
+        $position = trim($_POST['position'] ?? '');
+        $message  = trim($_POST['message'] ?? '');
+        $returnSlug = trim($_POST['return_slug'] ?? '');
+
+        // Kiểm tra blog tồn tại và đang tuyển
+        $blog = $blogsModel->getBlogById($blogId);
+        if (!$blog || !$blogsModel->isHiringOpen($blog)) {
+            $_SESSION['job_application_message'] = 'Vị trí này hiện không còn nhận hồ sơ.';
+            $_SESSION['job_application_success'] = false;
+            header('Location: ?page=blog-details&slug=' . urlencode($returnSlug));
+            exit;
+        }
+
+        // Tạo đơn ứng tuyển
+        $result = $jobAppModel->createApplication(
+            $blogId, $fullName, $email, $phone, $position, 
+            $_FILES['cv'] ?? [], $message
+        );
+
+        if ($result['success']) {
+            // Gửi email thông báo (nếu có EmailNotificationService)
+            if (file_exists('app/services/EmailNotificationService.php')) {
+                require_once 'app/services/EmailNotificationService.php';
+                if (class_exists('EmailNotificationService')) {
+                    $emailService = new EmailNotificationService();
+                    $emailService->sendJobApplicationNotification([
+                        'application_id' => $result['id'],
+                        'blog_id' => $blogId,
+                        'position' => $position,
+                        'full_name' => $fullName,
+                        'email' => $email,
+                        'phone' => $phone,
+                        'cv_path' => $result['cv_path']
+                    ]);
+                    // Gửi email cảm ơn cho ứng viên
+                    $emailService->sendThankYouEmail([
+                        'full_name' => $fullName,
+                        'email' => $email,
+                        'position' => $position
+                    ]);
+                }
+            }
+
+            $_SESSION['job_application_message'] = 'CV ứng tuyển của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ trong thời gian sớm nhất.';
+            $_SESSION['job_application_success'] = true;
+        } else {
+            $_SESSION['job_application_message'] = $result['error'] ?? 'Có lỗi xảy ra. Vui lòng thử lại.';
+            $_SESSION['job_application_success'] = false;
+        }
+
+        header('Location: ?page=blog-details&slug=' . urlencode($returnSlug));
+        exit;
 
     // --------------------------------------
     // NOTE: 404 Page - Tường minh (từ .htaccess redirect hoặc link trực tiếp)

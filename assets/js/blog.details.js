@@ -21,6 +21,7 @@
         initSmoothScroll();
         initImageLightbox();
         initSidebarSticky();
+        initJobApplicationForm();
         
     });
 
@@ -290,6 +291,90 @@
                 $(this).remove();
             });
         }, 3000);
+    }
+
+    // ============================================================
+    // 11. JOB APPLICATION FORM - CV FILE UPLOAD HANDLER
+    // ============================================================
+    function initJobApplicationForm() {
+        const $cvFileInput = $('#cv_file');
+        const $cvFileWrapper = $('#cv_file_wrapper');
+        const $cvFileText = $('#cv_file_label');
+        const $cvFeedback = $('#cv_feedback');
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        const ALLOWED_TYPES = ['application/pdf'];
+        const ALLOWED_EXTENSIONS = ['.pdf'];
+        let feedbackTimeout = null;
+
+        if ($cvFileInput.length === 0) return;
+
+        function showFeedback(message, type) {
+            if (feedbackTimeout) {
+                clearTimeout(feedbackTimeout);
+            }
+
+            var icon = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+            $cvFeedback.html(icon + message);
+            $cvFeedback.removeClass('success error').addClass(type);
+            
+            setTimeout(function() {
+                $cvFeedback.addClass('show');
+            }, 10);
+
+            feedbackTimeout = setTimeout(function() {
+                $cvFeedback.removeClass('show');
+            }, 3000);
+        }
+
+        function validateFile(file) {
+            if (!file) return { valid: false, message: 'Vui lòng chọn file' };
+
+            if (file.size > MAX_FILE_SIZE) {
+                return { valid: false, message: 'File quá lớn. Tối đa 5MB.' };
+            }
+
+            var hasValidType = ALLOWED_TYPES.indexOf(file.type) !== -1;
+            var hasValidExtension = ALLOWED_EXTENSIONS.some(function(ext) {
+                return file.name.toLowerCase().endsWith(ext);
+            });
+
+            if (!hasValidType && !hasValidExtension) {
+                return { valid: false, message: 'File không hợp lệ. Chỉ chấp nhận PDF.' };
+            }
+
+            return { valid: true, message: 'Tải file thành công: ' + file.name };
+        }
+
+        // Click on wrapper or browse button to trigger file input
+        $cvFileWrapper.on('click', function(e) {
+            // Don't trigger if clicking directly on the input
+            if (e.target !== $cvFileInput[0]) {
+                $cvFileInput.trigger('click');
+            }
+        });
+
+        $cvFileInput.on('change', function(e) {
+            var file = e.target.files[0];
+            
+            if (file) {
+                var validation = validateFile(file);
+                
+                if (validation.valid) {
+                    $cvFileWrapper.removeClass('has-error').addClass('has-file');
+                    $cvFileText.text(file.name);
+                    showFeedback(validation.message, 'success');
+                } else {
+                    $cvFileWrapper.removeClass('has-file').addClass('has-error');
+                    $cvFileText.text('Chọn file PDF...');
+                    showFeedback(validation.message, 'error');
+                    $cvFileInput.val('');
+                }
+            } else {
+                $cvFileWrapper.removeClass('has-file has-error');
+                $cvFileText.text('Chọn file PDF...');
+                $cvFeedback.removeClass('show');
+            }
+        });
     }
 
 })(jQuery);

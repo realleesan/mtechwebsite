@@ -513,4 +513,343 @@ HTML;
     {
         return isEmailConfigValid();
     }
+
+    // ----------------------------------------------------------------
+    // JOB APPLICATION EMAILS - Email cho ứng tuyển
+    // ----------------------------------------------------------------
+
+    /**
+     * Gửi email thông báo có CV ứng tuyển mới cho admin.
+     *
+     * @param array $data Dữ liệu: application_id, blog_id, position, full_name, email, phone, cv_path
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendJobApplicationNotification($data)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($this->config['support_email'], 'Admin');
+
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTech Tuyển Dụng] CV mới: ' . $data['position']) . '?=';
+
+            $body = $this->getJobApplicationNotificationTemplate($data);
+            $this->mailer->Body = $body;
+            $this->mailer->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $body));
+
+            // Attach CV file if exists
+            $cvPath = __DIR__ . '/../../' . $data['cv_path'];
+            if (file_exists($cvPath)) {
+                $this->mailer->addAttachment($cvPath, basename($cvPath));
+            }
+
+            $result = $this->mailer->send();
+
+            if ($this->config['log_emails']) {
+                error_log('EmailNotificationService: Job application notification sent for ' . $data['position']);
+            }
+
+            return ['success' => true, 'message' => 'Email đã được gửi thành công'];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendJobApplicationNotification() - ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi gửi email: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Gửi email cảm ơn cho ứng viên sau khi nộp CV.
+     *
+     * @param array $data Dữ liệu: full_name, email, position
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendThankYouEmail($data)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($data['email'], $data['full_name']);
+
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Cảm ơn bạn đã ứng tuyển vị trí ' . $data['position'] . ' tại MTech') . '?=';
+
+            $body = $this->getThankYouEmailTemplate($data);
+            $this->mailer->Body = $body;
+            $this->mailer->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $body));
+
+            $result = $this->mailer->send();
+
+            return ['success' => true, 'message' => 'Email đã được gửi thành công'];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendThankYouEmail() - ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi gửi email: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Gửi email thông báo CV được duyệt (qua vòng loại).
+     *
+     * @param array $data Dữ liệu: full_name, email, position
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendApplicationApprovedEmail($data)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($data['email'], $data['full_name']);
+
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Chúc mừng! Bạn đã qua vòng loại CV - ' . $data['position']) . '?=';
+
+            $body = $this->getApplicationApprovedTemplate($data);
+            $this->mailer->Body = $body;
+            $this->mailer->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $body));
+
+            $result = $this->mailer->send();
+
+            return ['success' => true, 'message' => 'Email đã được gửi thành công'];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendApplicationApprovedEmail() - ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi gửi email: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Gửi email thông báo CV bị từ chối.
+     *
+     * @param array $data Dữ liệu: full_name, email, position
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendApplicationRejectedEmail($data)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($data['email'], $data['full_name']);
+
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Thông báo kết quả ứng tuyển - ' . $data['position']) . '?=';
+
+            $body = $this->getApplicationRejectedTemplate($data);
+            $this->mailer->Body = $body;
+            $this->mailer->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $body));
+
+            $result = $this->mailer->send();
+
+            return ['success' => true, 'message' => 'Email đã được gửi thành công'];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendApplicationRejectedEmail() - ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi gửi email: ' . $e->getMessage()];
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // EMAIL TEMPLATES - Job Application
+    // ----------------------------------------------------------------
+
+    private function getJobApplicationNotificationTemplate($data)
+    {
+        $date = date('d/m/Y H:i:s');
+        $appId = $data['application_id'];
+        $position = htmlspecialchars($data['position']);
+        $fullName = htmlspecialchars($data['full_name']);
+        $email = htmlspecialchars($data['email']);
+        $phone = htmlspecialchars($data['phone']);
+
+        return <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: #1A3FBF; color: #fff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; }
+        .alert { background: #d4edda; border-left: 4px solid #28a745; padding: 15px; margin-bottom: 20px; }
+        .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .info-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .info-table td:first-child { font-weight: bold; width: 30%; color: #555; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 CV Ứng Tuyển Mới</h1>
+        </div>
+        <div class="content">
+            <div class="alert">
+                <strong>Thông báo:</strong> Có ứng viên mới nộp CV vào lúc {$date}
+            </div>
+            
+            <h2>Thông tin ứng viên:</h2>
+            <table class="info-table">
+                <tr><td>ID Đơn</td><td>#{$appId}</td></tr>
+                <tr><td>Vị trí</td><td>{$position}</td></tr>
+                <tr><td>Họ tên</td><td>{$fullName}</td></tr>
+                <tr><td>Email</td><td><a href="mailto:{$email}">{$email}</a></td></tr>
+                <tr><td>Số điện thoại</td><td>{$phone}</td></tr>
+            </table>
+            
+            <p style="text-align: center; margin-top: 30px;">
+                <a href="mailto:{$email}" style="background: #1A3FBF; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Liên hệ ứng viên</a>
+            </p>
+        </div>
+        <div class="footer">
+            <p>Email thông báo tự động từ hệ thống MTech Tuyển Dụng</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
+
+    private function getThankYouEmailTemplate($data)
+    {
+        $fullName = htmlspecialchars($data['full_name']);
+        $position = htmlspecialchars($data['position']);
+
+        return <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: #1A3FBF; color: #fff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; line-height: 1.6; }
+        .content p { margin: 15px 0; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 12px; }
+        .highlight { background: #e7f3ff; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🙏 Cảm ơn bạn đã ứng tuyển!</h1>
+        </div>
+        <div class="content">
+            <p>Xin chào <strong>{$fullName}</strong>,</p>
+            
+            <p>Cảm ơn bạn đã gửi CV ứng tuyển vị trí <strong>{$position}</strong> tại MTech.</p>
+            
+            <div class="highlight">
+                <p>Chúng tôi đã nhận được CV của bạn và sẽ xem xét trong thời gian sớm nhất. Nếu hồ sơ của bạn phù hợp, chúng tôi sẽ liên hệ để sắp xếp buổi phỏng vấn tiếp theo.</p>
+            </div>
+            
+            <p>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email hoặc số điện thoại trên website.</p>
+            
+            <p>Trân trọng,<br><strong>MTech HR Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>Email tự động từ hệ thống MTech</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
+
+    private function getApplicationApprovedTemplate($data)
+    {
+        $fullName = htmlspecialchars($data['full_name']);
+        $position = htmlspecialchars($data['position']);
+
+        return <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: #28a745; color: #fff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; line-height: 1.6; }
+        .content p { margin: 15px 0; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 12px; }
+        .highlight { background: #d4edda; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Chúc mừng! Bạn đã qua vòng loại</h1>
+        </div>
+        <div class="content">
+            <p>Xin chào <strong>{$fullName}</strong>,</p>
+            
+            <div class="highlight">
+                <p><strong>Chúc mừng bạn!</strong> CV của bạn đã vượt qua vòng sơ tuyển cho vị trí <strong>{$position}</strong>.</p>
+            </div>
+            
+            <p>Chúng tôi rất ấn tượng với hồ sơ của bạn và muốn mời bạn tham gia buổi phỏng vấn trực tiếp.</p>
+            
+            <p>Chúng tôi sẽ liên hệ với bạn trong vòng 3-5 ngày làm việc để sắp xếp lịch phỏng vấn phù hợp.</p>
+            
+            <p>Hãy chuẩn bị tinh thần và chúc bạn may mắn!</p>
+            
+            <p>Trân trọng,<br><strong>MTech HR Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>Email tự động từ hệ thống MTech</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
+
+    private function getApplicationRejectedTemplate($data)
+    {
+        $fullName = htmlspecialchars($data['full_name']);
+        $position = htmlspecialchars($data['position']);
+
+        return <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: #6c757d; color: #fff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; line-height: 1.6; }
+        .content p { margin: 15px 0; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 12px; }
+        .highlight { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thông báo kết quả ứng tuyển</h1>
+        </div>
+        <div class="content">
+            <p>Xin chào <strong>{$fullName}</strong>,</p>
+            
+            <p>Cảm ơn bạn đã quan tâm và gửi CV ứng tuyển vị trí <strong>{$position}</strong> tại MTech.</p>
+            
+            <div class="highlight">
+                <p>Sau khi xem xét kỹ lưỡng, chúng tôi rất tiếc phải thông báo rằng <strong>CV của bạn chưa đạt yêu cầu</strong> cho vị trí này tại thời điểm hiện tại.</p>
+            </div>
+            
+            <p>Đây không phải là sự đánh giá về năng lực của bạn, mà chỉ đơn thuần là chúng tôi đang tìm kiếm những kỹ năng và kinh nghiệm phù hợp cụ thể với nhu cầu hiện tại của dự án.</p>
+            
+            <p>Chúng tôi sẽ lưu hồ sơ của bạn và có thể liên hệ lại khi có vị trí phù hợp hơn trong tương lai.</p>
+            
+            <p>Chúc bạn sớm tìm được cơ hội phù hợp!</p>
+            
+            <p>Trân trọng,<br><strong>MTech HR Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>Email tự động từ hệ thống MTech</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
 }

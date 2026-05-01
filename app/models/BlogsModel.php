@@ -53,19 +53,30 @@ class BlogsModel
             if (!empty($tagSlug)) {
                 $baseJoin .= " INNER JOIN `blog_tag_map` btm ON btm.blog_id = b.id
                                INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id AND bt.slug = ?";
-                // tag param phải đứng trước các param khác trong JOIN
-                array_unshift($params, $tagSlug);
-                // Rebuild: tag param cần đứng sau JOIN nhưng trước WHERE params
-                // Reset và xây lại đúng thứ tự
+                // Rebuild params: tag slug phải đứng đúng vị trí trong JOIN
                 $params = [];
                 if (!empty($tagSlug)) $params[] = $tagSlug;
-                if ($catId > 0)      $params[] = $catId;
+                if ($catId > 0)       $params[] = $catId;
             }
 
             if (!empty($search)) {
-                $where .= " AND (b.title LIKE ? OR b.excerpt LIKE ?)";
-                $params[] = "%{$search}%";
-                $params[] = "%{$search}%";
+                // Tìm theo title, excerpt, category name, và tag name
+                $where .= " AND (
+                    b.title    LIKE ? OR
+                    b.excerpt  LIKE ? OR
+                    bc.name    LIKE ? OR
+                    EXISTS (
+                        SELECT 1 FROM `blog_tag_map` stm
+                        INNER JOIN `blog_tags` st ON st.id = stm.tag_id
+                        WHERE stm.blog_id = b.id AND (st.name LIKE ? OR st.slug LIKE ?)
+                    )
+                )";
+                $like = "%{$search}%";
+                $params[] = $like;
+                $params[] = $like;
+                $params[] = $like;
+                $params[] = $like;
+                $params[] = $like;
             }
 
             // Count total
@@ -363,6 +374,115 @@ class BlogsModel
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log('BlogsModel::getMenuBlogCategories() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // HIRING - Tuyển dụng (category_id = 7)
+    // ----------------------------------------------------------------
+
+    /**
+     * Kiểm tra xem blog có phải là tin tuyển dụng không (category_id = 7).
+     *
+     * @param int $blogId
+     * @return bool
+     */
+    public function isHiringBlog($blogId)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT category_id FROM `blogs` WHERE id = ? AND status = 1 LIMIT 1"
+            );
+            $stmt->execute([$blogId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result && $result['category_id'] == 7;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::isHiringBlog() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Kiểm tra xem tin tuyển dụng đã hết hạn chưa.
+     * Hết hạn khi: expires_in_days không null và (created_at + expires_in_days) < now
+     *
+     * @param array $blog Mảng chứa created_at, expires_in_days
+     * @return bool
+     */
+    public function isExpired($blog)
+    {
+        if (empty($blog['expires_in_days']) || empty($blog['created_at'])) {
+            return false; // Không có ngày hết hạn = không bao giờ hết hạn
+        }
+
+        $createdAt = strtotime($blog['created_at']);
+        $expiresAt = strtotime($blog['created_at'] . ' + ' . $blog['expires_in_days'] . ' days');
+
+        return time() > $expiresAt;
+    }
+
+    /**
+     * Lấy số ngày còn lại để ứng tuyển.
+     * Trả về int >= 0 (số ngày còn lại) hoặc null (không giới hạn thời gian).
+     *
+     * @param array $blog Mảng chứa created_at, expires_in_days
+     * @return int|null
+     */
+    public function getDaysRemaining($blog)
+    {
+        if (empty($blog['expires_in_days']) || empty($blog['created_at'])) {
+            return null; // Không giới hạn thời gian
+        }
+
+        $createdAt = strtotime($blog['created_at']);
+        $expiresAt = strtotime($blog['created_at'] . ' + ' . $blog['expires_in_days'] . ' days');
+        $remaining = ceil(($expiresAt - time()) / 86400); // 86400 = số giây trong 1 ngày
+
+        return max(0, (int) $remaining);
+    }
+
+    /**
+     * Kiểm tra xem tin tuyển dụng có đang mở để nhận CV không.
+     * Điều kiện: hiring_status = 1 và chưa hết hạn.
+     *
+     * @param array $blog Mảng chứa hiring_status, created_at, expires_in_days
+     * @return bool
+     */
+    public function isHiringOpen($blog)
+    {
+        // hiring_status = 0 (ngừng tuyển) -> không mở
+        if (empty($blog['hiring_status']) || $blog['hiring_status'] != 1) {
+            return false;
+        }
+
+        // Hết hạn -> không mở
+        return !$this->isExpired($blog);
+    }
+
+    /**
+     * Lấy tất cả vị trí tuyển dụng đang mở cho dropdown.
+     * Chỉ lấy các blog tuyển dụng (cat=7) đang active và chưa hết hạn.
+     *
+     * @return array Mảng các vị trí tuyển dụng
+     */
+    public function getAllHiringPositions()
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, title, position, slug
+                 FROM `blogs`
+                 WHERE category_id = 7 
+                   AND status = 1 
+                   AND hiring_status = 1
+                   AND (expires_in_days IS NULL OR 
+                        DATE_ADD(created_at, INTERVAL expires_in_days DAY) > NOW())
+                 ORDER BY created_at DESC"
+            );
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getAllHiringPositions() - ' . $e->getMessage());
             return [];
         }
     }

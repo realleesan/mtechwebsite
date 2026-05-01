@@ -81,6 +81,11 @@ function get_breadcrumbs(string $page, array $params = []): ?array
             ['title' => 'Category Details',  'url' => null],
         ],
 
+        // ── Search ────────────────────────────────────────────────
+        'search' => [
+            ['title' => 'Search Results', 'url' => null],
+        ],
+
         // ── Contact ───────────────────────────────────────────────
         'contact' => [
             ['title' => 'Contact Us', 'url' => null],

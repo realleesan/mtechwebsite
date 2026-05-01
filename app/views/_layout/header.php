@@ -163,7 +163,12 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                         <?php endforeach; ?>
                     </ul>
                 </li>
-                
+
+                <!-- Tuyển Dụng -->
+                <li class="nav-item <?php echo (isset($_GET['cat']) && $_GET['cat'] == '7') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="?page=blogs&cat=7" title="Tuyển Dụng">Tuyển Dụng</a>
+                </li>
+
                 <!-- Blog -->
                 <li class="nav-item submenu <?php echo ($currentPage === 'blogs') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">
@@ -206,12 +211,15 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
         <div class="search_overlay_box">
             <button class="search_overlay_close" id="searchClose" aria-label="Close search">&times;</button>
             <p class="search_overlay_label">SEARCH</p>
-            <div class="search_overlay_inner">
-                <input type="text" id="searchInput" class="search_overlay_input" placeholder="Search for..." autocomplete="off" />
-                <button class="search_overlay_submit" aria-label="Submit search">
+            <form method="get" action="./" class="search_overlay_inner">
+                <input type="hidden" name="page" value="search">
+                <input type="text" name="q" id="searchInput" class="search_overlay_input"
+                       placeholder="Search for..." autocomplete="off"
+                       value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
+                <button class="search_overlay_submit" type="submit" aria-label="Submit search">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 

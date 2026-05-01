@@ -118,6 +118,7 @@ mb_http_output('UTF-8');
             echo '<link rel="stylesheet" href="assets/css/comingsoon.css">';
             break;
         case 'blogs':
+        case 'search':
             echo '<link rel="stylesheet" href="assets/css/blogs.css">';
             break;
         case 'blog-details':

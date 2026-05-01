@@ -1,11 +1,13 @@
 ﻿/* ============================================================
    BLOG DETAILS PAGE STYLES
-   Copy 100% từ blogs.css để đồng bộ hoàn toàn
+   Dùng chung toàn bộ style từ blogs.css,
+   chỉ override/thêm những gì riêng của trang chi tiết.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap');
+/* Import toàn bộ style từ blogs.css */
+@import url('blogs.css');
 
-/* ---- Section wrapper ---- */
+/* ---- Section wrapper riêng cho details ---- */
 .blog_details_area {
     padding: 80px 0;
     background: #fff;
@@ -20,127 +22,14 @@
     flex-wrap: wrap;
 }
 
-/* ============================================================
-   LEFT — Nội dung chi tiết bài viết
-   ============================================================ */
-.blog_left_sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-/* ---- Blog post item ---- */
-.lt_blog_item {
-    background: transparent;
-    padding-bottom: 48px;
-    margin-bottom: 48px;
-    border-bottom: 1px solid #e8e8e8;
-}
-
-.lt_blog_item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
+/* ---- Blog post item — không có border-bottom ở trang details ---- */
 .blog_post_item {
-    background: transparent;
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
-/* ---- Thumbnail: full width, hover overlay tối ---- */
-.blog_img {
-    display: block;
-    overflow: hidden;
-    position: relative;
-}
-
-.blog_img img {
-    width: 100%;
-    height: 420px;
-    object-fit: cover;
-    display: block;
-    transition: transform .45s ease;
-}
-
-/* Overlay tối khi hover */
-.blog_img::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0);
-    transition: background .35s ease;
-    pointer-events: none;
-}
-
-.lt_blog_item:hover .blog_img::after {
-    background: rgba(0, 0, 0, 0.35);
-}
-
-.lt_blog_item:hover .blog_img img {
-    transform: scale(1.05);
-}
-
-/* ---- Date badge — đè lên ảnh, góc dưới trái ---- */
-/* Font: Poppins theo yêu cầu (ngày tạo) */
-.blog-date-badge {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: #1A3FBF;
-    color: #ffffff;
-    font-family: 'Poppins', sans-serif;
-    font-size: 19px;
-    font-weight: 700;
-    padding: 12px 26px;
-    letter-spacing: .2px;
-    line-height: 1.4;
-    z-index: 2;
-}
-
-/* ---- Post meta: By admin / tags — dưới ảnh, bên phải ---- */
-/* Font: Poppins (người tạo, tags dưới bài) */
-.post_info {
-    padding: 19px 0 0;
-    text-align: right;
-}
-
-.blog_author_area {
-    font-family: 'Poppins', sans-serif;
-    font-size: 19px;
-    color: #B8B8B8;
-    line-height: 1.6;
-}
-
-.blog_author_area a {
-    font-family: 'Poppins', sans-serif;
-    color: #B8B8B8;
-    font-weight: 600;
-    text-decoration: none;
-    transition: color .2s;
-}
-
-/* Author hover → xanh */
-.blog_author_area a:hover {
-    color: #1A3FBF;
-}
-
-.blog_author_area .sep {
-    margin: 0 8px;
-    color: #d0d0d0;
-}
-
-/* Tags dưới bài viết — Poppins */
-.blog_author_area .tag-link {
-    font-family: 'Poppins', sans-serif;
-    color: #B8B8B8;
-    text-decoration: none;
-    transition: color .2s;
-}
-
-.blog_author_area .tag-link:hover {
-    color: #1A3FBF;
-}
-
-/* ---- Đường kẻ ngang phân cách sau meta (By: admin / tags) ---- */
+/* ---- Đường kẻ ngang phân cách sau meta ---- */
 .border_bottom {
     border: none;
     border-top: 1px solid #e0e0e0;
@@ -152,40 +41,7 @@
     margin-bottom: 20px !important;
 }
 
-/* ---- Blog text body ---- */
-.blog-text {
-    padding: 24px 0 0;
-}
-
-/* Tiêu đề bài viết — Poppins, hover xanh, không gạch dưới */
-.blog-text h4.title_color {
-    font-family: 'Poppins', sans-serif;
-    font-size: 26px;
-    font-weight: 600;
-    color: #2c2c2c;
-    margin-bottom: 16px;
-    line-height: 1.4;
-    transition: color .2s;
-    text-decoration: none;
-}
-
-.blog-text a {
-    text-decoration: none !important;
-}
-
-.blog-text a:hover h4.title_color {
-    color: #1A3FBF;
-}
-
-/* Nội dung — Open Sans */
-.blog-text p {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 17px;
-    color: #0F1A40;
-    line-height: 1.85;
-    margin-bottom: 26px;
-}
-
+/* ---- Heading trong nội dung bài viết ---- */
 .blog-text h3 {
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
@@ -195,7 +51,7 @@
     margin-top: 30px;
 }
 
-/* Links trong content */
+/* ---- Links trong content bài viết ---- */
 .blog-text a,
 .s_main_text a {
     color: #1A3FBF;
@@ -209,7 +65,7 @@
     text-decoration: underline;
 }
 
-/* Main Text Section */
+/* ---- Main Text Section ---- */
 .s_main_text {
     margin: 30px 0;
 }
@@ -406,8 +262,12 @@
     margin: 0 0 6px;
     transition: color .2s;
     display: -webkit-box;
+    display: -moz-box;
+    display: box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
+    box-orient: vertical;
     overflow: hidden;
 }
 
@@ -484,39 +344,292 @@
     .blog_details_area {
         padding: 50px 0;
     }
-    
-    .blog_img img {
-        height: 280px;
-    }
-    
-    .blog_sidebar_area {
-        margin-top: 50px;
-    }
-    
-    .blog-text h4.title_color {
-        font-size: 22px;
-    }
-    
-    .r_widget_title h3.title_color {
-        font-size: 22px;
-    }
 }
 
-@media (max-width: 575px) {
-    .blog_img img {
-        height: 220px;
+/* ============================================================
+   JOB APPLICATION FORM STYLES
+   ============================================================ */
+.job-application-section {
+    margin-top: 50px;
+}
+
+.job-form-wrapper {
+    background: #fff;
+    padding: 0;
+}
+
+.job-form-wrapper h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.job-form-wrapper h3 i {
+    color: #1A3FBF;
+}
+
+.job-application-form .form-group {
+    margin-bottom: 20px;
+}
+
+.job-application-form label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.job-application-form label .text-danger {
+    color: #dc3545;
+}
+
+.job-application-form .form-control {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-application-form .form-control:focus {
+    border-color: #1A3FBF;
+    box-shadow: 0 0 0 3px rgba(26, 63, 191, 0.1);
+    outline: none;
+}
+
+.job-application-form .form-control::placeholder {
+    color: #999;
+    font-size: 14px;
+}
+
+.job-application-form select.form-control {
+    appearance: auto;
+    cursor: pointer;
+    height: auto;
+    min-height: 46px;
+    line-height: 1.4;
+    padding: 12px 30px 12px 16px;
+}
+
+.job-application-form textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Custom File Input Styling */
+.job-application-form .cv-file-wrapper {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    height: 48px;
+    border: 2px dashed #ddd;
+    border-radius: 4px;
+    background: #fafafa;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.job-application-form .cv-file-wrapper:hover {
+    border-color: #1A3FBF;
+    background: #f5f7ff;
+}
+
+.job-application-form .cv-file-wrapper input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.job-application-form .cv-file-text {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.job-application-form .cv-file-wrapper.has-file {
+    border-color: #28a745;
+    background: #f0f9f4;
+}
+
+.job-application-form .cv-file-wrapper.has-file .cv-file-text {
+    color: #28a745;
+}
+
+.job-application-form .cv-file-wrapper.has-error {
+    border-color: #dc3545;
+    background: #fdf2f2;
+}
+
+.job-application-form .cv-file-wrapper.has-error .cv-file-text {
+    color: #dc3545;
+}
+
+.job-application-form .cv-file-btn {
+    padding: 0 20px;
+    background: #1A3FBF;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0 2px 2px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.job-application-form .cv-file-wrapper:hover .cv-file-btn {
+    background: #1530A0;
+}
+
+/* File Upload Feedback Messages */
+.file-upload-feedback {
+    margin-top: 8px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.file-upload-feedback.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.file-upload-feedback.success {
+    color: #28a745;
+}
+
+.file-upload-feedback.error {
+    color: #dc3545;
+}
+
+.file-upload-feedback i {
+    font-size: 16px;
+}
+
+/* Submit Button */
+.job-application-form .btn-submit {
+    background: #1A3FBF;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-application-form .btn-submit:hover {
+    background: #1530A0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 63, 191, 0.3);
+}
+
+.job-application-form .btn-submit:active {
+    transform: translateY(0);
+}
+
+.job-application-form .btn-submit i {
+    font-size: 14px;
+}
+
+/* Hiring Closed Notice */
+.hiring-closed-notice {
+    background: #fff;
+    border-radius: 4px;
+    padding: 30px;
+}
+
+.hiring-closed-notice .alert {
+    border: 1px solid #ffc107;
+    background: #fffbeb;
+    color: #856404;
+    padding: 24px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.hiring-closed-notice .alert i {
+    color: #ffc107;
+}
+
+.hiring-closed-notice .alert h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 12px 0 8px;
+}
+
+.hiring-closed-notice .alert p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Form Text / Help Text */
+.job-application-form .form-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    color: #888;
+    margin-top: 6px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .job-application-form .row .col-md-6 {
+        margin-bottom: 0;
     }
     
-    .blog-text h4.title_color {
-        font-size: 19px;
+    .job-form-wrapper h3 {
+        font-size: 18px;
     }
     
-    .blog-date-badge {
-        font-size: 16px;
-        padding: 9px 18px;
-    }
-    
-    .blog_author_area {
-        font-size: 15px;
+    .job-application-form .btn-submit {
+        width: 100%;
+        justify-content: center;
     }
 }
