@@ -62,6 +62,20 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                                 }
                             }
                             $tagsStr = implode(' , ', $tagLinks);
+
+                            // Tính toán hết hạn cho blog tuyển dụng (cat=7)
+                            $isHiring = ($blog['category_id'] == 7);
+                            $daysRemaining = null;
+                            $isExpired = false;
+                            $hiringClosed = false;
+                            if ($isHiring && !empty($blog['expires_in_days'])) {
+                                $createdAt = strtotime($blog['created_at']);
+                                $expiresAt = strtotime($blog['created_at'] . ' + ' . $blog['expires_in_days'] . ' days');
+                                $isExpired = time() > $expiresAt;
+                                $daysRemaining = ceil(($expiresAt - time()) / 86400);
+                                $daysRemaining = max(0, (int) $daysRemaining);
+                                $hiringClosed = $isExpired || empty($blog['hiring_status']) || $blog['hiring_status'] != 1;
+                            }
                             ?>
 
                             <div class="lt_blog_item">
@@ -71,6 +85,15 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                                     <img src="<?php echo htmlspecialchars($imgSrc); ?>"
                                          alt="<?php echo htmlspecialchars($blog['title']); ?>">
                                     <span class="blog-date-badge"><?php echo $dateStr; ?></span>
+                                    <?php if ($isHiring): ?>
+                                        <span class="blog-expiry-badge <?php echo $hiringClosed ? 'expired' : 'active'; ?>">
+                                            <?php if ($hiringClosed): ?>
+                                                Hết hạn
+                                            <?php else: ?>
+                                                Hết hạn sau <?php echo $daysRemaining; ?> ngày
+                                            <?php endif; ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </a>
 
                                 <!-- Meta: By admin / tags -->

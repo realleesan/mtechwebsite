@@ -163,7 +163,12 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                         <?php endforeach; ?>
                     </ul>
                 </li>
-                
+
+                <!-- Tuyển Dụng -->
+                <li class="nav-item <?php echo (isset($_GET['cat']) && $_GET['cat'] == '7') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="?page=blogs&cat=7" title="Tuyển Dụng">Tuyển Dụng</a>
+                </li>
+
                 <!-- Blog -->
                 <li class="nav-item submenu <?php echo ($currentPage === 'blogs') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">

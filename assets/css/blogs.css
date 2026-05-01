@@ -82,6 +82,30 @@
     z-index: 2;
 }
 
+/* ---- Expiry badge — đè lên ảnh, góc dưới phải (cho tuyển dụng) ---- */
+.blog-expiry-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    letter-spacing: .2px;
+    line-height: 1.4;
+    z-index: 2;
+}
+
+.blog-expiry-badge.active {
+    background: #28a745;
+    color: #ffffff;
+}
+
+.blog-expiry-badge.expired {
+    background: #dc3545;
+    color: #ffffff;
+}
+
 /* ---- Post meta: By admin / tags — dưới ảnh, +20% ---- */
 /* Font: Poppins (người tạo, tags dưới bài) */
 .post_info {
