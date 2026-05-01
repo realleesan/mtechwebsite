@@ -708,7 +708,7 @@
     bottom: -50px;
     left: 0;
     right: 0;
-    color: #0D1B3E;
+    color: #fff;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 500;
@@ -729,6 +729,75 @@
     width: 100%;
     height: 100%;
     text-decoration: none;
+}
+
+/* ==========================================
+   PROJECTS CAROUSEL (clone from awards.css)
+   ========================================== */
+.projects_carousel_wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.projects_carousel_wrapper:active {
+    cursor: grabbing;
+}
+
+.projects_carousel_track {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0 30px;
+    will-change: transform;
+}
+
+.projects_slide {
+    flex-shrink: 0;
+    width: calc(20% - 16px);
+    min-width: 200px;
+}
+
+.projects_slide .featured_pr_item {
+    height: 350px;
+}
+
+/* Responsive for carousel */
+@media (max-width: 1199px) {
+    .projects_slide {
+        width: calc(25% - 15px);
+    }
+}
+
+@media (max-width: 991px) {
+    .projects_slide {
+        width: calc(33.333% - 14px);
+        min-width: 180px;
+    }
+    .projects_slide .featured_pr_item {
+        height: 300px;
+    }
+}
+
+@media (max-width: 767px) {
+    .projects_slide {
+        width: calc(50% - 10px);
+        min-width: 160px;
+    }
+    .projects_slide .featured_pr_item {
+        height: 260px;
+    }
+}
+
+@media (max-width: 575px) {
+    .projects_slide {
+        width: 280px;
+    }
 }
 
 /* ==========================================

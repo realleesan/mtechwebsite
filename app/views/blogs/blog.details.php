@@ -213,7 +213,6 @@ unset($_SESSION['job_application_message'], $_SESSION['job_application_success']
                                 <?php else: ?>
                                     <div class="hiring-closed-notice text-center py-4">
                                         <div class="alert alert-warning">
-                                            <i class="fas fa-exclamation-circle fa-2x mb-2 d-block"></i>
                                             <h4 class="f_600">Tin Tuyển Dụng Đã Hết Hạn</h4>
                                             <p class="mb-0">Vị trí này hiện không còn nhận hồ sơ ứng tuyển.</p>
                                         </div>

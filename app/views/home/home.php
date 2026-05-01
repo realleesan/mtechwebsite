@@ -84,7 +84,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
 
             if ($emailService->isConfigured()) {
                 // Thông báo đến contact@mtech.com
-                $emailService->sendHomeContactToAdmin($contactData);
+                $emailService->sendNewContactNotification($contactData);
                 // Xác nhận cho người gửi
                 $emailService->sendContactConfirmation($contactData);
             }
@@ -329,6 +329,24 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
     </div>
 </section>
 
+<?php
+// Prepare projects data for carousel (duplicate 3x for infinite loop)
+$carouselProjects = [];
+if (isset($homeProjects) && !empty($homeProjects)) {
+    $carouselProjects = array_merge($homeProjects, $homeProjects, $homeProjects);
+} else {
+    // Fallback static projects
+    $staticProjects = [
+        ['slug' => 'chemical-chamber', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_1.jpg', 'title' => 'Chemical Chamber'],
+        ['slug' => 'welding-processing', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_2.jpg', 'title' => 'Welding Processing'],
+        ['slug' => 'railway-project', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_3.jpg', 'title' => 'Railway Project'],
+        ['slug' => 'material-engineering', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_4.jpg', 'title' => 'Material Engineering'],
+        ['slug' => 'wind-power-project', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_5.jpg', 'title' => 'Wind Power Project'],
+    ];
+    $carouselProjects = array_merge($staticProjects, $staticProjects, $staticProjects);
+}
+?>
+
 <!-- Featured Projects Section -->
 <section class="featured_area sec_gap">
     <div class="container">
@@ -338,68 +356,20 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
             <p class="mt_7">Podcasting operational change management inside of workflows to establish a framework taking seamless key performanceindicators.</p>
         </div>
     </div>
-    <div class="featured_project mb-30">
-        <div class="row">
-            <?php if (isset($homeProjects) && !empty($homeProjects)): ?>
-                <?php foreach ($homeProjects as $project): ?>
-                    <div class="f_width">
-                        <div class="featured_pr_item">
-                            <a href="?page=project-details&slug=<?php echo htmlspecialchars($project['slug']); ?>">
-                                <img src="<?php echo htmlspecialchars($project['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($project['title']); ?>">
-                                <div class="overlay"></div>
-                                <p class="f_p f_500"><?php echo htmlspecialchars($project['title']); ?></p>
-                            </a>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <!-- Fallback: Hiển thị dữ liệu mẫu nếu không có dữ liệu từ DB -->
-                <div class="f_width">
+    <!-- Carousel full-width -->
+    <div class="projects_carousel_wrapper">
+        <div class="projects_carousel_track">
+            <?php foreach ($carouselProjects as $project): ?>
+                <div class="projects_slide">
                     <div class="featured_pr_item">
-                        <a href="?page=project-details&slug=chemical-chamber">
-                            <img src="https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_1.jpg" alt="Chemical Chamber">
+                        <a href="?page=project-details&slug=<?php echo htmlspecialchars($project['slug']); ?>">
+                            <img src="<?php echo htmlspecialchars($project['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($project['title']); ?>">
                             <div class="overlay"></div>
-                            <p class="f_p f_500">Chemical Chamber</p>
+                            <p class="f_p f_500"><?php echo htmlspecialchars($project['title']); ?></p>
                         </a>
                     </div>
                 </div>
-                <div class="f_width">
-                    <div class="featured_pr_item">
-                        <a href="?page=project-details&slug=welding-processing">
-                            <img src="https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_2.jpg" alt="Welding Processing">
-                            <div class="overlay"></div>
-                            <p class="f_p f_500">Welding Processing</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="f_width">
-                    <div class="featured_pr_item">
-                        <a href="?page=project-details&slug=railway-project">
-                            <img src="https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_3.jpg" alt="Railway Project">
-                            <div class="overlay"></div>
-                            <p class="f_p f_500">Railway Project</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="f_width">
-                    <div class="featured_pr_item">
-                        <a href="?page=project-details&slug=material-engineering">
-                            <img src="https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_4.jpg" alt="Material Engineering">
-                            <div class="overlay"></div>
-                            <p class="f_p f_500">Material Engineering</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="f_width">
-                    <div class="featured_pr_item">
-                        <a href="?page=project-details&slug=wind-power-project">
-                            <img src="https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_5.jpg" alt="Wind Power Project">
-                            <div class="overlay"></div>
-                            <p class="f_p f_500">Wind Power Project</p>
-                        </a>
-                    </div>
-                </div>
-            <?php endif; ?>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>

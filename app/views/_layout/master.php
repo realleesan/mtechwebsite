@@ -305,6 +305,7 @@ mb_http_output('UTF-8');
         case 'home':
             echo '<script src="assets/js/home.js"></script>';
             echo '<script src="assets/js/awards.js"></script>';
+            echo '<script src="assets/js/projects.carousel.js"></script>';
             break;
         case 'about':
             echo '<script src="assets/js/about.js"></script>';
