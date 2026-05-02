@@ -1,20 +1,4 @@
 <?php
-/**
- * _blog_sidebar.php — Sidebar dùng chung cho blogs.php và blog.details.php
- *
- * Biến nhận vào:
- *   $blogCategories  — danh sách categories
- *   $recentBlogs     — danh sách bài viết mới nhất
- *   $allTags         — danh sách tất cả tags
- *
- * Biến tuỳ chọn (dùng để highlight active):
- *   $filterCatId     — category đang lọc (trang blogs)
- *   $filterTag       — tag slug đang lọc (trang blogs)
- *   $searchQuery     — từ khoá đang tìm (trang blogs)
- *   $activeCatId     — category của bài viết hiện tại (trang blog-details)
- *   $activeTagSlugs  — mảng tag slugs của bài viết hiện tại (trang blog-details)
- */
-
 $blogCategories = $blogCategories ?? [];
 $recentBlogs    = $recentBlogs    ?? [];
 $allTags        = $allTags        ?? [];

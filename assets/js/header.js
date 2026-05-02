@@ -214,6 +214,7 @@
 
         function openSearch() {
             if (!searchOverlay) return;
+            if (searchInput) searchInput.value = '';
             searchOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
             setTimeout(function () { if (searchInput) searchInput.focus(); }, 100);
@@ -223,6 +224,18 @@
             if (!searchOverlay) return;
             searchOverlay.classList.remove('active');
             document.body.style.overflow = '';
+            if (searchInput) searchInput.value = '';
+        }
+
+        // Validate: không cho submit khi input rỗng
+        const searchOverlayForm = searchOverlay ? searchOverlay.querySelector('form') : null;
+        if (searchOverlayForm) {
+            searchOverlayForm.addEventListener('submit', function (e) {
+                if (!searchInput || searchInput.value.trim() === '') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
         }
 
         if (searchToggle) {

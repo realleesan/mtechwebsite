@@ -75,12 +75,10 @@ $typeLabels = [
                                     <?php if ($dateStr): ?>
                                         <span class="blog-date-badge"><?php echo $dateStr; ?></span>
                                     <?php endif; ?>
-                                    <!-- Type badge -->
-                                    <span class="search-type-badge search-type-<?php echo $item['type']; ?>"><?php echo $typeLabel; ?></span>
                                 </a>
 
                                 <!-- Meta -->
-                                <div class="post_info">
+                                <div class="post_info" style="text-align:left;">
                                     <div class="blog_author_area">
                                         <span class="search-type-label"><?php echo $typeLabel; ?></span>
                                     </div>
@@ -138,24 +136,11 @@ $typeLabels = [
 
                     <!-- Search Widget -->
                     <aside class="r_widget search_widget">
-                        <form method="get" action="">
+                        <form method="get" action="" id="sidebarSearchForm">
                             <input type="hidden" name="page" value="search">
                             <?php if ($searchType): ?>
                                 <input type="hidden" name="type" value="<?php echo htmlspecialchars($searchType); ?>">
                             <?php endif; ?>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="q"
-                                       value="<?php echo htmlspecialchars($searchQuery); ?>"
-                                       placeholder="Enter Search Keywords">
-                                <span class="input-group-btn">
-                                    <button class="btn" type="submit">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="11" cy="11" r="7"/>
-                                            <line x1="16.5" y1="16.5" x2="22" y2="22"/>
-                                        </svg>
-                                    </button>
-                                </span>
-                            </div>
                         </form>
                     </aside>
 
@@ -201,3 +186,18 @@ $typeLabels = [
 .search-type-project { background: #28c76f; }
 .search-result-count { font-size: 14px; }
 </style>
+
+<script>
+(function () {
+    var form  = document.getElementById('sidebarSearchForm');
+    var input = document.getElementById('sidebarSearchInput');
+    if (form && input) {
+        form.addEventListener('submit', function (e) {
+            if (input.value.trim() === '') {
+                e.preventDefault();
+                input.focus();
+            }
+        });
+    }
+})();
+</script>
