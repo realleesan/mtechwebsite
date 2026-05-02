@@ -117,7 +117,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                             <a class="nav-link" href="?page=about" title="About Us">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=company.history" title="Company History">Company History</a>
+                            <a class="nav-link" href="?page=company.history" title="Lịch sử hình thành & phát triển">Lịch sử hình thành & phát triển</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="?page=teams" title="Teams">Teams</a>

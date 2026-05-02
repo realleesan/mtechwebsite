@@ -12,7 +12,7 @@ if (!isset($pageTitle)) {
         'projects'        => 'Projects',
         'blogs'           => 'Blog',
         'contact'         => 'Contact Us',
-        'company.history' => 'Company History',
+        'company.history' => 'Lịch sử hình thành & phát triển',
         'teams'           => 'Our Team',
     ];
     $currentPage = $_GET['page'] ?? 'home';

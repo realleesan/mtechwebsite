@@ -38,7 +38,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         'company.history' => [
             ['title' => 'About',           'url' => '?page=about'],
-            ['title' => 'Company History', 'url' => null],
+            ['title' => 'Lịch sử hình thành & phát triển', 'url' => null],
         ],
 
         'teams' => [
