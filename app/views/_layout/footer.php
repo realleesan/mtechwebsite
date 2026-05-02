@@ -73,10 +73,10 @@ $companyInfo = [
                                     <?php endforeach; ?>
                                     <?php if (empty($usefulLinks)): ?>
                                     <li><a href="./">Trang chủ</a></li>
-                                    <li><a href="?page=about">Giới thiệu</a></li>
-                                    <li><a href="?page=services">Dịch vụ</a></li>
-                                    <li><a href="?page=projects">Dự án</a></li>
-                                    <li><a href="?page=contact">Liên hệ</a></li>
+                                    <li><a href="/?page=about">Giới thiệu</a></li>
+                                    <li><a href="/?page=services">Dịch vụ</a></li>
+                                    <li><a href="/?page=projects">Dự án</a></li>
+                                    <li><a href="/?page=contact">Liên hệ</a></li>
                                     <?php endif; ?>
                                 </ul>
                             </aside>
@@ -95,7 +95,7 @@ $companyInfo = [
                                 <ul class="list-unstyled mb-0">
                                     <?php foreach ($services as $service): ?>
                                     <li>
-                                        <a href="?page=categories-details&slug=<?php echo urlencode($service['slug']); ?>">
+                                        <a href="/?page=categories-details&slug=<?php echo urlencode($service['slug']); ?>">
                                             <?php echo htmlspecialchars($service['name']); ?>
                                         </a>
                                     </li>

@@ -114,16 +114,16 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=about" title="About Us">About Us</a>
+                            <a class="nav-link" href="/?page=about" title="About Us">About Us</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">Lịch sử hình thành & phát triển</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=teams" title="Teams">Teams</a>
+                            <a class="nav-link" href="/?page=teams" title="Teams">Teams</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=awards" title="Awards">Awards</a>
+                            <a class="nav-link" href="/?page=awards" title="Awards">Awards</a>
                         </li>
                     </ul>
                 </li>
@@ -136,11 +136,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=categories" title="All Services">All Services</a>
+                            <a class="nav-link" href="/?page=categories" title="All Services">All Services</a>
                         </li>
                         <?php foreach ($menuServices as $service): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=categories-details&slug=<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
+                            <a class="nav-link" href="/?page=categories-details&slug=<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
                                 <?php echo htmlspecialchars($service['name']); ?>
                             </a>
                         </li>
@@ -156,11 +156,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=projects" title="All Projects">All Projects</a>
+                            <a class="nav-link" href="/?page=projects" title="All Projects">All Projects</a>
                         </li>
                         <?php foreach ($menuProjects as $project): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=project-details&slug=<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
+                            <a class="nav-link" href="/?page=project-details&slug=<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
                                 <?php echo htmlspecialchars($project['title']); ?>
                             </a>
                         </li>
@@ -170,7 +170,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
 
                 <!-- Tuyển Dụng -->
                 <li class="nav-item <?php echo (isset($_GET['cat']) && $_GET['cat'] == '7') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="?page=blogs&cat=7" title="Tuyển Dụng">Tuyển Dụng</a>
+                    <a class="nav-link" href="/?page=blogs&cat=7" title="Tuyển Dụng">Tuyển Dụng</a>
                 </li>
 
                 <!-- Blog -->
@@ -181,11 +181,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=blogs" title="All Blogs">All Blogs</a>
+                            <a class="nav-link" href="/?page=blogs" title="All Blogs">All Blogs</a>
                         </li>
                         <?php foreach ($menuBlogCategories as $category): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=blogs&cat=<?php echo urlencode($category['id']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
+                            <a class="nav-link" href="/?page=blogs&cat=<?php echo urlencode($category['id']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
                                 <?php echo htmlspecialchars($category['name']); ?>
                             </a>
                         </li>
@@ -195,7 +195,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 
                 <!-- Contact -->
                 <li class="nav-item <?php echo ($currentPage === 'contact') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="?page=contact" title="Contact">Contact</a>
+                    <a class="nav-link" href="/?page=contact" title="Contact">Contact</a>
                 </li>
 
                 <!-- Search Icon -->
