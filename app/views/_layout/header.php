@@ -103,7 +103,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 </li>
                 
                 <!-- About -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'about') ? 'active' : ''; ?>">
+                <?php
+                $aboutPages = ['about', 'company.history', 'teams', 'awards'];
+                $isAboutActive = in_array($currentPage, $aboutPages);
+                ?>
+                <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="About" onclick="return false;">
                         About
                         <span class="caret-drop"></span>
