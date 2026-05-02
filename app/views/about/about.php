@@ -17,7 +17,7 @@
                 <h3 class="f_300 title_color">Leverage agile frameworks to provide a robust synopsis for high level overviews.</h3>
                 <p class="mb_30">Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>
                 <p class="mb_40">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
-                <a href="?page=company.history" class="read_more btn_yellow">Know more</a>
+                <a href="/lich-su-hinh-thanh-phat-trien" class="read_more btn_yellow">Tìm hiểu thêm</a>
             </div>
         </div>
     </div>
