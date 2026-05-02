@@ -16,6 +16,12 @@
     text-align: left;
 }
 
+.awards_area .section_title p {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 /* ============================================================
    CAROUSEL — clone 100% từ client.logos.css
    ============================================================ */
