@@ -79,7 +79,7 @@
 .history_info::before {
     content: '';
     position: absolute;
-    left: 60px;
+    left: 75px;
     top: 0;
     bottom: 0;
     width: 1px;
@@ -100,8 +100,8 @@
 .history_item:last-child::before {
     content: '';
     position: absolute;
-    left: 60px;
-    top: 60px;
+    left: 75px;
+    top: 75px;
     width: 3px;
     height: 100%;
     background-color: #f9f9f9;
@@ -110,9 +110,9 @@
 
 /* History Date - Hình tròn màu vàng cam #1A3FBF */
 .history_date {
-    width: 120px;
-    height: 120px;
-    min-width: 120px;
+    width: 150px;
+    height: 150px;
+    min-width: 150px;
     background-color: #1A3FBF;
     border-radius: 50%;
     display: flex;
@@ -124,6 +124,10 @@
     margin-right: 40px;
     position: relative;
     z-index: 3;
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .history_item .media-body {
