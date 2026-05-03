@@ -18,9 +18,28 @@ if (!isset($pageTitle)) {
     $currentPage = $_GET['page'] ?? 'home';
     $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
 }
+
+// Tính base URL động
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host     = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$script   = $_SERVER['SCRIPT_NAME'] ?? '/index.php';
+$basePath = rtrim(dirname($script), '/\\');
+$baseUrl  = $protocol . '://' . $host . $basePath;
+$bannerImage = $baseUrl . '/assets/images/header_banner.png';
 ?>
 
-<section class="banner_area">
+<section class="banner_area" style="background-image: 
+    -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5))),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');
+    background-image:
+    -webkit-linear-gradient(rgba(0, 0, 0, 0.5)),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');
+    background-image:
+    -o-linear-gradient(rgba(0, 0, 0, 0.5)),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');
+    background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5)),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');">
     <div class="container">
         <div class="banner_content text-center">
 
