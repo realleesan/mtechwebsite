@@ -11,7 +11,7 @@ if (!isset($pageTitle)) {
         'services'        => 'Services',
         'projects'        => 'Projects',
         'blogs'           => 'Blog',
-        'contact'         => 'Contact Us',
+        'contact'         => 'Liên hệ',
         'company.history' => 'Lịch sử hình thành & phát triển',
         'teams'           => 'Our Team',
     ];

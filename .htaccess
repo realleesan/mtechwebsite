@@ -32,6 +32,12 @@ Options -Indexes
     RewriteRule ^lich-su-hinh-thanh-phat-trien$ index.php?page=company.history [L]
 
     # ------------------------------------------
+    # Contact - Làm đẹp URL
+    # /lien-he → index.php?page=contact
+    # ------------------------------------------
+    RewriteRule ^lien-he$ index.php?page=contact [L]
+
+    # ------------------------------------------
     # Mọi URL path không tồn tại → index.php?page=404
     # Ví dụ: /444, /abc, /xyz → index.php?page=404
     # ------------------------------------------

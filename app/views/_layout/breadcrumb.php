@@ -88,7 +88,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── Contact ───────────────────────────────────────────────
         'contact' => [
-            ['title' => 'Contact Us', 'url' => null],
+            ['title' => 'Liên hệ', 'url' => null],
         ],
 
         // ── Auth ──────────────────────────────────────────────────

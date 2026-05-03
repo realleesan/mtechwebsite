@@ -195,7 +195,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 
                 <!-- Contact -->
                 <li class="nav-item <?php echo ($currentPage === 'contact') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/?page=contact" title="Contact">Contact</a>
+                    <a class="nav-link" href="/lien-he" title="Liên hệ">Liên hệ</a>
                 </li>
 
                 <!-- Search Icon -->
