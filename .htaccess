@@ -63,7 +63,14 @@ Options -Indexes
     RewriteRule ^chi-tiet-du-an-(.+)$ index.php?page=project-details&slug=$1 [L,QSA]
 
     # ------------------------------------------
-    # Tuyển dụng - Làm đẹp URL
+    # Chi tiết Tuyển dụng - Làm đẹp URL
+    # /chi-tiet-{slug} → index.php?page=blog-details&slug={slug}
+    # Ví dụ: /chi-tiet-cong-nhan-han-chuyen-nghiep
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Tuyển dụng - Làm đẹp URL (trang danh sách)
     # /tuyen-dung → index.php?page=blogs&cat=7
     # ------------------------------------------
     RewriteRule ^tuyen-dung$ index.php?page=blogs&cat=7 [L]

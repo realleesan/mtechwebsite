@@ -44,7 +44,13 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                     <?php else: ?>
                         <?php foreach ($blogs as $blog): ?>
                             <?php
-                            $blogUrl = '?page=blog-details&slug=' . urlencode($blog['slug']);
+                            // URL cho tuyển dụng (cat=7) dùng /tuyen-dung-{slug}, các bài khác dùng ?page=blog-details&slug=
+                            $isHiring = ($blog['category_id'] == 7);
+                            if ($isHiring) {
+                                $blogUrl = '/chi-tiet-' . urlencode($blog['slug']);
+                            } else {
+                                $blogUrl = '?page=blog-details&slug=' . urlencode($blog['slug']);
+                            }
                             $dateStr = date('F d, Y', strtotime($blog['created_at']));
                             $imgSrc  = !empty($blog['image']) ? $blog['image'] : 'assets/images/blogs/default.jpg';
                             $excerpt = !empty($blog['excerpt'])

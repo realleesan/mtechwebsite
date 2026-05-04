@@ -342,9 +342,15 @@ include_once __DIR__ . '/../about/awards.php';
                     ];
                     $displayBlogs = !empty($homeBlogs) ? $homeBlogs : $staticBlogs;
                     foreach ($displayBlogs as $blog):
-                        $blogUrl  = ($blog['slug'] && $blog['slug'] !== '#')
-                                    ? '?page=blog-details&slug=' . urlencode($blog['slug'])
-                                    : '?page=blogs';
+                        // URL cho tuyển dụng (cat=7) dùng /tuyen-dung-{slug}, các bài khác dùng ?page=blog-details&slug=
+                        if ($blog['slug'] && $blog['slug'] !== '#') {
+                            $isHiring = (($blog['category_id'] ?? 0) == 7);
+                            $blogUrl  = $isHiring
+                                ? '/chi-tiet-' . urlencode($blog['slug'])
+                                : '?page=blog-details&slug=' . urlencode($blog['slug']);
+                        } else {
+                            $blogUrl = '?page=blogs';
+                        }
                         $imgSrc   = !empty($blog['image']) ? $blog['image'] : 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/news-1.jpg';
                         $dateStr  = !empty($blog['created_at']) ? date('F d, Y', strtotime($blog['created_at'])) : '';
                         $author   = htmlspecialchars($blog['author'] ?? 'admin');

@@ -76,12 +76,17 @@ $activeTagSlugs = $activeTagSlugs ?? [];
                     <?php
                     $rImg  = !empty($recent['image']) ? $recent['image'] : 'assets/images/blogs/default.jpg';
                     $rDate = date('F d, Y', strtotime($recent['created_at']));
+                    // URL cho tuyển dụng (cat=7) dùng /tuyen-dung-{slug}
+                    $isHiringRecent = ($recent['category_id'] == 7);
+                    $recentUrl = $isHiringRecent
+                        ? '/chi-tiet-' . urlencode($recent['slug'])
+                        : '?page=blog-details&slug=' . urlencode($recent['slug']);
                     ?>
                     <div class="media recent_item">
                         <img src="<?php echo htmlspecialchars($rImg); ?>"
                              alt="<?php echo htmlspecialchars($recent['title']); ?>">
                         <div class="media-body">
-                            <a href="?page=blog-details&slug=<?php echo urlencode($recent['slug']); ?>">
+                            <a href="<?php echo htmlspecialchars($recentUrl); ?>">
                                 <h4><?php echo htmlspecialchars($recent['title']); ?></h4>
                             </a>
                             <h5><?php echo $rDate; ?></h5>
