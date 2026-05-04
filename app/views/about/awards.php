@@ -47,11 +47,11 @@ $duplicated = array_merge($awards, $awards, $awards);
 
         <!-- Section Title -->
         <div class="section_title mb_55">
-            <h2 class="f_600 f_size_32 title_color">Awards &amp; Certificates</h2>
+            <h2 class="f_600 f_size_32 title_color"> Giải thưởng &amp; Chứng chỉ </h2>
             <span class="title_br"></span>
             <p class="mt_7">
-                Những giải thưởng và chứng chỉ ghi nhận chất lượng, uy tín và năng lực của MTECHJSC
-                trong lĩnh vực cơ khí công nghiệp và xây dựng.
+                Những giải thưởng và chứng chỉ ghi nhận chất lượng, uy tín và năng lực của MTECH.JSC
+                trong lĩnh vực tư vấn, công nghiệp và xây dựng.
             </p>
         </div>
 

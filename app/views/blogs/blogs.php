@@ -99,7 +99,7 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                                 <!-- Meta: By admin / tags -->
                                 <div class="post_info">
                                     <div class="blog_author_area">
-                                        By : <a href="#"><?php echo htmlspecialchars($blog['author']); ?></a>
+                                        Đăng bởi: <a href="#"><?php echo htmlspecialchars($blog['author']); ?></a>
                                         <?php if ($tagsStr): ?>
                                             <span class="sep">/</span>
                                             <?php echo $tagsStr; ?>
@@ -119,7 +119,7 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                                         <p><?php echo htmlspecialchars($excerpt); ?></p>
                                     <?php endif; ?>
 
-                                    <a href="<?php echo $blogUrl; ?>" class="read_btn_two">Read More</a>
+                                    <a href="<?php echo $blogUrl; ?>" class="read_btn_two">Xem chi tiết</a>
                                 </div>
 
                             </div><!-- /.lt_blog_item -->

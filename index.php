@@ -499,9 +499,9 @@ switch($page) {
     case 'categories':
         $title = 'Our Services - MTECHJSC';
         $content = 'app/views/categories/categories.php';
-        $showPageHeader = false; // Banner được xử lý trong view
+        $showPageHeader = true;
         $showCTA = false;
-        $showBreadcrumb = false; // Breadcrumb được xử lý trong view
+        $showBreadcrumb = true;
         break;
 
     // --------------------------------------
@@ -572,7 +572,7 @@ switch($page) {
         $awardsModel = new AwardsModel();
         $awards      = $awardsModel->getAllActive();
 
-        $title          = 'Awards - MTECHJSC';
+        $title          = 'Giải thưởng & Chứng chỉ - MTECH.JSC';
         $content        = 'app/views/about/awards.php';
         $showPageHeader = true;
       

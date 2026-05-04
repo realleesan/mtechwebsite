@@ -8,6 +8,7 @@
 if (!isset($pageTitle)) {
     $pageTitles = [
         'about'           => 'Giới thiệu',
+        'awards'          => 'Giải thưởng & Chứng chỉ',
         'services'        => 'Dịch vụ',
         'projects'        => 'Dự án',
         'project-details' => 'Chi tiết dự án',

@@ -40,7 +40,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── About ─────────────────────────────────────────────────
         'about' => [
-            ['title' => 'About Us', 'url' => null],
+            ['title' => 'Về chúng tôi', 'url' => null],
         ],
 
         'company.history' => [
@@ -51,6 +51,11 @@ function get_breadcrumbs(string $page, array $params = []): ?array
         'teams' => [
             ['title' => 'About',    'url' => '?page=about'],
             ['title' => 'Our Team', 'url' => null],
+        ],
+
+        'awards' => [
+            ['title' => 'About',                'url' => '?page=about'],
+            ['title' => 'Giải thưởng & Chứng chỉ', 'url' => null],
         ],
 
         // ── Services ──────────────────────────────────────────────

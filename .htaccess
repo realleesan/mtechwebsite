@@ -32,6 +32,18 @@ Options -Indexes
     RewriteRule ^lich-su-hinh-thanh-phat-trien$ index.php?page=company.history [L]
 
     # ------------------------------------------
+    # About Us - Làm đẹp URL
+    # /ve-chung-toi → index.php?page=about
+    # ------------------------------------------
+    RewriteRule ^ve-chung-toi$ index.php?page=about [L]
+
+    # ------------------------------------------
+    # Awards & Certificates - Làm đẹp URL
+    # /giai-thuong-chung-chi → index.php?page=awards
+    # ------------------------------------------
+    RewriteRule ^giai-thuong-chung-chi$ index.php?page=awards [L]
+
+    # ------------------------------------------
     # Contact - Làm đẹp URL
     # /lien-he → index.php?page=contact
     # ------------------------------------------
