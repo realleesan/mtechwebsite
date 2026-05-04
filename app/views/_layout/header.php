@@ -170,11 +170,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
 
                 <!-- Tuyển Dụng -->
                 <li class="nav-item <?php echo (isset($_GET['cat']) && $_GET['cat'] == '7') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/?page=blogs&cat=7" title="Tuyển Dụng">Tuyển Dụng</a>
+                    <a class="nav-link" href="/tuyen-dung" title="Tuyển Dụng">Tuyển Dụng</a>
                 </li>
 
                 <!-- Blog -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'blogs') ? 'active' : ''; ?>">
+                <li class="nav-item submenu <?php echo ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">
                         Blog
                         <span class="caret-drop"></span>

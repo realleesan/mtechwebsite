@@ -51,6 +51,12 @@ Options -Indexes
     RewriteRule ^chi-tiet-du-an-(.+)$ index.php?page=project-details&slug=$1 [L,QSA]
 
     # ------------------------------------------
+    # Tuyển dụng - Làm đẹp URL
+    # /tuyen-dung → index.php?page=blogs&cat=7
+    # ------------------------------------------
+    RewriteRule ^tuyen-dung$ index.php?page=blogs&cat=7 [L]
+
+    # ------------------------------------------
     # Mọi URL path không tồn tại → index.php?page=404
     # Ví dụ: /444, /abc, /xyz → index.php?page=404
     # ------------------------------------------

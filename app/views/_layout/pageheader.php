@@ -17,7 +17,13 @@ if (!isset($pageTitle)) {
         'teams'           => 'Đội ngũ',
     ];
     $currentPage = $_GET['page'] ?? 'home';
-    $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
+    
+    // Nếu là trang blogs với cat=7 (tuyển dụng)
+    if ($currentPage === 'blogs' && isset($_GET['cat']) && $_GET['cat'] == '7') {
+        $pageTitle = 'Tuyển dụng';
+    } else {
+        $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
+    }
 }
 
 // Tính base URL động

@@ -228,9 +228,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
 <section class="service_area sec_gap">
     <div class="container">
         <div class="section_title mb_55">
-            <h2 class="f_600 f_size_32 title_color">Our Services</h2>
+            <h2 class="f_600 f_size_32 title_color">Dịch vụ của chúng tôi</h2>
             <span class="title_br"></span>
-            <p class="mt_7">Podcasting operational change management inside of workflows to establish a framework taking seamless key performanceindicators.</p>
+            <p class="mt_7">Cung cấp các giải pháp tư vấn kỹ thuật chuyên sâu cho các dự án đầu tư xây dựng quy mô lớn trên toàn quốc.</p>
         </div>
         <div class="row mb-50">
             <?php if (isset($homeServices) && !empty($homeServices)): ?>
@@ -240,7 +240,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                             <div class="service_img">
                                 <img src="<?php echo htmlspecialchars($service['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($service['name']); ?>">
                                 <div class="hover_content">
-                                    <a href="?page=categories-details&slug=<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Read More</a>
+                                    <a href="?page=categories-details&slug=<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Xem thêm</a>
                                 </div>
                             </div>
                             <a href="?page=categories-details&slug=<?php echo htmlspecialchars($service['slug']); ?>">
@@ -250,80 +250,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                         </div>
                     </div>
                 <?php endforeach; ?>
-            <?php else: ?>
-                <!-- Fallback: Hiển thị dữ liệu mẫu nếu không có dữ liệu từ DB -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="service_item">
-                        <div class="service_img">
-                            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img1.jpg" alt="Agricultural Processing">
-                            <div class="hover_content">
-                                <a href="?page=categories-details&slug=agricultural-processing" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                        <a href="?page=categories-details&slug=agricultural-processing"><h3 class="f_size_20 title_color f_600">Agricultural Processing</h3></a>
-                        <span class="bottom_br"></span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service_item">
-                        <div class="service_img">
-                            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img2.jpg" alt="Chemical Industry">
-                            <div class="hover_content">
-                                <a href="?page=categories-details&slug=chemical-industry" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                        <a href="?page=categories-details&slug=chemical-industry"><h3 class="f_size_20 title_color f_600">Chemical Industry</h3></a>
-                        <span class="bottom_br"></span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service_item">
-                        <div class="service_img">
-                            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img3.jpg" alt="Civil Engineering">
-                            <div class="hover_content">
-                                <a href="?page=categories-details&slug=civil-engineering" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                        <a href="?page=categories-details&slug=civil-engineering"><h3 class="f_size_20 title_color f_600">Civil Engineering</h3></a>
-                        <span class="bottom_br"></span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service_item">
-                        <div class="service_img">
-                            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img4.jpg" alt="Energy & Power">
-                            <div class="hover_content">
-                                <a href="?page=categories-details&slug=energy-power" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                        <a href="?page=categories-details&slug=energy-power"><h3 class="f_size_20 title_color f_600">Energy &amp; Power</h3></a>
-                        <span class="bottom_br"></span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service_item">
-                        <div class="service_img">
-                            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img5.jpg" alt="Mechanical Engineering">
-                            <div class="hover_content">
-                                <a href="?page=categories-details&slug=mechanical-engineering" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                        <a href="?page=categories-details&slug=mechanical-engineering"><h3 class="f_size_20 title_color f_600">Mechanical Engineering</h3></a>
-                        <span class="bottom_br"></span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service_item">
-                        <div class="service_img">
-                            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img6.jpg" alt="Oil & Gas Engineering">
-                            <div class="hover_content">
-                                <a href="?page=categories-details&slug=oil-gas-engineering" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                        <a href="?page=categories-details&slug=oil-gas-engineering"><h3 class="f_size_20 title_color f_600">Oil &amp; Gas Engineering</h3></a>
-                        <span class="bottom_br"></span>
-                    </div>
-                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -334,16 +260,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
 $carouselProjects = [];
 if (isset($homeProjects) && !empty($homeProjects)) {
     $carouselProjects = array_merge($homeProjects, $homeProjects, $homeProjects);
-} else {
-    // Fallback static projects
-    $staticProjects = [
-        ['slug' => 'chemical-chamber', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_1.jpg', 'title' => 'Chemical Chamber'],
-        ['slug' => 'welding-processing', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_2.jpg', 'title' => 'Welding Processing'],
-        ['slug' => 'railway-project', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_3.jpg', 'title' => 'Railway Project'],
-        ['slug' => 'material-engineering', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_4.jpg', 'title' => 'Material Engineering'],
-        ['slug' => 'wind-power-project', 'image' => 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/f_pr_5.jpg', 'title' => 'Wind Power Project'],
-    ];
-    $carouselProjects = array_merge($staticProjects, $staticProjects, $staticProjects);
 }
 ?>
 
@@ -351,9 +267,9 @@ if (isset($homeProjects) && !empty($homeProjects)) {
 <section class="featured_area sec_gap">
     <div class="container">
         <div class="section_title mb_55">
-            <h2 class="f_600 f_size_32 color_w">Our Featured <span class="f_play">Projects</span></h2>
+            <h2 class="f_600 f_size_32 color_w">Dự án <span class="f_play">tiêu biểu</span></h2>
             <span class="title_br"></span>
-            <p class="mt_7">Podcasting operational change management inside of workflows to establish a framework taking seamless key performanceindicators.</p>
+            <p class="mt_7">Các dự án điện, năng lượng tái tạo và công nghiệp tiêu biểu MTECH đã thực hiện.</p>
         </div>
     </div>
     <!-- Carousel full-width -->
@@ -362,7 +278,7 @@ if (isset($homeProjects) && !empty($homeProjects)) {
             <?php foreach ($carouselProjects as $project): ?>
                 <div class="projects_slide">
                     <div class="featured_pr_item">
-                        <a href="?page=project-details&slug=<?php echo htmlspecialchars($project['slug']); ?>">
+                        <a href="/chi-tiet-du-an-<?php echo htmlspecialchars($project['slug']); ?>">
                             <img src="<?php echo htmlspecialchars($project['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($project['title']); ?>">
                             <div class="overlay"></div>
                             <p class="f_p f_500"><?php echo htmlspecialchars($project['title']); ?></p>
@@ -377,9 +293,9 @@ if (isset($homeProjects) && !empty($homeProjects)) {
 <!-- Quote/CTA Section -->
 <section class="quote_area">
     <div class="container d-flex">
-        <h2 class="f_600 title_color mb-0">We provide innovative product solutions for<br> <span class="f_play f_700">sustainable progress.</span></h2>
+        <h2 class="f_600 title_color mb-0">Chúng tôi cung cấp các giải pháp tư vấn kỹ thuật<br> <span class="f_play f_700">cho sự phát triển bền vững.</span></h2>
         <div class="quote_button">
-            <a href="?page=contact" class="read_more quote_btn">Enter your button</a>
+            <a href="/lien-he" class="read_more quote_btn">Liên hệ ngay</a>
         </div>
     </div>
 </section>
