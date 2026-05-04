@@ -6,6 +6,7 @@
  * — Không có hiệu ứng grayscale/color
  * — Không có URL link
  * — Carousel chạy liên tục, drag/swipe để di chuyển
+ * — Thêm lightbox khi click vào ảnh
  */
 
 (function () {
@@ -14,7 +15,7 @@
     const SPEED          = 1.4;  // px/frame (~84px/s ở 60fps)
     const DRAG_THRESHOLD = 5;    // px — dưới ngưỡng này vẫn là click
 
-    function init() {
+    function initCarousel() {
         const wrapper = document.querySelector('.awards_carousel_wrapper');
         const track   = document.querySelector('.awards_carousel_track');
         if (!wrapper || !track) return;
@@ -98,7 +99,67 @@
         });
     }
 
+    // ── LIGHTBOX LOGIC ───────────────────────────────────────────────
+    function initLightbox() {
+        const overlay = document.getElementById('awardsLightbox');
+        const closeBtn = document.getElementById('awardsLightboxClose');
+        const clickables = document.querySelectorAll('.awards_clickable');
+
+        if (!overlay || !closeBtn || clickables.length === 0) return;
+
+        const imgEl = document.getElementById('awardsLightboxImg');
+        const nameEl = document.getElementById('awardsLightboxName');
+        const certEl = document.getElementById('awardsLightboxCert');
+
+        // Mở lightbox
+        clickables.forEach(el => {
+            el.addEventListener('click', function(e) {
+                // Chỉ mở nếu có ảnh
+                const image = this.dataset.image;
+                if (!image) return;
+
+                const name = this.dataset.name || '';
+                const cert = this.dataset.cert || '';
+
+                imgEl.src = image;
+                imgEl.alt = name;
+                nameEl.textContent = name;
+                certEl.textContent = cert;
+
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Đóng lightbox
+        function closeLightbox() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+
+        // Đóng khi click vào overlay (ngoài box)
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Đóng khi nhấn ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    }
+
     // ── Boot ─────────────────────────────────────────────────────────
+    function init() {
+        initCarousel();
+        initLightbox();
+    }
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {

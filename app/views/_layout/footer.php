@@ -75,8 +75,10 @@ $companyInfo = [
                                     <li><a href="./">Trang chủ</a></li>
                                     <li><a href="/?page=about">Giới thiệu</a></li>
                                     <li><a href="/?page=services">Dịch vụ</a></li>
-                                    <li><a href="/?page=projects">Dự án</a></li>
-                                    <li><a href="/?page=contact">Liên hệ</a></li>
+                                    <li><a href="/du-an">Dự án</a></li>
+                                    <li><a href="/tuyen-dung">Tuyển dụng</a></li>
+                                    <li><a href="/?page=blogs">Bài viết</a></li>
+                                    <li><a href="/lien-he">Liên hệ</a></li>
                                     <?php endif; ?>
                                 </ul>
                             </aside>

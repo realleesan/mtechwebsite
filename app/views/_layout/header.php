@@ -149,18 +149,18 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 </li>
                 
                 <!-- Projects -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'projects') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="Projects" onclick="return false;">
-                        Projects
+                <li class="nav-item submenu <?php echo ($currentPage === 'projects' || $currentPage === 'project-details') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="#" title="Dự án" onclick="return false;">
+                        Dự án
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=projects" title="All Projects">All Projects</a>
+                            <a class="nav-link" href="/du-an" title="Tất cả dự án">Tất cả dự án</a>
                         </li>
                         <?php foreach ($menuProjects as $project): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=project-details&slug=<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
+                            <a class="nav-link" href="/chi-tiet-du-an-<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
                                 <?php echo htmlspecialchars($project['title']); ?>
                             </a>
                         </li>
@@ -170,11 +170,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
 
                 <!-- Tuyển Dụng -->
                 <li class="nav-item <?php echo (isset($_GET['cat']) && $_GET['cat'] == '7') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/?page=blogs&cat=7" title="Tuyển Dụng">Tuyển Dụng</a>
+                    <a class="nav-link" href="/tuyen-dung" title="Tuyển Dụng">Tuyển Dụng</a>
                 </li>
 
                 <!-- Blog -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'blogs') ? 'active' : ''; ?>">
+                <li class="nav-item submenu <?php echo ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">
                         Blog
                         <span class="caret-drop"></span>
@@ -195,7 +195,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 
                 <!-- Contact -->
                 <li class="nav-item <?php echo ($currentPage === 'contact') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/?page=contact" title="Contact">Contact</a>
+                    <a class="nav-link" href="/lien-he" title="Liên hệ">Liên hệ</a>
                 </li>
 
                 <!-- Search Icon -->

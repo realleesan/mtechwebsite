@@ -23,11 +23,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'subscribe' && $_SERVER['REQUE
 }
 
 // Mặc định nếu không lấy được settings
-$title = $settings['title'] ?? "We're Coming Soon...";
-$description = $settings['description'] ?? 'Our website is under construction. We\'ll be here soon with our new awesome site,';
-$subscribeText = $settings['subscribe_text'] ?? 'Subscribe to be notified.';
-$emailPlaceholder = $settings['email_placeholder'] ?? 'Enter your email address';
-$buttonText = $settings['button_text'] ?? 'Subscribe now';
+$title = $settings['title'] ?? "Website đang bảo trì...";
+$description = $settings['description'] ?? 'Website đang được xây dựng. Chúng tôi sẽ sớm ra mắt với phiên bản mới,';
+$subscribeText = $settings['subscribe_text'] ?? 'Đăng ký để nhận thông báo.';
+$emailPlaceholder = $settings['email_placeholder'] ?? 'Nhập địa chỉ email của bạn';
+$buttonText = $settings['button_text'] ?? 'Đăng ký ngay';
 $targetTimestamp = $comingsoonModel->getTargetTimestamp() ?? (time() + 30 * 24 * 60 * 60) * 1000;
 ?>
 <!DOCTYPE html>
@@ -62,7 +62,7 @@ $targetTimestamp = $comingsoonModel->getTargetTimestamp() ?? (time() + 30 * 24 *
                 <div class="timer__section days">
                     <div class="timer_text">
                         <div class="timer__number">00</div>
-                        <div class="timer__label">days</div>
+                        <div class="timer__label">ngày</div>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@ $targetTimestamp = $comingsoonModel->getTargetTimestamp() ?? (time() + 30 * 24 *
                 <div class="timer__section hours">
                     <div class="timer_text">
                         <div class="timer__number">00</div>
-                        <div class="timer__label">hours</div>
+                        <div class="timer__label">giờ</div>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@ $targetTimestamp = $comingsoonModel->getTargetTimestamp() ?? (time() + 30 * 24 *
                 <div class="timer__section minutes">
                     <div class="timer_text">
                         <div class="timer__number">00</div>
-                        <div class="timer__label">Minutes</div>
+                        <div class="timer__label">phút</div>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@ $targetTimestamp = $comingsoonModel->getTargetTimestamp() ?? (time() + 30 * 24 *
                 <div class="timer__section seconds">
                     <div class="timer_text">
                         <div class="timer__number">00</div>
-                        <div class="timer__label">seconds</div>
+                        <div class="timer__label">giây</div>
                     </div>
                 </div>
             </div>
@@ -94,17 +94,17 @@ $targetTimestamp = $comingsoonModel->getTargetTimestamp() ?? (time() + 30 * 24 *
         
         <!-- Description -->
         <p>
-            Our website is under construction. We'll be here soon with our new<br>
-            awesome site, <span class="f_play">Subscribe to be notified.</span>
+            Website đang được xây dựng. Chúng tôi sẽ sớm ra mắt với phiên bản mới,<br>
+            <span class="f_play">Đăng ký để nhận thông báo.</span>
         </p>
         
         <!-- Subscribe Form -->
         <form class="mailchimp" method="post" action="?page=comingsoon&action=subscribe">
             <div class="subscrib_form">
                 <input type="email" name="email" class="form-control memail"
-                       placeholder="Enter your email address"
+                       placeholder="Nhập địa chỉ email của bạn"
                        required>
-                <button class="btn" type="submit">Subscribe now</button>
+                <button class="btn" type="submit">Đăng ký ngay</button>
             </div>
         </form>
     </div>

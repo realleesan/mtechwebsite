@@ -1357,7 +1357,7 @@
     font-family: 'Cormorant Garamond', serif;
     font-size: 22px;
     font-weight: 700;
-    color: #A1A6B4;
+    color: #FFFFFF;
     letter-spacing: 1px;
 }
 
@@ -1398,7 +1398,7 @@
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: #A1A6B4;
+    color: #FFFFFF;
     text-decoration: none;
     display: block;
     margin-bottom: 4px;
@@ -1412,7 +1412,7 @@
 .contact_info_body p {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
-    color: #777;
+    color: #FFFFFF;
     margin: 0;
     line-height: 1.5;
 }
@@ -1420,6 +1420,10 @@
 /* Form trong CTA */
 .contact_us_form .section_title {
     text-align: left;
+}
+
+.contact_us_form .section_title h2 {
+    color: #FFFFFF;
 }
 
 .mb_30 {

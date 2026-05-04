@@ -7,20 +7,46 @@
 // Tự động lấy tiêu đề nếu không được truyền vào
 if (!isset($pageTitle)) {
     $pageTitles = [
-        'about'           => 'About Us',
-        'services'        => 'Services',
-        'projects'        => 'Projects',
+        'about'           => 'Giới thiệu',
+        'services'        => 'Dịch vụ',
+        'projects'        => 'Dự án',
+        'project-details' => 'Chi tiết dự án',
         'blogs'           => 'Blog',
-        'contact'         => 'Contact Us',
+        'contact'         => 'Liên hệ',
         'company.history' => 'Lịch sử hình thành & phát triển',
-        'teams'           => 'Our Team',
+        'teams'           => 'Đội ngũ',
     ];
     $currentPage = $_GET['page'] ?? 'home';
-    $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
+    
+    // Nếu là trang blogs với cat=7 (tuyển dụng)
+    if ($currentPage === 'blogs' && isset($_GET['cat']) && $_GET['cat'] == '7') {
+        $pageTitle = 'Tuyển dụng';
+    } else {
+        $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
+    }
 }
+
+// Tính base URL động
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host     = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$script   = $_SERVER['SCRIPT_NAME'] ?? '/index.php';
+$basePath = rtrim(dirname($script), '/\\');
+$baseUrl  = $protocol . '://' . $host . $basePath;
+$bannerImage = $baseUrl . '/assets/images/header_banner.png';
 ?>
 
-<section class="banner_area">
+<section class="banner_area" style="background-image: 
+    -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5))),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');
+    background-image:
+    -webkit-linear-gradient(rgba(0, 0, 0, 0.5)),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');
+    background-image:
+    -o-linear-gradient(rgba(0, 0, 0, 0.5)),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');
+    background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5)),
+    url('<?php echo htmlspecialchars($bannerImage); ?>');">
     <div class="container">
         <div class="banner_content text-center">
 

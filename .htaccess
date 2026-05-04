@@ -32,6 +32,31 @@ Options -Indexes
     RewriteRule ^lich-su-hinh-thanh-phat-trien$ index.php?page=company.history [L]
 
     # ------------------------------------------
+    # Contact - Làm đẹp URL
+    # /lien-he → index.php?page=contact
+    # ------------------------------------------
+    RewriteRule ^lien-he$ index.php?page=contact [L]
+
+    # ------------------------------------------
+    # Projects - Làm đẹp URL
+    # /du-an → index.php?page=projects
+    # ------------------------------------------
+    RewriteRule ^du-an$ index.php?page=projects [L]
+
+    # ------------------------------------------
+    # Project Details - Làm đẹp URL
+    # /chi-tiet-du-an-{slug} → index.php?page=project-details&slug={slug}
+    # Ví dụ: /chi-tiet-du-an-welding-processing
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-du-an-(.+)$ index.php?page=project-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Tuyển dụng - Làm đẹp URL
+    # /tuyen-dung → index.php?page=blogs&cat=7
+    # ------------------------------------------
+    RewriteRule ^tuyen-dung$ index.php?page=blogs&cat=7 [L]
+
+    # ------------------------------------------
     # Mọi URL path không tồn tại → index.php?page=404
     # Ví dụ: /444, /abc, /xyz → index.php?page=404
     # ------------------------------------------

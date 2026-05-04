@@ -26,6 +26,13 @@
  */
 function get_breadcrumbs(string $page, array $params = []): ?array
 {
+    // Kiểm tra nếu là trang tuyển dụng (blogs với cat=7)
+    if ($page === 'blogs' && isset($_GET['cat']) && $_GET['cat'] == '7') {
+        return [
+            ['title' => 'Tuyển dụng', 'url' => null],
+        ];
+    }
+
     $map = [
 
         // ── Trang chủ ─────────────────────────────────────────────
@@ -53,12 +60,12 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── Projects ──────────────────────────────────────────────
         'projects' => [
-            ['title' => 'Projects', 'url' => null],
+            ['title' => 'Dự án', 'url' => null],
         ],
 
         'project-details' => [
-            ['title' => 'Projects',       'url' => '?page=projects'],
-            ['title' => 'Project Details', 'url' => null],
+            ['title' => 'Dự án',       'url' => '/du-an'],
+            ['title' => 'Chi tiết dự án', 'url' => null],
         ],
 
         // ── Blog ──────────────────────────────────────────────────
@@ -88,7 +95,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── Contact ───────────────────────────────────────────────
         'contact' => [
-            ['title' => 'Contact Us', 'url' => null],
+            ['title' => 'Liên hệ', 'url' => null],
         ],
 
         // ── Auth ──────────────────────────────────────────────────

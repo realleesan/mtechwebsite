@@ -54,7 +54,7 @@ if (!$project) {
     }
     
     // Cập nhật title
-    $title = htmlspecialchars($project['title']) . ' - Project Details';
+    $title = htmlspecialchars($project['title']) . ' - Chi tiết dự án';
 }
 ?>
 
@@ -64,10 +64,10 @@ if (!$project) {
     <div class="container">
         <div class="project-not-found">
             <i class="fa fa-folder-open-o"></i>
-            <h2>Project Not Found</h2>
-            <p>The project you are looking for does not exist or has been removed.</p>
-            <a href="?page=projects" class="btn-back">
-                <i class="fa fa-arrow-left"></i> Back to Projects
+            <h2>Không tìm thấy dự án</h2>
+            <p>Dự án bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+            <a href="/du-an" class="btn-back">
+                <i class="fa fa-arrow-left"></i> Quay lại dự án
             </a>
         </div>
     </div>
@@ -93,35 +93,35 @@ if (!$project) {
                     <ul class="list-unstyled">
                         <?php if (!empty($project['client'])): ?>
                         <li>
-                            <span>Customer :</span>
+                            <span>Khách hàng :</span>
                             <?php echo htmlspecialchars($project['client']); ?>
                         </li>
                         <?php endif; ?>
                         
                         <?php if (!empty($project['category'])): ?>
                         <li>
-                            <span>Category :</span>
+                            <span>Danh mục :</span>
                             <?php echo htmlspecialchars($project['category']); ?>
                         </li>
                         <?php endif; ?>
                         
                         <?php if ($projectDate): ?>
                         <li>
-                            <span>Date :</span>
+                            <span>Ngày :</span>
                             <?php echo $projectDate; ?>
                         </li>
                         <?php endif; ?>
                         
                         <?php if (!empty($project['status_label'])): ?>
                         <li>
-                            <span>Status :</span>
+                            <span>Trạng thái :</span>
                             <?php echo htmlspecialchars($project['status_label']); ?>
                         </li>
                         <?php endif; ?>
                         
                         <?php if (!empty($project['live_demo'])): ?>
                         <li>
-                            <span>Live Demo :</span>
+                            <span>Link dự án :</span>
                             <a href="<?php echo htmlspecialchars($project['live_demo']); ?>" target="_blank" rel="noopener noreferrer">
                                 <?php echo htmlspecialchars($project['live_demo']); ?>
                             </a>
@@ -130,7 +130,7 @@ if (!$project) {
                         
                         <?php if (!empty($tags)): ?>
                         <li>
-                            <span>Tags :</span>
+                            <span>Thẻ :</span>
                             <?php echo htmlspecialchars(implode(', ', $tags)); ?>
                         </li>
                         <?php endif; ?>
@@ -168,7 +168,7 @@ if (!$project) {
             <div class="col-lg-8">
                 <div class="pr_content">
                     <h2 class="f_size_32 f_600 title_color mb_20">
-                        <?php echo !empty($project['what_we_did_title']) ? htmlspecialchars($project['what_we_did_title']) : 'What we did'; ?>
+                        <?php echo !empty($project['what_we_did_title']) ? htmlspecialchars($project['what_we_did_title']) : 'Công việc thực hiện'; ?>
                     </h2>
                     
                     <?php echo $project['what_we_did']; ?>
@@ -177,7 +177,7 @@ if (!$project) {
             
             <?php if ($whatWeDidImage): ?>
             <div class="col-lg-4">
-                <img class="img-fluid" src="<?php echo htmlspecialchars($whatWeDidImage); ?>" alt="What we did">
+                <img class="img-fluid" src="<?php echo htmlspecialchars($whatWeDidImage); ?>" alt="Công việc thực hiện">
             </div>
             <?php endif; ?>
         </div>
@@ -191,7 +191,7 @@ if (!$project) {
     <div class="container">
         <div class="result_content pr_content">
             <h2 class="f_size_32 f_600 title_color mb_20">
-                <?php echo !empty($project['results_title']) ? htmlspecialchars($project['results_title']) : 'Results'; ?>
+                <?php echo !empty($project['results_title']) ? htmlspecialchars($project['results_title']) : 'Kết quả'; ?>
             </h2>
             
             <?php if (!empty($project['results'])): ?>
@@ -217,7 +217,7 @@ if (!$project) {
 <section class="back-to-projects sec_gap" style="padding-top: 0;">
     <div class="container">
         <div class="text-center">
-            <a href="?page=projects" class="btn-back" style="
+            <a href="/du-an" class="btn-back" style="
                 display: inline-block;
                 padding: 12px 30px;
                 background-color: #1A3FBF;
@@ -226,7 +226,7 @@ if (!$project) {
                 font-weight: 600;
                 transition: background-color 0.3s ease;
             ">
-                <i class="fa fa-arrow-left"></i> View All Projects
+                <i class="fa fa-arrow-left"></i> Xem tất cả dự án
             </a>
         </div>
     </div>

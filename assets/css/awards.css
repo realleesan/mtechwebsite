@@ -16,6 +16,12 @@
     text-align: left;
 }
 
+.awards_area .section_title p {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 /* ============================================================
    CAROUSEL — clone 100% từ client.logos.css
    ============================================================ */
@@ -191,5 +197,192 @@
 
     .awards_carousel_track {
         gap: 16px;
+    }
+}
+
+
+/* ============================================================
+   LIGHTBOX / MODAL — Tham khảo search overlay từ header.css
+   ============================================================ */
+
+/* Overlay nền */
+.awards_lightbox_overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 99998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.awards_lightbox_overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Box chứa ảnh và info */
+.awards_lightbox_box {
+    background: #122050;
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    position: relative;
+    border-radius: 2px;
+    border-top: 2px solid #1A3FBF;
+    transform: scale(0.85) translateY(-20px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.awards_lightbox_overlay.active .awards_lightbox_box {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* Nút đóng */
+.awards_lightbox_close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.25s ease, transform 0.25s ease;
+    outline: none;
+}
+
+.awards_lightbox_close:hover {
+    color: #1A3FBF;
+    transform: rotate(90deg);
+}
+
+.awards_lightbox_close svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+}
+
+/* Content wrapper */
+.awards_lightbox_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Ảnh phóng to */
+.awards_lightbox_img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
+}
+
+/* Info bên dưới ảnh */
+.awards_lightbox_info {
+    text-align: center;
+    width: 100%;
+}
+
+.awards_lightbox_name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin: 0 0 8px;
+    line-height: 1.4;
+}
+
+.awards_lightbox_cert {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    font-style: italic;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Clickable cursor */
+.awards_clickable {
+    cursor: pointer;
+}
+
+.awards_clickable:hover {
+    cursor: zoom-in;
+}
+
+/* ============================================================
+   RESPONSIVE LIGHTBOX
+   ============================================================ */
+@media (max-width: 768px) {
+    .awards_lightbox_box {
+        max-width: 90vw;
+        padding: 30px 24px;
+    }
+
+    .awards_lightbox_img {
+        max-width: 100%;
+        max-height: 60vh;
+    }
+
+    .awards_lightbox_name {
+        font-size: 18px;
+    }
+
+    .awards_lightbox_cert {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .awards_lightbox_box {
+        max-width: 95vw;
+        padding: 24px 16px;
+        gap: 16px;
+    }
+
+    .awards_lightbox_close {
+        top: 12px;
+        right: 12px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .awards_lightbox_close svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .awards_lightbox_img {
+        max-height: 50vh;
+    }
+
+    .awards_lightbox_name {
+        font-size: 16px;
+    }
+
+    .awards_lightbox_cert {
+        font-size: 12px;
     }
 }
