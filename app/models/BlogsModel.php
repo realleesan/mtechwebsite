@@ -190,6 +190,29 @@ class BlogsModel
         }
     }
 
+    /**
+     * Lấy blog category theo slug.
+     *
+     * @param  string     $slug
+     * @return array|null
+     */
+    public function getCategoryBySlug($slug)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug
+                 FROM `blog_categories`
+                 WHERE slug = ? AND status = 1
+                 LIMIT 1"
+            );
+            $stmt->execute([$slug]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getCategoryBySlug() - ' . $e->getMessage());
+            return null;
+        }
+    }
+
     // ----------------------------------------------------------------
     // TAGS
     // ----------------------------------------------------------------

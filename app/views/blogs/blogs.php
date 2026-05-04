@@ -27,6 +27,33 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
     if ($search)  $params['search'] = urlencode($search);
     return '?' . http_build_query($params);
 }
+
+/**
+ * Chuyển đổi ngày tháng sang tiếng Việt
+ * Ví dụ: "April 28, 2026" -> "Tháng 4 28, 2026"
+ */
+function format_date_vietnamese($dateStr) {
+    $months = [
+        'January'   => 'Tháng 1',
+        'February'  => 'Tháng 2',
+        'March'     => 'Tháng 3',
+        'April'     => 'Tháng 4',
+        'May'       => 'Tháng 5',
+        'June'      => 'Tháng 6',
+        'July'      => 'Tháng 7',
+        'August'    => 'Tháng 8',
+        'September' => 'Tháng 9',
+        'October'   => 'Tháng 10',
+        'November'  => 'Tháng 11',
+        'December'  => 'Tháng 12'
+    ];
+    
+    foreach ($months as $en => $vi) {
+        $dateStr = str_replace($en, $vi, $dateStr);
+    }
+    
+    return $dateStr;
+}
 ?>
 
 <section class="blog_area">
@@ -44,14 +71,12 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                     <?php else: ?>
                         <?php foreach ($blogs as $blog): ?>
                             <?php
-                            // URL cho tuyển dụng (cat=7) dùng /tuyen-dung-{slug}, các bài khác dùng ?page=blog-details&slug=
+                            // Tuyển dụng (cat=7) dùng /chi-tiet-{slug}, tin tức thường dùng /chi-tiet-tin-tuc-{slug}
                             $isHiring = ($blog['category_id'] == 7);
-                            if ($isHiring) {
-                                $blogUrl = '/chi-tiet-' . urlencode($blog['slug']);
-                            } else {
-                                $blogUrl = '?page=blog-details&slug=' . urlencode($blog['slug']);
-                            }
-                            $dateStr = date('F d, Y', strtotime($blog['created_at']));
+                            $blogUrl  = $isHiring
+                                        ? '/chi-tiet-' . urlencode($blog['slug'])
+                                        : '/chi-tiet-tin-tuc-' . urlencode($blog['slug']);
+                            $dateStr  = format_date_vietnamese(date('d F, Y', strtotime($blog['created_at'])));
                             $imgSrc  = !empty($blog['image']) ? $blog['image'] : 'assets/images/blogs/default.jpg';
                             $excerpt = !empty($blog['excerpt'])
                                        ? (mb_strlen($blog['excerpt']) > 220
@@ -70,7 +95,6 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                             $tagsStr = implode(' , ', $tagLinks);
 
                             // Tính toán hết hạn cho blog tuyển dụng (cat=7)
-                            $isHiring = ($blog['category_id'] == 7);
                             $daysRemaining = null;
                             $isExpired = false;
                             $hiringClosed = false;

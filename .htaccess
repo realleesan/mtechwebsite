@@ -76,6 +76,27 @@ Options -Indexes
     RewriteRule ^tuyen-dung$ index.php?page=blogs&cat=7 [L]
 
     # ------------------------------------------
+    # Danh mục tin tức - Làm đẹp URL
+    # /tin-tuc-{slug-danh-muc} → index.php?page=blogs&cat_slug={slug}
+    # Ví dụ: /tin-tuc-ve-cong-ty → index.php?page=blogs&cat_slug=ve-cong-ty
+    # Lưu ý: Rule này phải đặt trước rule /tin-tuc để tránh conflict
+    # ------------------------------------------
+    RewriteRule ^tin-tuc-(.+)$ index.php?page=blogs&cat_slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Tin tức - Làm đẹp URL
+    # /tin-tuc → index.php?page=blogs
+    # ------------------------------------------
+    RewriteRule ^tin-tuc$ index.php?page=blogs [L]
+
+    # ------------------------------------------
+    # Chi tiết tin tức - Làm đẹp URL
+    # /chi-tiet-tin-tuc-{slug} → index.php?page=blog-details&slug={slug}
+    # Ví dụ: /chi-tiet-tin-tuc-welding-processing
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-tin-tuc-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
     # Mọi URL path không tồn tại → index.php?page=404
     # Ví dụ: /444, /abc, /xyz → index.php?page=404
     # ------------------------------------------

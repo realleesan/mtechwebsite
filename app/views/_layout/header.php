@@ -181,11 +181,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=blogs" title="All Blogs">Tất cả tin tức</a>
+                            <a class="nav-link" href="/tin-tuc" title="Tất cả tin tức">Tất cả tin tức</a>
                         </li>
                         <?php foreach ($menuBlogCategories as $category): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=blogs&cat=<?php echo urlencode($category['id']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
+                            <a class="nav-link" href="/tin-tuc-<?php echo urlencode($category['slug']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
                                 <?php echo htmlspecialchars($category['name']); ?>
                             </a>
                         </li>
