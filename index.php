@@ -370,6 +370,7 @@ switch($page) {
         $pageTitle      = 'Blog';
         $showCTA        = false;
         $showBreadcrumb = true;
+        $showBlogSidebar = true;
         break;
         
     // --------------------------------------
@@ -416,6 +417,7 @@ switch($page) {
         $pageTitle      = 'Blog Single';
         $showCTA        = false;
         $showBreadcrumb = true;
+        $showBlogSidebar = true;
         $breadcrumbs    = [
             ['title' => 'Blog',                                  'url' => '?page=blogs'],
             ['title' => htmlspecialchars($blogDetail['title']), 'url' => null],

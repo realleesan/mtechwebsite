@@ -221,36 +221,53 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <?php
     // Trang 404/500 cần full viewport, không dùng main wrapper
-    $isErrorPage = (isset($page) && in_array($page, ['404', '500']));
+    $isErrorPage     = (isset($page) && in_array($page, ['404', '500']));
+    // Blog sidebar layout: blogs và blog-details dùng 2-column layout (col-9 + col-3)
+    $showBlogSidebar = isset($showBlogSidebar) && $showBlogSidebar;
+    $blogSectionClass = ($currentPage === 'blog-details') ? 'blog_details_area sec_gap' : 'blog_area';
     ?>
     
     <?php if (!$isErrorPage): ?>
     <main class="main-content">
     <?php endif; ?>
-    
-        <?php 
+
+        <?php if ($showBlogSidebar): ?>
+        <!-- Blog 2-column layout: content (col-9) + sidebar (col-3) -->
+        <section class="<?php echo $blogSectionClass; ?>">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+        <?php endif; ?>
+
+        <?php
         /**
          * Nội dung trang được truyền từ Controller qua biến $content
          * - $content có thể là HTML string hoặc đường dẫn file
          */
         if (isset($content)) {
-            // Kiểm tra nếu là HTML content hoặc file path
             if (is_string($content) && (strpos($content, '<') !== false || strpos($content, '<?php') !== false)) {
-                // It's HTML content - echo directly
                 echo $content;
             } elseif (is_string($content) && file_exists($content)) {
-                // It's a file path - include the file
                 include $content;
             } else {
                 echo "<div class='error'>Không tìm thấy nội dung trang.</div>";
             }
         } elseif (isset($viewFile) && file_exists($viewFile)) {
-            // Alternative: include view file directly
             include $viewFile;
         } else {
             echo "<div class='error'>Không có nội dung để hiển thị.</div>";
         }
         ?>
+
+        <?php if ($showBlogSidebar): ?>
+                    </div><!-- /.col-lg-9 -->
+                    <div class="col-lg-3">
+                        <?php include __DIR__ . '/blog_sidebar.php'; ?>
+                    </div><!-- /.col-lg-3 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
+        <?php endif; ?>
     
     <?php if (!$isErrorPage): ?>
     </main>

@@ -1,26 +1,50 @@
 <?php
+/**
+ * blog_sidebar.php — Sidebar dùng chung cho trang blogs và blog-details
+ *
+ * Biến cần có trong scope (truyền từ index.php qua controller):
+ *   $blogCategories  — array  — danh sách categories
+ *   $recentBlogs     — array  — bài viết gần đây
+ *   $allTags         — array  — tất cả tags
+ *   $filterCatId     — int    — category đang lọc (blogs page)
+ *   $filterTag       — string — tag slug đang lọc (blogs page)
+ *   $searchQuery     — string — từ khóa tìm kiếm (blogs page)
+ *   $blogDetail      — array  — bài viết hiện tại (blog-details page, để highlight)
+ */
+
 $blogCategories = $blogCategories ?? [];
 $recentBlogs    = $recentBlogs    ?? [];
 $allTags        = $allTags        ?? [];
 $filterCatId    = $filterCatId    ?? 0;
 $filterTag      = $filterTag      ?? '';
 $searchQuery    = $searchQuery    ?? '';
-$activeCatId    = $activeCatId    ?? 0;
-$activeTagSlugs = $activeTagSlugs ?? [];
+
+// Xác định category và tags đang active (hỗ trợ cả blogs list lẫn blog-details)
+$activeCatId    = (int) ($filterCatId ?: ($blogDetail['category_id'] ?? 0));
+$activeTagSlugs = [];
+if (!empty($filterTag)) {
+    $activeTagSlugs[] = $filterTag;
+}
+if (!empty($blogDetail['tags'])) {
+    foreach ($blogDetail['tags'] as $t) {
+        $activeTagSlugs[] = $t['slug'];
+    }
+}
+$activeTagSlugs = array_unique($activeTagSlugs);
 ?>
 
 <div class="blog_sidebar_area">
 
     <!-- ── Search ─────────────────────────────────────────── -->
     <aside class="r_widget search_widget">
-        <form method="get" action="">
+        <form method="get" action="" id="blogSidebarSearchForm">
             <input type="hidden" name="page" value="blogs">
             <?php if ($filterCatId): ?>
-                <input type="hidden" name="cat" value="<?php echo (int)$filterCatId; ?>">
+                <input type="hidden" name="cat" value="<?php echo (int) $filterCatId; ?>">
             <?php endif; ?>
             <div class="input-group">
-                <input type="text" class="form-control" name="search"
-                       value="<?php echo htmlspecialchars($searchQuery); ?>"
+                <input type="text" class="form-control" name="search" id="blogSidebarSearchInput"
+                       value=""
                        placeholder="Enter Search Keywords">
                 <span class="input-group-btn">
                     <button class="btn" type="submit">
@@ -44,18 +68,14 @@ $activeTagSlugs = $activeTagSlugs ?? [];
             <ul>
                 <?php
                 // "All Categories" active khi không lọc gì cả
-                $allActive = ($filterCatId === 0 && empty($filterTag) && $activeCatId === 0);
+                $allActive = ($activeCatId === 0 && empty($filterTag));
                 ?>
                 <li class="<?php echo $allActive ? 'active' : ''; ?>">
                     <a href="?page=blogs">All Categories</a>
                 </li>
                 <?php foreach ($blogCategories as $cat): ?>
-                    <?php
-                    $isActive = ((int)$filterCatId === (int)$cat['id'])
-                             || ((int)$activeCatId  === (int)$cat['id']);
-                    ?>
-                    <li class="<?php echo $isActive ? 'active' : ''; ?>">
-                        <a href="?page=blogs&cat=<?php echo (int)$cat['id']; ?>">
+                    <li class="<?php echo $activeCatId === (int) $cat['id'] ? 'active' : ''; ?>">
+                        <a href="?page=blogs&cat=<?php echo (int) $cat['id']; ?>">
                             <?php echo htmlspecialchars($cat['name']); ?>
                         </a>
                     </li>
@@ -102,14 +122,10 @@ $activeTagSlugs = $activeTagSlugs ?? [];
             <div class="tagcloud">
                 <ul class="wp-tag-cloud" role="list">
                     <?php foreach ($allTags as $tag): ?>
-                        <?php
-                        $tagActive = ($filterTag === $tag['slug'])
-                                  || in_array($tag['slug'], $activeTagSlugs);
-                        ?>
                         <li>
                             <a href="?page=blogs&tag=<?php echo urlencode($tag['slug']); ?>"
-                               class="<?php echo $tagActive ? 'active' : ''; ?>"
-                               aria-label="<?php echo htmlspecialchars($tag['name']); ?> (<?php echo (int)$tag['post_count']; ?> items)">
+                               class="<?php echo in_array($tag['slug'], $activeTagSlugs) ? 'active' : ''; ?>"
+                               aria-label="<?php echo htmlspecialchars($tag['name']); ?> (<?php echo (int) $tag['post_count']; ?> items)">
                                 <?php echo htmlspecialchars($tag['name']); ?>
                             </a>
                         </li>
@@ -120,3 +136,18 @@ $activeTagSlugs = $activeTagSlugs ?? [];
     <?php endif; ?>
 
 </div><!-- /.blog_sidebar_area -->
+
+<script>
+(function () {
+    var form  = document.getElementById('blogSidebarSearchForm');
+    var input = document.getElementById('blogSidebarSearchInput');
+    if (form && input) {
+        form.addEventListener('submit', function (e) {
+            if (input.value.trim() === '') {
+                e.preventDefault();
+                input.focus();
+            }
+        });
+    }
+})();
+</script>
