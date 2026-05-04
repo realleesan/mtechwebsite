@@ -22,7 +22,7 @@ $categories = $projectsModel->getCategories();
             <?php if (!empty($projects)): ?>
                 <?php foreach ($projects as $project): 
                     $categoryClass = strtolower(str_replace(' ', '-', $project['category'] ?? ''));
-                    $projectUrl = '?page=project-details&slug=' . urlencode($project['slug'] ?? '');
+                    $projectUrl = '/chi-tiet-du-an-' . urlencode($project['slug'] ?? '');
                     $imageUrl = !empty($project['image']) ? $project['image'] : 'assets/images/projects/placeholder.jpg';
                 ?>
                 <div class="col-lg-4 col-sm-6">
@@ -47,8 +47,8 @@ $categories = $projectsModel->getCategories();
                 <div class="col-12">
                     <div class="no-projects">
                         <i class="fa fa-folder-open"></i>
-                        <h4>No Projects Found</h4>
-                        <p>There are currently no projects to display. Please check back later.</p>
+                        <h4>Không tìm thấy dự án</h4>
+                        <p>Hiện tại chưa có dự án nào để hiển thị. Vui lòng quay lại sau.</p>
                     </div>
                 </div>
             <?php endif; ?>
@@ -57,7 +57,7 @@ $categories = $projectsModel->getCategories();
         <!-- Loading Indicator (for AJAX load more) -->
         <div class="projects-loading" style="display: none;">
             <i class="fa fa-spinner fa-spin"></i>
-            <p>Loading more projects...</p>
+            <p>Đang tải thêm dự án...</p>
         </div>
         
     </div>

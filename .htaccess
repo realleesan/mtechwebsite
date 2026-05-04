@@ -38,6 +38,19 @@ Options -Indexes
     RewriteRule ^lien-he$ index.php?page=contact [L]
 
     # ------------------------------------------
+    # Projects - Làm đẹp URL
+    # /du-an → index.php?page=projects
+    # ------------------------------------------
+    RewriteRule ^du-an$ index.php?page=projects [L]
+
+    # ------------------------------------------
+    # Project Details - Làm đẹp URL
+    # /chi-tiet-du-an-{slug} → index.php?page=project-details&slug={slug}
+    # Ví dụ: /chi-tiet-du-an-welding-processing
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-du-an-(.+)$ index.php?page=project-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
     # Mọi URL path không tồn tại → index.php?page=404
     # Ví dụ: /444, /abc, /xyz → index.php?page=404
     # ------------------------------------------

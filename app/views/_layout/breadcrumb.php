@@ -53,12 +53,12 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── Projects ──────────────────────────────────────────────
         'projects' => [
-            ['title' => 'Projects', 'url' => null],
+            ['title' => 'Dự án', 'url' => null],
         ],
 
         'project-details' => [
-            ['title' => 'Projects',       'url' => '?page=projects'],
-            ['title' => 'Project Details', 'url' => null],
+            ['title' => 'Dự án',       'url' => '/du-an'],
+            ['title' => 'Chi tiết dự án', 'url' => null],
         ],
 
         // ── Blog ──────────────────────────────────────────────────

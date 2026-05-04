@@ -289,7 +289,7 @@ switch($page) {
         $title          = 'Giới thiệu - MTECHJSC';
         $content        = 'app/views/about/about.php';
         $showPageHeader = true;
-        $pageTitle      = 'About Us';
+
         $showCTA        = true;
         $showBreadcrumb = true;
         break;
@@ -301,7 +301,7 @@ switch($page) {
         $title = 'Đội ngũ - MTECHJSC';
         $content = 'app/views/about/teams.php';
         $showPageHeader = true;
-        $pageTitle = 'Our Team';
+
         $showCTA = false;
         $showBreadcrumb = true;
         break;
@@ -367,7 +367,7 @@ switch($page) {
         $title          = 'Blog - MTECHJSC';
         $content        = 'app/views/blogs/blogs.php';
         $showPageHeader = true;
-        $pageTitle      = 'Blog';
+
         $showCTA        = false;
         $showBreadcrumb = true;
         break;
@@ -413,7 +413,7 @@ switch($page) {
         $title          = htmlspecialchars($blogDetail['title']) . ' - MTECHJSC';
         $content        = 'app/views/blogs/blog.details.php';
         $showPageHeader = true;
-        $pageTitle      = 'Blog Single';
+
         $showCTA        = false;
         $showBreadcrumb = true;
         $breadcrumbs    = [
@@ -451,7 +451,7 @@ switch($page) {
         $title          = 'Search Results - MTECHJSC';
         $content        = 'app/views/search/search.php';
         $showPageHeader = true;
-        $pageTitle      = 'Search Results';
+
         $showCTA        = false;
         $showBreadcrumb = true;
         break;
@@ -463,7 +463,7 @@ switch($page) {
         $title = 'Dự án - MTECHJSC';
         $content = 'app/views/projects/projects.php';
         $showPageHeader = true;
-        $pageTitle = 'Projects';
+      
         $showCTA = false;
         $showBreadcrumb = true;
         break;
@@ -475,7 +475,7 @@ switch($page) {
         $title = 'Chi tiết dự án - MTECHJSC';
         $content = 'app/views/projects/projects.details.php';
         $showPageHeader = true;
-        $pageTitle = 'Project Details';
+     
         $showCTA = false;
         $showBreadcrumb = true;
         // NOTE: Xử lý breadcrumb động theo ID dự án
@@ -488,7 +488,7 @@ switch($page) {
         $title = 'Dịch vụ - MTECHJSC';
         $content = 'app/views/services/services.php';
         $showPageHeader = true;
-        $pageTitle = 'Services';
+    
         $showCTA = false;
         $showBreadcrumb = true;
         break;
@@ -531,7 +531,7 @@ switch($page) {
         $title          = htmlspecialchars($categoryDetail['name']) . ' - MTECHJSC';
         $content        = 'app/views/categories/categories_details.php';
         $showPageHeader = true;
-        $pageTitle      = htmlspecialchars($categoryDetail['name']);
+    
         $showCTA        = false;
         $showBreadcrumb = true;
         $breadcrumbs    = [
@@ -575,7 +575,7 @@ switch($page) {
         $title          = 'Awards - MTECHJSC';
         $content        = 'app/views/about/awards.php';
         $showPageHeader = true;
-        $pageTitle      = 'Awards';
+      
         $showCTA        = false;
         $showBreadcrumb = true;
         break;
@@ -587,7 +587,7 @@ switch($page) {
         $title = 'Liên hệ - MTECHJSC';
         $content = 'app/views/contact/contact.php';
         $showPageHeader = true;
-        $pageTitle = 'Contact Us';
+
         $showCTA = false;
         $showBreadcrumb = true;
         break;

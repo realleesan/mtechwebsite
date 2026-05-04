@@ -7,13 +7,14 @@
 // Tự động lấy tiêu đề nếu không được truyền vào
 if (!isset($pageTitle)) {
     $pageTitles = [
-        'about'           => 'About Us',
-        'services'        => 'Services',
-        'projects'        => 'Projects',
+        'about'           => 'Giới thiệu',
+        'services'        => 'Dịch vụ',
+        'projects'        => 'Dự án',
+        'project-details' => 'Chi tiết dự án',
         'blogs'           => 'Blog',
         'contact'         => 'Liên hệ',
         'company.history' => 'Lịch sử hình thành & phát triển',
-        'teams'           => 'Our Team',
+        'teams'           => 'Đội ngũ',
     ];
     $currentPage = $_GET['page'] ?? 'home';
     $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
