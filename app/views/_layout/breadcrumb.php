@@ -40,7 +40,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── About ─────────────────────────────────────────────────
         'about' => [
-            ['title' => 'About Us', 'url' => null],
+            ['title' => 'Về chúng tôi', 'url' => null],
         ],
 
         'company.history' => [
@@ -51,6 +51,11 @@ function get_breadcrumbs(string $page, array $params = []): ?array
         'teams' => [
             ['title' => 'About',    'url' => '?page=about'],
             ['title' => 'Our Team', 'url' => null],
+        ],
+
+        'awards' => [
+            ['title' => 'About',                'url' => '?page=about'],
+            ['title' => 'Giải thưởng & Chứng chỉ', 'url' => null],
         ],
 
         // ── Services ──────────────────────────────────────────────
@@ -70,12 +75,12 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── Blog ──────────────────────────────────────────────────
         'blogs' => [
-            ['title' => 'Blog', 'url' => null],
+            ['title' => 'Tin tức', 'url' => '/tin-tuc'],
         ],
 
         'blog-details' => [
-            ['title' => 'Blog',         'url' => '?page=blogs'],
-            ['title' => 'Blog Details', 'url' => null],
+            ['title' => 'Tin tức',         'url' => '/tin-tuc'],
+            ['title' => 'Chi tiết tin tức', 'url' => '/chi-tiet-tin-tuc'],
         ],
 
         // ── Categories ────────────────────────────────────────────

@@ -8,10 +8,12 @@
 if (!isset($pageTitle)) {
     $pageTitles = [
         'about'           => 'Giới thiệu',
+        'awards'          => 'Giải thưởng & Chứng chỉ',
         'services'        => 'Dịch vụ',
         'projects'        => 'Dự án',
         'project-details' => 'Chi tiết dự án',
-        'blogs'           => 'Blog',
+        'blogs'           => 'Tin tức',
+        'blog-details'    => 'Chi tiết tin tức',
         'contact'         => 'Liên hệ',
         'company.history' => 'Lịch sử hình thành & phát triển',
         'teams'           => 'Đội ngũ',
@@ -21,6 +23,10 @@ if (!isset($pageTitle)) {
     // Nếu là trang blogs với cat=7 (tuyển dụng)
     if ($currentPage === 'blogs' && isset($_GET['cat']) && $_GET['cat'] == '7') {
         $pageTitle = 'Tuyển dụng';
+    }
+    // Nếu là trang blogs với danh mục (cat_slug)
+    elseif ($currentPage === 'blogs' && isset($_GET['cat_slug']) && !empty($categoryName)) {
+        $pageTitle = htmlspecialchars($categoryName);
     } else {
         $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
     }
@@ -53,7 +59,7 @@ $bannerImage = $baseUrl . '/assets/images/header_banner.png';
             <h2 class="page_title"><?php echo htmlspecialchars($pageTitle); ?></h2>
 
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="./">Home</a></li>
+                <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
 
                 <?php if (isset($breadcrumbs) && is_array($breadcrumbs)): ?>
                     <?php foreach ($breadcrumbs as $crumb): ?>

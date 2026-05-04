@@ -351,7 +351,23 @@ switch($page) {
         require_once 'app/models/BlogsModel.php';
         $blogsModel = new BlogsModel();
 
-        $filterCatId  = isset($_GET['cat'])    ? (int) $_GET['cat']          : 0;
+        // Xử lý filter category: hỗ trợ cả cat (ID) và cat_slug (slug)
+        $filterCatId  = 0;
+        $categoryName = '';
+        $categorySlug = '';
+        if (isset($_GET['cat'])) {
+            $filterCatId = (int) $_GET['cat'];
+        } elseif (isset($_GET['cat_slug'])) {
+            // Nếu có cat_slug, tìm ID từ slug
+            $catSlug = trim($_GET['cat_slug']);
+            $category = $blogsModel->getCategoryBySlug($catSlug);
+            if ($category) {
+                $filterCatId = (int) $category['id'];
+                $categoryName = $category['name'];
+                $categorySlug = $category['slug'];
+            }
+        }
+
         $filterTag    = isset($_GET['tag'])     ? trim($_GET['tag'])          : '';
         $searchQuery  = isset($_GET['search'])  ? trim(urldecode($_GET['search'])) : '';
         $currentPage  = isset($_GET['p'])       ? max(1, (int) $_GET['p'])   : 1;
@@ -371,6 +387,14 @@ switch($page) {
         $showCTA        = false;
         $showBreadcrumb = true;
         $showBlogSidebar = true;
+        
+        // Xử lý breadcrumb cho danh mục tin tức
+        if (!empty($categoryName)) {
+            $breadcrumbs = [
+                ['title' => 'Tin tức', 'url' => '/tin-tuc'],
+                ['title' => htmlspecialchars($categoryName), 'url' => null],
+            ];
+        }
         break;
         
     // --------------------------------------
@@ -501,9 +525,9 @@ switch($page) {
     case 'categories':
         $title = 'Our Services - MTECHJSC';
         $content = 'app/views/categories/categories.php';
-        $showPageHeader = false; // Banner được xử lý trong view
+        $showPageHeader = true;
         $showCTA = false;
-        $showBreadcrumb = false; // Breadcrumb được xử lý trong view
+        $showBreadcrumb = true;
         break;
 
     // --------------------------------------
@@ -574,7 +598,7 @@ switch($page) {
         $awardsModel = new AwardsModel();
         $awards      = $awardsModel->getAllActive();
 
-        $title          = 'Awards - MTECHJSC';
+        $title          = 'Giải thưởng & Chứng chỉ - MTECH.JSC';
         $content        = 'app/views/about/awards.php';
         $showPageHeader = true;
       

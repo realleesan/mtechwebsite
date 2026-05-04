@@ -37,7 +37,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
             <div class="topbar_left">
                 <span class="topbar_phone">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;opacity:0.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    Call Us Today
+                    Liên hệ ngay
                     <a href="tel:<?php echo htmlspecialchars($headerSettings['phone_href']); ?>"><?php echo htmlspecialchars($headerSettings['phone']); ?></a>
                 </span>
             </div>
@@ -99,7 +99,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 
                 <!-- Home -->
                 <li class="nav-item <?php echo ($currentPage === 'home') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="./" title="Home">Home</a>
+                    <a class="nav-link" href="./" title="Home">Trang chủ</a>
                 </li>
                 
                 <!-- About -->
@@ -108,22 +108,22 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 $isAboutActive = in_array($currentPage, $aboutPages);
                 ?>
                 <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="About" onclick="return false;">
-                        About
+                    <a class="nav-link" href="#" title="Về chúng tôi" onclick="return false;">
+                        Về chúng tôi
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/?page=about" title="About Us">About Us</a>
+                        <li>
+                            <a class="nav-link" href="/ve-chung-toi" title="Về chúng tôi">Về chúng tôi</a>
                         </li>
-                        <li class="nav-item">
+                        <li>
                             <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">Lịch sử hình thành & phát triển</a>
                         </li>
-                        <li class="nav-item">
+                        <li>
                             <a class="nav-link" href="/?page=teams" title="Teams">Teams</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/?page=awards" title="Awards">Awards</a>
+                        <li>
+                            <a class="nav-link" href="/giai-thuong-chung-chi" title="Giải thưởng & Chứng chỉ">Giải thưởng & Chứng chỉ</a>
                         </li>
                     </ul>
                 </li>
@@ -131,12 +131,12 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 <!-- Services -->
                 <li class="nav-item submenu <?php echo ($currentPage === 'categories') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Services" onclick="return false;">
-                        Services
+                        Dịch vụ cung cấp
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=categories" title="All Services">All Services</a>
+                            <a class="nav-link" href="/?page=categories" title="All Services">Tất cả dịch vụ</a>
                         </li>
                         <?php foreach ($menuServices as $service): ?>
                         <li class="nav-item">
@@ -176,16 +176,16 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 <!-- Blog -->
                 <li class="nav-item submenu <?php echo ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">
-                        Blog
+                        Tin tức
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=blogs" title="All Blogs">All Blogs</a>
+                            <a class="nav-link" href="/tin-tuc" title="Tất cả tin tức">Tất cả tin tức</a>
                         </li>
                         <?php foreach ($menuBlogCategories as $category): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=blogs&cat=<?php echo urlencode($category['id']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
+                            <a class="nav-link" href="/tin-tuc-<?php echo urlencode($category['slug']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
                                 <?php echo htmlspecialchars($category['name']); ?>
                             </a>
                         </li>

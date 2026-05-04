@@ -29,63 +29,6 @@ if (empty($services)) {
     ];
 }
 ?>
-
-<!-- =====================================================
-     BANNER
-     ===================================================== -->
-<section class="banner_area">
-    <div class="container">
-        <div class="banner_content text-center">
-            <h2 class="f_600 page_title color_w">Services</h2>
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="./">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Services</li>
-            </ol>
-        </div>
-    </div>
-</section>
-
-<!-- =====================================================
-     OUR SERVICES — lưới 3 cột
-     ===================================================== -->
-<section class="service_area sec_gap">
-    <div class="container">
-        <div class="section_title mb_55">
-            <h2 class="f_600 f_size_32 title_color">Our Services</h2>
-            <span class="title_br"></span>
-            <p class="mt_7">Podcasting operational change management inside of workflows to establish a framework taking seamless key performance indicators.</p>
-        </div>
-        <div class="row">
-            <?php $i = 0; foreach ($services as $service): ?>
-                <?php
-                $img = !empty($service['image'])
-                    ? $service['image']
-                    : ($templateImages[$i] ?? $templateImages[0]);
-                $i++;
-                $slug = htmlspecialchars($service['slug'], ENT_QUOTES, 'UTF-8');
-                $name = htmlspecialchars($service['name'], ENT_QUOTES, 'UTF-8');
-                ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service_item">
-                        <div class="service_img">
-                            <img src="<?php echo htmlspecialchars($img, ENT_QUOTES, 'UTF-8'); ?>"
-                                 alt="<?php echo $name; ?>">
-                            <div class="hover_content">
-                                <a href="?page=categories-details&slug=<?php echo $slug; ?>"
-                                   class="read_more">Read More</a>
-                            </div>
-                        </div>
-                        <a href="?page=categories-details&slug=<?php echo $slug; ?>">
-                            <h3 class="f_size_20 title_color f_600"><?php echo $name; ?></h3>
-                        </a>
-                        <span class="bottom_br"></span>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
 <!-- =====================================================
      QUALITY SERVICE — 2 cột full-width
      Cột trái: background image + overlay tối + nội dung

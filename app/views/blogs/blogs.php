@@ -26,6 +26,33 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
     if ($search)  $params['search'] = urlencode($search);
     return '?' . http_build_query($params);
 }
+
+/**
+ * Chuyển đổi ngày tháng sang tiếng Việt
+ * Ví dụ: "April 28, 2026" -> "Tháng 4 28, 2026"
+ */
+function format_date_vietnamese($dateStr) {
+    $months = [
+        'January'   => 'Tháng 1',
+        'February'  => 'Tháng 2',
+        'March'     => 'Tháng 3',
+        'April'     => 'Tháng 4',
+        'May'       => 'Tháng 5',
+        'June'      => 'Tháng 6',
+        'July'      => 'Tháng 7',
+        'August'    => 'Tháng 8',
+        'September' => 'Tháng 9',
+        'October'   => 'Tháng 10',
+        'November'  => 'Tháng 11',
+        'December'  => 'Tháng 12'
+    ];
+    
+    foreach ($months as $en => $vi) {
+        $dateStr = str_replace($en, $vi, $dateStr);
+    }
+    
+    return $dateStr;
+}
 ?>
 
 <div class="blog_left_sidebar">
@@ -35,14 +62,18 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
     <?php else: ?>
         <?php foreach ($blogs as $blog): ?>
             <?php
-            $blogUrl = '?page=blog-details&slug=' . urlencode($blog['slug']);
-            $dateStr = date('F d, Y', strtotime($blog['created_at']));
-            $imgSrc  = !empty($blog['image']) ? $blog['image'] : 'assets/images/blogs/default.jpg';
-            $excerpt = !empty($blog['excerpt'])
-                       ? (mb_strlen($blog['excerpt']) > 220
-                           ? mb_substr($blog['excerpt'], 0, 220) . '...'
-                           : $blog['excerpt'])
-                       : '';
+            // Tuyển dụng (cat=7) dùng /chi-tiet-{slug}, tin tức thường dùng /chi-tiet-tin-tuc-{slug}
+            $isHiring = ($blog['category_id'] == 7);
+            $blogUrl  = $isHiring
+                        ? '/chi-tiet-' . urlencode($blog['slug'])
+                        : '/chi-tiet-tin-tuc-' . urlencode($blog['slug']);
+            $dateStr  = format_date_vietnamese(date('d F, Y', strtotime($blog['created_at'])));
+            $imgSrc   = !empty($blog['image']) ? $blog['image'] : 'assets/images/blogs/default.jpg';
+            $excerpt  = !empty($blog['excerpt'])
+                        ? (mb_strlen($blog['excerpt']) > 220
+                            ? mb_substr($blog['excerpt'], 0, 220) . '...'
+                            : $blog['excerpt'])
+                        : '';
 
             // Tags
             $tagLinks = [];
@@ -55,13 +86,15 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
             $tagsStr = implode(' , ', $tagLinks);
 
             // Tính toán hết hạn cho blog tuyển dụng (cat=7)
-            $isHiring      = ($blog['category_id'] == 7);
             $daysRemaining = null;
+            $isExpired     = false;
             $hiringClosed  = false;
             if ($isHiring && !empty($blog['expires_in_days'])) {
+                $createdAt     = strtotime($blog['created_at']);
                 $expiresAt     = strtotime($blog['created_at'] . ' + ' . $blog['expires_in_days'] . ' days');
                 $isExpired     = time() > $expiresAt;
-                $daysRemaining = max(0, (int) ceil(($expiresAt - time()) / 86400));
+                $daysRemaining = ceil(($expiresAt - time()) / 86400);
+                $daysRemaining = max(0, (int) $daysRemaining);
                 $hiringClosed  = $isExpired || empty($blog['hiring_status']) || $blog['hiring_status'] != 1;
             }
             ?>
@@ -80,10 +113,10 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                     <?php endif; ?>
                 </a>
 
-                <!-- Meta: By author / tags -->
+                <!-- Meta: By admin / tags -->
                 <div class="post_info">
                     <div class="blog_author_area">
-                        By : <a href="#"><?php echo htmlspecialchars($blog['author']); ?></a>
+                        Đăng bởi: <a href="#"><?php echo htmlspecialchars($blog['author']); ?></a>
                         <?php if ($tagsStr): ?>
                             <span class="sep">/</span>
                             <?php echo $tagsStr; ?>
@@ -91,7 +124,7 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                     </div>
                 </div>
 
-                <!-- Title + excerpt + Read More -->
+                <!-- Title + excerpt + Xem chi tiết -->
                 <div class="blog-text">
                     <a href="<?php echo $blogUrl; ?>">
                         <h4 class="f_600 title_color">
@@ -103,7 +136,7 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
                         <p><?php echo htmlspecialchars($excerpt); ?></p>
                     <?php endif; ?>
 
-                    <a href="<?php echo $blogUrl; ?>" class="read_btn_two">Read More</a>
+                    <a href="<?php echo $blogUrl; ?>" class="read_btn_two">Xem chi tiết</a>
                 </div>
 
             </div><!-- /.lt_blog_item -->
