@@ -16,14 +16,14 @@ if (!$blogDetail) {
     return;
 }
 
-$dateStr = date('F d, Y', strtotime($blogDetail['created_at']));
+$dateStr = format_date_vietnamese(date('d F, Y', strtotime($blogDetail['created_at'])));
 $imgSrc  = !empty($blogDetail['image']) ? $blogDetail['image'] : 'assets/images/blogs/default.jpg';
 
 // Tags
 $tagLinks = [];
 if (!empty($blogDetail['tags'])) {
     foreach ($blogDetail['tags'] as $t) {
-        $tagLinks[] = '<a href="?page=blogs&tag=' . urlencode($t['slug']) . '" class="tag-link">'
+        $tagLinks[] = '<a href="/tin-tuc-the-' . urlencode($t['slug']) . '" class="tag-link" target="_self">'
                       . htmlspecialchars($t['name']) . '</a>';
     }
 }
@@ -71,7 +71,7 @@ unset($_SESSION['job_application_message'], $_SESSION['job_application_success']
         <!-- Post Info: Author + Tags -->
         <div class="post_info">
             <div class="blog_author_area">
-                By : <a href="#" title="Posts by <?php echo htmlspecialchars($blogDetail['author']); ?>" rel="author">
+                Đăng bởi: <a href="#" title="Posts by <?php echo htmlspecialchars($blogDetail['author']); ?>" rel="author">
                     <?php echo htmlspecialchars($blogDetail['author']); ?>
                 </a>
                 <?php if ($tagsStr): ?>

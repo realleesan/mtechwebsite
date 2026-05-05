@@ -174,7 +174,14 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 </li>
 
                 <!-- Blog -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) ? 'active' : ''; ?>">
+                <?php
+                // Logic active cho menu "Tin tức":
+                // - Trang blogs (không phải tuyển dụng cat=7)
+                // - Trang blog-details (chi tiết tin tức)
+                $isBlogActive = ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) || 
+                               ($currentPage === 'blog-details');
+                ?>
+                <li class="nav-item submenu <?php echo $isBlogActive ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">
                         Tin tức
                         <span class="caret-drop"></span>

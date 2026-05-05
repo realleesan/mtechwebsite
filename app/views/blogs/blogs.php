@@ -19,6 +19,28 @@ $searchQuery = $searchQuery ?? '';
 
 $totalPages = $perPage > 0 ? (int) ceil($totalBlogs / $perPage) : 1;
 
+// Ensure format_date_vietnamese function exists
+if (!function_exists('format_date_vietnamese')) {
+    function format_date_vietnamese($dateStr) {
+        $months = [
+            'January'   => 'Tháng 1',
+            'February'  => 'Tháng 2',
+            'March'     => 'Tháng 3',
+            'April'     => 'Tháng 4',
+            'May'       => 'Tháng 5',
+            'June'      => 'Tháng 6',
+            'July'      => 'Tháng 7',
+            'August'    => 'Tháng 8',
+            'September' => 'Tháng 9',
+            'October'   => 'Tháng 10',
+            'November'  => 'Tháng 11',
+            'December'  => 'Tháng 12'
+        ];
+        
+        return str_replace(array_keys($months), array_values($months), $dateStr);
+    }
+}
+
 function blogs_page_url($p, $catId, $tagSlug, $search) {
     $params = ['page' => 'blogs', 'p' => $p];
     if ($catId)   $params['cat']    = $catId;
@@ -27,34 +49,12 @@ function blogs_page_url($p, $catId, $tagSlug, $search) {
     return '?' . http_build_query($params);
 }
 
-/**
- * Chuyển đổi ngày tháng sang tiếng Việt
- * Ví dụ: "April 28, 2026" -> "Tháng 4 28, 2026"
- */
-function format_date_vietnamese($dateStr) {
-    $months = [
-        'January'   => 'Tháng 1',
-        'February'  => 'Tháng 2',
-        'March'     => 'Tháng 3',
-        'April'     => 'Tháng 4',
-        'May'       => 'Tháng 5',
-        'June'      => 'Tháng 6',
-        'July'      => 'Tháng 7',
-        'August'    => 'Tháng 8',
-        'September' => 'Tháng 9',
-        'October'   => 'Tháng 10',
-        'November'  => 'Tháng 11',
-        'December'  => 'Tháng 12'
-    ];
-    
-    foreach ($months as $en => $vi) {
-        $dateStr = str_replace($en, $vi, $dateStr);
-    }
-    
-    return $dateStr;
-}
 ?>
 
+<!-- DEBUG: blogs.php loaded successfully -->
+<!-- DEBUG: blogs count = <?php echo count($blogs); ?> -->
+<!-- DEBUG: totalBlogs = <?php echo $totalBlogs; ?> -->
+<!-- DEBUG: filterTag = <?php echo htmlspecialchars($filterTag); ?> -->
 <div class="blog_left_sidebar">
 
     <?php if (empty($blogs)): ?>
@@ -79,7 +79,7 @@ function format_date_vietnamese($dateStr) {
             $tagLinks = [];
             if (!empty($blog['tags'])) {
                 foreach ($blog['tags'] as $t) {
-                    $tagLinks[] = '<a href="?page=blogs&tag=' . urlencode($t['slug']) . '" class="tag-link">'
+                    $tagLinks[] = '<a href="/tin-tuc-the-' . urlencode($t['slug']) . '" class="tag-link" target="_self">'
                                   . htmlspecialchars($t['name']) . '</a>';
                 }
             }

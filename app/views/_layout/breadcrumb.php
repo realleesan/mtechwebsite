@@ -80,7 +80,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         'blog-details' => [
             ['title' => 'Tin tức',         'url' => '/tin-tuc'],
-            ['title' => 'Chi tiết tin tức', 'url' => '/chi-tiet-tin-tuc'],
+            ['title' => 'Chi tiết tin tức', 'url' => null],
         ],
 
         // ── Categories ────────────────────────────────────────────

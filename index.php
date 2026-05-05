@@ -18,6 +18,11 @@
 session_start();
 
 // ==========================================
+// NOTE: Helpers - Load helper functions
+// ==========================================
+require_once __DIR__ . '/core/helpers.php';
+
+// ==========================================
 // NOTE: Output Buffering - Bật output buffering SỚM
 // Phải bật trước mọi thứ để error handler có thể
 // xóa output cũ và render trang 500 sạch sẽ
@@ -373,6 +378,11 @@ switch($page) {
         $currentPage  = isset($_GET['p'])       ? max(1, (int) $_GET['p'])   : 1;
         $perPage      = 5;
 
+        // DEBUG: Check if tag parameter is received
+        if ($filterTag) {
+            error_log("DEBUG: Tag filter = " . $filterTag);
+        }
+
         $blogsResult    = $blogsModel->getBlogs($currentPage, $perPage, $filterCatId, $filterTag, $searchQuery);
         $blogs          = $blogsResult['blogs'];
         $totalBlogs     = $blogsResult['total'];
@@ -443,7 +453,7 @@ switch($page) {
         $showBreadcrumb = true;
         $showBlogSidebar = true;
         $breadcrumbs    = [
-            ['title' => 'Blog',                                  'url' => '?page=blogs'],
+            ['title' => 'Tin tức',                               'url' => '/tin-tuc'],
             ['title' => htmlspecialchars($blogDetail['title']), 'url' => null],
         ];
         break;
@@ -477,6 +487,7 @@ switch($page) {
         $title          = 'Search Results - MTECHJSC';
         $content        = 'app/views/search/search.php';
         $showPageHeader = true;
+        $showBlogSidebar = true;
 
         $showCTA        = false;
         $showBreadcrumb = true;
@@ -507,19 +518,6 @@ switch($page) {
         // NOTE: Xử lý breadcrumb động theo ID dự án
         break;
         
-    // --------------------------------------
-    // NOTE: Services Page - Trang dịch vụ
-    // --------------------------------------
-    case 'services':
-        $title = 'Dịch vụ - MTECHJSC';
-        $content = 'app/views/services/services.php';
-        $showPageHeader = true;
-    
-        $showCTA = false;
-        $showBreadcrumb = true;
-        break;
-        
-    // --------------------------------------
     // NOTE: Categories Page - Trang danh mục dịch vụ
     // --------------------------------------
     case 'categories':
@@ -906,7 +904,7 @@ if (isset($useStandaloneLayout) && $useStandaloneLayout) {
     // include_once 'app/views/_layout/admin_master.php';
 } else {
     // NOTE: Sử dụng layout thường
-    include_once 'app/views/_layout/master.php';
+    include_once __DIR__ . '/app/views/_layout/master.php';
 }
 
 // ==========================================

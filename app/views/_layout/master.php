@@ -225,6 +225,9 @@ mb_http_output('UTF-8');
     // Blog sidebar layout: blogs và blog-details dùng 2-column layout (col-9 + col-3)
     $showBlogSidebar = isset($showBlogSidebar) && $showBlogSidebar;
     $blogSectionClass = ($currentPage === 'blog-details') ? 'blog_details_area sec_gap' : 'blog_area';
+    
+    // DEBUG: Uncomment để debug
+    // echo "<!-- DEBUG: currentPage=$currentPage, showBlogSidebar=" . ($showBlogSidebar ? 'true' : 'false') . " -->";
     ?>
     
     <?php if (!$isErrorPage): ?>

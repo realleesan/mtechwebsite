@@ -37,15 +37,14 @@ $activeTagSlugs = array_unique($activeTagSlugs);
 
     <!-- ── Search ─────────────────────────────────────────── -->
     <aside class="r_widget search_widget">
-        <form method="get" action="" id="blogSidebarSearchForm">
-            <input type="hidden" name="page" value="blogs">
+        <form method="get" action="/tin-tuc" id="blogSidebarSearchForm">
             <?php if ($filterCatId): ?>
                 <input type="hidden" name="cat" value="<?php echo (int) $filterCatId; ?>">
             <?php endif; ?>
             <div class="input-group">
                 <input type="text" class="form-control" name="search" id="blogSidebarSearchInput"
-                       value=""
-                       placeholder="Enter Search Keywords">
+                       value="<?php echo htmlspecialchars($searchQuery); ?>"
+                       placeholder="Nhập từ khóa">
                 <span class="input-group-btn">
                     <button class="btn" type="submit">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +61,7 @@ $activeTagSlugs = array_unique($activeTagSlugs);
     <?php if (!empty($blogCategories)): ?>
         <aside class="r_widget widget_categories">
             <div class="r_widget_title">
-                <h3 class="f_600 title_color">Categories</h3>
+                <h3 class="f_600 title_color">Danh mục</h3>
                 <span class="title_br"></span>
             </div>
             <ul>
@@ -71,12 +70,41 @@ $activeTagSlugs = array_unique($activeTagSlugs);
                 $allActive = ($activeCatId === 0 && empty($filterTag));
                 ?>
                 <li class="<?php echo $allActive ? 'active' : ''; ?>">
-                    <a href="?page=blogs">All Categories</a>
+                    <a href="/tin-tuc">Tất cả danh mục</a>
                 </li>
                 <?php foreach ($blogCategories as $cat): ?>
                     <li class="<?php echo $activeCatId === (int) $cat['id'] ? 'active' : ''; ?>">
-                        <a href="?page=blogs&cat=<?php echo (int) $cat['id']; ?>">
+                        <a href="/tin-tuc-<?php echo urlencode($cat['slug']); ?>">
                             <?php echo htmlspecialchars($cat['name']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </aside>
+    <?php endif; ?>
+
+    <!-- ── Filter By Type (chỉ hiển thị trên trang search) ─── -->
+    <?php if ($currentPage === 'search'): ?>
+        <aside class="r_widget widget_categories">
+            <div class="r_widget_title">
+                <h3 class="f_600 title_color">Bộ lọc theo loại</h3>
+                <span class="title_br"></span>
+            </div>
+            <ul>
+                <?php
+                $typeLabels = $typeLabels ?? [
+                    ''        => 'Tất cả',
+                    'blog'    => 'Tin tức',
+                    'service' => 'Dịch vụ',
+                    'project' => 'Dự án',
+                ];
+                $searchType = $searchType ?? '';
+                $searchQuery = $searchQuery ?? '';
+                ?>
+                <?php foreach ($typeLabels as $typeKey => $typeText): ?>
+                    <li class="<?php echo $searchType === $typeKey ? 'active' : ''; ?>">
+                        <a href="?page=search&q=<?php echo urlencode($searchQuery); ?><?php echo $typeKey ? '&type=' . $typeKey : ''; ?>">
+                            <?php echo $typeText; ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
@@ -88,19 +116,19 @@ $activeTagSlugs = array_unique($activeTagSlugs);
     <?php if (!empty($recentBlogs)): ?>
         <aside class="r_widget widget_news">
             <div class="r_widget_title">
-                <h3 class="f_600 title_color">Recent News</h3>
+                <h3 class="f_600 title_color"> Tin gần đây</h3>
                 <span class="title_br"></span>
             </div>
             <div class="recent_inner">
                 <?php foreach ($recentBlogs as $recent): ?>
                     <?php
                     $rImg  = !empty($recent['image']) ? $recent['image'] : 'assets/images/blogs/default.jpg';
-                    $rDate = date('F d, Y', strtotime($recent['created_at']));
-                    // URL cho tuyển dụng (cat=7) dùng /tuyen-dung-{slug}
+                    $rDate = format_date_vietnamese(date('d F, Y', strtotime($recent['created_at'])));
+                    // URL cho tuyển dụng (cat=7) dùng /chi-tiet-{slug}, tin tức thường dùng /chi-tiet-tin-tuc-{slug}
                     $isHiringRecent = ($recent['category_id'] == 7);
                     $recentUrl = $isHiringRecent
                         ? '/chi-tiet-' . urlencode($recent['slug'])
-                        : '?page=blog-details&slug=' . urlencode($recent['slug']);
+                        : '/chi-tiet-tin-tuc-' . urlencode($recent['slug']);
                     ?>
                     <div class="media recent_item">
                         <img src="<?php echo htmlspecialchars($rImg); ?>"
@@ -121,14 +149,14 @@ $activeTagSlugs = array_unique($activeTagSlugs);
     <?php if (!empty($allTags)): ?>
         <aside class="r_widget widget_tag_cloud">
             <div class="r_widget_title">
-                <h3 class="f_600 title_color">Tags</h3>
+                <h3 class="f_600 title_color">Thẻ</h3>
                 <span class="title_br"></span>
             </div>
             <div class="tagcloud">
                 <ul class="wp-tag-cloud" role="list">
                     <?php foreach ($allTags as $tag): ?>
                         <li>
-                            <a href="?page=blogs&tag=<?php echo urlencode($tag['slug']); ?>"
+                            <a href="/tin-tuc-the-<?php echo urlencode($tag['slug']); ?>"
                                class="<?php echo in_array($tag['slug'], $activeTagSlugs) ? 'active' : ''; ?>"
                                aria-label="<?php echo htmlspecialchars($tag['name']); ?> (<?php echo (int) $tag['post_count']; ?> items)">
                                 <?php echo htmlspecialchars($tag['name']); ?>

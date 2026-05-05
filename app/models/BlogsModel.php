@@ -43,22 +43,27 @@ class BlogsModel
             $baseJoin = "FROM `blogs` b
                          LEFT JOIN `blog_categories` bc ON b.category_id = bc.id";
 
+            // Add tag join if filtering by tag
+            if (!empty($tagSlug)) {
+                $baseJoin .= " INNER JOIN `blog_tag_map` btm ON btm.blog_id = b.id
+                               INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id";
+            }
+
             $where = "WHERE b.status = 1";
 
+            // Add tag filter
+            if (!empty($tagSlug)) {
+                $where .= " AND bt.slug = ?";
+                $params[] = $tagSlug;
+            }
+
+            // Add category filter
             if ($catId > 0) {
                 $where .= " AND b.category_id = ?";
                 $params[] = $catId;
             }
 
-            if (!empty($tagSlug)) {
-                $baseJoin .= " INNER JOIN `blog_tag_map` btm ON btm.blog_id = b.id
-                               INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id AND bt.slug = ?";
-                // Rebuild params: tag slug phải đứng đúng vị trí trong JOIN
-                $params = [];
-                if (!empty($tagSlug)) $params[] = $tagSlug;
-                if ($catId > 0)       $params[] = $catId;
-            }
-
+            // Add search filter
             if (!empty($search)) {
                 // Tìm theo title, excerpt, category name, và tag name
                 $where .= " AND (

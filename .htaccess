@@ -63,6 +63,13 @@ Options -Indexes
     RewriteRule ^chi-tiet-du-an-(.+)$ index.php?page=project-details&slug=$1 [L,QSA]
 
     # ------------------------------------------
+    # Chi tiết tin tức - Làm đẹp URL (PHẢI ĐẶT TRƯỚC chi-tiet-{slug})
+    # /chi-tiet-tin-tuc-{slug} → index.php?page=blog-details&slug={slug}
+    # Ví dụ: /chi-tiet-tin-tuc-welding-processing
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-tin-tuc-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
     # Chi tiết Tuyển dụng - Làm đẹp URL
     # /chi-tiet-{slug} → index.php?page=blog-details&slug={slug}
     # Ví dụ: /chi-tiet-cong-nhan-han-chuyen-nghiep
@@ -76,10 +83,17 @@ Options -Indexes
     RewriteRule ^tuyen-dung$ index.php?page=blogs&cat=7 [L]
 
     # ------------------------------------------
+    # Tin tức theo tag - Làm đẹp URL (PHẢI ĐẶT TRƯỚC tin-tuc-{category})
+    # /tin-tuc-the-{tag-slug} → index.php?page=blogs&tag={tag-slug}
+    # Ví dụ: /tin-tuc-the-trinh-do-cao
+    # ------------------------------------------
+    RewriteRule ^tin-tuc-the-(.+)$ index.php?page=blogs&tag=$1 [L,QSA]
+
+    # ------------------------------------------
     # Danh mục tin tức - Làm đẹp URL
     # /tin-tuc-{slug-danh-muc} → index.php?page=blogs&cat_slug={slug}
     # Ví dụ: /tin-tuc-ve-cong-ty → index.php?page=blogs&cat_slug=ve-cong-ty
-    # Lưu ý: Rule này phải đặt trước rule /tin-tuc để tránh conflict
+    # Lưu ý: Rule này phải đặt sau rule tin-tuc-the- để tránh conflict
     # ------------------------------------------
     RewriteRule ^tin-tuc-(.+)$ index.php?page=blogs&cat_slug=$1 [L,QSA]
 
@@ -87,14 +101,7 @@ Options -Indexes
     # Tin tức - Làm đẹp URL
     # /tin-tuc → index.php?page=blogs
     # ------------------------------------------
-    RewriteRule ^tin-tuc$ index.php?page=blogs [L]
-
-    # ------------------------------------------
-    # Chi tiết tin tức - Làm đẹp URL
-    # /chi-tiet-tin-tuc-{slug} → index.php?page=blog-details&slug={slug}
-    # Ví dụ: /chi-tiet-tin-tuc-welding-processing
-    # ------------------------------------------
-    RewriteRule ^chi-tiet-tin-tuc-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
+    RewriteRule ^tin-tuc$ index.php?page=blogs [L,QSA]
 
     # ------------------------------------------
     # Mọi URL path không tồn tại → index.php?page=404

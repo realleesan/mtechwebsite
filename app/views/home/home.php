@@ -120,10 +120,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
         <div class="slider_item active" style="background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/slider1.jpg');">
             <div class="slider_overlay"></div>
             <div class="slider_caption">
-                <p class="slider_line1">Have 12 Years Experience</p>
-                <p class="slider_line2">in <span class="slider_highlight">Industry Fabrication</span></p>
-                <p class="slider_desc">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy.</p>
-                <a href="?page=categories" class="slider_btn">View all services</a>
+                <p class="slider_line1">Hơn 15 Năm Kinh Nghiệm</p>
+                <p class="slider_line2">trong <span class="slider_highlight">Tư vấn Kỹ thuật & Quản lý</span></p>
+                <p class="slider_desc">Cung cấp các giải pháp thiết kế, giám sát và quản lý dự án chuyên nghiệp cho các công trình công nghiệp và dân dụng quy mô lớn trên toàn quốc.</p>
+                <a href="?page=categories" class="slider_btn">Xem tất cả dịch vụ</a>
             </div>
         </div>
 
@@ -131,10 +131,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
         <div class="slider_item" style="background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/slider2.jpg');">
             <div class="slider_overlay"></div>
             <div class="slider_caption">
-                <p class="slider_line1">Big Leader In Power &amp;</p>
-                <p class="slider_line2">Automation in <span class="slider_highlight">Technologies</span></p>
-                <p class="slider_desc">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy.</p>
-                <a href="?page=categories" class="slider_btn">View all services</a>
+                <p class="slider_line1">Đối tác Chiến lược của</p>
+                <p class="slider_line2">Các Tập đoàn <span class="slider_highlight">Công nghiệp Lớn</span></p>
+                <p class="slider_desc">Tiên phong trong tư vấn lập quy hoạch, thiết kế cơ sở và giải pháp tối ưu hóa năng lượng cho ngành luyện kim và vật liệu xây dựng (xi măng, thép).</p>
+                <a href="?page=categories" class="slider_btn">Xem tất cả dịch vụ</a>
             </div>
         </div>
 
@@ -142,10 +142,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
         <div class="slider_item" style="background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/slider3.jpg');">
             <div class="slider_overlay"></div>
             <div class="slider_caption">
-                <p class="slider_line1">We Are Providing Best</p>
-                <p class="slider_line2">Service In <span class="slider_highlight">Industrial Area</span></p>
-                <p class="slider_desc">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy.</p>
-                <a href="?page=categories" class="slider_btn">View all services</a>
+                <p class="slider_line1">Giải pháp Toàn diện cho</p>
+                <p class="slider_line2">Nông nghiệp <span class="slider_highlight">Công nghệ cao</span></p>
+                <p class="slider_desc">Đồng hành cùng nhà đầu tư từ khâu khảo sát, lập dự án đến giám sát thi công các dự án chăn nuôi và chế biến nông sản hàng ngàn hecta.</p>
+                <a href="?page=categories" class="slider_btn">Xem tất cả dịch vụ</a>
             </div>
         </div>
 
@@ -165,8 +165,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                     </div>
                     <div class="promo_box_body">
-                        <h3>High Standard in Service</h3>
-                        <p>Capitalize on low hanging fruit to iden- tify a ballpark value added activity to beta test. Override the digital divide.</p>
+                        <h3>Chất lượng dịch vụ Hạng I</h3>
+                        <p>Sở hữu các chứng chỉ năng lực hoạt động xây dựng Hạng I cấp cao nhất do Bộ Xây dựng cấp phép, đảm bảo tính chuẩn xác và an toàn tuyệt đối.</p>
                     </div>
                 </div>
 
@@ -176,8 +176,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                     </div>
                     <div class="promo_box_body">
-                        <h3>25 Years Experience in Industry</h3>
-                        <p>Capitalize on low hanging fruit to iden- tify a ballpark value added activity to beta test. Override the digital divide.</p>
+                        <h3>Hơn 15 Năm Kinh Nghiệm</h3>
+                        <p>Bề dày kinh nghiệm hoạt động từ năm 2011, thực hiện thành công hàng loạt các siêu dự án trọng điểm trên khắp cả nước.</p>
                     </div>
                 </div>
 
@@ -187,8 +187,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14Z"/></svg>
                     </div>
                     <div class="promo_box_body">
-                        <h3>Best Position in Market</h3>
-                        <p>Capitalize on low hanging fruit to iden- tify a ballpark value added activity to beta test. Override the digital divide.</p>
+                        <h3>Vị thế Hàng đầu Thị trường</h3>
+                        <p>Là đối tác chiến lược tin cậy của Tập đoàn Xuân Thiện, Long Sơn, Vissai, SCG cùng nhiều Chủ đầu tư lớn mạnh khác.</p>
                     </div>
                 </div>
 
@@ -206,10 +206,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
 
             <div class="col-lg-7">
                 <div class="welcome_text">
-                    <h5 class="welcome_sub">Welcome to our Industry</h5>
-                    <h1 class="welcome_title">25+ years of experiences for give you better results.</h1>
-                    <p class="welcome_desc">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward ew normal that has evolved.</p>
-                    <h6 class="welcome_ceo">Company CEO : Michale John</a></h6>
+                    <h5 class="welcome_sub">Chào mừng đến với MTECH.JSC</h5>
+                    <h1 class="welcome_title">Hơn 15 năm kiến tạo những công trình công nghiệp bền vững.</h1>
+                    <p class="welcome_desc">Được thành lập từ ngày 26/05/2011, Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH tự hào là đơn vị uy tín cung cấp chuỗi dịch vụ khép kín từ lập quy hoạch, khảo sát, thiết kế bản vẽ thi công, đến giám sát và quản lý dự án. Với đội ngũ chuyên gia tận tâm, chúng tôi luôn mang tới những giải pháp tối ưu nhất, đồng hành cùng nhà đầu tư kiến tạo nên các dự án luyện kim - năng lượng, vật liệu xây dựng và nông nghiệp công nghệ cao mang tầm vóc quốc tế.</p>
+                    <h6 class="welcome_ceo">Giám đốc : Nguyễn Tùng Giang</a></h6>
                 </div>
             </div>
         </div>
