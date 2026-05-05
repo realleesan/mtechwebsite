@@ -137,7 +137,7 @@
             </div>
         </div>
         <div class="text-center mt-4">
-            <a href="?page=teams" class="read_more btn_yellow">Xem thêm</a>
+            <a href="/doi-ngu" class="read_more btn_yellow">Xem thêm</a>
         </div>
     </div>
 </section>

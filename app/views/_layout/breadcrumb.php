@@ -44,17 +44,17 @@ function get_breadcrumbs(string $page, array $params = []): ?array
         ],
 
         'company.history' => [
-            ['title' => 'About',           'url' => '?page=about'],
+            ['title' => 'Về chúng tôi',           'url' => '/ve-chung-toi'],
             ['title' => 'Lịch sử hình thành & phát triển', 'url' => null],
         ],
 
         'teams' => [
-            ['title' => 'About',    'url' => '?page=about'],
-            ['title' => 'Our Team', 'url' => null],
+            ['title' => 'Về chúng tôi',    'url' => '/ve-chung-toi'],
+            ['title' => 'Đội ngũ', 'url' => null],
         ],
 
         'awards' => [
-            ['title' => 'About',                'url' => '?page=about'],
+            ['title' => 'Về chúng tôi',                'url' => '/ve-chung-toi'],
             ['title' => 'Giải thưởng & Chứng chỉ', 'url' => null],
         ],
 

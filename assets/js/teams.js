@@ -50,7 +50,7 @@ function handleQuestionSubmit(e) {
 
     const formData = new FormData(form);
 
-    fetch('?page=teams&action=submit_question', {
+    fetch('/doi-ngu?action=submit_question', {
         method: 'POST',
         body: formData,
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
@@ -78,7 +78,7 @@ function handleQuestionSubmit(e) {
         .finally(function () {
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.value = 'Submit now';
+                submitBtn.value = 'Gửi câu hỏi';
             }
         });
 }

@@ -120,7 +120,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                             <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">Lịch sử hình thành & phát triển</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/?page=teams" title="Teams">Teams</a>
+                            <a class="nav-link" href="/doi-ngu" title="Đội ngũ">Đội ngũ</a>
                         </li>
                         <li>
                             <a class="nav-link" href="/giai-thuong-chung-chi" title="Giải thưởng & Chứng chỉ">Giải thưởng & Chứng chỉ</a>

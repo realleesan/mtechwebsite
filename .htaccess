@@ -38,6 +38,12 @@ Options -Indexes
     RewriteRule ^ve-chung-toi$ index.php?page=about [L]
 
     # ------------------------------------------
+    # Teams - Làm đẹp URL
+    # /doi-ngu → index.php?page=teams
+    # ------------------------------------------
+    RewriteRule ^doi-ngu$ index.php?page=teams [L]
+
+    # ------------------------------------------
     # Awards & Certificates - Làm đẹp URL
     # /giai-thuong-chung-chi → index.php?page=awards
     # ------------------------------------------
