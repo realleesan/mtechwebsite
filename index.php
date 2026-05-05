@@ -521,7 +521,7 @@ switch($page) {
     // NOTE: Categories Page - Trang danh mục dịch vụ
     // --------------------------------------
     case 'categories':
-        $title = 'Our Services - MTECHJSC';
+        $title = 'Dịch vụ - MTECHJSC';
         $content = 'app/views/categories/categories.php';
         $showPageHeader = true;
         $showCTA = false;
@@ -534,7 +534,7 @@ switch($page) {
     case 'categories-details':
         $slug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
         if (empty($slug)) {
-            header('Location: ?page=categories');
+            header('Location: /dich-vu');
             exit;
         }
         require_once 'app/models/CategoriesModel.php';
@@ -559,7 +559,7 @@ switch($page) {
         $showCTA        = false;
         $showBreadcrumb = true;
         $breadcrumbs    = [
-            ['title' => 'Services',                              'url' => '?page=categories'],
+            ['title' => 'Dịch vụ',                                   'url' => '/dich-vu'],
             ['title' => htmlspecialchars($categoryDetail['name']), 'url' => null],
         ];
         break;

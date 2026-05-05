@@ -123,7 +123,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                 <p class="slider_line1">Hơn 15 Năm Kinh Nghiệm</p>
                 <p class="slider_line2">trong <span class="slider_highlight">Tư vấn Kỹ thuật & Quản lý</span></p>
                 <p class="slider_desc">Cung cấp các giải pháp thiết kế, giám sát và quản lý dự án chuyên nghiệp cho các công trình công nghiệp và dân dụng quy mô lớn trên toàn quốc.</p>
-                <a href="?page=categories" class="slider_btn">Xem tất cả dịch vụ</a>
+                <a href="/dich-vu" class="slider_btn">Xem tất cả dịch vụ</a>
             </div>
         </div>
 
@@ -134,7 +134,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                 <p class="slider_line1">Đối tác Chiến lược của</p>
                 <p class="slider_line2">Các Tập đoàn <span class="slider_highlight">Công nghiệp Lớn</span></p>
                 <p class="slider_desc">Tiên phong trong tư vấn lập quy hoạch, thiết kế cơ sở và giải pháp tối ưu hóa năng lượng cho ngành luyện kim và vật liệu xây dựng (xi măng, thép).</p>
-                <a href="?page=categories" class="slider_btn">Xem tất cả dịch vụ</a>
+                <a href="/dich-vu" class="slider_btn">Xem tất cả dịch vụ</a>
             </div>
         </div>
 
@@ -145,7 +145,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                 <p class="slider_line1">Giải pháp Toàn diện cho</p>
                 <p class="slider_line2">Nông nghiệp <span class="slider_highlight">Công nghệ cao</span></p>
                 <p class="slider_desc">Đồng hành cùng nhà đầu tư từ khâu khảo sát, lập dự án đến giám sát thi công các dự án chăn nuôi và chế biến nông sản hàng ngàn hecta.</p>
-                <a href="?page=categories" class="slider_btn">Xem tất cả dịch vụ</a>
+                <a href="/dich-vu" class="slider_btn">Xem tất cả dịch vụ</a>
             </div>
         </div>
 
@@ -240,10 +240,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'contact-submit' && $_SERVER['
                             <div class="service_img">
                                 <img src="<?php echo htmlspecialchars($service['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($service['name']); ?>">
                                 <div class="hover_content">
-                                    <a href="?page=categories-details&slug=<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Xem thêm</a>
+                                    <a href="/dich-vu-<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Xem thêm</a>
                                 </div>
                             </div>
-                            <a href="?page=categories-details&slug=<?php echo htmlspecialchars($service['slug']); ?>">
+                            <a href="/dich-vu-<?php echo htmlspecialchars($service['slug']); ?>">
                                 <h3 class="f_size_20 title_color f_600"><?php echo htmlspecialchars($service['name']); ?></h3>
                             </a>
                             <span class="bottom_br"></span>
@@ -322,10 +322,10 @@ include_once __DIR__ . '/../about/awards.php';
             <div class="lt_news_left">
                 <img class="bg_img" src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/news_bg.jpg" alt="News Background">
                 <div class="lt_news_content">
-                    <h2 class="f_600 color_w">Latest News</h2>
+                    <h2 class="f_600 color_w">Tin tức mới nhất</h2>
                     <span class="title_br"></span>
-                    <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
-                    <a href="?page=blogs" class="read_more btn_blue">More News</a>
+                    <p>Cập nhật những thông tin mới nhất về các dự án, hoạt động và thành tựu của MTECH trong lĩnh vực tư vấn kỹ thuật và xây dựng công nghiệp.</p>
+                    <a href="/tin-tuc" class="read_more btn_blue">Xem thêm tin tức</a>
                 </div>
             </div>
 
@@ -387,11 +387,11 @@ include_once __DIR__ . '/../about/awards.php';
     <div class="container">
         <div class="promo_info">
             <div class="promo_col_left">
-                <h2>We invite you to discover some recent successes making an impact in the <span class="promo_italic">automotive</span> industry solution in the world.</h2>
+                <h2>Chúng tôi tự hào đồng hành cùng các tập đoàn lớn, tạo ra những công trình công nghiệp <span class="promo_italic">bền vững</span> và hiệu quả trên toàn quốc.</h2>
             </div>
             <div class="promo_divider_v"></div>
             <div class="promo_col_right">
-                <p class="p_text">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway.</p>
+                <p class="p_text">Với hơn 15 năm kinh nghiệm, MTECH cung cấp giải pháp tư vấn kỹ thuật toàn diện từ quy hoạch, thiết kế đến giám sát thi công, đảm bảo chất lượng và tiến độ cho mọi dự án.</p>
             </div>
         </div>
     </div>
@@ -419,7 +419,7 @@ include_once __DIR__ . '/../about/awards.php';
                             </div>
                             <div class="contact_info_body">
                                 <a href="tel:18004567890" class="f_600 f_size_18 title_color">1800 456 7890</a>
-                                <p>Mon - Fri, 9.30am to 6.30pm</p>
+                                <p>Thứ 2 - Thứ 6, 8:00 - 17:30</p>
                             </div>
                         </div>
 
@@ -430,7 +430,7 @@ include_once __DIR__ . '/../about/awards.php';
                             </div>
                             <div class="contact_info_body">
                                 <a href="mailto:contact@mtech.com" class="f_600 f_size_18 title_color">contact@mtech.com</a>
-                                <p>Get reply within 48 hours</p>
+                                <p>Phản hồi trong vòng 48 giờ</p>
                             </div>
                         </div>
 
@@ -451,27 +451,27 @@ include_once __DIR__ . '/../about/awards.php';
                 <div class="col-lg-8">
                     <div class="contact_us_form">
                         <div class="section_title mb_30">
-                            <h2 class="f_600 f_size_32 title_color">Drop a Message</h2>
+                            <h2 class="f_600 f_size_32 title_color">Gửi tin nhắn cho chúng tôi</h2>
                             <span class="title_br"></span>
                         </div>
                         <form class="contact_form row" id="homeContactForm" method="post" action="?page=home&action=contact-submit" novalidate>
                             <div class="form-group col-md-6">
-                                <input type="text" name="name" class="form-control" id="hc_name" placeholder="Name" required>
+                                <input type="text" name="name" class="form-control" id="hc_name" placeholder="Họ và tên" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="email" name="email" class="form-control" id="hc_email" placeholder="E-mail" required>
+                                <input type="email" name="email" class="form-control" id="hc_email" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="text" name="tphone" class="form-control" id="hc_phone" placeholder="Phone No." required>
+                                <input type="text" name="tphone" class="form-control" id="hc_phone" placeholder="Số điện thoại" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="text" name="subject" class="form-control" id="hc_subject" placeholder="Subject" required>
+                                <input type="text" name="subject" class="form-control" id="hc_subject" placeholder="Tiêu đề" required>
                             </div>
                             <div class="form-group col-md-12">
-                                <textarea name="message" class="form-control" id="hc_message" rows="6" placeholder="Message" required></textarea>
+                                <textarea name="message" class="form-control" id="hc_message" rows="6" placeholder="Nội dung tin nhắn" required></textarea>
                             </div>
                             <div class="form-group col-md-12">
-                                <button type="submit" class="btn_blue submit_btn">Submit now</button>
+                                <button type="submit" class="btn_blue submit_btn">Gửi ngay</button>
                             </div>
                         </form>
                     </div>

@@ -59,11 +59,11 @@ if (empty($services)) {
                             <img src="<?php echo htmlspecialchars($img, ENT_QUOTES, 'UTF-8'); ?>"
                                  alt="<?php echo $name; ?>">
                             <div class="hover_content">
-                                <a href="/dich-vu-<?php echo $slug; ?>"
+                                <a href="/dich-vu/<?php echo $slug; ?>"
                                    class="read_more">Xem thêm</a>
                             </div>
                         </div>
-                        <a href="/dich-vu-<?php echo $slug; ?>">
+                        <a href="/dich-vu/<?php echo $slug; ?>">
                             <h3 class="f_size_20 title_color f_600"><?php echo $name; ?></h3>
                         </a>
                         <span class="bottom_br"></span>
@@ -87,10 +87,10 @@ if (empty($services)) {
                      src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/news_bg-1.jpg"
                      alt="Quality Service background">
                 <div class="lt_news_content">
-                    <h2 class="f_600 f_size_32 color_w">Dự án chất lượng</h2>
+                    <h2 class="f_600 f_size_32 color_w">Dịch vụ Chất lượng</h2>
                     <span class="title_br"></span>
                     <p>MTECH là đơn vị tư vấn hạng I trong lĩnh vực thiết kế và giám sát công trình công nghiệp. Chúng tôi cung cấp các giải pháp tư vấn kỹ thuật cho sự phát triển bền vững của doanh nghiệp.</p>
-                    <a href="/du-an" class="read_more btn_yellow">Xem thêm</a>
+                    <a href="#" class="read_more btn_yellow">Xem thêm</a>
                 </div>
             </div>
             <div class="lt_news_right d-flex align-items-center">

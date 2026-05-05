@@ -12,10 +12,12 @@
 if (empty($categoryDetail) || empty($allCategories)) {
     require_once 'app/models/CategoriesModel.php';
     $categoriesModel = new CategoriesModel();
+
     if (empty($categoryDetail)) {
         $slug           = isset($_GET['slug']) ? trim($_GET['slug']) : '';
         $categoryDetail = $categoriesModel->getCategoryDetailBySlug($slug);
     }
+
     if (empty($allCategories)) {
         $allCategories = $categoriesModel->getAllCategories();
     }
@@ -31,7 +33,7 @@ $h = fn($v) => htmlspecialchars((string)($v ?? ''), ENT_QUOTES, 'UTF-8');
 $currentSlug = $categoryDetail['slug'] ?? '';
 ?>
 
-<!--================ Start Service Details Area =================-->
+<!--================ Bắt đầu Khu vực Chi tiết Dịch vụ =================-->
 <section class="service_details_area sec_gap">
     <div class="container">
         <div class="row">
@@ -44,10 +46,12 @@ $currentSlug = $categoryDetail['slug'] ?? '';
 
                     <!-- Danh sách tất cả services -->
                     <ul class="nav service_menu_tab mb_40">
-                        <?php foreach ($allCategories as $cat): ?>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   href="?page=categories-details&slug=<?php echo $h($cat['slug']); ?>"
+                        <?php foreach ($allCategories as $cat): 
+                            $isActive = (trim($currentSlug) === trim($cat['slug']));
+                        ?>
+                            <li class="nav-item <?php echo $isActive ? 'active' : ''; ?>">
+                                <a class="nav-link <?php echo $isActive ? 'active' : ''; ?>"
+                                   href="/dich-vu-<?php echo $h($cat['slug']); ?>"
                                    title="<?php echo $h($cat['name']); ?>">
                                     <?php echo $h($cat['name']); ?>
                                 </a>
@@ -55,21 +59,13 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                         <?php endforeach; ?>
                     </ul>
 
-                    <!-- Get in touch -->
-                    <div class="sidebar_contact_info mb_40">
-                        <h3 class="f_600 title_color">Get in touch</h3>
-                        <span class="title_br"></span>
-                        <a href="tel:18006854321"><i class="fa fa-phone"></i>1800 685 4321</a>
-                        <a href="mailto:info@infratek.com"><i class="fa fa-paper-plane"></i>info@infratek.com</a>
-                    </div>
-
-                    <!-- Download buttons -->
+                    <!-- Tải tài liệu -->
                     <div class="download_info">
                         <a href="#" class="download-btn2">
-                            <i class="fa fa-file-pdf-o"></i> PDF. Download
+                            <i class="fa fa-file-pdf-o"></i> Tải tài liệu PDF
                         </a>
                         <a href="#" class="download-btn2">
-                            <i class="fa fa-file-word-o"></i> DOC. Download
+                            <i class="fa fa-file-word-o"></i> Tải tài liệu DOC
                         </a>
                     </div>
 
@@ -92,20 +88,20 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                     if (empty($slides) && !empty($categoryDetail['image'])) {
                         $slides = [$categoryDetail['image']];
                     }
-                    $slides = array_values($slides);
+                    $slides     = array_values($slides);
                     $slidesJson = htmlspecialchars(json_encode($slides), ENT_QUOTES, 'UTF-8');
-                    $altText = $h($categoryDetail['name']);
+                    $altText    = $h($categoryDetail['name']);
                     ?>
                     <?php if (!empty($slides)): ?>
                     <div class="service_slider" id="serviceSlider" data-slides="<?php echo $slidesJson; ?>">
                         <div class="slider_main">
-                            <button class="slider_arrow slider_prev" aria-label="Previous">
+                            <button class="slider_arrow slider_prev" aria-label="Trước">
                                 <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                             </button>
                             <img class="slider_main_img"
                                  src="<?php echo $h($slides[0]); ?>"
                                  alt="<?php echo $altText; ?>">
-                            <button class="slider_arrow slider_next" aria-label="Next">
+                            <button class="slider_arrow slider_next" aria-label="Tiếp">
                                 <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                             </button>
                         </div>
@@ -137,7 +133,7 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                         <div class="benefit_service two">
                             <?php if (!empty($categoryDetail['benefit_image'])): ?>
                             <img src="<?php echo $h($categoryDetail['benefit_image']); ?>"
-                                 alt="<?php echo $h($categoryDetail['benefit_title'] ?? 'Benefit'); ?>">
+                                 alt="<?php echo $h($categoryDetail['benefit_title'] ?? 'Lợi ích dịch vụ'); ?>">
                             <?php endif; ?>
                             <div class="media-body">
                                 <?php if (!empty($categoryDetail['benefit_title'])): ?>
@@ -162,7 +158,7 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                         </div>
                         <?php endif; ?>
 
-                        <!-- ── Feature Items ── -->
+                        <!-- ── Đặc điểm nổi bật (Feature Items) ── -->
                         <?php
                         $hasFeature = !empty($categoryDetail['feature_1_title']) || !empty($categoryDetail['feature_2_title']);
                         if ($hasFeature):
@@ -173,7 +169,6 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                                 <?php if (!empty($categoryDetail['feature_1_title'])): ?>
                                 <div class="servie_item">
                                     <div class="servie_icon">
-                                        <!-- Icon: clock outline chi tiết -->
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                             <circle cx="12" cy="12" r="10"/>
                                             <polyline points="12 6 12 12 16.5 14.5"/>
@@ -190,10 +185,10 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                                     </div>
                                 </div>
                                 <?php endif; ?>
+
                                 <?php if (!empty($categoryDetail['feature_2_title'])): ?>
                                 <div class="servie_item">
                                     <div class="servie_icon">
-                                        <!-- Icon: gear outline chi tiết -->
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                             <circle cx="12" cy="12" r="3"/>
                                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -213,7 +208,7 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                             <!-- Ảnh bên phải -->
                             <?php if (!empty($categoryDetail['feature_image'])): ?>
                             <img src="<?php echo $h($categoryDetail['feature_image']); ?>"
-                                 alt="Features">
+                                 alt="Đặc điểm nổi bật">
                             <?php endif; ?>
                         </div>
                         <?php endif; ?>
@@ -221,11 +216,11 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                         <!-- ── FAQ Accordion ── -->
                         <?php if (!empty($categoryDetail['faq_items']) && is_array($categoryDetail['faq_items'])): ?>
                         <div id="accordion" class="panel-group faq-accordion service_accordion" role="tablist" aria-multiselectable="true">
-                            <h3 class="s_title title_color f_600">More information</h3>
+                            <h3 class="s_title title_color f_600">Câu hỏi thường gặp</h3>
 
                             <?php foreach ($categoryDetail['faq_items'] as $index => $faq):
-                                $collapseId  = 'collapse_' . $h($currentSlug) . '_' . $index;
-                                $headingId   = 'heading_'  . $h($currentSlug) . '_' . $index;
+                                $collapseId = 'collapse_' . $h($currentSlug) . '_' . $index;
+                                $headingId  = 'heading_'  . $h($currentSlug) . '_' . $index;
                             ?>
                             <div class="card">
                                 <div id="<?php echo $headingId; ?>" class="card-header">
@@ -261,4 +256,4 @@ $currentSlug = $categoryDetail['slug'] ?? '';
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section>
-<!--================ End Service Details Area =================-->
+<!--================ Kết thúc Khu vực Chi tiết Dịch vụ =================-->

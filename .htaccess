@@ -110,6 +110,19 @@ Options -Indexes
     RewriteRule ^tin-tuc$ index.php?page=blogs [L,QSA]
 
     # ------------------------------------------
+    # Dịch vụ chi tiết - Làm đẹp URL (PHẢI ĐẶT TRƯỚC /dich-vu)
+    # /dich-vu-{slug} → index.php?page=categories-details&slug={slug}
+    # Ví dụ: /dich-vu-thiet-ke-xay-dung-chuyen-dung
+    # ------------------------------------------
+    RewriteRule ^dich-vu-(.+)$ index.php?page=categories-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Dịch vụ - Làm đẹp URL
+    # /dich-vu → index.php?page=categories
+    # ------------------------------------------
+    RewriteRule ^dich-vu$ index.php?page=categories [L]
+
+    # ------------------------------------------
     # Mọi URL path không tồn tại → index.php?page=404
     # Ví dụ: /444, /abc, /xyz → index.php?page=404
     # ------------------------------------------

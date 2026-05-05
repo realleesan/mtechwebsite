@@ -85,12 +85,12 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── Categories ────────────────────────────────────────────
         'categories' => [
-            ['title' => 'Categories', 'url' => null],
+            ['title' => 'Dịch vụ', 'url' => null],
         ],
 
         'categories-details' => [
-            ['title' => 'Categories',        'url' => '?page=categories'],
-            ['title' => 'Category Details',  'url' => null],
+            ['title' => 'Dịch vụ',           'url' => '/dich-vu'],
+            ['title' => 'Chi tiết dịch vụ',  'url' => null],
         ],
 
         // ── Search ────────────────────────────────────────────────

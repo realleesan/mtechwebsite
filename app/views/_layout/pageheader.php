@@ -10,6 +10,8 @@ if (!isset($pageTitle)) {
         'about'           => 'Giới thiệu',
         'awards'          => 'Giải thưởng & Chứng chỉ',
         'services'        => 'Dịch vụ',
+        'categories'      => 'Dịch vụ',
+        'categories-details' => 'Chi tiết dịch vụ',
         'projects'        => 'Dự án',
         'project-details' => 'Chi tiết dự án',
         'blogs'           => 'Tin tức',

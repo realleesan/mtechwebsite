@@ -5,7 +5,8 @@
  */
 
 // Lấy trang hiện tại để xác định active menu
-$currentPage = $_GET['page'] ?? 'home';
+// Ưu tiên dùng $page từ index.php (đã được routing xử lý), fallback về $_GET['page']
+$currentPage = $page ?? $_GET['page'] ?? 'home';
 
 // Lấy header settings động
 require_once __DIR__ . '/../../models/HeaderModel.php';
@@ -120,7 +121,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                             <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">Lịch sử hình thành & phát triển</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/doi-ngu" title="Đội ngũ">Đội ngũ</a>
+                            <a class="nav-link" href="/doi-ngu" title="Teams">Đội ngũ</a>
                         </li>
                         <li>
                             <a class="nav-link" href="/giai-thuong-chung-chi" title="Giải thưởng & Chứng chỉ">Giải thưởng & Chứng chỉ</a>
@@ -129,18 +130,18 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 </li>
                 
                 <!-- Services -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'categories') ? 'active' : ''; ?>">
+                <li class="nav-item submenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Services" onclick="return false;">
                         Dịch vụ cung cấp
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=categories" title="All Services">Tất cả dịch vụ</a>
+                            <a class="nav-link" href="/dich-vu" title="All Services">Tất cả dịch vụ</a>
                         </li>
                         <?php foreach ($menuServices as $service): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/?page=categories-details&slug=<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
+                            <a class="nav-link" href="/dich-vu-<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
                                 <?php echo htmlspecialchars($service['name']); ?>
                             </a>
                         </li>

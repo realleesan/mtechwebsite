@@ -128,17 +128,17 @@
     transform-origin: right center;
 }
 
-/* Bỏ hoàn toàn active state */
+/* Active state: nền xanh cobalt, chữ trắng, thanh dọc xanh */
 .service_menu_tab .nav-item.active .nav-link,
 .service_menu_tab .nav-item .nav-link.active {
-    background: #f1f1f1;
-    color: #0D1B3E;
-    font-weight: 500;
+    background: var(--accent-color) !important;
+    color: #ffffff !important;
+    font-weight: 600;
 }
 
 .service_menu_tab .nav-item.active .nav-link::before,
 .service_menu_tab .nav-item .nav-link.active::before {
-    display: block;
+    transform: scaleX(1);
 }
 
 /* Sidebar contact info */
