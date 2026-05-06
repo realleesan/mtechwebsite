@@ -52,8 +52,8 @@ class ContactsModel
                 ':phone'      => $data['phone']   ?? null,
                 ':subject'    => $data['subject'] ?? null,
                 ':message'    => $data['message'],
-                ':ip_address' => $_SERVER['REMOTE_ADDR']     ?? null,
-                ':user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
+                ':ip_address' => $data['ip_address'] ?? null,
+                ':user_agent' => $data['user_agent'] ?? null,
             ]);
 
             return (int) $this->db->lastInsertId();
