@@ -39,7 +39,7 @@ class ProjectsController extends BaseController
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('projects/projects.php', $data);
     }
     
     /**
@@ -100,6 +100,6 @@ class ProjectsController extends BaseController
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('projects/projects.details.php', $data);
     }
 }

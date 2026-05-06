@@ -24,8 +24,11 @@ class BaseController
             throw new Exception("View file not found: {$viewPath}");
         }
         
-        // Include view file
-        include $viewFile;
+        // Set content để master layout include
+        $content = $viewFile;
+        
+        // Include master layout (sẽ include $content)
+        include __DIR__ . '/../app/views/_layout/master.php';
     }
     
     /**

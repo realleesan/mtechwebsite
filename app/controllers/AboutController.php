@@ -25,14 +25,13 @@ class AboutController extends BaseController
             // Layout variables
             'page' => 'about',
             'title' => 'Giới thiệu - MTECHJSC',
-            'content' => 'app/views/about/about.php',
             'showPageHeader' => true,
             'showCTA' => true,
             'showBreadcrumb' => true
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('about/about.php', $data);
     }
     
     /**
@@ -45,13 +44,12 @@ class AboutController extends BaseController
             // Layout variables
             'page' => 'company.history',
             'title' => 'Lịch sử công ty - MTECHJSC',
-            'content' => 'app/views/about/company.history.php',
             'showPageHeader' => true,
             'showCTA' => true,
             'showBreadcrumb' => true
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('about/company.history.php', $data);
     }
 }

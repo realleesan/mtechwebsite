@@ -4,7 +4,7 @@
  * Kế thừa BaseController để sử dụng các helper methods
  */
 
-require_once __DIR__ . '/../core/BaseController.php';
+require_once __DIR__ . '/../../core/BaseController.php';
 require_once __DIR__ . '/../models/ComingsoonModel.php';
 
 class ComingSoonController extends BaseController

@@ -350,4 +350,30 @@ class ProjectsModel {
             return [];
         }
     }
+
+    /**
+     * Lấy dự án liên quan (cùng category, loại trừ dự án hiện tại)
+     *
+     * @param int|string $categoryId ID hoặc tên danh mục
+     * @param int $excludeId ID dự án cần loại trừ
+     * @param int $limit Số lượng tối đa
+     * @return array Danh sách dự án liên quan
+     */
+    public function getRelated($categoryId, $excludeId, $limit = 3) {
+        try {
+            $sql = "SELECT * FROM {$this->table} 
+                    WHERE category_id = ? 
+                    AND id != ? 
+                    AND status = 1 
+                    AND deleted_at IS NULL 
+                    ORDER BY sort_order ASC, created_at DESC 
+                    LIMIT ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$categoryId, $excludeId, $limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getRelated Error: " . $e->getMessage());
+            return [];
+        }
+    }
 }

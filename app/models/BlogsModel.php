@@ -92,7 +92,8 @@ class BlogsModel
 
             // Fetch blogs
             $sql = "SELECT DISTINCT b.id, b.title, b.slug, b.image, b.excerpt,
-                           b.author, b.created_at, b.views,
+                           b.author, b.created_at, b.views, b.category_id,
+                           b.position, b.expires_in_days, b.hiring_status,
                            bc.name AS category_name, bc.slug AS category_slug
                     {$baseJoin}
                     {$where}

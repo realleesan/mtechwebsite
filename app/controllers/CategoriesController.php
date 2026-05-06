@@ -26,14 +26,13 @@ class CategoriesController extends BaseController
             // Layout variables
             'page' => 'categories',
             'title' => 'Dịch vụ - MTECHJSC',
-            'content' => 'app/views/categories/categories.php',
             'showPageHeader' => true,
             'showCTA' => false,
             'showBreadcrumb' => true
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('categories/categories.php', $data);
     }
     
     /**
@@ -61,7 +60,6 @@ class CategoriesController extends BaseController
             $data = [
                 'page' => '404',
                 'title' => 'Không tìm thấy - MTECHJSC',
-                'content' => 'errors/404.php',
                 'showPageHeader' => false,
                 'showCTA' => false,
                 'showBreadcrumb' => false,
@@ -69,7 +67,7 @@ class CategoriesController extends BaseController
             ];
             
             http_response_code(404);
-            $this->view('_layout/master.php', $data);
+            $this->view('errors/404.php', $data);
             return;
         }
         
@@ -81,13 +79,12 @@ class CategoriesController extends BaseController
             // Layout variables
             'page' => 'categories-details',
             'title' => htmlspecialchars($categoryDetail['name']) . ' - MTECHJSC',
-            'content' => 'app/views/categories/categories_details.php',
             'showPageHeader' => true,
             'showCTA' => false,
             'showBreadcrumb' => true
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('categories/categories_details.php', $data);
     }
 }

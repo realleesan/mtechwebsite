@@ -78,24 +78,38 @@ class Router
         $this->get('/doi-ngu', 'TeamsController@index');
         $this->get('/company.history', 'AboutController@companyHistory');
         $this->get('/lich-su-cong-ty', 'AboutController@companyHistory');
+        $this->get('/ve-chung-toi', 'AboutController@index');
+        $this->get('/lich-su-hinh-thanh-phat-trien', 'AboutController@companyHistory');
         
         // Blogs
         $this->get('/blogs', 'BlogsController@index');
         $this->get('/tin-tuc', 'BlogsController@index');
-        $this->get('/blog-details', 'BlogController@details');
-        $this->get('/chi-tiet-tin-tuc', 'BlogController@details');
+        $this->get('/blog-details', 'BlogsController@details');
+        $this->get('/chi-tiet-tin-tuc', 'BlogsController@details');
+        $this->get('/chi-tiet-tin-tuc-{slug}', 'BlogsController@details');
+        $this->get('/tin-tuc-{cat_slug}', 'BlogsController@index');
         
         // Projects
         $this->get('/projects', 'ProjectsController@index');
         $this->get('/du-an', 'ProjectsController@index');
         $this->get('/project-details', 'ProjectsController@details');
         $this->get('/chi-tiet-du-an', 'ProjectsController@details');
+        $this->get('/chi-tiet-du-an-{slug}', 'ProjectsController@details');
+        $this->get('/du-an-{slug}', 'ProjectsController@details');
         
         // Categories/Dịch vụ
         $this->get('/categories', 'CategoriesController@index');
         $this->get('/dich-vu', 'CategoriesController@index');
         $this->get('/categories-details', 'CategoriesController@details');
+        $this->get('/chi-tiet-dich-vu-{slug}', 'CategoriesController@details');
         $this->get('/chi-tiet-dich-vu', 'CategoriesController@details');
+        $this->get('/dich-vu-{slug}', 'CategoriesController@details');
+        
+        // Chi tiết chung - phải đặt sau các routes cụ thể hơn
+        $this->get('/chi-tiet-{slug}', 'BlogsController@details');
+        
+        // Tuyển dụng
+        $this->get('/tuyen-dung', 'BlogsController@recruitment');
         
         // Search
         $this->get('/search', 'SearchController@index');
@@ -104,6 +118,7 @@ class Router
         // Awards
         $this->get('/awards', 'AwardsController@index');
         $this->get('/giai-thuong', 'AwardsController@index');
+        $this->get('/giai-thuong-chung-chi', 'AwardsController@index');
         
         // Coming Soon
         $this->get('/comingsoon', 'ComingSoonController@index');
@@ -114,7 +129,7 @@ class Router
         $this->post('/teams/submit-question', 'TeamsController@submitQuestion');
         
         // Job application
-        $this->post('/job-application-submit', 'BlogController@jobApplicationSubmit');
+        $this->post('/job-application-submit', 'BlogsController@jobApplicationSubmit');
         
         // 404 page
         $this->get('/404', 'ErrorController@notFound');
@@ -263,12 +278,12 @@ class Router
         } catch (Exception $e) {
             error_log('Router error: ' . $e->getMessage());
             $this->handleServerError();
+        } catch (Error $e) {
+            error_log('Router fatal error: ' . $e->getMessage());
+            $this->handleServerError();
         }
     }
     
-    /**
-     * Xử lý 404
-     */
     private function handleNotFound()
     {
         http_response_code(404);

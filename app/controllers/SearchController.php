@@ -52,7 +52,6 @@ class SearchController extends BaseController
             // Layout variables
             'page' => 'search',
             'title' => 'Search Results - MTECHJSC',
-            'content' => 'app/views/search/search.php',
             'showPageHeader' => true,
             'showBlogSidebar' => true,
             'showCTA' => false,
@@ -60,6 +59,6 @@ class SearchController extends BaseController
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('search/search.php', $data);
     }
 }

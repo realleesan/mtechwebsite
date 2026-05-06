@@ -17,9 +17,21 @@ class BlogsController extends BaseController
     }
     
     /**
-     * Hiển thị danh sách blogs với filter và pagination
+     * Hiển thị trang Tuyển dụng (cat=7)
      */
-    public function index()
+    public function recruitment()
+    {
+        // Force cat=7 for recruitment
+        $_GET['cat'] = 7;
+        // Delegate to index method
+        $this->index();
+    }
+    
+    /**
+     * Hiển thị danh sách blogs với filter và pagination
+     * @param string $cat_slug Slug của category (từ route /tin-tuc-{cat_slug})
+     */
+    public function index($cat_slug = null)
     {
         // Xử lý filter category: hỗ trợ cả cat (ID) và cat_slug (slug)
         $filterCatId = 0;
@@ -28,8 +40,17 @@ class BlogsController extends BaseController
         
         if (isset($_GET['cat'])) {
             $filterCatId = (int) $_GET['cat'];
+        } elseif ($cat_slug !== null) {
+            // Nếu có cat_slug từ URL parameter
+            $catSlug = trim($cat_slug);
+            $category = $this->blogsModel->getCategoryBySlug($catSlug);
+            if ($category) {
+                $filterCatId = (int) $category['id'];
+                $categoryName = $category['name'];
+                $categorySlug = $category['slug'];
+            }
         } elseif (isset($_GET['cat_slug'])) {
-            // Nếu có cat_slug, tìm ID từ slug
+            // Nếu có cat_slug từ query string
             $catSlug = trim($_GET['cat_slug']);
             $category = $this->blogsModel->getCategoryBySlug($catSlug);
             if ($category) {
@@ -82,7 +103,7 @@ class BlogsController extends BaseController
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('blogs/blogs.php', $data);
     }
     
     /**
@@ -155,7 +176,7 @@ class BlogsController extends BaseController
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('blogs/blog.details.php', $data);
     }
     
     /**

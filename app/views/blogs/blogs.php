@@ -10,7 +10,7 @@
  */
 
 // Include helper functions
-require_once __DIR__ . '/../../core/helpers.php';
+require_once __DIR__ . '/../../../core/helpers.php';
 
 $blogs       = $blogs       ?? [];
 $totalBlogs  = $totalBlogs  ?? 0;

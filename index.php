@@ -253,43 +253,15 @@ $page = $_GET['page'] ?? 'home';
 // ==========================================
 // NOTE: Router - Thay thế switch-case bằng Router class
 // ==========================================
-require_once __DIR__ . '/core/Router.php';
+require_once __DIR__ . '/core/router.php';
 $router = new Router();
 $router->dispatch();
 
 // ==========================================
-// NOTE: Default values cho layout - Set các biến mặc định
+// NOTE: Router đã xử lý render view, không cần layout ở đây
 // ==========================================
-$title = 'Trang chủ - MTECH';
-$content = 'app/views/home/home.php';
-$showPageHeader = false;
-$showCTA = true;
-$showBreadcrumb = false;
-$useStandaloneLayout = false;
-$useAdminLayout = false;
-$breadcrumbs = [];
-
-// ==========================================
-// NOTE: Auto-resolve breadcrumbs từ config tập trung
-// Chỉ set nếu chưa được gán thủ công trong switch
-// ==========================================
-if (!isset($breadcrumbs) && ($showBreadcrumb ?? false)) {
-    $breadcrumbs = get_breadcrumbs($page);
-}
-
-// ==========================================
-// NOTE: Include Master Layout - Load layout chính
-// ==========================================
-if (isset($useStandaloneLayout) && $useStandaloneLayout) {
-    // NOTE: Standalone layout - trang tự chứa HTML đầy đủ (coming soon)
-    include_once $content;
-} elseif (isset($useAdminLayout) && $useAdminLayout) {
-    // NOTE: Sử dụng admin layout
-    include_once 'app/views/_layout/admin_master.php';
-} else {
-    // NOTE: Sử dụng layout thường
-    include_once __DIR__ . '/app/views/_layout/master.php';
-}
+// Router::dispatch() đã tự gọi controller->view() và render layout
+// Không cần include layout nữa để tránh duplicate
 
 // ==========================================
 // NOTE: Flush Output Buffer - Xuất output buffer

@@ -31,13 +31,12 @@ class AwardsController extends BaseController
             // Layout variables
             'page' => 'awards',
             'title' => 'Giải thưởng & Chứng chỉ - MTECH.JSC',
-            'content' => 'app/views/about/awards.php',
             'showPageHeader' => true,
             'showCTA' => false,
             'showBreadcrumb' => true
         ];
         
         // Render view
-        $this->view('_layout/master.php', $data);
+        $this->view('about/awards.php', $data);
     }
 }
