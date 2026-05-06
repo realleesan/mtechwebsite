@@ -61,3 +61,94 @@ function create_excerpt($content, $length = 220) {
     
     return mb_substr($content, 0, $length) . '...';
 }
+
+/**
+ * Tạo URL cho trang blog với pagination
+ * Chuyển từ blogs.php để tái sử dụng
+ * 
+ * @param int $page Số trang
+ * @param string $category Category slug (optional)
+ * @param string $search Search term (optional)
+ * @return string URL
+ */
+function blogs_page_url($page, $category = '', $search = '') {
+    $params = [];
+    
+    if ($page > 1) {
+        $params['page'] = $page;
+    }
+    
+    if (!empty($category)) {
+        $params['category'] = $category;
+    }
+    
+    if (!empty($search)) {
+        $params['search'] = $search;
+    }
+    
+    $queryString = !empty($params) ? '?' . http_build_query($params) : '';
+    
+    return '/tin-tuc' . $queryString;
+}
+
+/**
+ * Tạo URL cho chi tiết blog dựa trên slug và category
+ * 
+ * @param string $slug Blog slug
+ * @param int $categoryId Category ID để xác định loại URL
+ * @return string URL
+ */
+function get_blog_detail_url($slug, $categoryId = null) {
+    // Category ID 7 là tuyển dụng
+    $isHiring = ($categoryId == 7);
+    
+    return $isHiring 
+        ? '/chi-tiet-' . urlencode($slug)
+        : '/chi-tiet-tin-tuc-' . urlencode($slug);
+}
+
+/**
+ * Tạo URL cho trang category
+ * 
+ * @param string $slug Category slug
+ * @return string URL
+ */
+function get_category_url($slug) {
+    return '/chi-tiet-dich-vu-' . urlencode($slug);
+}
+
+/**
+ * Tạo URL cho trang project detail
+ * 
+ * @param string $slug Project slug
+ * @return string URL
+ */
+function get_project_url($slug) {
+    return '/chi-tiet-du-an-' . urlencode($slug);
+}
+
+/**
+ * Sanitize output để tránh XSS
+ * 
+ * @param string $string
+ * @return string
+ */
+function e($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
+/**
+ * Truncate text với từ hoàn chỉnh
+ * 
+ * @param string $text
+ * @param int $limit
+ * @param string $end
+ * @return string
+ */
+function str_limit($text, $limit = 100, $end = '...') {
+    if (mb_strlen($text) <= $limit) {
+        return $text;
+    }
+    
+    return rtrim(mb_substr($text, 0, $limit)) . $end;
+}
