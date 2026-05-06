@@ -66,28 +66,45 @@ class HomeController extends BaseController
         }
         
         try {
-            // Validate input (form dùng tên field khác: Name, email, Message)
+            // Validate input (form dùng tên field: name, email, tphone, subject, message)
             $validation = ValidationService::validate($_POST, [
-                'Name' => 'required',
+                'name' => 'required',
                 'email' => 'required|email',
-                'Message' => 'required|min:10'
+                'tphone' => 'phone',
+                'subject' => 'required',
+                'message' => 'required|min:10'
             ]);
             
             if ($validation->fails()) {
+                $errors = $validation->errors();
+                $errorMessages = [];
+                
+                foreach ($errors as $field => $message) {
+                    $fieldLabels = [
+                        'name' => 'Họ tên',
+                        'email' => 'Email', 
+                        'tphone' => 'Số điện thoại',
+                        'subject' => 'Tiêu đề',
+                        'message' => 'Nội dung tin nhắn'
+                    ];
+                    $label = isset($fieldLabels[$field]) ? $fieldLabels[$field] : $field;
+                    $errorMessages[] = $label . ': ' . $message;
+                }
+                
                 $this->json([
                     'success' => false,
-                    'message' => 'Vui lòng kiểm tra lại thông tin',
+                    'message' => implode('. ', $errorMessages),
                     'errors' => $validation->errors()
                 ]);
             }
             
-            // Chuẩn bị dữ liệu (form dùng tên field khác)
+            // Chuẩn bị dữ liệu (form dùng field names: name, email, tphone, subject, message)
             $contactData = [
-                'name' => trim($_POST['Name']),
+                'name' => trim($_POST['name']),
                 'email' => trim($_POST['email']),
                 'phone' => isset($_POST['tphone']) ? trim($_POST['tphone']) : '',
                 'subject' => isset($_POST['subject']) ? trim($_POST['subject']) : 'Tin nhắn từ trang chủ',
-                'message' => trim($_POST['Message']),
+                'message' => trim($_POST['message']),
                 'ip_address' => $this->getClientIP(),
                 'user_agent' => $this->getUserAgent()
             ];

@@ -44,7 +44,7 @@ function handleFormSubmit(e) {
     const formData = new FormData(form);
     
     // Submit via AJAX
-    fetch('?page=contact&action=submit', {
+    fetch('/lien-he/submit', {
         method: 'POST',
         body: formData,
         headers: {

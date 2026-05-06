@@ -31,7 +31,7 @@ $contactInfo = [
                         <span class="title_br"></span>
                     </div>
 
-                    <form action="/lien-he&action=submit" method="post" class="contact_form row" id="contactForm" novalidate>
+                    <form action="/lien-he/submit" method="post" class="contact_form row" id="contactForm" novalidate>
                         <div class="form-group col-md-12">
                             <input
                                 type="text"

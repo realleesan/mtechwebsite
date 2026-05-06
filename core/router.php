@@ -126,7 +126,8 @@ class Router
         
         // AJAX routes - form submissions
         $this->post('/home/contact-submit', 'HomeController@contactSubmit');
-        $this->post('/teams/submit-question', 'TeamsController@submitQuestion');
+        $this->post('/doi-ngu/submit-question', 'TeamsController@submitQuestion');
+        $this->post('/newsletter/subscribe', 'NewsletterController@subscribe');
         
         // Job application
         $this->post('/job-application-submit', 'BlogsController@jobApplicationSubmit');

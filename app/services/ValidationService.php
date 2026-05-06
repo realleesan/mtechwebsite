@@ -57,12 +57,16 @@ class ValidationService
     }
     
     /**
-     * Lấy tất cả errors
+     * Lấy tất cả errors (flatten để tương thích với controller)
      * @return array
      */
     public function errors()
     {
-        return $this->errors;
+        $flatErrors = [];
+        foreach ($this->errors as $field => $messages) {
+            $flatErrors[$field] = is_array($messages) ? $messages[0] : $messages;
+        }
+        return $flatErrors;
     }
     
     /**
@@ -119,10 +123,23 @@ class ValidationService
             return;
         }
         
-        // Email rule
+        // Email rule - validation chặt chẽ hơn
         if ($rule === 'email') {
+            // Kiểm tra format cơ bản
             if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                 $this->addError($field, 'Email không hợp lệ');
+                return;
+            }
+            
+            // Kiểm tra thêm: domain phải có ít nhất 2 ký tự sau dấu chấm cuối
+            $parts = explode('@', $value);
+            if (count($parts) === 2) {
+                $domain = $parts[1];
+                $domainParts = explode('.', $domain);
+                if (count($domainParts) < 2 || strlen(end($domainParts)) < 2) {
+                    $this->addError($field, 'Email không hợp lệ');
+                    return;
+                }
             }
             return;
         }
@@ -229,10 +246,12 @@ class ValidationService
     {
         $fieldNames = [
             'name' => 'họ tên',
+            'Name' => 'họ tên', // Home form field
             'email' => 'email',
             'phone' => 'số điện thoại',
             'subject' => 'tiêu đề',
             'message' => 'nội dung',
+            'Message' => 'nội dung tin nhắn', // Home form field
             'question' => 'câu hỏi',
             'full_name' => 'họ tên',
             'position' => 'vị trí ứng tuyển',

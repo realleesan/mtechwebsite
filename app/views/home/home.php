@@ -251,17 +251,17 @@ include_once __DIR__ . '/../about/awards.php';
                     ];
                     $displayBlogs = !empty($homeBlogs) ? $homeBlogs : $staticBlogs;
                     foreach ($displayBlogs as $blog):
-                        // URL cho tuyển dụng (cat=7) dùng /tuyen-dung-{slug}, các bài khác dùng ?page=blog-details&slug=
+                        // URL đồng bộ với sidebar blogs và blog details
                         if ($blog['slug'] && $blog['slug'] !== '#') {
                             $isHiring = (($blog['category_id'] ?? 0) == 7);
                             $blogUrl  = $isHiring
-                                ? '/chi-tiet-' . urlencode($blog['slug'])
-                                : '?page=blog-details&slug=' . urlencode($blog['slug']);
+                                ? '/chi-tiet-' . $blog['slug']
+                                : '/chi-tiet-tin-tuc-' . $blog['slug'];
                         } else {
-                            $blogUrl = '?page=blogs';
+                            $blogUrl = '/tin-tuc';
                         }
                         $imgSrc   = !empty($blog['image']) ? $blog['image'] : 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/news-1.jpg';
-                        $dateStr  = !empty($blog['created_at']) ? date('F d, Y', strtotime($blog['created_at'])) : '';
+                        $dateStr  = !empty($blog['created_at']) ? format_date_vietnamese(date('d F, Y', strtotime($blog['created_at']))) : '';
                         $author   = htmlspecialchars($blog['author'] ?? 'admin');
                         $title    = htmlspecialchars($blog['title'] ?? '');
                         $excerpt  = htmlspecialchars($blog['excerpt'] ?? '');

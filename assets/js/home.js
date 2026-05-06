@@ -382,27 +382,89 @@
 
             // ── Validate required fields ──────────────────────────────────
             let valid = true;
-            form.querySelectorAll('[required]').forEach(field => {
-                if (!field.value.trim()) {
-                    field.style.borderColor = '#dc3545';
+            let errors = [];
+            
+            // Validate name field
+            const nameField = form.querySelector('[name="name"]');
+            if (nameField && !nameField.value.trim()) {
+                nameField.style.borderColor = '#dc3545';
+                errors.push('Vui lòng nhập họ tên');
+                valid = false;
+            } else if (nameField) {
+                nameField.style.borderColor = '';
+            }
+
+            // Validate email field
+            const emailField = form.querySelector('[name="email"]');
+            if (emailField && !emailField.value.trim()) {
+                emailField.style.borderColor = '#dc3545';
+                errors.push('Vui lòng nhập email');
+                valid = false;
+            } else if (emailField && emailField.value.trim()) {
+                // Validation email chặt chẽ hơn
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                const emailValue = emailField.value.trim();
+                
+                if (!emailRegex.test(emailValue)) {
+                    emailField.style.borderColor = '#dc3545';
+                    errors.push('Email không hợp lệ');
                     valid = false;
                 } else {
-                    field.style.borderColor = '';
-                }
-            });
-
-            // Validate email format
-            const emailField = form.querySelector('[name="email"]');
-            if (emailField && emailField.value.trim()) {
-                const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value.trim());
-                if (!emailOk) {
-                    emailField.style.borderColor = '#dc3545';
-                    valid = false;
+                    // Kiểm tra thêm: domain phải có ít nhất 2 ký tự sau dấu chấm cuối
+                    const parts = emailValue.split('@');
+                    if (parts.length === 2) {
+                        const domain = parts[1];
+                        const domainParts = domain.split('.');
+                        if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
+                            emailField.style.borderColor = '#dc3545';
+                            errors.push('Email không hợp lệ');
+                            valid = false;
+                        } else {
+                            emailField.style.borderColor = '';
+                        }
+                    }
                 }
             }
 
+            // Validate phone field (optional)
+            const phoneField = form.querySelector('[name="tphone"]');
+            if (phoneField && phoneField.value.trim()) {
+                // Simple phone validation
+                if (phoneField.value.trim().length < 10) {
+                    phoneField.style.borderColor = '#dc3545';
+                    errors.push('Số điện thoại không hợp lệ');
+                    valid = false;
+                } else {
+                    phoneField.style.borderColor = '';
+                }
+            }
+
+            // Validate subject field
+            const subjectField = form.querySelector('[name="subject"]');
+            if (subjectField && !subjectField.value.trim()) {
+                subjectField.style.borderColor = '#dc3545';
+                errors.push('Vui lòng nhập tiêu đề');
+                valid = false;
+            } else if (subjectField) {
+                subjectField.style.borderColor = '';
+            }
+
+            // Validate message field
+            const messageField = form.querySelector('[name="message"]');
+            if (messageField && !messageField.value.trim()) {
+                messageField.style.borderColor = '#dc3545';
+                errors.push('Vui lòng nhập nội dung tin nhắn');
+                valid = false;
+            } else if (messageField && messageField.value.trim().length < 10) {
+                messageField.style.borderColor = '#dc3545';
+                errors.push('Nội dung tin nhắn phải có ít nhất 10 ký tự');
+                valid = false;
+            } else if (messageField) {
+                messageField.style.borderColor = '';
+            }
+
             if (!valid) {
-                showFormMessage(form, 'Vui lòng điền đầy đủ thông tin hợp lệ.', 'error');
+                showFormMessage(form, errors.join('. '), 'error');
                 return;
             }
 
@@ -411,7 +473,7 @@
             btn.disabled = true;
 
             // ── Gửi đến API endpoint ──────────────────────────────────────
-            fetch('?page=home&action=contact-submit', {
+            fetch('/home/contact-submit', {
                 method: 'POST',
                 body: new FormData(form)
             })

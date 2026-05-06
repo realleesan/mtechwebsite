@@ -215,29 +215,50 @@ require_once 'app/views/_layout/breadcrumb.php';
 // ==========================================
 // NOTE: Handle AJAX Form Submission (before routing)
 // ==========================================
-if (isset($_GET['page']) && $_GET['page'] === 'contact' && 
-    isset($_GET['action']) && $_GET['action'] === 'submit' &&
-    $_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Form submission - output JSON directly, no layout
-    require_once 'app/views/contact/contact.php';
-    // Script ends in contact.php after outputting JSON
-}
-
-// ── Home contact form AJAX (same pattern as contact page) ──────────────────
-if (isset($_GET['page']) && $_GET['page'] === 'home' &&
-    isset($_GET['action']) && $_GET['action'] === 'contact-submit' &&
-    $_SERVER['REQUEST_METHOD'] === 'POST') {
-    require 'app/views/home/home.php';
-    exit;
-}
-
-// ── Teams question form AJAX ────────────────────────────────────────────────
-// Cover cả page=teams (URL mới) và page=about (URL cũ có thể còn trong cache)
-if (isset($_GET['action']) && $_GET['action'] === 'submit_question' &&
-    isset($_GET['page']) && in_array($_GET['page'], ['teams', 'about']) &&
-    $_SERVER['REQUEST_METHOD'] === 'POST') {
-    require 'app/views/about/teams.php';
-    exit;
+// Handle legacy AJAX requests with query parameters
+if (isset($_GET['page']) && isset($_GET['action']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $page = $_GET['page'];
+    $action = $_GET['action'];
+    
+    // Contact form submission
+    if ($page === 'contact' && $action === 'submit') {
+        require_once __DIR__ . '/app/controllers/ContactController.php';
+        $controller = new ContactController();
+        $controller->submit();
+        exit;
+    }
+    
+    // Home contact form submission
+    if ($page === 'home' && $action === 'contact-submit') {
+        require_once __DIR__ . '/app/controllers/HomeController.php';
+        $controller = new HomeController();
+        $controller->contactSubmit();
+        exit;
+    }
+    
+    // Teams question form submission
+    if ($page === 'teams' && $action === 'submit-question') {
+        require_once __DIR__ . '/app/controllers/TeamsController.php';
+        $controller = new TeamsController();
+        $controller->submitQuestion();
+        exit;
+    }
+    
+    // Newsletter subscription
+    if ($page === 'newsletter' && $action === 'subscribe') {
+        require_once __DIR__ . '/app/controllers/NewsletterController.php';
+        $controller = new NewsletterController();
+        $controller->subscribe();
+        exit;
+    }
+    
+    // Job application submission
+    if ($page === 'job-application-submit') {
+        require_once __DIR__ . '/app/controllers/BlogsController.php';
+        $controller = new BlogsController();
+        $controller->jobApplicationSubmit();
+        exit;
+    }
 }
 
 // ==========================================

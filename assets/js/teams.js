@@ -50,7 +50,7 @@ function handleQuestionSubmit(e) {
 
     const formData = new FormData(form);
 
-    fetch('/doi-ngu?action=submit_question', {
+    fetch('/doi-ngu/submit-question', {
         method: 'POST',
         body: formData,
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
@@ -112,9 +112,22 @@ function validateQuestionField(e) {
     }
 
     if (field.type === 'email' && value) {
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        // Validation email chặt chẽ hơn
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(value)) {
             showQuestionFieldError(name, 'Email không hợp lệ');
             return false;
+        }
+        
+        // Kiểm tra thêm: domain phải có ít nhất 2 ký tự sau dấu chấm cuối
+        const parts = value.split('@');
+        if (parts.length === 2) {
+            const domain = parts[1];
+            const domainParts = domain.split('.');
+            if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
+                showQuestionFieldError(name, 'Email không hợp lệ');
+                return false;
+            }
         }
     }
 
@@ -175,16 +188,22 @@ function clearAllQuestionErrors(form) {
 function showQuestionMessage(message, type) {
     document.querySelectorAll('.question-flash-message').forEach(function (el) { el.remove(); });
 
-    var icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
     var msgEl = document.createElement('div');
-    msgEl.className = 'flash-message flash-' + type + ' question-flash-message';
-    msgEl.innerHTML =
-        '<i class="fa fa-' + icon + '"></i> ' + message +
-        '<button class="flash-close" onclick="this.parentElement.remove()">&times;</button>';
+    
+    if (type === 'success') {
+        // Popup xanh nhạt giống contact.php cho thành công
+        msgEl.className = 'question-success-popup';
+        msgEl.innerHTML = '<i class="fa fa-check-circle"></i>' + message + 
+                         '<button class="flash-close" onclick="this.parentElement.remove()">&times;</button>';
+    } else {
+        // Popup hồng nhạt giống home.php cho lỗi
+        msgEl.className = 'question-error-popup';
+        msgEl.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + message;
+    }
 
     var form = document.getElementById('questionForm');
     if (form) {
-        form.parentElement.insertBefore(msgEl, form);
+        form.parentElement.insertBefore(msgEl, form.nextSibling);
         // Scroll vào vị trí thông báo
         msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }

@@ -6,6 +6,7 @@
 
 require_once __DIR__ . '/../../core/BaseController.php';
 require_once __DIR__ . '/../models/BlogsModel.php';
+require_once __DIR__ . '/../services/ValidationService.php';
 
 class BlogsController extends BaseController
 {
@@ -192,7 +193,7 @@ class BlogsController extends BaseController
         
         try {
             // Validate input
-            $validation = $this->validate($_POST, [
+            $validation = ValidationService::validate($_POST, [
                 'full_name' => 'required|min:2|max:100',
                 'email' => 'required|email|max:255',
                 'phone' => 'required|min:10|max:20',
@@ -200,22 +201,42 @@ class BlogsController extends BaseController
                 'message' => 'max:1000'
             ]);
             
-            if (!$validation['passes']) {
+            if ($validation->fails()) {
                 $this->json([
                     'success' => false,
                     'message' => 'Vui lòng kiểm tra lại thông tin',
-                    'errors' => $validation['errors']
-                ], 400);
+                    'errors' => $validation->errors()
+                ]);
                 return;
             }
             
-            // Lấy blogId từ URL parameter
-            $blogId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            // Lấy blogId từ POST data (form gửi blog_id)
+            $blogId = isset($_POST['blog_id']) ? (int)$_POST['blog_id'] : 0;
             if (!$blogId) {
                 $this->json([
                     'success' => false,
                     'message' => 'Không tìm thấy tin tuyển dụng'
                 ]);
+                return;
+            }
+            
+            // Kiểm tra blog có tồn tại và là tin tuyển dụng không
+            $blog = $this->blogsModel->getBlogById($blogId);
+            if (!$blog) {
+                $this->json([
+                    'success' => false,
+                    'message' => 'Tin tuyển dụng không tồn tại'
+                ]);
+                return;
+            }
+            
+            // Kiểm tra có phải tin tuyển dụng không
+            if (!$this->blogsModel->isHiringBlog($blogId)) {
+                $this->json([
+                    'success' => false,
+                    'message' => 'Đây không phải tin tuyển dụng'
+                ]);
+                return;
             }
             
             // Chuẩn bị data để lưu
@@ -243,8 +264,33 @@ class BlogsController extends BaseController
             );
             
             if ($result['success']) {
-                // Gửi email thông báo (optional)
-                // TODO: Implement email notification
+                // Gửi email thông báo
+                try {
+                    if (file_exists(__DIR__ . '/../services/EmailNotificationService.php')) {
+                        require_once __DIR__ . '/../services/EmailNotificationService.php';
+                        $emailService = new EmailNotificationService();
+                        
+                        if ($emailService->isConfigured()) {
+                            $emailData = [
+                                'application_id' => $result['id'], // Sửa từ application_id thành id
+                                'blog_id' => $blogId,
+                                'position' => $position,
+                                'full_name' => $fullName,
+                                'email' => $email,
+                                'phone' => $phone,
+                                'cv_path' => $result['cv_path'] ?? null
+                            ];
+                            
+                            // Gửi email xác nhận cho ứng viên
+                            $emailService->sendThankYouEmail($emailData);
+                            // Gửi email thông báo cho admin
+                            $emailService->sendJobApplicationNotification($emailData);
+                        }
+                    }
+                } catch (Exception $e) {
+                    // Log lỗi nhưng không ảnh hưởng đến kết quả
+                    error_log('Job application email sending failed: ' . $e->getMessage());
+                }
                 
                 $this->json([
                     'success' => true,
@@ -254,16 +300,17 @@ class BlogsController extends BaseController
                 $this->json([
                     'success' => false,
                     'message' => $result['error'] ?? 'Có lỗi xảy ra, vui lòng thử lại sau.'
-                ], 400);
+                ]);
             }
             
         } catch (Exception $e) {
             error_log('Job Application Error: ' . $e->getMessage());
+            error_log('Stack trace: ' . $e->getTraceAsString());
             
             $this->json([
                 'success' => false,
-                'message' => 'Có lỗi xảy ra, vui lòng thử lại sau.'
-            ], 500);
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ]);
         }
     }
 }

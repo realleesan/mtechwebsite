@@ -301,12 +301,131 @@
         const $cvFileWrapper = $('#cv_file_wrapper');
         const $cvFileText = $('#cv_file_label');
         const $cvFeedback = $('#cv_feedback');
+        const $jobForm = $('.job-application-form').first(); // Chỉ lấy form đầu tiên
         const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
         const ALLOWED_TYPES = ['application/pdf'];
         const ALLOWED_EXTENSIONS = ['.pdf'];
         let feedbackTimeout = null;
 
         if ($cvFileInput.length === 0) return;
+
+        // Handle form submission via AJAX
+        $jobForm.on('submit', function(e) {
+            e.preventDefault();
+            handleJobApplicationSubmit(this);
+        });
+
+        function handleJobApplicationSubmit(form) {
+            const $form = $(form);
+            const $submitBtn = $form.find('button[type="submit"]');
+            const originalText = $submitBtn.text();
+
+            // Validate form
+            if (!validateJobForm($form)) {
+                return;
+            }
+
+            // Loading state
+            $submitBtn.prop('disabled', true).text('Đang gửi...');
+
+            // Prepare form data
+            const formData = new FormData(form);
+
+            // Submit via AJAX
+            fetch('/job-application-submit', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                return response.text();
+            })
+            .then(text => {
+                try {
+                    const data = JSON.parse(text);
+                    if (data.success) {
+                        showJobMessage(data.message || 'Cảm ơn bạn đã ứng tuyển! Chúng tôi sẽ liên hệ sớm nhất.', 'success');
+                        $form[0].reset();
+                        resetFileUpload();
+                    } else {
+                        showJobMessage(data.message || 'Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+                    }
+                } catch (parseError) {
+                    console.error('Response was:', text);
+                    showJobMessage('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Job application error:', error);
+                showJobMessage('Có lỗi kết nối. Vui lòng thử lại sau.', 'error');
+            })
+            .finally(() => {
+                // Remove loading state
+                $submitBtn.prop('disabled', false).text(originalText);
+            });
+        }
+
+        function validateJobForm($form) {
+            let isValid = true;
+            
+            // Validate required fields
+            $form.find('[required]').each(function() {
+                const $field = $(this);
+                if (!$field.val().trim()) {
+                    $field.addClass('is-invalid');
+                    isValid = false;
+                } else {
+                    $field.removeClass('is-invalid');
+                }
+            });
+
+            // Validate CV file
+            const file = $cvFileInput[0].files[0];
+            if (!file) {
+                showFeedback('Vui lòng chọn file CV', 'error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function showJobMessage(message, type) {
+            // Xóa tất cả popup cũ (cả trong và ngoài form)
+            $('.job-flash-message').remove();
+
+            // Create message element
+            const messageEl = $('<div>').addClass('job-flash-message');
+            
+            if (type === 'success') {
+                messageEl.addClass('flash-success');
+                messageEl.html('<i class="fa fa-check-circle"></i> ' + message + 
+                              '<button class="flash-close" onclick="this.parentElement.remove()">&times;</button>');
+            } else {
+                messageEl.addClass('flash-error');
+                messageEl.html('<i class="fa fa-exclamation-circle"></i> ' + message);
+            }
+
+            // Insert sau nút submit - tìm chính xác trong form này
+            const $submitGroup = $jobForm.find('.form-group').last();
+            $submitGroup.after(messageEl);
+            
+            // Scroll to message
+            messageEl[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Auto remove after 6 seconds
+            setTimeout(() => {
+                messageEl.remove();
+            }, 6000);
+        }
+
+        function resetFileUpload() {
+            $cvFileWrapper.removeClass('has-file has-error');
+            $cvFileText.text('Chọn file PDF...');
+            $cvFeedback.removeClass('show');
+            $cvFileInput.val('');
+        }
 
         function showFeedback(message, type) {
             if (feedbackTimeout) {

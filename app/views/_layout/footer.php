@@ -119,17 +119,10 @@ $companyInfo = [
                                 <h5 class="mb_0">Nhận thông tin cập nhật và ưu đãi mới nhất.</h5>
                                 <div role="form" class="wpcf7" id="wpcf7-f228-o2" lang="vi" dir="ltr">
                                     <div class="screen-reader-response"></div>
-                                    <form action="" method="post" class="wpcf7-form" novalidate="novalidate">
-                                        <div style="display: none;">
-                                            <input type="hidden" name="_wpcf7" value="228">
-                                            <input type="hidden" name="_wpcf7_version" value="5.1.4">
-                                            <input type="hidden" name="_wpcf7_locale" value="vi">
-                                            <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f228-o2">
-                                            <input type="hidden" name="_wpcf7_container_post" value="0">
-                                        </div>
+                                    <form action="/newsletter/subscribe" method="post" class="wpcf7-form" id="newsletterForm" novalidate="novalidate">
                                         <div class="mailchimp" method="post">
                                             <div class="input-group subscrib_form">
-                                                <input type="email" name="email" value="" class="form-control memail" aria-invalid="false" placeholder="Nhập email của bạn">
+                                                <input type="email" name="email" value="" class="form-control memail" aria-invalid="false" placeholder="Nhập email của bạn" required>
                                                 <button type="submit" class="submit_btn_b">
                                                     <img src="assets/icons/paper-plane.svg" alt="Đăng ký">
                                                 </button>

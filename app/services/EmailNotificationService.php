@@ -852,4 +852,194 @@ HTML;
 </html>
 HTML;
     }
+
+    // ----------------------------------------------------------------
+    // NEWSLETTER METHODS
+    // ----------------------------------------------------------------
+
+    /**
+     * Gửi email xác nhận đăng ký newsletter
+     * @param string $email Email người đăng ký
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendNewsletterConfirmation($email)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->clearAttachments();
+
+            // Người nhận
+            $this->mailer->addAddress($email);
+
+            // Nội dung email
+            $this->mailer->Subject = 'Xác nhận đăng ký nhận tin - MTECH.JSC';
+            $this->mailer->Body = $this->getNewsletterConfirmationTemplate($email);
+            $this->mailer->AltBody = strip_tags($this->mailer->Body);
+
+            $this->mailer->send();
+
+            return [
+                'success' => true,
+                'message' => 'Email xác nhận đã được gửi'
+            ];
+
+        } catch (Exception $e) {
+            error_log('Newsletter confirmation email failed: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Không thể gửi email xác nhận: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Gửi thông báo cho admin về subscriber mới
+     * @param string $email Email người đăng ký
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendNewSubscriberNotification($email)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->clearAttachments();
+
+            // Gửi đến admin
+            $adminEmail = $this->config['admin_email'] ?? 'mtechjsc2011.info@gmail.com';
+            $this->mailer->addAddress($adminEmail);
+
+            // Nội dung email
+            $this->mailer->Subject = 'Subscriber mới đăng ký newsletter - MTECH.JSC';
+            $this->mailer->Body = $this->getNewSubscriberNotificationTemplate($email);
+            $this->mailer->AltBody = strip_tags($this->mailer->Body);
+
+            $this->mailer->send();
+
+            return [
+                'success' => true,
+                'message' => 'Thông báo admin đã được gửi'
+            ];
+
+        } catch (Exception $e) {
+            error_log('New subscriber notification failed: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Không thể gửi thông báo: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // EMAIL TEMPLATES - Newsletter
+    // ----------------------------------------------------------------
+
+    private function getNewsletterConfirmationTemplate($email)
+    {
+        $date = date('d/m/Y H:i:s');
+        $safeEmail = htmlspecialchars($email);
+
+        return <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: #1A3FBF; color: #fff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; }
+        .success { background: #d4edda; border-left: 4px solid #28a745; padding: 15px; margin-bottom: 20px; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 12px; }
+        .btn { background: #1A3FBF; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 Xác nhận đăng ký Newsletter</h1>
+        </div>
+        <div class="content">
+            <div class="success">
+                <strong>Chúc mừng!</strong> Bạn đã đăng ký nhận tin thành công.
+            </div>
+            
+            <p>Xin chào,</p>
+            <p>Cảm ơn bạn đã đăng ký nhận tin từ <strong>MTECH.JSC</strong>!</p>
+            
+            <p>Email <strong>{$safeEmail}</strong> của bạn đã được thêm vào danh sách nhận tin của chúng tôi vào lúc {$date}.</p>
+            
+            <p>Bạn sẽ nhận được:</p>
+            <ul>
+                <li>Thông tin về các dự án mới</li>
+                <li>Tin tức công nghệ xây dựng</li>
+                <li>Cơ hội việc làm tại MTECH</li>
+                <li>Các ưu đãi đặc biệt</li>
+            </ul>
+            
+            <p style="text-align: center;">
+                <a href="https://mtechjsc.com" class="btn">Khám phá website</a>
+            </p>
+            
+            <p><em>Nếu bạn không đăng ký nhận tin này, vui lòng bỏ qua email này.</em></p>
+        </div>
+        <div class="footer">
+            <p>Email tự động từ hệ thống MTECH.JSC<br>
+            Địa chỉ: 227 Nguyễn Ngọc Nại, Khương Mai, Thanh Xuân, Hà Nội</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
+
+    private function getNewSubscriberNotificationTemplate($email)
+    {
+        $date = date('d/m/Y H:i:s');
+        $safeEmail = htmlspecialchars($email);
+
+        return <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: #1A3FBF; color: #fff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; }
+        .alert { background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 15px; margin-bottom: 20px; }
+        .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .info-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .info-table td:first-child { font-weight: bold; width: 30%; color: #555; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📬 Subscriber Mới</h1>
+        </div>
+        <div class="content">
+            <div class="alert">
+                <strong>Thông báo:</strong> Có người đăng ký newsletter mới vào lúc {$date}
+            </div>
+            
+            <h2>Thông tin subscriber:</h2>
+            <table class="info-table">
+                <tr><td>Email</td><td><a href="mailto:{$safeEmail}">{$safeEmail}</a></td></tr>
+                <tr><td>Thời gian</td><td>{$date}</td></tr>
+                <tr><td>Nguồn</td><td>Footer Newsletter Form</td></tr>
+            </table>
+            
+            <p>Tổng số subscriber hiện tại có thể được xem trong admin panel.</p>
+        </div>
+        <div class="footer">
+            <p>Email thông báo tự động từ hệ thống MTECH.JSC</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
 }

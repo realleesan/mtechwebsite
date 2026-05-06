@@ -80,6 +80,7 @@ mb_http_output('UTF-8');
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/pusher.css">
     <link rel="stylesheet" href="assets/css/client.logos.css">
+    <link rel="stylesheet" href="assets/css/flash.messages.css">
     
     <!-- ========================================== -->
     <!-- NOTE: Page-specific CSS - Thêm CSS theo từng trang -->

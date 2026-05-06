@@ -26,6 +26,13 @@ Options -Indexes
     RewriteRule ^index\.php$ - [L]
 
     # ------------------------------------------
+    # AJAX Endpoints - Xử lý trước các rule khác
+    # ------------------------------------------
+    RewriteRule ^home/contact-submit$ index.php?page=home&action=contact-submit [L]
+    RewriteRule ^newsletter/subscribe$ index.php?page=newsletter&action=subscribe [L]
+    RewriteRule ^job-application-submit$ index.php?page=job-application-submit [L]
+
+    # ------------------------------------------
     # Company History - Làm đẹp URL
     # /lich-su-hinh-thanh-phat-trien → index.php?page=company.history
     # ------------------------------------------
@@ -40,7 +47,9 @@ Options -Indexes
     # ------------------------------------------
     # Teams - Làm đẹp URL
     # /doi-ngu → index.php?page=teams
+    # /doi-ngu/submit-question → AJAX endpoint
     # ------------------------------------------
+    RewriteRule ^doi-ngu/submit-question$ index.php?page=teams&action=submit-question [L]
     RewriteRule ^doi-ngu$ index.php?page=teams [L]
 
     # ------------------------------------------
@@ -52,7 +61,9 @@ Options -Indexes
     # ------------------------------------------
     # Contact - Làm đẹp URL
     # /lien-he → index.php?page=contact
+    # /lien-he/submit → index.php?page=contact&action=submit (AJAX)
     # ------------------------------------------
+    RewriteRule ^lien-he/submit$ index.php?page=contact&action=submit [L]
     RewriteRule ^lien-he$ index.php?page=contact [L]
 
     # ------------------------------------------
