@@ -3,24 +3,14 @@
  * Projects Details Page View
  * Trang chi tiết dự án
  * 
- * Biến truyền vào:
- * - $project: array chứa thông tin dự án (từ ProjectsModel)
+ * Biến truyền vào từ ProjectsController:
+ * - $projectDetail: array chứa thông tin dự án
+ * - $relatedProjects: array dự án liên quan
  * - Các biến từ master.php: $title, $breadcrumbs, etc.
  */
 
-// Include Model nếu chưa có
-require_once __DIR__ . '/../../models/ProjectsModel.php';
-
-// Khởi tạo model và lấy dữ liệu
-$projectsModel = new ProjectsModel();
-
-// Lấy project theo slug hoặc id từ URL
-$project = null;
-if (isset($_GET['slug']) && !empty($_GET['slug'])) {
-    $project = $projectsModel->getBySlug($_GET['slug']);
-} elseif (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $project = $projectsModel->getById($_GET['id']);
-}
+// Kiểm tra dữ liệu từ controller
+$project = $projectDetail ?? null;
 
 // Nếu không tìm thấy project, hiển thị thông báo lỗi
 if (!$project) {
@@ -52,9 +42,6 @@ if (!$project) {
     if (!empty($project['project_date'])) {
         $projectDate = date('d F, Y', strtotime($project['project_date']));
     }
-    
-    // Cập nhật title
-    $title = htmlspecialchars($project['title']) . ' - Chi tiết dự án';
 }
 ?>
 

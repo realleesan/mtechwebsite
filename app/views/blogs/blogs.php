@@ -4,10 +4,13 @@
  * Layout bên ngoài (section > container > row > col-9 + col-3 sidebar)
  * được master.php quản lý khi $showBlogSidebar = true.
  *
- * Biến nhận từ index.php:
+ * Biến nhận từ BlogsController:
  *   $blogs, $totalBlogs, $currentPage, $perPage
  *   $filterCatId, $filterTag, $searchQuery
  */
+
+// Include helper functions
+require_once __DIR__ . '/../../core/helpers.php';
 
 $blogs       = $blogs       ?? [];
 $totalBlogs  = $totalBlogs  ?? 0;
@@ -18,36 +21,6 @@ $filterTag   = $filterTag   ?? '';
 $searchQuery = $searchQuery ?? '';
 
 $totalPages = $perPage > 0 ? (int) ceil($totalBlogs / $perPage) : 1;
-
-// Ensure format_date_vietnamese function exists
-if (!function_exists('format_date_vietnamese')) {
-    function format_date_vietnamese($dateStr) {
-        $months = [
-            'January'   => 'Tháng 1',
-            'February'  => 'Tháng 2',
-            'March'     => 'Tháng 3',
-            'April'     => 'Tháng 4',
-            'May'       => 'Tháng 5',
-            'June'      => 'Tháng 6',
-            'July'      => 'Tháng 7',
-            'August'    => 'Tháng 8',
-            'September' => 'Tháng 9',
-            'October'   => 'Tháng 10',
-            'November'  => 'Tháng 11',
-            'December'  => 'Tháng 12'
-        ];
-        
-        return str_replace(array_keys($months), array_values($months), $dateStr);
-    }
-}
-
-function blogs_page_url($p, $catId, $tagSlug, $search) {
-    $params = ['page' => 'blogs', 'p' => $p];
-    if ($catId)   $params['cat']    = $catId;
-    if ($tagSlug) $params['tag']    = $tagSlug;
-    if ($search)  $params['search'] = urlencode($search);
-    return '?' . http_build_query($params);
-}
 
 ?>
 
