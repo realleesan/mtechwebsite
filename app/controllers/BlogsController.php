@@ -188,24 +188,40 @@ class BlogsController extends BaseController
                 return;
             }
             
-            // Chuẩn bị data để lưu
-            $applicationData = [
-                'full_name' => trim($_POST['full_name']),
-                'email' => trim($_POST['email']),
-                'phone' => trim($_POST['phone']),
-                'position' => trim($_POST['position']),
-                'message' => trim($_POST['message'] ?? ''),
-                'ip_address' => $this->getClientIP(),
-                'user_agent' => $this->getUserAgent(),
-                'submitted_at' => date('Y-m-d H:i:s')
-            ];
+            // Lấy blogId từ URL parameter
+            $blogId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            if (!$blogId) {
+                $this->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy tin tuyển dụng'
+                ]);
+            }
             
-            // Lưu vào database (cần tạo JobApplicationModel)
+            // Chuẩn bị data để lưu
+            $fullName = trim($_POST['full_name']);
+            $email = trim($_POST['email']);
+            $phone = trim($_POST['phone']);
+            $position = trim($_POST['position']);
+            $message = trim($_POST['message'] ?? '');
+            
+            // Lưu vào database với CV upload
             require_once __DIR__ . '/../models/JobApplicationModel.php';
             $jobModel = new JobApplicationModel();
-            $result = $jobModel->create($applicationData);
             
-            if ($result) {
+            // Kiểm tra có file CV không
+            $cvFile = isset($_FILES['cv']) ? $_FILES['cv'] : null;
+            
+            $result = $jobModel->createApplication(
+                $blogId, 
+                $fullName, 
+                $email, 
+                $phone, 
+                $position, 
+                $cvFile, 
+                $message
+            );
+            
+            if ($result['success']) {
                 // Gửi email thông báo (optional)
                 // TODO: Implement email notification
                 
@@ -216,8 +232,8 @@ class BlogsController extends BaseController
             } else {
                 $this->json([
                     'success' => false,
-                    'message' => 'Có lỗi xảy ra, vui lòng thử lại sau.'
-                ], 500);
+                    'message' => $result['error'] ?? 'Có lỗi xảy ra, vui lòng thử lại sau.'
+                ], 400);
             }
             
         } catch (Exception $e) {
