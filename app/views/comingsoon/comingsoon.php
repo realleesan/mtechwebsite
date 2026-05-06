@@ -8,20 +8,6 @@
  * - Giao diện full screen, không dùng master layout
  */
 
-// Lấy cấu hình từ model
-require_once __DIR__ . '/../../models/ComingsoonModel.php';
-$comingsoonModel = new ComingsoonModel();
-$settings = $comingsoonModel->getSettings();
-
-// Xử lý AJAX subscribe
-if (isset($_GET['action']) && $_GET['action'] === 'subscribe' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Content-Type: application/json');
-    $email = $_POST['email'] ?? '';
-    $result = $comingsoonModel->saveSubscriber($email);
-    echo json_encode($result);
-    exit;
-}
-
 // Mặc định nếu không lấy được settings
 $title = $settings['title'] ?? "Website đang bảo trì...";
 $description = $settings['description'] ?? 'Website đang được xây dựng. Chúng tôi sẽ sớm ra mắt với phiên bản mới,';
