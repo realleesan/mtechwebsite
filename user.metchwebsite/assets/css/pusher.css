@@ -1,0 +1,94 @@
+﻿/* ============================================================
+   pusher.css — Scroll to Top Button
+   Nút tròn trắng, mũi tên xanh, góc dưới phải màn hình.
+   Ẩn mặc định, hiện khi cuộn xuống > 300px.
+   ============================================================ */
+
+.pusher-btn {
+    /* Vị trí cố định góc dưới phải */
+    position: fixed;
+    bottom: 36px;
+    right: 36px;
+    z-index: 9999;
+
+    /* Kích thước & hình dạng tròn */
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+
+    /* Màu sắc: nền trắng, viền nhẹ */
+    background-color: #ffffff;
+    border: 1.5px solid rgba(26, 63, 191, 0.18);
+
+    /* Căn giữa icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Bóng đổ nhẹ */
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.13);
+
+    /* Cursor & transition */
+    cursor: pointer;
+    transition: opacity 0.3s ease,
+                transform 0.3s ease,
+                box-shadow 0.25s ease,
+                background-color 0.25s ease;
+
+    /* Ẩn mặc định */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(16px);
+}
+
+/* Trạng thái hiển thị — thêm class .pusher-visible bằng JS */
+.pusher-btn.pusher-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* Hover: nền xanh nhạt, bóng đậm hơn */
+.pusher-btn:hover {
+    background-color: #f0f4ff;
+    box-shadow: 0 6px 24px rgba(26, 63, 191, 0.22);
+    transform: translateY(-3px);
+}
+
+/* Active: nhấn xuống nhẹ */
+.pusher-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(26, 63, 191, 0.18);
+}
+
+/* Focus outline cho accessibility */
+.pusher-btn:focus-visible {
+    outline: 3px solid rgba(26, 63, 191, 0.45);
+    outline-offset: 3px;
+}
+
+/* Icon SVG — màu xanh */
+.pusher-btn svg {
+    width: 22px;
+    height: 22px;
+    color: #1A3FBF;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   RESPONSIVE — thu nhỏ trên mobile
+   ============================================================ */
+@media (max-width: 767px) {
+    .pusher-btn {
+        width: 44px;
+        height: 44px;
+        bottom: 24px;
+        right: 20px;
+    }
+
+    .pusher-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+}

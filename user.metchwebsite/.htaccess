@@ -1,0 +1,210 @@
+# ==========================================
+# .htaccess - MTech Website
+# Xử lý routing, error pages, bảo mật
+# ==========================================
+
+Options -Indexes
+
+# ==========================================
+# REWRITE ENGINE
+# ==========================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # ------------------------------------------
+    # Bỏ qua các file/thư mục thực sự tồn tại
+    # (assets, images, css, js, fonts...)
+    # ------------------------------------------
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # ------------------------------------------
+    # Bỏ qua index.php (tránh loop)
+    # ------------------------------------------
+    RewriteRule ^index\.php$ - [L]
+
+    # ------------------------------------------
+    # AJAX Endpoints - Xử lý trước các rule khác
+    # ------------------------------------------
+    RewriteRule ^home/contact-submit$ index.php?page=home&action=contact-submit [L]
+    RewriteRule ^newsletter/subscribe$ index.php?page=newsletter&action=subscribe [L]
+    RewriteRule ^job-application-submit$ index.php?page=job-application-submit [L]
+
+    # ------------------------------------------
+    # Company History - Làm đẹp URL
+    # /lich-su-hinh-thanh-phat-trien → index.php?page=company.history
+    # ------------------------------------------
+    RewriteRule ^lich-su-hinh-thanh-phat-trien$ index.php?page=company.history [L]
+
+    # ------------------------------------------
+    # About Us - Làm đẹp URL
+    # /ve-chung-toi → index.php?page=about
+    # ------------------------------------------
+    RewriteRule ^ve-chung-toi$ index.php?page=about [L]
+
+    # ------------------------------------------
+    # Teams - Làm đẹp URL
+    # /doi-ngu → index.php?page=teams
+    # /doi-ngu/submit-question → AJAX endpoint
+    # ------------------------------------------
+    RewriteRule ^doi-ngu/submit-question$ index.php?page=teams&action=submit-question [L]
+    RewriteRule ^doi-ngu$ index.php?page=teams [L]
+
+    # ------------------------------------------
+    # Awards & Certificates - Làm đẹp URL
+    # /giai-thuong-chung-chi → index.php?page=awards
+    # ------------------------------------------
+    RewriteRule ^giai-thuong-chung-chi$ index.php?page=awards [L]
+
+    # ------------------------------------------
+    # Contact - Làm đẹp URL
+    # /lien-he → index.php?page=contact
+    # /lien-he/submit → index.php?page=contact&action=submit (AJAX)
+    # ------------------------------------------
+    RewriteRule ^lien-he/submit$ index.php?page=contact&action=submit [L]
+    RewriteRule ^lien-he$ index.php?page=contact [L]
+
+    # ------------------------------------------
+    # Projects - Làm đẹp URL
+    # /du-an → index.php?page=projects
+    # ------------------------------------------
+    RewriteRule ^du-an$ index.php?page=projects [L]
+
+    # ------------------------------------------
+    # Project Details - Làm đẹp URL
+    # /chi-tiet-du-an-{slug} → index.php?page=project-details&slug={slug}
+    # Ví dụ: /chi-tiet-du-an-welding-processing
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-du-an-(.+)$ index.php?page=project-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Chi tiết tin tức - Làm đẹp URL (PHẢI ĐẶT TRƯỚC chi-tiet-{slug})
+    # /chi-tiet-tin-tuc-{slug} → index.php?page=blog-details&slug={slug}
+    # Ví dụ: /chi-tiet-tin-tuc-welding-processing
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-tin-tuc-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Chi tiết Tuyển dụng - Làm đẹp URL
+    # /chi-tiet-{slug} → index.php?page=blog-details&slug={slug}
+    # Ví dụ: /chi-tiet-cong-nhan-han-chuyen-nghiep
+    # ------------------------------------------
+    RewriteRule ^chi-tiet-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Tuyển dụng - Làm đẹp URL (trang danh sách)
+    # /tuyen-dung → index.php?page=blogs&cat=7
+    # ------------------------------------------
+    RewriteRule ^tuyen-dung$ index.php?page=blogs&cat=7 [L]
+
+    # ------------------------------------------
+    # Tin tức theo tag - Làm đẹp URL (PHẢI ĐẶT TRƯỚC tin-tuc-{category})
+    # /tin-tuc-the-{tag-slug} → index.php?page=blogs&tag={tag-slug}
+    # Ví dụ: /tin-tuc-the-trinh-do-cao
+    # ------------------------------------------
+    RewriteRule ^tin-tuc-the-(.+)$ index.php?page=blogs&tag=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Danh mục tin tức - Làm đẹp URL
+    # /tin-tuc-{slug-danh-muc} → index.php?page=blogs&cat_slug={slug}
+    # Ví dụ: /tin-tuc-ve-cong-ty → index.php?page=blogs&cat_slug=ve-cong-ty
+    # Lưu ý: Rule này phải đặt sau rule tin-tuc-the- để tránh conflict
+    # ------------------------------------------
+    RewriteRule ^tin-tuc-(.+)$ index.php?page=blogs&cat_slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Tin tức - Làm đẹp URL
+    # /tin-tuc → index.php?page=blogs
+    # ------------------------------------------
+    RewriteRule ^tin-tuc$ index.php?page=blogs [L,QSA]
+
+    # ------------------------------------------
+    # Dịch vụ chi tiết - Làm đẹp URL (PHẢI ĐẶT TRƯỚC /dich-vu)
+    # /dich-vu-{slug} → index.php?page=categories-details&slug={slug}
+    # Ví dụ: /dich-vu-thiet-ke-xay-dung-chuyen-dung
+    # ------------------------------------------
+    RewriteRule ^dich-vu-(.+)$ index.php?page=categories-details&slug=$1 [L,QSA]
+
+    # ------------------------------------------
+    # Dịch vụ - Làm đẹp URL
+    # /dich-vu → index.php?page=categories
+    # ------------------------------------------
+    RewriteRule ^dich-vu$ index.php?page=categories [L]
+
+    # ------------------------------------------
+    # Mọi URL path không tồn tại → index.php?page=404
+    # Ví dụ: /444, /abc, /xyz → index.php?page=404
+    # ------------------------------------------
+    RewriteRule ^ index.php?page=404 [L,R=302]
+</IfModule>
+
+# ==========================================
+# ERROR DOCUMENTS
+# Dùng trang lỗi tùy chỉnh của website
+# ==========================================
+
+# Lỗi 404 - Không tìm thấy trang
+ErrorDocument 404 /index.php?page=404
+
+# Lỗi 500 - Lỗi máy chủ nội bộ
+ErrorDocument 500 /index.php?page=500
+
+# Lỗi 403 - Không có quyền truy cập (dùng chung trang 404)
+ErrorDocument 403 /index.php?page=404
+
+# ==========================================
+# SECURITY HEADERS
+# ==========================================
+<IfModule mod_headers.c>
+    # Chống clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Chống MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ==========================================
+# CACHE CONTROL - Tối ưu tốc độ tải
+# ==========================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType image/vnd.microsoft.icon "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+</IfModule>
+
+# ==========================================
+# GZIP COMPRESSION - Nén file để tải nhanh hơn
+# ==========================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+
+# ==========================================
+# PROTECT SENSITIVE FILES
+# Chặn truy cập trực tiếp vào file nhạy cảm
+# ==========================================
+<FilesMatch "\.(env|log|sql|md|json|lock|git)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Chặn truy cập thư mục .git
+<IfModule mod_rewrite.c>
+    RewriteRule ^\.git - [F,L]
+</IfModule>

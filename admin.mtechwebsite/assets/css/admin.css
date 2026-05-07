@@ -1,0 +1,299 @@
+/* ============================================
+   Admin Panel - Global Styles
+   ============================================ */
+
+:root {
+    --sidebar-width: 260px;
+    --sidebar-bg: #1e2a3a;
+    --sidebar-hover: #2d3f55;
+    --sidebar-active: #1A3FBF;
+    --topbar-height: 56px;
+    --primary: #1A3FBF;
+    --primary-light: #e8edff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ============================================
+   Layout
+   ============================================ */
+
+.admin-wrapper {
+    min-height: 100vh;
+}
+
+/* ============================================
+   Sidebar
+   ============================================ */
+
+.admin-sidebar {
+    width: var(--sidebar-width);
+    min-height: 100vh;
+    background: var(--sidebar-bg);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+    transition: width 0.3s ease;
+    z-index: 100;
+}
+
+.sidebar-logo {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    min-height: var(--topbar-height);
+}
+
+.sidebar-logo span {
+    color: #fff;
+    white-space: nowrap;
+}
+
+/* Nav links */
+.sidebar-nav .nav-link {
+    color: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.sidebar-nav .nav-link:hover {
+    background: var(--sidebar-hover);
+    color: #fff;
+}
+
+.sidebar-nav .nav-link.active {
+    background: var(--sidebar-active);
+    color: #fff;
+    font-weight: 500;
+}
+
+.sidebar-nav .nav-link i {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Divider labels */
+.sidebar-divider {
+    padding: 12px 12px 4px;
+    list-style: none;
+}
+
+.sidebar-divider small {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+/* ============================================
+   Main Content
+   ============================================ */
+
+.admin-main {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   Topbar
+   ============================================ */
+
+.admin-topbar {
+    background: #fff;
+    height: var(--topbar-height);
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.admin-avatar {
+    color: var(--primary);
+    line-height: 1;
+}
+
+/* ============================================
+   Content Area
+   ============================================ */
+
+.admin-content {
+    min-height: calc(100vh - var(--topbar-height) - 48px);
+}
+
+/* ============================================
+   Cards & Stats
+   ============================================ */
+
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.stat-card .stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-card .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* ============================================
+   Tables
+   ============================================ */
+
+.admin-table {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.admin-table .table {
+    margin-bottom: 0;
+}
+
+.admin-table .table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+    padding: 12px 16px;
+}
+
+.admin-table .table tbody td {
+    padding: 12px 16px;
+    vertical-align: middle;
+    border-color: #f0f0f0;
+}
+
+.admin-table .table tbody tr:hover {
+    background: #f8f9ff;
+}
+
+/* ============================================
+   Forms
+   ============================================ */
+
+.admin-form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 24px;
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(26, 63, 191, 0.15);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background: #1535a8;
+    border-color: #1535a8;
+}
+
+/* ============================================
+   Page Header
+   ============================================ */
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.page-header h4 {
+    font-weight: 700;
+    margin: 0;
+    color: #1e2a3a;
+}
+
+/* ============================================
+   Badges
+   ============================================ */
+
+.badge {
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+.admin-footer {
+    font-size: 0.8rem;
+    background: #fff;
+}
+
+/* ============================================
+   Responsive - Mobile
+   ============================================ */
+
+@media (max-width: 991.98px) {
+    .admin-sidebar {
+        position: fixed;
+        left: -var(--sidebar-width);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .admin-sidebar.show {
+        transform: translateX(0);
+    }
+
+    .admin-main {
+        width: 100%;
+    }
+}

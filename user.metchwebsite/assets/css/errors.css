@@ -1,0 +1,235 @@
+﻿/* ==========================================
+   Errors Page Styles - 404 Not Found
+   Font/size lấy chính xác từ Wokrate theme style.css
+   Màu: thay #ffb600 (vàng) → #1A3FBF (xanh dương) đồng nhất hệ thống
+   ========================================== */
+
+/* ==========================================
+   ERROR PAGE AREA
+   ========================================== */
+.error_page_area {
+    position: relative;
+    z-index: 1;
+    min-height: 926px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #0D1B3E; /* fallback */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Overlay tối phủ lên ảnh nền */
+.error_page_area .ovarlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
+
+/* Container căn giữa nội dung */
+.error_page_area .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+}
+
+/* ==========================================
+   ERROR CONTENT
+   ========================================== */
+.error_content {
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    margin-top: -55px;
+    text-align: center;
+}
+
+/* Số 404 - chính xác từ theme gốc */
+.error_content h1 {
+    font-size: 200px;
+    line-height: 230px;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: #FFFFFF;
+}
+
+/* "Oops That page can't be found" - chính xác từ theme gốc */
+.error_content h2 {
+    font-size: 60px;
+    line-height: 80px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #FFFFFF;
+}
+
+/* "Oops" - thay vàng #ffb600 → xanh dương #1A3FBF */
+.error_content h2 span {
+    color: #1A3FBF;
+    font-size: 80px;
+}
+
+/* Đoạn mô tả - chính xác từ theme gốc */
+.error_content p {
+    font-size: 30px;
+    line-height: 40px;
+    font-weight: 500;
+    margin-bottom: 50px;
+    color: #FFFFFF;
+}
+
+/* ==========================================
+   BUTTON - Go to home page
+   Thay nền vàng → xanh dương #1A3FBF
+   ========================================== */
+.btn_error {
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background: #1A3FBF;
+    min-width: 330px;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 0;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0;
+    transition: background 0.3s ease, transform 0.2s ease;
+    border: none;
+}
+
+.btn_error:hover,
+.btn_error:focus {
+    background: #1530A0;
+    color: #FFFFFF;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.btn_error:active {
+    transform: translateY(0);
+}
+
+/* Utility class từ template */
+.border_radious_none {
+    border-radius: 0 !important;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 1199px) {
+    .error_content h1 {
+        font-size: 160px;
+        line-height: 180px;
+    }
+
+    .error_content h2 {
+        font-size: 48px;
+        line-height: 64px;
+    }
+
+    .error_content h2 span {
+        font-size: 64px;
+    }
+
+    .error_content p {
+        font-size: 24px;
+        line-height: 34px;
+    }
+}
+
+@media (max-width: 991px) {
+    .error_page_area {
+        min-height: 700px;
+    }
+
+    .error_content h1 {
+        font-size: 130px;
+        line-height: 150px;
+    }
+
+    .error_content h2 {
+        font-size: 38px;
+        line-height: 52px;
+    }
+
+    .error_content h2 span {
+        font-size: 50px;
+    }
+
+    .error_content p {
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    .btn_error {
+        font-size: 18px;
+        min-width: 260px;
+    }
+}
+
+@media (max-width: 767px) {
+    .error_page_area {
+        min-height: 600px;
+    }
+
+    .error_content {
+        margin-top: 0;
+        padding: 40px 15px;
+    }
+
+    .error_content h1 {
+        font-size: 100px;
+        line-height: 120px;
+    }
+
+    .error_content h2 {
+        font-size: 28px;
+        line-height: 40px;
+    }
+
+    .error_content h2 span {
+        font-size: 36px;
+    }
+
+    .error_content p {
+        font-size: 16px;
+        line-height: 26px;
+        margin-bottom: 35px;
+    }
+
+    .btn_error {
+        font-size: 16px;
+        min-width: 220px;
+        padding: 16px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .error_content h1 {
+        font-size: 80px;
+        line-height: 95px;
+    }
+
+    .error_content h2 {
+        font-size: 22px;
+        line-height: 32px;
+    }
+
+    .error_content h2 span {
+        font-size: 28px;
+    }
+
+    .error_content p {
+        font-size: 14px;
+    }
+}

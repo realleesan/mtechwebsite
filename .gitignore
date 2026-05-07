@@ -1,14 +1,173 @@
-# Large files - handle separately (not tracked by Git)
+# ==========================================
+# MTech Website Project - .gitignore
+# Bảo vệ thông tin nhạy cảm cho cả admin và user
+# ==========================================
+
+# ==========================================
+# SENSITIVE FILES - KHÔNG BAO GIỜ COMMIT
+# ==========================================
+.env
+*.env
+.env.local
+.env.production
+.env.staging
+admin.mtechwebsite/.env
+user.metchwebsite/.env
+
+# Database credentials & config
+config/database.php
+*/config/database.php
+*/core/database.php.local
+
+# ==========================================
+# LOGS & TEMPORARY FILES
+# ==========================================
+*.log
+logs/
+*/logs/
+admin.mtechwebsite/logs/
+user.metchwebsite/logs/
+temp/
+tmp/
+cache/
+*.tmp
+*.temp
+
+# ==========================================
+# UPLOADS & USER GENERATED CONTENT
+# ==========================================
+uploads/
+*/uploads/
+admin.mtechwebsite/uploads/
+user.metchwebsite/uploads/
+user-content/
+files/
+
+# Large files - handle separately
 assets/files/*.pdf
 assets/files/*.zip
 assets/files/*.rar
+*/assets/files/*.pdf
+*/assets/files/*.zip
+*/assets/files/*.rar
 
-# Environment
-.env
-
-# Logs
-logs/*.log
-
-# OS
-.DS_Store
+# ==========================================
+# SYSTEM FILES
+# ==========================================
+# Windows
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Linux
+*~
+.directory
+
+# ==========================================
+# IDE & EDITOR FILES
+# ==========================================
+# VSCode
+.vscode/
+*.code-workspace
+user.metchwebsite/.vscode/
+
+# PhpStorm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ==========================================
+# DEPENDENCY DIRECTORIES
+# ==========================================
+node_modules/
+vendor/
+bower_components/
+
+# ==========================================
+# BUILD & DIST FILES
+# ==========================================
+dist/
+build/
+*.min.js
+*.min.css
+
+# ==========================================
+# BACKUP FILES
+# ==========================================
+*.bak
+*.backup
+*.old
+backup/
+backups/
+*/backups/
+user.metchwebsite/backups/
+
+# ==========================================
+# SECURITY & HTACCESS BACKUP
+# ==========================================
+.htaccess.bak
+.htpasswd
+
+# ==========================================
+# PACKAGE MANAGER FILES
+# ==========================================
+composer.phar
+package-lock.json
+yarn.lock
+
+# ==========================================
+# ERROR & DEBUG FILES
+# ==========================================
+error_log
+debug.log
+php_errors.log
+
+# ==========================================
+# SPECIFIC TO THIS PROJECT
+# ==========================================
+# Database files với dữ liệu thật
+*.sql
+database_backup/
+*/database/
+admin.mtechwebsite/create_admin_table.sql
+
+# File cấu hình local
+local_config.php
+*/local_config.php
+
+# SFTP configs
+*/sftp.json
+*/.vscode/sftp.json
+
+# Kiro files (development tool)
+.kiro/
+*/.kiro/
+
+# Test files
+tests/
+*/tests/
+
+# Documentation files có thể chứa thông tin nhạy cảm
+*.pdf
+docs/*.pdf
+
+# Settings
+settings/
+*/settings/
