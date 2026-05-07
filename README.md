@@ -24,6 +24,7 @@ mtechwebsite/
 ## 🚀 Tính năng
 
 ### 👥 User Frontend (user.metchwebsite)
+
 - **Trang chủ**: Giới thiệu công ty, dịch vụ
 - **Dịch vụ**: Chi tiết các dịch vụ tư vấn
 - **Dự án**: Portfolio các dự án đã thực hiện
@@ -32,6 +33,7 @@ mtechwebsite/
 - **Tuyển dụng**: Đăng tin tuyển dụng, nhận CV
 
 ### 🔧 Admin Panel (admin.mtechwebsite)
+
 - **Dashboard**: Thống kê tổng quan
 - **Quản lý Liên hệ**: Xem, trả lời liên hệ từ website
 - **Quản lý Đơn ứng tuyển**: Xem, duyệt CV ứng viên
@@ -43,50 +45,22 @@ mtechwebsite/
 
 - **PHP**: >= 7.4
 - **MySQL**: >= 5.7 hoặc MariaDB >= 10.2
-- **Apache**: với mod_rewrite enabled
+- **Apache**: 
 - **Extensions**: PDO, PDO_MySQL, mbstring, json, curl
 
 ## 🛠️ Cài đặt
 
-### 1. Clone Repository
-```bash
-git clone https://github.com/yourusername/mtechwebsite.git
-cd mtechwebsite
-```
+Tạo database MySQL
 
-### 2. Cấu hình Database
-- Tạo database MySQL
 - Import schema từ `database/` folder
 
-### 3. Cấu hình Environment
-
-#### Admin Panel:
-```bash
-cd admin.mtechwebsite
-cp .env.example .env
-# Chỉnh sửa .env với thông tin database và email
-```
-
-#### User Frontend:
-```bash
-cd user.metchwebsite
-cp .env.example .env
-# Chỉnh sửa .env với thông tin database và services
-```
-
-### 4. Cấu hình Web Server
-- Point domain chính đến `user.metchwebsite/`
-- Point subdomain admin đến `admin.mtechwebsite/`
+### Cấu hình Environment
 
 ## 🌐 Deployment
 
 ### Production URLs:
-- **Frontend**: `https://truongvinalogistics.com.vn/`
-- **Admin Panel**: `https://admin.truongvinalogistics.com.vn/`
 
-### Hosting: InfinityFree
-- Database: `if0_41698410_mtech`
-- Host: `sql213.infinityfree.com`
+- **Frontend**: `https://truongvinalogistics.com.vn/`
 
 ## 🔐 Bảo mật
 
@@ -100,6 +74,7 @@ cp .env.example .env
 ## 📁 Cấu trúc Database
 
 ### Bảng chính:
+
 - `admins`: Tài khoản quản trị
 - `contacts`: Liên hệ từ website
 - `job_applications`: Đơn ứng tuyển
@@ -113,6 +88,7 @@ cp .env.example .env
 ## 🔧 Development
 
 ### Git Workflow:
+
 ```bash
 # Tạo feature branch
 git checkout -b feature/new-feature
@@ -128,6 +104,7 @@ git push origin feature/new-feature
 ```
 
 ### Coding Standards:
+
 - **PHP**: PSR-4 autoloading, PSR-12 coding style
 - **HTML**: Semantic markup, accessibility compliant
 - **CSS**: BEM methodology, responsive design
