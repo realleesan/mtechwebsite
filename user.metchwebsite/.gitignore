@@ -1,0 +1,14 @@
+# Large files - handle separately (not tracked by Git)
+assets/files/*.pdf
+assets/files/*.zip
+assets/files/*.rar
+
+# Environment
+.env
+
+# Logs
+logs/*.log
+
+# OS
+.DS_Store
+Thumbs.db
