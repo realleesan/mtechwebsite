@@ -20,7 +20,7 @@ $admin = $admin ?? \AuthMiddleware::getAdmin();
         <a href="https://truongvinalogistics.com.vn" target="_blank"
            class="btn btn-sm btn-outline-primary d-none d-md-inline-flex align-items-center gap-1">
             <i class="bi bi-box-arrow-up-right"></i>
-            <span>Xem website</span>
+            <span> Truy cập website</span>
         </a>
 
         <!-- Admin dropdown -->

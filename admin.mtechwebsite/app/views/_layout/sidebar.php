@@ -7,7 +7,7 @@ $currentPage = $page ?? '';
     <!-- Logo -->
     <div class="sidebar-logo d-flex align-items-center px-3 py-4">
         <img src="/assets/images/logo.png" alt="MTech" height="36" onerror="this.style.display='none'">
-        <span class="ms-2 fw-bold text-white fs-5">MTech Admin</span>
+        <span class="ms-2 fw-bold text-white fs-5">MTECH.JSC Admin</span>
     </div>
 
     <!-- Navigation -->

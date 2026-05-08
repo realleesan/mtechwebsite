@@ -50,7 +50,7 @@
 
         <!-- Footer -->
         <footer class="admin-footer text-center text-muted py-3 border-top">
-            <small>© <?= date('Y') ?> MTech Admin Panel</small>
+            <small>© <?= date('Y') ?> MTECH.JSC Admin Panel</small>
         </footer>
 
     </div><!-- /.admin-main -->
