@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ----------------------------------------
-    // Confirm trước khi xóa
+    // Confirm trước khi xóa - Chỉ xử lý các element không có class btn-delete
     // ----------------------------------------
-    document.querySelectorAll('[data-confirm]').forEach(function (el) {
+    document.querySelectorAll('[data-confirm]:not(.btn-delete)').forEach(function (el) {
         el.addEventListener('click', function (e) {
             const message = el.getAttribute('data-confirm') || 'Bạn có chắc muốn xóa?';
             if (!confirm(message)) {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ----------------------------------------
-    // Submit form xóa khi click nút delete
+    // Submit form xóa khi click nút delete - Chỉ xử lý btn-delete
     // ----------------------------------------
     document.querySelectorAll('.btn-delete').forEach(function (btn) {
         btn.addEventListener('click', function (e) {

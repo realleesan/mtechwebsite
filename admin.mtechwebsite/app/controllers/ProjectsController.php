@@ -52,8 +52,110 @@ class ProjectsController extends BaseController
 
     public function store()
     {
-        $_SESSION['error'] = 'Chức năng đang phát triển';
-        $this->redirect('/projects/create');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Method not allowed';
+            $this->redirect('/projects/create');
+            return;
+        }
+
+        // Validate required fields
+        $required = ['title', 'slug', 'category'];
+        foreach ($required as $field) {
+            if (empty($_POST[$field])) {
+                $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
+                $this->redirect('/projects/create');
+                return;
+            }
+        }
+
+        // Prepare data
+        $data = [
+            'title' => $_POST['title'],
+            'slug' => $_POST['slug'],
+            'category' => $_POST['category'],
+            'description' => $_POST['description'] ?? '',
+            'content' => $_POST['content'] ?? '',
+            'client' => $_POST['client'] ?? '',
+            'location' => $_POST['location'] ?? '',
+            'project_date' => $_POST['project_date'] ?? '',
+            'status' => $_POST['status'] ?? 1,
+            'sort_order' => $_POST['sort_order'] ?? 0,
+            'meta_title' => $_POST['meta_title'] ?? '',
+            'meta_description' => $_POST['meta_description'] ?? '',
+            'detail_image' => $_POST['detail_image'] ?? '',
+            'status_label' => $_POST['status_label'] ?? 'Completed',
+            'live_demo' => $_POST['live_demo'] ?? '',
+            'tags' => $_POST['tags'] ?? '',
+            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'What we did',
+            'what_we_did' => $_POST['what_we_did'] ?? '',
+            'what_we_did_image' => $_POST['what_we_did_image'] ?? '',
+            'results_title' => $_POST['results_title'] ?? 'Results',
+            'results' => $_POST['results'] ?? '',
+            'result_items' => $_POST['result_items'] ?? ''
+        ];
+
+        // Handle file uploads
+        $uploadDir = __DIR__ . '/../../assets/uploads/projects/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        // Handle main image
+        if (!empty($_FILES['image']['name'])) {
+            $imagePath = $this->handleFileUpload($_FILES['image'], $uploadDir);
+            if ($imagePath) {
+                $data['image'] = '/assets/uploads/projects/' . $imagePath;
+            }
+        }
+
+        // Handle detail image
+        if (!empty($_FILES['detail_image']['name'])) {
+            $detailImagePath = $this->handleFileUpload($_FILES['detail_image'], $uploadDir);
+            if ($detailImagePath) {
+                $data['detail_image'] = '/assets/uploads/projects/' . $detailImagePath;
+            }
+        }
+
+        // Handle what_we_did_image
+        if (!empty($_FILES['what_we_did_image']['name'])) {
+            $whatWeDidImagePath = $this->handleFileUpload($_FILES['what_we_did_image'], $uploadDir);
+            if ($whatWeDidImagePath) {
+                $data['what_we_did_image'] = '/assets/uploads/projects/' . $whatWeDidImagePath;
+            }
+        }
+
+        // Handle gallery images
+        if (!empty($_FILES['gallery'])) {
+            $galleryImages = [];
+            foreach ($_FILES['gallery']['name'] as $key => $name) {
+                if (!empty($name)) {
+                    $file = [
+                        'name' => $name,
+                        'type' => $_FILES['gallery']['type'][$key],
+                        'tmp_name' => $_FILES['gallery']['tmp_name'][$key],
+                        'error' => $_FILES['gallery']['error'][$key],
+                        'size' => $_FILES['gallery']['size'][$key]
+                    ];
+                    $galleryPath = $this->handleFileUpload($file, $uploadDir);
+                    if ($galleryPath) {
+                        $galleryImages[] = '/assets/uploads/projects/' . $galleryPath;
+                    }
+                }
+            }
+            if (!empty($galleryImages)) {
+                $data['gallery'] = json_encode($galleryImages);
+            }
+        }
+
+        // Create project
+        $projectId = $this->model->create($data);
+        if ($projectId) {
+            $_SESSION['success'] = 'Thêm dự án thành công!';
+            $this->redirect('/projects');
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            $this->redirect('/projects/create');
+        }
     }
 
     public function edit($id)
@@ -74,13 +176,132 @@ class ProjectsController extends BaseController
 
     public function update($id)
     {
-        $_SESSION['error'] = 'Chức năng đang phát triển';
-        $this->redirect('/projects/edit/' . $id);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Method not allowed';
+            $this->redirect('/projects/edit/' . $id);
+            return;
+        }
+
+        // Validate required fields
+        $required = ['title', 'slug', 'category'];
+        foreach ($required as $field) {
+            if (empty($_POST[$field])) {
+                $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
+                $this->redirect('/projects/edit/' . $id);
+                return;
+            }
+        }
+
+        // Prepare data
+        $data = [
+            'title' => $_POST['title'],
+            'slug' => $_POST['slug'],
+            'category' => $_POST['category'],
+            'description' => $_POST['description'] ?? '',
+            'content' => $_POST['content'] ?? '',
+            'client' => $_POST['client'] ?? '',
+            'location' => $_POST['location'] ?? '',
+            'project_date' => $_POST['project_date'] ?? '',
+            'status' => $_POST['status'] ?? 1,
+            'sort_order' => $_POST['sort_order'] ?? 0,
+            'meta_title' => $_POST['meta_title'] ?? '',
+            'meta_description' => $_POST['meta_description'] ?? '',
+            'status_label' => $_POST['status_label'] ?? 'Completed',
+            'live_demo' => $_POST['live_demo'] ?? '',
+            'tags' => $_POST['tags'] ?? '',
+            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'What we did',
+            'what_we_did' => $_POST['what_we_did'] ?? '',
+            'results_title' => $_POST['results_title'] ?? 'Results',
+            'results' => $_POST['results'] ?? '',
+            'result_items' => $_POST['result_items'] ?? ''
+        ];
+
+        // Handle file uploads
+        $uploadDir = __DIR__ . '/../../assets/uploads/projects/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        // Handle main image
+        if (!empty($_FILES['image']['name'])) {
+            $imagePath = $this->handleFileUpload($_FILES['image'], $uploadDir);
+            if ($imagePath) {
+                $data['image'] = '/assets/uploads/projects/' . $imagePath;
+            }
+        }
+
+        // Handle detail image
+        if (!empty($_FILES['detail_image']['name'])) {
+            $detailImagePath = $this->handleFileUpload($_FILES['detail_image'], $uploadDir);
+            if ($detailImagePath) {
+                $data['detail_image'] = '/assets/uploads/projects/' . $detailImagePath;
+            }
+        }
+
+        // Handle what_we_did_image
+        if (!empty($_FILES['what_we_did_image']['name'])) {
+            $whatWeDidImagePath = $this->handleFileUpload($_FILES['what_we_did_image'], $uploadDir);
+            if ($whatWeDidImagePath) {
+                $data['what_we_did_image'] = '/assets/uploads/projects/' . $whatWeDidImagePath;
+            }
+        }
+
+        // Handle gallery images
+        if (!empty($_FILES['gallery'])) {
+            $galleryImages = [];
+            foreach ($_FILES['gallery']['name'] as $key => $name) {
+                if (!empty($name)) {
+                    $file = [
+                        'name' => $name,
+                        'type' => $_FILES['gallery']['type'][$key],
+                        'tmp_name' => $_FILES['gallery']['tmp_name'][$key],
+                        'error' => $_FILES['gallery']['error'][$key],
+                        'size' => $_FILES['gallery']['size'][$key]
+                    ];
+                    $galleryPath = $this->handleFileUpload($file, $uploadDir);
+                    if ($galleryPath) {
+                        $galleryImages[] = '/assets/uploads/projects/' . $galleryPath;
+                    }
+                }
+            }
+            if (!empty($galleryImages)) {
+                $data['gallery'] = json_encode($galleryImages);
+            }
+        }
+
+        // Update project
+        if ($this->model->update($id, $data)) {
+            $_SESSION['success'] = 'Cập nhật dự án thành công!';
+            $this->redirect('/projects');
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            $this->redirect('/projects/edit/' . $id);
+        }
     }
 
     public function delete($id)
     {
-        $_SESSION['error'] = 'Chức năng đang phát triển';
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Method not allowed';
+            $this->redirect('/projects');
+            return;
+        }
+
+        // Check if project exists
+        $project = $this->model->getById($id);
+        if (!$project) {
+            $_SESSION['error'] = 'Không tìm thấy dự án';
+            $this->redirect('/projects');
+            return;
+        }
+
+        // Delete project (soft delete)
+        if ($this->model->delete($id)) {
+            $_SESSION['success'] = 'Xóa dự án thành công!';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+        }
+
         $this->redirect('/projects');
     }
 
@@ -93,5 +314,40 @@ class ProjectsController extends BaseController
         } catch (PDOException $e) {
             return 0;
         }
+    }
+
+    /**
+     * Handle file upload
+     * @param array $file File data from $_FILES
+     * @param string $uploadDir Upload directory
+     * @return string|false Filename or false on failure
+     */
+    private function handleFileUpload($file, $uploadDir)
+    {
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            return false;
+        }
+
+        // Validate file type
+        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+
+        if (!in_array($mimeType, $allowedTypes)) {
+            return false;
+        }
+
+        // Generate unique filename
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = uniqid('project_', true) . '.' . $extension;
+        $filepath = $uploadDir . $filename;
+
+        // Move file
+        if (move_uploaded_file($file['tmp_name'], $filepath)) {
+            return $filename;
+        }
+
+        return false;
     }
 }

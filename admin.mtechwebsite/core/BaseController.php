@@ -5,6 +5,9 @@
 
 class BaseController
 {
+    protected $cssFiles = [];
+    protected $jsFiles = [];
+
     /**
      * Render view với admin master layout
      * @param string $viewPath  Đường dẫn từ app/views/ (vd: 'dashboard/index')
@@ -24,6 +27,42 @@ class BaseController
         $content = $viewFile;
 
         include __DIR__ . '/../app/views/_layout/master.php';
+    }
+
+    /**
+     * Register CSS file
+     */
+    public function registerCSS($path)
+    {
+        if (!in_array($path, $this->cssFiles)) {
+            $this->cssFiles[] = $path;
+        }
+    }
+
+    /**
+     * Register JS file
+     */
+    public function registerJS($path)
+    {
+        if (!in_array($path, $this->jsFiles)) {
+            $this->jsFiles[] = $path;
+        }
+    }
+
+    /**
+     * Get registered CSS files
+     */
+    public function getCSSFiles()
+    {
+        return $this->cssFiles;
+    }
+
+    /**
+     * Get registered JS files
+     */
+    public function getJSFiles()
+    {
+        return $this->jsFiles;
     }
 
     /**

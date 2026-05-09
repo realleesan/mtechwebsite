@@ -25,6 +25,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Admin CSS -->
     <link rel="stylesheet" href="/assets/css/admin.css">
+    
+    <!-- Additional CSS Files -->
+    <?php if (isset($this) && method_exists($this, 'getCSSFiles')): ?>
+        <?php foreach ($this->getCSSFiles() as $cssFile): ?>
+            <link rel="stylesheet" href="<?= htmlspecialchars($cssFile) ?>">
+        <?php endforeach; ?>
+    <?php endif; ?>
 </head>
 
 <body>
@@ -72,9 +79,7 @@ AccessMiddleware::trackVisit();
              * - $content có thể là HTML string hoặc đường dẫn file
              */
             if (isset($content)) {
-                if (is_string($content) && (strpos($content, '<') !== false || strpos($content, '<?php') !== false)) {
-                    echo $content;
-                } elseif (is_string($content) && file_exists($content)) {
+                if (file_exists($content)) {
                     include $content;
                 } else {
                     echo "<div class='alert alert-warning'>Không tìm thấy nội dung trang.</div>";
@@ -99,6 +104,13 @@ AccessMiddleware::trackVisit();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Admin JS -->
 <script src="/assets/js/admin.js"></script>
+
+<!-- Additional JS Files -->
+<?php if (isset($this) && method_exists($this, 'getJSFiles')): ?>
+    <?php foreach ($this->getJSFiles() as $jsFile): ?>
+        <script src="<?= htmlspecialchars($jsFile) ?>"></script>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 </body>
 </html>
