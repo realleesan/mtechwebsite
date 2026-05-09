@@ -94,7 +94,7 @@ class EmailNotificationService
             
             // Nội dung email
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Cảm ơn bạn đã liên hệ với MTech') . '?=';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Cảm ơn bạn đã liên hệ với MTECH.JSC') . '?=';
             
             // Nội dung email
             $body = $this->getContactConfirmationTemplate($contactData);
@@ -146,7 +146,7 @@ class EmailNotificationService
             
             // Nội dung email
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTech] Có liên hệ mới từ ' . $contactData['name']) . '?=';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTECH.JSC] Có liên hệ mới từ ' . $contactData['name']) . '?=';
             
             // Nội dung email
             $body = $this->getNewContactNotificationTemplate($contactData);
@@ -213,7 +213,7 @@ class EmailNotificationService
 <body>
     <div class="container">
         <div class="header">
-            <h1>MTech - Cảm ơn bạn đã liên hệ!</h1>
+            <h1>MTECH.JSC - Cảm ơn bạn đã liên hệ!</h1>
         </div>
         <div class="content">
             <h2>Xin chào {$name},</h2>
@@ -234,10 +234,10 @@ class EmailNotificationService
             <p>Đội ngũ của chúng tôi sẽ xem xét và phản hồi sớm nhất có thể.</p>
             <p>Nếu có bất kỳ câu hỏi khẩn cấp nào, vui lòng gọi hotline: <strong>1800 456 7890</strong></p>
             
-            <p>Trân trọng,<br><strong>Đội ngũ MTech</strong></p>
+            <p>Trân trọng,<br><strong>Đội ngũ MTECH.JSC</strong></p>
         </div>
         <div class="footer">
-            <p>© 2026 MTech. Tất cả các quyền được bảo lưu.</p>
+            <p>© 2026 MTECH.JSC. Tất cả các quyền được bảo lưu.</p>
             <p>Email: {$this->config['support_email']} | Hotline: 1800 456 7890</p>
         </div>
     </div>
@@ -306,7 +306,7 @@ HTML;
             </p>
         </div>
         <div class="footer">
-            <p>Email thông báo tự động từ hệ thống MTech</p>
+            <p>Email thông báo tự động từ hệ thống MTECH.JSC</p>
         </div>
     </div>
 </body>
@@ -327,7 +327,7 @@ HTML;
             $this->mailer->addAddress($data['email']);
 
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Chúng tôi đã nhận được câu hỏi của bạn - MTech') . '?=';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Chúng tôi đã nhận được câu hỏi của bạn - MTECH.JSC') . '?=';
 
             $body = $this->getQuestionConfirmationTemplate($data);
             $this->mailer->Body    = $body;
@@ -363,7 +363,7 @@ HTML;
             $this->mailer->addAddress($this->config['support_email'], 'Admin');
 
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTech] Câu hỏi mới từ ' . $data['email']) . '?=';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTECH.JSC] Câu hỏi mới từ ' . $data['email']) . '?=';
 
             $body = $this->getNewQuestionNotificationTemplate($data);
             $this->mailer->Body    = $body;
@@ -415,7 +415,7 @@ HTML;
 <body>
     <div class="container">
         <div class="header">
-            <h1>MTech - Chúng tôi đã nhận được câu hỏi của bạn!</h1>
+            <h1>MTECH.JSC - Chúng tôi đã nhận được câu hỏi của bạn!</h1>
         </div>
         <div class="content">
             <p>Xin chào <strong>{$email}</strong>,</p>
@@ -433,10 +433,10 @@ HTML;
             <p>Đội ngũ của chúng tôi sẽ xem xét và phản hồi sớm nhất có thể.</p>
             <p>Nếu có câu hỏi khẩn cấp, vui lòng gọi hotline: <strong>1800 456 7890</strong></p>
 
-            <p>Trân trọng,<br><strong>Đội ngũ MTech</strong></p>
+            <p>Trân trọng,<br><strong>Đội ngũ MTECH.JSC</strong></p>
         </div>
         <div class="footer">
-            <p>© 2026 MTech. Tất cả các quyền được bảo lưu.</p>
+            <p>© 2026 MTECH.JSC. Tất cả các quyền được bảo lưu.</p>
             <p>Email: {$this->config['support_email']} | Hotline: 1800 456 7890</p>
         </div>
     </div>
@@ -497,7 +497,7 @@ HTML;
             <div class="message-box">{$message}</div>
         </div>
         <div class="footer">
-            <p>Email thông báo tự động từ hệ thống MTech</p>
+            <p>Email thông báo tự động từ hệ thống MTECH.JSC</p>
         </div>
     </div>
 </body>
@@ -528,10 +528,10 @@ HTML;
     {
         try {
             $this->mailer->clearAddresses();
-            $this->mailer->addAddress($data['email'], 'Admin MTech');
+            $this->mailer->addAddress($data['email'], 'Admin MTECH.JSC');
 
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTech Admin] Bạn đang đăng nhập vào hệ thống quản trị?') . '?=';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTECH.JSC Admin] Bạn đang đăng nhập vào hệ thống quản trị?') . '?=';
 
             $body = $this->getAdminLoginTemplate($data);
             $this->mailer->Body    = $body;
@@ -589,11 +589,11 @@ HTML;
     <div class="container">
         <div class="header">
             <h1>🔐 Thông báo đăng nhập Admin</h1>
-            <p>MTech Logistics - Hệ thống quản trị</p>
+            <p>MTECH.JSC - Hệ thống quản trị</p>
         </div>
         <div class="body">
             <div class="alert-box">
-                <p>⚠️ <strong>Bạn đang đăng nhập vào Admin MTechJSC?</strong><br>
+                <p>⚠️ <strong>Bạn đang đăng nhập vào Admin MTECH.JSC?</strong><br>
                 Nếu đây không phải bạn, hãy đổi mật khẩu ngay lập tức.</p>
             </div>
 
@@ -612,7 +612,7 @@ HTML;
             </div>
         </div>
         <div class="footer">
-            <p>© <?= date('Y') ?> MTech Logistics. Email tự động - Vui lòng không trả lời.</p>
+            <p>© <?= date('Y') ?> MTECH.JSC. Email tự động - Vui lòng không trả lời.</p>
         </div>
     </div>
 </body>
@@ -637,7 +637,7 @@ HTML;
             $this->mailer->addAddress($this->config['support_email'], 'Admin');
 
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTech Tuyển Dụng] CV mới: ' . $data['position']) . '?=';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTECH.JSC Tuyển Dụng] CV mới: ' . $data['position']) . '?=';
 
             $body = $this->getJobApplicationNotificationTemplate($data);
             $this->mailer->Body = $body;
@@ -675,7 +675,7 @@ HTML;
             $this->mailer->addAddress($data['email'], $data['full_name']);
 
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Cảm ơn bạn đã ứng tuyển vị trí ' . $data['position'] . ' tại MTech') . '?=';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('Cảm ơn bạn đã ứng tuyển vị trí ' . $data['position'] . ' tại MTECH.JSC') . '?=';
 
             $body = $this->getThankYouEmailTemplate($data);
             $this->mailer->Body = $body;
@@ -801,7 +801,7 @@ HTML;
             </p>
         </div>
         <div class="footer">
-            <p>Email thông báo tự động từ hệ thống MTech Tuyển Dụng</p>
+            <p>Email thông báo tự động từ hệ thống MTECH.JSC Tuyển Dụng</p>
         </div>
     </div>
 </body>
@@ -838,7 +838,7 @@ HTML;
         <div class="content">
             <p>Xin chào <strong>{$fullName}</strong>,</p>
             
-            <p>Cảm ơn bạn đã gửi CV ứng tuyển vị trí <strong>{$position}</strong> tại MTech.</p>
+            <p>Cảm ơn bạn đã gửi CV ứng tuyển vị trí <strong>{$position}</strong> tại MTECH.JSC.</p>
             
             <div class="highlight">
                 <p>Chúng tôi đã nhận được CV của bạn và sẽ xem xét trong thời gian sớm nhất. Nếu hồ sơ của bạn phù hợp, chúng tôi sẽ liên hệ để sắp xếp buổi phỏng vấn tiếp theo.</p>
@@ -846,10 +846,10 @@ HTML;
             
             <p>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email hoặc số điện thoại trên website.</p>
             
-            <p>Trân trọng,<br><strong>MTech HR Team</strong></p>
+            <p>Trân trọng,<br><strong>MTECH.JSC HR Team</strong></p>
         </div>
         <div class="footer">
-            <p>Email tự động từ hệ thống MTech</p>
+            <p>Email tự động từ hệ thống MTECH.JSC</p>
         </div>
     </div>
 </body>
@@ -896,10 +896,10 @@ HTML;
             
             <p>Hãy chuẩn bị tinh thần và chúc bạn may mắn!</p>
             
-            <p>Trân trọng,<br><strong>MTech HR Team</strong></p>
+            <p>Trân trọng,<br><strong>MTECH.JSC HR Team</strong></p>
         </div>
         <div class="footer">
-            <p>Email tự động từ hệ thống MTech</p>
+            <p>Email tự động từ hệ thống MTECH.JSC</p>
         </div>
     </div>
 </body>
@@ -936,7 +936,7 @@ HTML;
         <div class="content">
             <p>Xin chào <strong>{$fullName}</strong>,</p>
             
-            <p>Cảm ơn bạn đã quan tâm và gửi CV ứng tuyển vị trí <strong>{$position}</strong> tại MTech.</p>
+            <p>Cảm ơn bạn đã quan tâm và gửi CV ứng tuyển vị trí <strong>{$position}</strong> tại MTECH.JSC.</p>
             
             <div class="highlight">
                 <p>Sau khi xem xét kỹ lưỡng, chúng tôi rất tiếc phải thông báo rằng <strong>CV của bạn chưa đạt yêu cầu</strong> cho vị trí này tại thời điểm hiện tại.</p>
@@ -948,10 +948,10 @@ HTML;
             
             <p>Chúc bạn sớm tìm được cơ hội phù hợp!</p>
             
-            <p>Trân trọng,<br><strong>MTech HR Team</strong></p>
+            <p>Trân trọng,<br><strong>MTECH.JSC HR Team</strong></p>
         </div>
         <div class="footer">
-            <p>Email tự động từ hệ thống MTech</p>
+            <p>Email tự động từ hệ thống MTECH.JSC</p>
         </div>
     </div>
 </body>
@@ -1078,7 +1078,7 @@ HTML;
             <ul>
                 <li>Thông tin về các dự án mới</li>
                 <li>Tin tức công nghệ xây dựng</li>
-                <li>Cơ hội việc làm tại MTECH</li>
+                <li>Cơ hội việc làm tại MTECH.JSC</li>
                 <li>Các ưu đãi đặc biệt</li>
             </ul>
             
@@ -1148,4 +1148,204 @@ HTML;
 </html>
 HTML;
     }
+
+    // ----------------------------------------------------------------
+    // PASSWORD RESET EMAIL
+    // ----------------------------------------------------------------
+
+    /**
+     * Gửi email chứa link đặt lại mật khẩu cho admin
+     *
+     * @param array $data ['email', 'reset_link', 'expires_in']
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendPasswordResetLink($data)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->clearAttachments();
+
+            $this->mailer->addAddress($data['email'], 'Admin MTECH.JSC');
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode('[MTECH.JSC Admin] Đặt lại mật khẩu của bạn') . '?=';
+
+            $body = $this->getPasswordResetTemplate($data);
+            $this->mailer->Body    = $body;
+            $this->mailer->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $body));
+
+            $this->mailer->send();
+
+            if ($this->config['log_emails']) {
+                error_log('EmailNotificationService: Password reset link sent to ' . $data['email']);
+            }
+
+            return ['success' => true, 'message' => 'Email đặt lại mật khẩu đã được gửi'];
+
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            error_log('EmailNotificationService::sendPasswordResetLink() - PHPMailer: ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi gửi email: ' . $e->getMessage()];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendPasswordResetLink() - General: ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi hệ thống: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Template email đặt lại mật khẩu
+     */
+    private function getPasswordResetTemplate($data)
+    {
+        $email     = htmlspecialchars($data['email']);
+        $resetLink = htmlspecialchars($data['reset_link']);
+        $expiresIn = htmlspecialchars($data['expires_in'] ?? '1 giờ');
+        $time      = date('d/m/Y H:i:s');
+        $year      = date('Y');
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #d1d8e8;
+            margin: 0;
+            padding: 28px 16px;
+        }
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+        }
+        .header {
+            background: #0D1B3E;
+            color: #fff;
+            padding: 32px 24px 28px;
+            text-align: center;
+        }
+        .header img {
+            height: 52px;
+            width: auto;
+            display: block;
+            margin: 0 auto 14px;
+        }
+        .header h1 {
+            margin: 0 0 6px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .header p {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            opacity: 0.65;
+        }
+        .body {
+            padding: 28px 24px;
+            background: #fff;
+        }
+        .alert-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 14px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+        .btn-block {
+            text-align: center;
+            margin: 28px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #1A3FBF;
+            color: #ffffff !important;
+            padding: 14px 36px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+        .link-fallback {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 12px;
+            font-size: 11px;
+            color: #666;
+            word-break: break-all;
+            margin-top: 12px;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        .info-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-table td:first-child {
+            font-weight: 600;
+            color: #444;
+            width: 38%;
+        }
+        .footer {
+            background: #f4f6fb;
+            padding: 16px 24px;
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            border-top: 1px solid #e8ecf4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://admin.truongvinalogistics.com.vn/assets/images/logo.png" alt="MTECH.JSC">
+            <h1>Đặt lại mật khẩu Admin</h1>
+            <p>MTECH.JSC &mdash; ADMIN PANEL</p>
+        </div>
+        <div class="body">
+            <p style="color:#555; font-size:14px; margin-top:0;">Xin chào,</p>
+            <p style="color:#555; font-size:13px;">Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản admin <strong>{$email}</strong>.</p>
+            <div class="alert-box">
+                &#9201; Link này sẽ hết hạn sau <strong>{$expiresIn}</strong>. Nếu bạn không yêu cầu, hãy bỏ qua email này.
+            </div>
+            <table class="info-table">
+                <tr><td>Email</td><td>{$email}</td></tr>
+                <tr><td>Thời gian yêu cầu</td><td>{$time}</td></tr>
+                <tr><td>Hiệu lực</td><td>{$expiresIn}</td></tr>
+            </table>
+            <div class="btn-block">
+                <a href="{$resetLink}" class="btn">Đặt lại mật khẩu ngay</a>
+            </div>
+            <p style="color:#888; font-size:12px;">Nếu nút trên không hoạt động, hãy copy và dán link sau vào trình duyệt:</p>
+            <div class="link-fallback">{$resetLink}</div>
+            <p style="color:#bbb; font-size:11px; margin-top:20px;">Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; {$year} MTECH.JSC. Email tự động &mdash; Vui lòng không trả lời.</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
+
 }
