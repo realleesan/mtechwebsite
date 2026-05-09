@@ -206,7 +206,10 @@ class ProjectsModel {
         try {
             $fields = ['title', 'slug', 'category', 'description', 'content', 'image', 
                       'gallery', 'client', 'location', 'project_date', 'status', 
-                      'sort_order', 'meta_title', 'meta_description'];
+                      'sort_order', 'meta_title', 'meta_description', 'detail_image',
+                      'status_label', 'live_demo', 'tags', 'what_we_did_title',
+                      'what_we_did', 'what_we_did_image', 'results_title',
+                      'results', 'result_items'];
             
             $insertData = [];
             $columns = [];
@@ -242,7 +245,10 @@ class ProjectsModel {
         try {
             $fields = ['title', 'slug', 'category', 'description', 'content', 'image', 
                       'gallery', 'client', 'location', 'project_date', 'status', 
-                      'sort_order', 'meta_title', 'meta_description'];
+                      'sort_order', 'meta_title', 'meta_description', 'detail_image',
+                      'status_label', 'live_demo', 'tags', 'what_we_did_title',
+                      'what_we_did', 'what_we_did_image', 'results_title',
+                      'results', 'result_items'];
             
             $updateData = [];
             $sets = [];
