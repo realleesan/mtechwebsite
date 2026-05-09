@@ -1,13 +1,23 @@
 <?php
 // Xác định trang hiện tại để highlight menu
 $currentPage = $page ?? '';
+
+// Lấy header settings động cho logo
+require_once __DIR__ . '/../../models/HeaderModel.php';
+$headerModel    = new HeaderModel();
+$headerSettings = $headerModel->getSettingsWithFallback();
 ?>
 <aside class="admin-sidebar d-flex flex-column" id="adminSidebar">
 
     <!-- Logo -->
     <div class="sidebar-logo d-flex align-items-center px-3 py-4">
-        <img src="/assets/images/logo.png" alt="MTech" height="36" onerror="this.style.display='none'">
-        <span class="ms-2 fw-bold text-white fs-5">MTECH.JSC Admin</span>
+        <a href="/dashboard" class="d-flex align-items-center text-decoration-none">
+            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" 
+                 alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" 
+                 height="36" 
+                 onerror="this.style.display='none'">
+            <span class="ms-2 fw-bold text-white fs-5">MTECH.JSC</span>
+        </a>
     </div>
 
     <!-- Navigation -->
