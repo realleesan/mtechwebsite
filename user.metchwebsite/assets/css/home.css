@@ -705,7 +705,7 @@
 
 .featured_pr_item p {
     position: absolute;
-    bottom: -50px;
+    bottom: -80px;
     left: 0;
     right: 0;
     color: #fff;
@@ -718,6 +718,8 @@
     transition: all 0.4s ease;
     background: rgba(26, 63, 191, 0.85);
     text-align: center;
+    max-height: 80px;
+    overflow: hidden;
 }
 
 .featured_pr_item:hover p {

@@ -233,6 +233,10 @@ class Router
     private function executeHandler($handler)
     {
         try {
+            // Track truy cập người dùng
+            require_once __DIR__ . '/../app/middleware/AccessMiddleware.php';
+            AccessMiddleware::trackVisit();
+            
             if (is_array($handler)) {
                 // Handler có parameters
                 $controllerMethod = $handler['handler'];
