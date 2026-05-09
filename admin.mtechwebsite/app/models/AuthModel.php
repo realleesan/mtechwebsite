@@ -1,137 +1,198 @@
 <?php
 /**
  * AuthModel - Xử lý xác thực admin
- * Vì admin dùng hardcoded credentials, model này chủ yếu
- * xử lý reset token (lưu vào DB hoặc file tạm)
+ *
+ * Nguồn dữ liệu: bảng `admins` trong database
+ * - Đăng nhập: tìm admin theo email, verify bcrypt hash
+ * - Reset password: hash mật khẩu mới, UPDATE vào DB
+ * - Reset token: lưu vào file JSON (không cần bảng riêng)
  */
 
 class AuthModel
 {
-    /** @var PDO */
+    /** @var PDO|null */
     private $db;
 
-    /** @var string File lưu reset tokens (fallback nếu không có bảng) */
+    /** @var string File lưu reset tokens */
     private $tokenFile;
 
-    public function __construct($database = null)
+    public function __construct()
     {
-        if ($database) {
-            $this->db = $database;
-        } else {
-            require_once __DIR__ . '/../../core/database.php';
-            try {
-                $this->db = getDBConnection();
-            } catch (Exception $e) {
-                $this->db = null;
-            }
-        }
-
         $this->tokenFile = __DIR__ . '/../../logs/reset_tokens.json';
+
+        require_once __DIR__ . '/../../core/database.php';
+        try {
+            $this->db = getDBConnection();
+        } catch (Exception $e) {
+            $this->db = null;
+            error_log('AuthModel: DB connection failed - ' . $e->getMessage());
+        }
     }
 
     // ----------------------------------------------------------------
-    // Verify admin credentials (hardcoded)
+    // Verify admin credentials
     // ----------------------------------------------------------------
 
     /**
-     * Xác thực admin - hardcoded credentials
-     * Email: baominhkpkp@gmail.com | Password: admin123
+     * Xác thực admin — tìm theo email trong DB, verify bcrypt hash
+     *
+     * @return array|null Thông tin admin hoặc null nếu sai
      */
-    public function verifyAdmin($email, $password): ?array
+    public function verifyAdmin(string $email, string $password): ?array
     {
-        $validEmail    = 'baominhkpkp@gmail.com';
-        $validPassword = 'admin123';
+        $admin = $this->findByEmail($email);
 
-        if ($email === $validEmail && $password === $validPassword) {
-            return [
-                'id'       => 1,
-                'username' => 'Admin',
-                'email'    => $validEmail,
-                'role'     => 'superadmin',
-            ];
+        if (!$admin) {
+            return null;
         }
 
-        return null;
+        if (!password_verify($password, $admin['password'])) {
+            return null;
+        }
+
+        // Cập nhật last_login
+        $this->updateLastLogin($admin['id']);
+
+        return [
+            'id'       => $admin['id'],
+            'username' => $admin['username'] ?? 'Admin',
+            'email'    => $admin['email'],
+            'role'     => 'superadmin',
+        ];
     }
 
     /**
      * Tìm admin theo email
+     *
+     * @return array|null
      */
-    public function findByEmail($email): ?array
+    public function findByEmail(string $email): ?array
     {
-        if ($email === 'baominhkpkp@gmail.com') {
-            return [
-                'id'    => 1,
-                'email' => $email,
-            ];
+        if (!$this->db) {
+            return null;
         }
-        return null;
+
+        try {
+            $stmt = $this->db->prepare(
+                'SELECT id, username, email, password, full_name, status FROM admins WHERE email = ? LIMIT 1'
+            );
+            $stmt->execute([$email]);
+            $admin = $stmt->fetch();
+
+            if (!$admin || (int)$admin['status'] !== 1) {
+                return null;
+            }
+
+            return $admin;
+        } catch (Exception $e) {
+            error_log('AuthModel::findByEmail() - ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Cập nhật thời gian đăng nhập cuối
+     */
+    private function updateLastLogin(int $adminId): void
+    {
+        if (!$this->db) return;
+
+        try {
+            $stmt = $this->db->prepare(
+                'UPDATE admins SET last_login = NOW() WHERE id = ?'
+            );
+            $stmt->execute([$adminId]);
+        } catch (Exception $e) {
+            error_log('AuthModel::updateLastLogin() - ' . $e->getMessage());
+        }
     }
 
     // ----------------------------------------------------------------
-    // Reset Token - lưu vào file JSON (không cần bảng DB)
+    // Reset Token — lưu vào file JSON
     // ----------------------------------------------------------------
 
     /**
      * Tạo reset token và lưu vào file
+     *
      * @return string|false Token hoặc false nếu lỗi
      */
-    public function createResetToken($email)
+    public function createResetToken(string $email)
     {
         $token   = bin2hex(random_bytes(32));
         $expires = time() + 3600; // 1 giờ
 
         $tokens = $this->loadTokens();
         // Xóa token cũ của email này
-        $tokens = array_filter($tokens, fn($t) => $t['email'] !== $email);
+        $tokens = array_values(array_filter($tokens, fn($t) => $t['email'] !== $email));
         $tokens[] = [
             'token'   => $token,
             'email'   => $email,
             'expires' => $expires,
         ];
 
-        if ($this->saveTokens(array_values($tokens))) {
-            return $token;
-        }
-
-        return false;
+        return $this->saveTokens($tokens) ? $token : false;
     }
 
     /**
      * Kiểm tra reset token có hợp lệ không
      */
-    public function verifyResetToken($token): bool
+    public function verifyResetToken(string $token): bool
     {
-        $tokens = $this->loadTokens();
-
-        foreach ($tokens as $t) {
+        foreach ($this->loadTokens() as $t) {
             if ($t['token'] === $token && $t['expires'] > time()) {
                 return true;
             }
         }
-
         return false;
     }
 
     /**
-     * Reset password (với hardcoded credentials thì chỉ log lại)
-     * Trong thực tế nên lưu vào DB hoặc file config
+     * Reset password — hash bcrypt và UPDATE vào bảng admins
      */
-    public function resetPassword($token, $newPassword): bool
+    public function resetPassword(string $token, string $newPassword): bool
     {
-        if (!$this->verifyResetToken($token)) {
+        // Tìm token hợp lệ để lấy email
+        $email = null;
+        foreach ($this->loadTokens() as $t) {
+            if ($t['token'] === $token && $t['expires'] > time()) {
+                $email = $t['email'];
+                break;
+            }
+        }
+
+        if (!$email) {
             return false;
         }
 
-        // Xóa token đã dùng
-        $tokens = $this->loadTokens();
-        $tokens = array_filter($tokens, fn($t) => $t['token'] !== $token);
-        $this->saveTokens(array_values($tokens));
+        if (!$this->db) {
+            error_log('AuthModel::resetPassword() - No DB connection');
+            return false;
+        }
 
-        // Log mật khẩu mới (admin cần cập nhật thủ công vào code)
-        error_log('AuthModel::resetPassword() - New password requested. Update hardcoded password manually.');
+        try {
+            // Hash mật khẩu mới bằng bcrypt
+            $newHash = password_hash($newPassword, PASSWORD_BCRYPT);
 
-        return true;
+            $stmt = $this->db->prepare(
+                'UPDATE admins SET password = ?, updated_at = NOW() WHERE email = ?'
+            );
+            $result = $stmt->execute([$newHash, $email]);
+
+            if (!$result || $stmt->rowCount() === 0) {
+                error_log('AuthModel::resetPassword() - No rows updated for email: ' . $email);
+                return false;
+            }
+
+            // Xóa token đã dùng (one-time use)
+            $tokens = array_values(array_filter($this->loadTokens(), fn($t) => $t['token'] !== $token));
+            $this->saveTokens($tokens);
+
+            return true;
+
+        } catch (Exception $e) {
+            error_log('AuthModel::resetPassword() - ' . $e->getMessage());
+            return false;
+        }
     }
 
     // ----------------------------------------------------------------
@@ -152,7 +213,7 @@ class AuthModel
         }
 
         // Lọc bỏ token hết hạn
-        return array_filter($data, fn($t) => $t['expires'] > time());
+        return array_values(array_filter($data, fn($t) => $t['expires'] > time()));
     }
 
     private function saveTokens(array $tokens): bool

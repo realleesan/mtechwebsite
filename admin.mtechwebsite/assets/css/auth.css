@@ -1,0 +1,241 @@
+/* ============================================
+   Auth Pages (Login, Forgot Password, Reset)
+   ============================================ */
+
+/* Reset cơ bản cho trang auth */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* ------------------------------------------
+   Ảnh nền phủ toàn màn hình
+------------------------------------------ */
+.auth-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/images/admin.auth.bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+/* Lớp phủ màu đen 80% */
+.auth-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.80);
+}
+
+/* ------------------------------------------
+   Overlay container — card nổi trên nền
+------------------------------------------ */
+.auth-overlay {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+/* ------------------------------------------
+   Login Card
+   max-width: 420px * 1.2 = 504px
+------------------------------------------ */
+.login-card {
+    background: #0D1B3E;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 8px 24px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    width: 100%;
+    max-width: 504px;
+}
+
+.login-header {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    padding: 38px 29px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.login-logo {
+    display: block;
+    height: 56px;
+    width: auto;
+    margin: 0 auto 12px;
+    object-fit: contain;
+}
+
+.login-title {
+    margin: 0 0 4px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.login-header .brand-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.75;
+    letter-spacing: 1.5px;
+}
+
+.login-body {
+    padding: 38px 29px;
+}
+
+/* ------------------------------------------
+   Forgot Password Card
+   max-width: 420px * 1.2 = 504px
+------------------------------------------ */
+.auth-card {
+    background: #0D1B3E;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 8px 24px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    width: 100%;
+    max-width: 504px;
+}
+
+.auth-card-header {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    padding: 34px 29px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.auth-card-header .bi {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+    color: #4d7cfe;
+}
+
+.auth-card-header h5 {
+    margin: 0 0 6px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.auth-card-header small {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    opacity: 0.65;
+    font-size: 0.8rem;
+}
+
+.auth-card-body {
+    padding: 34px 29px;
+}
+
+/* ------------------------------------------
+   Form elements — dark theme
+------------------------------------------ */
+.auth-page .form-label {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.auth-page .input-group-text {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-page .form-control {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.auth-page .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.auth-page .form-control:focus {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: #4d7cfe;
+    box-shadow: 0 0 0 0.2rem rgba(77, 124, 254, 0.25);
+    color: #fff;
+}
+
+.auth-page .form-check-label {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+}
+
+.auth-page .text-muted {
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 0.8rem;
+}
+
+/* ------------------------------------------
+   Buttons
+------------------------------------------ */
+.btn-auth {
+    background: #1A3FBF;
+    border: none;
+    padding: 13px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+    transition: all 0.3s;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.btn-auth:hover {
+    background: #2d5dd8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(26, 63, 191, 0.5);
+    color: #fff;
+}
+
+/* ------------------------------------------
+   Links
+------------------------------------------ */
+.auth-link {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.auth-link:hover {
+    color: #4d7cfe;
+}
+
+/* ------------------------------------------
+   Reset Password Card (dùng chung .auth-card)
+   Không cần thêm CSS riêng — dùng lại
+   .auth-card, .auth-card-header, .auth-card-body,
+   .btn-auth, .auth-link đã định nghĩa ở trên
+------------------------------------------ */

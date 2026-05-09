@@ -47,11 +47,10 @@ class AuthController extends BaseController
             return;
         }
 
-        // Hardcoded credentials
-        $validEmail    = 'baominhkpkp@gmail.com';
-        $validPassword = 'admin123';
+        // Xác thực qua AuthModel (đọc từ .env, verify bcrypt hash)
+        $admin = $this->authModel->verifyAdmin($email, $password);
 
-        if ($email !== $validEmail || $password !== $validPassword) {
+        if (!$admin) {
             $_SESSION['error'] = 'Email hoặc mật khẩu không đúng';
             $this->redirect('/login');
             return;
@@ -61,10 +60,10 @@ class AuthController extends BaseController
         $this->sendLoginNotification($email);
 
         // Lưu session
-        $_SESSION['admin_id']       = 1;
-        $_SESSION['admin_username'] = 'Admin';
-        $_SESSION['admin_email']    = $email;
-        $_SESSION['admin_role']     = 'superadmin';
+        $_SESSION['admin_id']       = $admin['id'];
+        $_SESSION['admin_username'] = $admin['username'];
+        $_SESSION['admin_email']    = $admin['email'];
+        $_SESSION['admin_role']     = $admin['role'];
 
         // Redirect về dashboard
         $_SESSION['success'] = 'Đăng nhập thành công!';
@@ -147,7 +146,8 @@ class AuthController extends BaseController
         $admin = $this->authModel->findByEmail($email);
 
         if (!$admin) {
-            $_SESSION['error'] = 'Email không tồn tại trong hệ thống';
+            // Không tiết lộ email có tồn tại hay không (bảo mật)
+            $_SESSION['success'] = 'Nếu email tồn tại trong hệ thống, link đặt lại mật khẩu sẽ được gửi đến bạn';
             $this->redirect('/forgot-password');
             return;
         }
@@ -161,12 +161,44 @@ class AuthController extends BaseController
             return;
         }
 
-        // Gửi email (TODO: implement email service)
-        // $resetLink = "https://admin.truongvinalogistics.com.vn/reset-password?token={$token}";
-        // EmailService::sendResetLink($email, $resetLink);
+        // Gửi email chứa link reset
+        $sent = $this->sendPasswordResetEmail($email, $token);
 
-        $_SESSION['success'] = 'Link reset mật khẩu đã được gửi đến email của bạn';
+        if (!$sent) {
+            $_SESSION['error'] = 'Không thể gửi email. Vui lòng thử lại sau';
+            $this->redirect('/forgot-password');
+            return;
+        }
+
+        $_SESSION['success'] = 'Link đặt lại mật khẩu đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư (kể cả thư mục spam)';
         $this->redirect('/forgot-password');
+    }
+
+    /**
+     * Gửi email chứa link reset mật khẩu
+     */
+    private function sendPasswordResetEmail(string $email, string $token): bool
+    {
+        try {
+            require_once __DIR__ . '/../services/EmailNotificationService.php';
+
+            $protocol  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+            $host      = $_SERVER['HTTP_HOST'] ?? 'localhost';
+            $resetLink = $protocol . '://' . $host . '/reset-password?token=' . urlencode($token);
+
+            $emailService = new EmailNotificationService();
+            $result = $emailService->sendPasswordResetLink([
+                'email'      => $email,
+                'reset_link' => $resetLink,
+                'expires_in' => '1 giờ',
+            ]);
+
+            return $result['success'] ?? false;
+
+        } catch (Exception $e) {
+            error_log('AuthController::sendPasswordResetEmail() - ' . $e->getMessage());
+            return false;
+        }
     }
 
     // ----------------------------------------
