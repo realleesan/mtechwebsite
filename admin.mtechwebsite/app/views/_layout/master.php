@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title ?? 'Admin MTech') ?></title>
 
+    <!-- NOTE: Favicon
+         File: assets/icons/favicon.ico
+         Dùng BASE_URL động để đúng cả localhost/subfolder lẫn hosting root
+    -->
+    <?php
+    // Tính base URL động: hoạt động đúng cả localhost/subfolder và hosting root
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host     = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $script   = $_SERVER['SCRIPT_NAME'] ?? '/index.php';          // /admin.mtechwebsite/index.php
+    $basePath = rtrim(dirname($script), '/\\');                    // /admin.mtechwebsite  (hoặc '' nếu root)
+    $baseUrl  = $protocol . '://' . $host . $basePath;            // http://localhost/admin.mtechwebsite
+    ?>
+    <link rel="icon" href="<?php echo $baseUrl; ?>/assets/icons/favicon.ico?v=1.1">
+
     <!-- Bootstrap 5 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <!-- Bootstrap Icons -->
@@ -12,6 +26,14 @@
     <!-- Admin CSS -->
     <link rel="stylesheet" href="/assets/css/admin.css">
 </head>
+
+<body>
+
+<?php
+// Track admin visits
+require_once dirname(__DIR__, 2) . '/middleware/AccessMiddleware.php';
+AccessMiddleware::trackVisit();
+?>
 <body>
 
 <div class="admin-wrapper d-flex">
@@ -44,7 +66,23 @@
             <?php endif; ?>
 
             <!-- View Content -->
-            <?php include $content; ?>
+            <?php
+            /**
+             * Nội dung trang được truyền từ Controller qua biến $content
+             * - $content có thể là HTML string hoặc đường dẫn file
+             */
+            if (isset($content)) {
+                if (is_string($content) && (strpos($content, '<') !== false || strpos($content, '<?php') !== false)) {
+                    echo $content;
+                } elseif (is_string($content) && file_exists($content)) {
+                    include $content;
+                } else {
+                    echo "<div class='alert alert-warning'>Không tìm thấy nội dung trang.</div>";
+                }
+            } else {
+                echo "<div class='alert alert-info'>Chưa có nội dung được tải.</div>";
+            }
+            ?>
 
         </main>
 

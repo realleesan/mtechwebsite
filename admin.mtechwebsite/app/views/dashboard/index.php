@@ -83,8 +83,52 @@
 
 </div>
 
+<!-- ========== Thống kê truy cập ========== -->
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="mb-0 fw-bold text-muted">
+                        <i class="bi bi-graph-up me-2"></i>Thống kê truy cập
+                    </h6>
+                </div>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="stat-icon bg-info bg-opacity-10 text-info mb-2">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <div class="stat-number text-info"><?= $access_stats['today']['visits'] ?? 0 ?></div>
+                            <div class="text-muted small">Hôm nay</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-2">
+                                <i class="bi bi-calendar-week"></i>
+                            </div>
+                            <div class="stat-number text-warning"><?= $access_stats['month']['visits'] ?? 0 ?></div>
+                            <div class="text-muted small">Tháng này</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="stat-icon bg-success bg-opacity-10 text-success mb-2">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <div class="stat-number text-success"><?= $access_stats['total']['total'] ?? 0 ?></div>
+                            <div class="text-muted small">Tổng truy cập</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- ========== RECENT DATA ========== -->
-<div class="row g-3">
+<div class="row g-3 mb-4">
 
     <!-- Recent Contacts -->
     <div class="col-12 col-lg-6">
@@ -175,6 +219,122 @@
                         <?php else: ?>
                             <tr>
                                 <td colspan="3" class="text-center text-muted py-3">Chưa có đơn ứng tuyển nào</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+
+    <!-- Recent News -->
+    <div class="col-12 col-lg-6">
+        <div class="admin-table">
+            <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                <h6 class="mb-0 fw-bold">
+                    <i class="bi bi-newspaper me-2 text-primary"></i>Tin tức mới nhất
+                </h6>
+                <a href="/blogs" class="btn btn-sm btn-outline-secondary">Xem tất cả</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Ngày đăng</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($recentBlogs)): ?>
+                            <?php foreach ($recentBlogs as $blog): ?>
+                                <tr>
+                                    <td>
+                                        <a href="/blogs/edit?id=<?= $blog['id'] ?>" class="text-decoration-none">
+                                            <?= htmlspecialchars(mb_substr($blog['title'] ?? '', 0, 40)) ?>
+                                            <?= mb_strlen($blog['title'] ?? '') > 40 ? '...' : '' ?>
+                                        </a>
+                                    </td>
+                                    <td class="text-muted small">
+                                        <?= isset($blog['created_at'])
+                                            ? date('d/m H:i', strtotime($blog['created_at']))
+                                            : '' ?>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Đã đăng</span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-3">Chưa có tin tức nào</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Projects -->
+    <div class="col-12 col-lg-6">
+        <div class="admin-table">
+            <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                <h6 class="mb-0 fw-bold">
+                    <i class="bi bi-building me-2 text-success"></i>Dự án mới nhất
+                </h6>
+                <a href="/projects" class="btn btn-sm btn-outline-secondary">Xem tất cả</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tên dự án</th>
+                            <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($recentProjects)): ?>
+                            <?php foreach ($recentProjects as $project): ?>
+                                <tr>
+                                    <td>
+                                        <a href="/projects/edit?id=<?= $project['id'] ?>" class="text-decoration-none">
+                                            <?= htmlspecialchars(mb_substr($project['title'] ?? '', 0, 40)) ?>
+                                            <?= mb_strlen($project['title'] ?? '') > 40 ? '...' : '' ?>
+                                        </a>
+                                    </td>
+                                    <td class="text-muted small">
+                                        <?= isset($project['created_at'])
+                                            ? date('d/m H:i', strtotime($project['created_at']))
+                                            : '' ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $status = $project['status'] ?? 1;
+                                        $badge = match($status) {
+                                            1 => 'success',
+                                            0 => 'secondary',
+                                            2 => 'warning',
+                                            default => 'secondary',
+                                        };
+                                        $label = match($status) {
+                                            1 => 'Hoạt động',
+                                            0 => 'Ẩn',
+                                            2 => 'Nổi bật',
+                                            default => 'Không rõ',
+                                        };
+                                        ?>
+                                        <span class="badge bg-<?= $badge ?>"><?= $label ?></span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-3">Chưa có dự án nào</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
