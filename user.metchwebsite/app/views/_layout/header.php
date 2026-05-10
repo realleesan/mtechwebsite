@@ -223,9 +223,8 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
         <div class="search_overlay_box">
             <button class="search_overlay_close" id="searchClose" aria-label="Close search">&times;</button>
             <p class="search_overlay_label">SEARCH</p>
-            <form method="get" action="./" class="search_overlay_inner">
-                <input type="hidden" name="page" value="search">
-                <input type="text" name="q" id="searchInput" class="search_overlay_input"
+            <form class="search_overlay_inner" id="searchOverlayForm">
+                <input type="text" id="searchInput" class="search_overlay_input"
                        placeholder="Search for..." autocomplete="off"
                        value="">
                 <button class="search_overlay_submit" type="submit" aria-label="Submit search">

@@ -22,43 +22,59 @@ class SearchController extends BaseController
     public function index()
     {
         $searchQuery = isset($_GET['q']) ? trim(urldecode($_GET['q'])) : '';
-        $searchType = isset($_GET['type']) ? trim($_GET['type']) : '';
+        $this->renderSearch($searchQuery);
+    }
+
+    /**
+     * Hiển thị kết quả tìm kiếm với keyword từ URL path
+     * Route: /ket-qua-tim-kiem-{keyword}
+     * Router truyền $keyword đã được decode đúng từ REQUEST_URI
+     */
+    public function indexWithKeyword($keyword = '')
+    {
+        // Router PHP decode REQUEST_URI và truyền vào đây
+        // Đổi dấu - thành dấu cách để search
+        $searchQuery = trim(str_replace('-', ' ', urldecode($keyword)));
+        $this->renderSearch($searchQuery);
+    }
+
+    /**
+     * Logic render chung cho cả hai method
+     */
+    private function renderSearch($searchQuery)
+    {
+        $searchType  = isset($_GET['type']) ? trim($_GET['type']) : '';
         $currentPage = isset($_GET['p']) ? max(1, (int) $_GET['p']) : 1;
-        $perPage = 10;
-        
+        $perPage     = 10;
+
         // Chỉ chấp nhận type hợp lệ
         if (!in_array($searchType, ['blog', 'service', 'project', ''])) {
             $searchType = '';
         }
-        
+
         if (!empty($searchQuery)) {
-            $searchResult = $this->searchModel->search($searchQuery, $currentPage, $perPage, $searchType);
+            $searchResult  = $this->searchModel->search($searchQuery, $currentPage, $perPage, $searchType);
             $searchResults = $searchResult['results'];
-            $totalResults = $searchResult['total'];
+            $totalResults  = $searchResult['total'];
         } else {
             $searchResults = [];
-            $totalResults = 0;
+            $totalResults  = 0;
         }
-        
-        // Chuẩn bị data cho view
-        $data = [
-            'searchQuery' => $searchQuery,
-            'searchType' => $searchType,
+
+        $this->view('search/search.php', [
+            'searchQuery'   => $searchQuery,
+            'searchType'    => $searchType,
             'searchResults' => $searchResults,
-            'totalResults' => $totalResults,
-            'currentPage' => $currentPage,
-            'perPage' => $perPage,
-            
-            // Layout variables
-            'page' => 'search',
-            'title' => 'Search Results - MTECHJSC',
+            'totalResults'  => $totalResults,
+            'currentPage'   => $currentPage,
+            'perPage'       => $perPage,
+
+            'page'           => 'search',
+            'title'          => (!empty($searchQuery) ? 'Kết quả: ' . $searchQuery . ' - ' : '') . 'Tìm kiếm - MTECHJSC',
             'showPageHeader' => true,
-            'showBlogSidebar' => true,
-            'showCTA' => false,
-            'showBreadcrumb' => true
-        ];
-        
-        // Render view
-        $this->view('search/search.php', $data);
+            'showBlogSidebar'=> true,
+            'showCTA'        => false,
+            'showBreadcrumb' => true,
+        ]);
     }
 }

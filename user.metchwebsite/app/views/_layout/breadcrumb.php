@@ -95,7 +95,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── Search ────────────────────────────────────────────────
         'search' => [
-            ['title' => 'Search Results', 'url' => null],
+            ['title' => 'Kết quả tìm kiếm', 'url' => null],
         ],
 
         // ── Contact ───────────────────────────────────────────────

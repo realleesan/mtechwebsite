@@ -41,7 +41,8 @@ class SearchModel
             // --- Nhánh blogs ---
             if ($type === '' || $type === 'blog') {
                 $parts[] = "SELECT 'blog' AS type, b.id, b.title, b.slug, b.image,
-                                   b.excerpt AS excerpt, b.created_at
+                                   b.excerpt AS excerpt, b.created_at,
+                                   b.category_id, b.expires_in_days, b.hiring_status
                             FROM `blogs` b
                             WHERE b.status = 1
                               AND (b.title LIKE ? OR b.excerpt LIKE ?)";
@@ -54,7 +55,8 @@ class SearchModel
             // --- Nhánh categories (services) ---
             if ($type === '' || $type === 'service') {
                 $parts[] = "SELECT 'service' AS type, c.id, c.name AS title, c.slug, c.image,
-                                   c.description AS excerpt, c.created_at
+                                   c.description AS excerpt, c.created_at,
+                                   NULL AS category_id, NULL AS expires_in_days, NULL AS hiring_status
                             FROM `categories` c
                             WHERE c.status = 1
                               AND (c.name LIKE ? OR c.description LIKE ?)";
@@ -67,7 +69,8 @@ class SearchModel
             // --- Nhánh projects ---
             if ($type === '' || $type === 'project') {
                 $parts[] = "SELECT 'project' AS type, p.id, p.title, p.slug, p.image,
-                                   p.description AS excerpt, p.created_at
+                                   p.description AS excerpt, p.created_at,
+                                   NULL AS category_id, NULL AS expires_in_days, NULL AS hiring_status
                             FROM `projects` p
                             WHERE p.status = 1
                               AND p.deleted_at IS NULL
@@ -110,13 +113,19 @@ class SearchModel
 
     /**
      * Trả về URL detail theo loại kết quả.
+     * Bài tuyển dụng (blog category_id=7) dùng /chi-tiet-{slug}
      */
-    public static function getDetailUrl($type, $slug)
+    public static function getDetailUrl($type, $slug, $categoryId = null)
     {
         switch ($type) {
-            case 'blog':    return '?page=blog-details&slug=' . urlencode($slug);
-            case 'service': return '?page=categories-details&slug=' . urlencode($slug);
-            case 'project': return '?page=project-details&slug=' . urlencode($slug);
+            case 'blog':
+                // Tuyển dụng dùng /chi-tiet-{slug}
+                if ($categoryId == 7) {
+                    return '/chi-tiet-' . urlencode($slug);
+                }
+                return '/chi-tiet-tin-tuc-' . urlencode($slug);
+            case 'service': return '/chi-tiet-dich-vu-' . urlencode($slug);
+            case 'project': return '/chi-tiet-du-an-'   . urlencode($slug);
             default:        return '#';
         }
     }
@@ -127,9 +136,9 @@ class SearchModel
     public static function getTypeLabel($type)
     {
         switch ($type) {
-            case 'blog':    return 'Blog';
-            case 'service': return 'Service';
-            case 'project': return 'Project';
+            case 'blog':    return 'Tin tức';
+            case 'service': return 'Dịch vụ';
+            case 'project': return 'Dự án';
             default:        return '';
         }
     }
