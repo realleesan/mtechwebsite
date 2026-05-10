@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title ?? 'Đăng nhập - Admin MTECH.JSC') ?></title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/assets/css/auth.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@700&display=swap">
-</head>
-<body class="auth-page">
-
-    <!-- Ảnh nền + lớp phủ đen 80% -->
-    <div class="auth-bg"></div>
-
-    <!-- Overlay chứa card -->
-    <div class="auth-overlay">
-        <div class="login-card">
+<div class="login-card">
 
             <div class="login-header">
                 <img src="/assets/images/logo.png" alt="MTECH.JSC Logo" class="login-logo">
@@ -52,7 +32,7 @@
                             <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                             <input type="email" class="form-control" id="email" name="email"
                                    placeholder="Nhập email" required autofocus
-                                   value="baominhkpkp@gmail.com">
+                                   value="@gmail.com">
                         </div>
                     </div>
 
@@ -63,7 +43,7 @@
                             <input type="password" class="form-control" id="password" name="password"
                                    placeholder="Nhập mật khẩu" required>
                         </div>
-                        <small class="text-muted">Mật khẩu mặc định: admin123</small>
+                        <small class="text-muted"></small>
                     </div>
 
                     <div class="mb-4 form-check">
@@ -83,8 +63,3 @@
 
             </div>
         </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
