@@ -35,6 +35,7 @@ if (!isset($clientLogos) || empty($clientLogos)) {
                                  alt="<?php echo htmlspecialchars($client['name']); ?>"
                                  class="client_logo_img">
                         </a>
+                        <span class="client_logo_name"><?php echo htmlspecialchars($client['name']); ?></span>
                     </div>
                 <?php endforeach; ?>
             </div>

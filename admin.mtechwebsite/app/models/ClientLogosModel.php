@@ -145,4 +145,100 @@ class ClientLogosModel
             return false;
         }
     }
+
+    /**
+     * Điều chỉnh thứ tự tự động khi thêm/sửa logo.
+     * Nếu sort_order trùng với logo khác, tự động lùi các logo sau đó.
+     * Sau đó normalize lại tất cả thứ tự từ 1 đến n.
+     * 
+     * Ví dụ: logo 1,2,3 → sửa logo 3 thành 1 → kết quả: 3,1,2
+     * 
+     * @param int $logoId ID của logo đang được thêm/sửa
+     * @param int $newSortOrder Thứ tự mới
+     * @param int|null $oldSortOrder Thứ tự cũ (null nếu thêm mới)
+     */
+    public function reorderLogos(int $logoId, int $newSortOrder, ?int $oldSortOrder = null): bool
+    {
+        try {
+            // Nếu thứ tự không thay đổi, không cần làm gì
+            if ($oldSortOrder !== null && $oldSortOrder === $newSortOrder) {
+                return true;
+            }
+
+            // Lấy tất cả logo khác (không phải logo đang sửa)
+            $stmt = $this->db->prepare(
+                "SELECT id, sort_order FROM `{$this->table}` WHERE id != ? ORDER BY sort_order ASC"
+            );
+            $stmt->execute([$logoId]);
+            $otherLogos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Tạo mảng thứ tự mới
+            $newOrders = [];
+            $inserted = false;
+
+            foreach ($otherLogos as $logo) {
+                // Nếu chưa insert logo mới và thứ tự hiện tại >= thứ tự mới
+                if (!$inserted && $logo['sort_order'] >= $newSortOrder) {
+                    $newOrders[$logoId] = $newSortOrder;
+                    $inserted = true;
+                }
+
+                // Nếu đã insert, tăng thứ tự của logo khác lên 1
+                if ($inserted) {
+                    $newOrders[$logo['id']] = $logo['sort_order'] + 1;
+                } else {
+                    $newOrders[$logo['id']] = $logo['sort_order'];
+                }
+            }
+
+            // Nếu chưa insert (logo mới có thứ tự cao nhất)
+            if (!$inserted) {
+                $newOrders[$logoId] = $newSortOrder;
+            }
+
+            // Cập nhật tất cả thứ tự
+            foreach ($newOrders as $id => $order) {
+                $updateStmt = $this->db->prepare(
+                    "UPDATE `{$this->table}` SET sort_order = ? WHERE id = ?"
+                );
+                $updateStmt->execute([$order, $id]);
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            error_log('ClientLogosModel::reorderLogos() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Normalize thứ tự của tất cả logo từ 1 đến n.
+     * Gọi sau khi thêm/sửa/xóa để đảm bảo thứ tự luôn liên tục.
+     */
+    public function normalizeOrders(): bool
+    {
+        try {
+            // Lấy tất cả logo sắp xếp theo sort_order hiện tại
+            $stmt = $this->db->prepare(
+                "SELECT id FROM `{$this->table}` ORDER BY sort_order ASC, id ASC"
+            );
+            $stmt->execute();
+            $logos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Cập nhật thứ tự từ 1 đến n
+            $newOrder = 1;
+            foreach ($logos as $logo) {
+                $updateStmt = $this->db->prepare(
+                    "UPDATE `{$this->table}` SET sort_order = ? WHERE id = ?"
+                );
+                $updateStmt->execute([$newOrder, $logo['id']]);
+                $newOrder++;
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            error_log('ClientLogosModel::normalizeOrders() - ' . $e->getMessage());
+            return false;
+        }
+    }
 }
