@@ -36,9 +36,15 @@ if (!$projectDetail) {
     // Format ngày
     $projectDate = '';
     if (!empty($projectDetail['project_date'])) {
-        $projectDate = date('d F, Y', strtotime($projectDetail['project_date']));
+        $months = ['January' => 'tháng 1', 'February' => 'tháng 2', 'March' => 'tháng 3', 'April' => 'tháng 4', 
+                   'May' => 'tháng 5', 'June' => 'tháng 6', 'July' => 'tháng 7', 'August' => 'tháng 8',
+                   'September' => 'tháng 9', 'October' => 'tháng 10', 'November' => 'tháng 11', 'December' => 'tháng 12'];
+        $englishDate = date('d F, Y', strtotime($projectDetail['project_date']));
+        $vietnameseDate = strtr($englishDate, $months);
+        $projectDate = $vietnameseDate;
     }
-  
+    
+      
     // Xác định ảnh sử dụng
     $detailImage = $projectDetail['detail_image'] ?? ($projectDetail['image'] ?? '');
     $whatWeDidImage = $projectDetail['what_we_did_image'] ?? '';
@@ -89,10 +95,16 @@ if (!$projectDetail) {
                         </li>
                         <?php endif; ?>
 
-                        <?php if (!empty($projectDetail['category'])): ?>
+                        <?php if (!empty($projectServices)): ?>
                         <li>
                             <span>Danh mục :</span>
-                            <?php echo htmlspecialchars($projectDetail['category'] ?? ''); ?>
+                            <?php 
+                            $serviceNames = [];
+                            foreach ($projectServices as $service) {
+                                $serviceNames[] = htmlspecialchars($service['name']);
+                            }
+                            echo implode(', ', $serviceNames);
+                            ?>
                         </li>
                         <?php endif; ?>
 
@@ -106,7 +118,7 @@ if (!$projectDetail) {
                         <?php if (!empty($projectDetail['status_label'])): ?>
                         <li>
                             <span>Trạng thái :</span>
-                            <?php echo htmlspecialchars($projectDetail['status_label'] ?? ''); ?>
+                            <?php echo htmlspecialchars($projectDetail['status_label']); ?>
                         </li>
                         <?php endif; ?>
 

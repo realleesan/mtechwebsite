@@ -88,11 +88,12 @@ class ProjectsModel {
     }
     
     /**
-     * Lấy dự án theo danh mục
+     * Lấy dự án theo danh mục (DEPRECATED - use getByService instead)
      * @param string $category Tên danh mục
      * @param int $limit Số lượng
      * @return array Danh sách dự án
      */
+    /*
     public function getByCategory($category, $limit = 9) {
         try {
             $sql = "SELECT * FROM {$this->table} 
@@ -109,6 +110,7 @@ class ProjectsModel {
             return [];
         }
     }
+    */
     
     /**
      * Lấy dự án nổi bật (featured)
@@ -180,14 +182,15 @@ class ProjectsModel {
     }
     
     /**
-     * Lấy tất cả danh mục (distinct)
+     * Lấy tất cả danh mục (DEPRECATED - use getServices instead)
      * @return array Danh sách danh mục
      */
+    /*
     public function getCategories() {
         try {
             $sql = "SELECT DISTINCT category FROM {$this->table} 
                     WHERE deleted_at IS NULL 
-                    AND status = 1 
+                    AND category IS NOT NULL 
                     ORDER BY category ASC";
             $stmt = $this->db->query($sql);
             return $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -196,6 +199,7 @@ class ProjectsModel {
             return [];
         }
     }
+    */
     
     /**
      * Tạo dự án mới
@@ -373,6 +377,166 @@ class ProjectsModel {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("ProjectsModel::getRelated Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    // ============================================================
+    // NEW METHODS FOR SERVICES (CATEGORIES)
+    // ============================================================
+    
+    /**
+     * Lấy dự án theo dịch vụ (qua bảng project_services)
+     * @param int $serviceId ID dịch vụ (categories)
+     * @param int $limit Số lượng
+     * @return array Danh sách dự án
+     */
+    public function getByService($serviceId, $limit = 9) {
+        try {
+            $sql = "SELECT p.* FROM {$this->table} p
+                    INNER JOIN project_services ps ON p.id = ps.project_id
+                    WHERE ps.category_id = ? 
+                    AND p.deleted_at IS NULL 
+                    AND p.status = 1 
+                    ORDER BY p.sort_order ASC, p.created_at DESC 
+                    LIMIT ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$serviceId, $limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getByService Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    /**
+     * Lấy tất cả dịch vụ (categories) có trong database
+     * @return array Danh sách dịch vụ
+     */
+    public function getServices() {
+        try {
+            $sql = "SELECT id, name, slug, image, description 
+                    FROM categories 
+                    WHERE status = 1 
+                    ORDER BY sort_order ASC, name ASC";
+            $stmt = $this->db->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getServices Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    /**
+     * Lấy dịch vụ của một dự án cụ thể
+     * @param int $projectId ID dự án
+     * @return array Danh sách dịch vụ của dự án
+     */
+    public function getProjectServices($projectId) {
+        try {
+            $sql = "SELECT c.id, c.name, c.slug 
+                    FROM categories c
+                    INNER JOIN project_services ps ON c.id = ps.category_id
+                    WHERE ps.project_id = ?
+                    ORDER BY c.name ASC";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$projectId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getProjectServices Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    /**
+     * Thêm dịch vụ cho dự án
+     * @param int $projectId ID dự án
+     * @param array $serviceIds Mảng ID dịch vụ
+     * @return bool
+     */
+    public function addProjectServices($projectId, $serviceIds) {
+        try {
+            // Xóa các dịch vụ cũ của dự án
+            $deleteSql = "DELETE FROM project_services WHERE project_id = ?";
+            $deleteStmt = $this->db->prepare($deleteSql);
+            $deleteStmt->execute([$projectId]);
+            
+            // Thêm dịch vụ mới
+            $insertSql = "INSERT INTO project_services (project_id, category_id) VALUES (?, ?)";
+            $insertStmt = $this->db->prepare($insertSql);
+            
+            foreach ($serviceIds as $serviceId) {
+                $insertStmt->execute([$projectId, $serviceId]);
+            }
+            
+            return true;
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::addProjectServices Error: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Lấy dự án liên quan (cùng dịch vụ, loại trừ dự án hiện tại)
+     * @param int $projectId ID dự án hiện tại
+     * @param int $limit Số lượng tối đa
+     * @return array Danh sách dự án liên quan
+     */
+    public function getRelatedByServices($projectId, $limit = 3) {
+        try {
+            $sql = "SELECT DISTINCT p.* FROM {$this->table} p
+                    INNER JOIN project_services ps1 ON p.id = ps1.project_id
+                    INNER JOIN project_services ps2 ON p.id = ps2.project_id AND ps1.category_id = ps2.category_id
+                    WHERE p.id != ? 
+                    AND p.deleted_at IS NULL 
+                    AND p.status = 1 
+                    ORDER BY p.sort_order ASC, p.created_at DESC 
+                    LIMIT ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$projectId, $limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getRelatedByServices Error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Get services for multiple projects
+     * @param array $projectIds Array of project IDs
+     * @return array Services grouped by project ID
+     */
+    public function getProjectsServicesList($projectIds) {
+        if (empty($projectIds)) {
+            return [];
+        }
+        
+        try {
+            $placeholders = str_repeat('?,', count($projectIds) - 1) . '?';
+            $sql = "SELECT ps.project_id, c.id, c.name, c.slug 
+                    FROM project_services ps
+                    INNER JOIN categories c ON ps.category_id = c.id
+                    WHERE ps.project_id IN ($placeholders)
+                    AND c.status = 1
+                    ORDER BY ps.project_id, c.sort_order ASC, c.name ASC";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($projectIds);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Group by project_id
+            $grouped = [];
+            foreach ($results as $row) {
+                $grouped[$row['project_id']][] = [
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'slug' => $row['slug']
+                ];
+            }
+            
+            return $grouped;
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getProjectsServicesList Error: " . $e->getMessage());
             return [];
         }
     }

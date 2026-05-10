@@ -3,15 +3,12 @@
  * Projects Page View
  * 
  * Hiển thị danh sách các dự án theo thiết kế template
+ * 
+ * Biến truyền vào từ ProjectsController:
+ * - $projects: array chứa danh sách dự án với services
+ * - $categories: array chứa danh mục (để tương thích)
+ * - Các biến từ master.php: $title, $breadcrumbs, etc.
  */
-
-// Load ProjectsModel
-require_once __DIR__ . '/../../models/ProjectsModel.php';
-
-// Khởi tạo model và lấy dữ liệu
-$projectsModel = new ProjectsModel();
-$projects = $projectsModel->getAll(9, 0, 1);
-$categories = $projectsModel->getCategories();
 ?>
 
 <section class="projects_area sec_gap">
@@ -21,24 +18,34 @@ $categories = $projectsModel->getCategories();
         <div class="row project_info_two">
             <?php if (!empty($projects)): ?>
                 <?php foreach ($projects as $project): 
-                    $categoryClass = strtolower(str_replace(' ', '-', $project['category'] ?? ''));
                     $projectUrl = '/chi-tiet-du-an-' . urlencode($project['slug'] ?? '');
                     $imageUrl = !empty($project['image']) ? $project['image'] : 'assets/images/projects/placeholder.jpg';
+                    
+                    // Get service names for display
+                    $serviceNames = [];
+                    if (!empty($project['services'])) {
+                        foreach ($project['services'] as $service) {
+                            $serviceNames[] = htmlspecialchars($service['name']);
+                        }
+                    }
+                    $servicesDisplay = !empty($serviceNames) ? implode(', ', $serviceNames) : 'Chưa phân loại';
                 ?>
                 <div class="col-lg-4 col-sm-6">
-                    <div class="lt_project_item text-center mb_40" data-category="<?php echo htmlspecialchars($categoryClass); ?>">
+                    <div class="lt_project_item text-center mb_40">
                         <div class="lt_project_img">
                             <img class="img-fluid" src="<?php echo htmlspecialchars($imageUrl); ?>" alt="<?php echo htmlspecialchars($project['title'] ?? ''); ?>">
                             <span class="arrow">
                                 <a href="<?php echo htmlspecialchars($projectUrl); ?>">
-                                    <i class="fa fa-link"></i>
+                                    <i class="fas fa-arrow-right"></i>
                                 </a>
                             </span>
                         </div>
-                        <a href="<?php echo htmlspecialchars($projectUrl); ?>">
-                            <h5 class="project-title"><?php echo htmlspecialchars($project['title'] ?? ''); ?></h5>
-                        </a>
-                        <p class="project-category"><?php echo htmlspecialchars($project['category'] ?? ''); ?></p>
+                        <div class="lt_project_text">
+                            <a href="<?php echo htmlspecialchars($projectUrl); ?>">
+                                <h5 class="project-title"><?php echo htmlspecialchars($project['title'] ?? ''); ?></h5>
+                            </a>
+                            <p class="project-category"><?php echo $servicesDisplay; ?></p>
+                        </div>
                     </div>
                 </div>
                 <?php endforeach; ?>

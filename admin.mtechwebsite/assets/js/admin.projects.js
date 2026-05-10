@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initGalleryUpload();
     initRichEditor();
     initWireframeInteractions();
+    initResultItems();
     
 });
 
@@ -191,40 +192,22 @@ function initRichEditor() {
 // Wireframe Interactions
 // ----------------------------------------
 function initWireframeInteractions() {
-    const wireframeContainers = document.querySelectorAll('.wireframe-container');
+    // Handle image placeholder clicks only
+    const imagePlaceholders = document.querySelectorAll('.wireframe-image-placeholder');
     
-    wireframeContainers.forEach(container => {
-        // Make wireframe areas clickable for content input
-        const placeholders = container.querySelectorAll('.wireframe-text-placeholder');
-        placeholders.forEach(placeholder => {
-            placeholder.addEventListener('click', function() {
-                const currentText = this.textContent;
-                const input = document.createElement('textarea');
-                input.className = 'form-control';
-                input.value = currentText;
-                input.style.minHeight = this.style.minHeight;
-                
-                this.replaceWith(input);
-                input.focus();
-                input.select();
-                
-                input.addEventListener('blur', function() {
-                    const newPlaceholder = document.createElement('div');
-                    newPlaceholder.className = 'wireframe-text-placeholder';
-                    newPlaceholder.textContent = this.value || 'Click to add content...';
-                    newPlaceholder.style.minHeight = this.style.minHeight;
-                    this.replaceWith(newPlaceholder);
-                    
-                    // Re-initialize interactions for new placeholder
-                    initWireframeInteractions();
-                });
-            });
-        });
+    imagePlaceholders.forEach(placeholder => {
+        // Skip if already has click handler
+        if (placeholder.dataset.imageHandler) return;
+        placeholder.dataset.imageHandler = 'true';
         
-        // Handle image placeholder clicks
-        const imagePlaceholders = container.querySelectorAll('.wireframe-image-placeholder');
-        imagePlaceholders.forEach(placeholder => {
-            placeholder.addEventListener('click', function() {
+        placeholder.addEventListener('click', function(e) {
+            // Don't trigger if clicking on an existing input
+            if (e.target.tagName === 'INPUT') return;
+            
+            // Check if file input already exists
+            if (this.querySelector('input[type="file"]')) {
+                this.querySelector('input[type="file"]').click();
+            } else {
                 const input = document.createElement('input');
                 input.type = 'file';
                 input.accept = 'image/*';
@@ -249,9 +232,99 @@ function initWireframeInteractions() {
                         reader.readAsDataURL(file);
                     }
                 });
-            });
+            }
         });
     });
+}
+
+// ----------------------------------------
+// Result Items Initialization
+// ----------------------------------------
+function initResultItems() {
+    // Load existing data if editing
+    const jsonInput = document.getElementById('result_items_json');
+    const container = document.getElementById('result-items-container');
+    
+    if (jsonInput && jsonInput.value && container) {
+        try {
+            const items = JSON.parse(jsonInput.value);
+            if (items.length > 0) {
+                container.innerHTML = '';
+                
+                items.forEach((item, index) => {
+                    const newItem = document.createElement('div');
+                    newItem.className = 'result-item mb-2';
+                    newItem.innerHTML = `
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="result_items[]" value="${item}" placeholder="Nhập kết quả ${index + 1}">
+                            <button type="button" class="btn btn-outline-danger" onclick="removeResultItem(this)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(newItem);
+                });
+            }
+        } catch (e) {
+            console.error('Error parsing result items:', e);
+        }
+    }
+    
+    // Add event listeners to all existing inputs for auto-update
+    addInputListeners();
+}
+
+function addInputListeners() {
+    const inputs = document.querySelectorAll('input[name="result_items[]"]');
+    inputs.forEach(input => {
+        // Remove existing listener to avoid duplicates
+        input.removeEventListener('input', updateResultItemsJSON);
+        input.removeEventListener('blur', updateResultItemsJSON);
+        
+        // Add fresh listeners
+        input.addEventListener('input', updateResultItemsJSON);
+        input.addEventListener('blur', updateResultItemsJSON);
+    });
+}
+
+// ----------------------------------------
+// Result Items Management
+// ----------------------------------------
+function addResultItem() {
+    const container = document.getElementById('result-items-container');
+    const newItem = document.createElement('div');
+    newItem.className = 'result-item mb-2';
+    newItem.innerHTML = `
+        <div class="input-group">
+            <input type="text" class="form-control" name="result_items[]" placeholder="Nhập kết quả ${container.children.length + 1}">
+            <button type="button" class="btn btn-outline-danger" onclick="removeResultItem(this)">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+    `;
+    container.appendChild(newItem);
+    addInputListeners(); // Add listeners to the new input
+    updateResultItemsJSON();
+}
+
+function removeResultItem(button) {
+    const item = button.closest('.result-item');
+    if (item) {
+        item.remove();
+        updateResultItemsJSON();
+    }
+}
+
+function updateResultItemsJSON() {
+    const inputs = document.querySelectorAll('input[name="result_items[]"]');
+    const items = Array.from(inputs)
+        .map(input => input.value.trim())
+        .filter(value => value !== '');
+    
+    const jsonInput = document.getElementById('result_items_json');
+    if (jsonInput) {
+        jsonInput.value = JSON.stringify(items);
+    }
 }
 
 // ----------------------------------------

@@ -57,14 +57,24 @@ if (!isset($project) || empty($project)) {
                         </div>
                         
                         <div class="mb-3">
-                            <label for="category" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                            <select class="form-select" id="category" name="category" required>
+                            <label for="service_id" class="form-label">Danh mục <span class="text-danger">*</span></label>
+                            <select class="form-select" id="service_id" name="service_id" required>
                                 <option value="">-- Chọn danh mục --</option>
-                                <option value="Power & Energy" <?= ($project['category'] ?? '') == 'Power & Energy' ? 'selected' : '' ?>>Power & Energy</option>
-                                <option value="Mechanical Engineering" <?= ($project['category'] ?? '') == 'Mechanical Engineering' ? 'selected' : '' ?>>Mechanical Engineering</option>
-                                <option value="Material Engineering" <?= ($project['category'] ?? '') == 'Material Engineering' ? 'selected' : '' ?>>Material Engineering</option>
-                                <option value="Architecture Engineering" <?= ($project['category'] ?? '') == 'Architecture Engineering' ? 'selected' : '' ?>>Architecture Engineering</option>
-                                <option value="Iron Sector" <?= ($project['category'] ?? '') == 'Iron Sector' ? 'selected' : '' ?>>Iron Sector</option>
+                                <?php foreach ($services ?? [] as $service): ?>
+                                    <option value="<?= htmlspecialchars($service['id']) ?>" 
+                                        <?php 
+                                        // Check if this service is assigned to current project (take first one)
+                                        $isSelected = false;
+                                        if (!empty($projectServices) && isset($projectServices[0])) {
+                                            if ($projectServices[0]['id'] == $service['id']) {
+                                                $isSelected = true;
+                                            }
+                                        }
+                                        echo $isSelected ? 'selected' : '';
+                                        ?>>
+                                        <?= htmlspecialchars($service['name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         
@@ -78,15 +88,9 @@ if (!isset($project) || empty($project)) {
                         <div class="mb-3">
                             <label for="status" class="form-label">Trạng thái</label>
                             <select class="form-select" id="status" name="status">
-                                <option value="1" <?= ($project['status'] ?? 1) == 1 ? 'selected' : '' ?>>Active</option>
-                                <option value="0" <?= ($project['status'] ?? 1) == 0 ? 'selected' : '' ?>>Inactive</option>
-                                <option value="2" <?= ($project['status'] ?? 1) == 2 ? 'selected' : '' ?>>Featured</option>
+                                <option value="1" <?= ($project['status'] ?? 1) == 1 ? 'selected' : '' ?>>Kích hoạt</option>
+                                <option value="0" <?= ($project['status'] ?? 1) == 0 ? 'selected' : '' ?>>Vô hiệu hóa</option>
                             </select>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="sort_order" class="form-label">Thứ tự sắp xếp</label>
-                            <input type="number" class="form-control" id="sort_order" name="sort_order" value="<?= $project['sort_order'] ?? 0 ?>">
                         </div>
                         
                         <div class="mb-3">
@@ -115,20 +119,20 @@ if (!isset($project) || empty($project)) {
                             <div class="mb-3">
                                 <label for="status_label" class="form-label">Nhãn trạng thái</label>
                                 <select class="form-select" id="status_label" name="status_label">
-                                    <option value="Completed" <?= ($project['status_label'] ?? 'Completed') == 'Completed' ? 'selected' : '' ?>>Completed</option>
-                                    <option value="In Progress" <?= ($project['status_label'] ?? '') == 'In Progress' ? 'selected' : '' ?>>In Progress</option>
-                                    <option value="On Hold" <?= ($project['status_label'] ?? '') == 'On Hold' ? 'selected' : '' ?>>On Hold</option>
-                                    <option value="Planning" <?= ($project['status_label'] ?? '') == 'Planning' ? 'selected' : '' ?>>Planning</option>
+                                    <option value="Completed" <?= ($project['status_label'] ?? 'Completed') == 'Completed' ? 'selected' : '' ?>>Đã hoàn thành</option>
+                                    <option value="In Progress" <?= ($project['status_label'] ?? '') == 'In Progress' ? 'selected' : '' ?>>Đang thực hiện</option>
+                                    <option value="On Hold" <?= ($project['status_label'] ?? '') == 'On Hold' ? 'selected' : '' ?>>Tạm dừng</option>
+                                    <option value="Planning" <?= ($project['status_label'] ?? '') == 'Planning' ? 'selected' : '' ?>>Lên kế hoạch</option>
                                 </select>
                             </div>
                             
                             <div class="mb-3">
-                                <label for="live_demo" class="form-label">URL Live Demo</label>
+                                <label for="live_demo" class="form-label">Đường dẫn URL</label>
                                 <input type="url" class="form-control" id="live_demo" name="live_demo" value="<?= htmlspecialchars($project['live_demo'] ?? '') ?>" placeholder="https://example.com">
                             </div>
                             
                             <div class="mb-3">
-                                <label for="tags" class="form-label">Tags</label>
+                                <label for="tags" class="form-label">Thẻ</label>
                                 <input type="text" class="form-control" id="tags" name="tags" value="<?= htmlspecialchars($project['tags'] ?? '') ?>" placeholder="industrial, welding, chemical">
                                 <div class="form-text">Phân cách bằng dấu phẩy</div>
                             </div>
@@ -148,10 +152,10 @@ if (!isset($project) || empty($project)) {
                     </div>
                     
                     <!-- What We Did Section -->
-                    <div class="wireframe-container mt-4" data-placeholder="What We Did">
+                    <div class="wireframe-container mt-4" data-placeholder="Những gì chúng tôi đã làm">
                         <div class="mb-3">
-                            <label for="what_we_did_title" class="form-label">Tiêu đề section</label>
-                            <input type="text" class="form-control" id="what_we_did_title" name="what_we_did_title" value="<?= htmlspecialchars($project['what_we_did_title'] ?? 'What we did') ?>">
+                            <label for="what_we_did_title" class="form-label">Tiêu đề thành phần</label>
+                            <input type="text" class="form-control" id="what_we_did_title" name="what_we_did_title" value="<?= htmlspecialchars($project['what_we_did_title'] ?? 'Những gì chúng tôi đã làm') ?>">
                         </div>
                         
                         <div class="row">
@@ -187,14 +191,14 @@ if (!isset($project) || empty($project)) {
                                         </button>
                                     </div>
                                     <div class="rich-editor-content" contenteditable="true">
-                                        <?= $project['what_we_did'] ?? 'Nhập nội dung cho section "What we did"...' ?>
+                                        <?= $project['what_we_did'] ?? 'Nhập nội dung cho thành phần "Những gì chúng tôi đã làm"...' ?>
                                     </div>
                                     <input type="hidden" name="what_we_did" value="<?= htmlspecialchars($project['what_we_did'] ?? '') ?>">
                                 </div>
                             </div>
                             
                             <div class="col-md-4">
-                                <div class="wireframe-image-placeholder" data-placeholder="Ảnh what we did">
+                                <div class="wireframe-image-placeholder" data-placeholder="Ảnh những gì chúng tôi đã làm">
                                     <?php if (!empty($project['what_we_did_image'])): ?>
                                         <img src="<?= htmlspecialchars($project['what_we_did_image']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
                                     <?php else: ?>
@@ -208,14 +212,14 @@ if (!isset($project) || empty($project)) {
                     </div>
                     
                     <!-- Results Section -->
-                    <div class="wireframe-container mt-4" data-placeholder="Results">
+                    <div class="wireframe-container mt-4" data-placeholder="Kết quả đạt được">
                         <div class="mb-3">
-                            <label for="results_title" class="form-label">Tiêu đề section</label>
-                            <input type="text" class="form-control" id="results_title" name="results_title" value="<?= htmlspecialchars($project['results_title'] ?? 'Results') ?>">
+                            <label for="results_title" class="form-label">Tiêu đề thành phần</label>
+                            <input type="text" class="form-control" id="results_title" name="results_title" value="<?= htmlspecialchars($project['results_title'] ?? 'Kết quả đạt được') ?>">
                         </div>
                         
                         <div class="mb-3">
-                            <label for="results" class="form-label">Nội dung results</label>
+                            <label for="results" class="form-label">Nội dung kết quả đạt được</label>
                             <div class="rich-editor-container">
                                 <div class="rich-editor-toolbar">
                                     <button type="button" class="btn btn-sm btn-outline-secondary" data-command="bold" title="Bold">
@@ -238,16 +242,29 @@ if (!isset($project) || empty($project)) {
                                     </button>
                                 </div>
                                 <div class="rich-editor-content" contenteditable="true">
-                                    <?= $project['results'] ?? 'Nhập nội dung cho section "Results"...' ?>
+                                    <?= $project['results'] ?? 'Nhập nội dung cho thành phần "Kết quả đạt được"...' ?>
                                 </div>
                                 <input type="hidden" name="results" value="<?= htmlspecialchars($project['results'] ?? '') ?>">
                             </div>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="result_items" class="form-label">Result Items (JSON array)</label>
-                            <textarea class="form-control" id="result_items" name="result_items" rows="3" placeholder='["Item 1", "Item 2", "Item 3"]'><?= htmlspecialchars($project['result_items'] ?? '') ?></textarea>
-                            <div class="form-text">Các kết quả nổi bật, định dạng JSON array</div>
+                            <label class="form-label">Kết quả nổi bật <small class="text-muted">(Thêm các kết quả dự án)</small></label>
+                            <div id="result-items-container" class="result-items-container">
+                                <div class="result-item mb-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="result_items[]" placeholder="Nhập kết quả 1">
+                                        <button type="button" class="btn btn-outline-danger" onclick="removeResultItem(this)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addResultItem()">
+                                <i class="bi bi-plus-circle me-1"></i>Thêm kết quả
+                            </button>
+                            <input type="hidden" id="result_items_json" name="result_items" value="<?= htmlspecialchars($project['result_items'] ?? '') ?>">
+                            <div class="form-text">Nhập các kết quả nổi bật của dự án</div>
                         </div>
                     </div>
                 </div>
