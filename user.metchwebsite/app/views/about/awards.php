@@ -7,19 +7,12 @@
 
 $awards = $awards ?? [];
 
-// Fallback nếu chưa có dữ liệu
-if (empty($awards)) {
-    $awards = [
-        ['id' => 1, 'name' => 'Giải thưởng Chất lượng Quốc gia',  'certificate' => 'Bộ Khoa học & Công nghệ', 'image' => null],
-        ['id' => 2, 'name' => 'Chứng chỉ ISO 9001:2015',           'certificate' => 'Bureau Veritas',          'image' => null],
-        ['id' => 3, 'name' => 'Top 10 Doanh nghiệp Tiêu biểu',     'certificate' => 'VCCI',                    'image' => null],
-        ['id' => 4, 'name' => 'Chứng chỉ ISO 14001:2015',          'certificate' => 'TÜV Rheinland',           'image' => null],
-        ['id' => 5, 'name' => 'Giải thưởng Sao Vàng Đất Việt',     'certificate' => 'Hội Doanh nghiệp trẻ VN','image' => null],
-        ['id' => 6, 'name' => 'Chứng nhận Nhà thầu Uy tín',        'certificate' => 'Bộ Xây dựng',            'image' => null],
-    ];
-}
+// Không dùng fallback hardcode — nếu DB rỗng thì ẩn section
 
 // Nhân 3 lần để tạo infinite loop (giống client_logos)
+// Nếu không có data thì không render gì cả
+if (empty($awards)) return;
+
 $duplicated = array_merge($awards, $awards, $awards);
 ?>
 

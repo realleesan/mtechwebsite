@@ -3,36 +3,84 @@
     <h4><i class="bi bi-trophy me-2"></i>Quản lý Giải thưởng</h4>
     <a href="/awards/create" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Thêm mới</a>
 </div>
+
+<?php if (!empty($awards)): ?>
 <div class="admin-table">
+    <div class="p-3 border-bottom">
+        <span class="text-muted small">Tổng: <strong><?= count($awards) ?></strong> giải thưởng</span>
+    </div>
     <div class="table-responsive">
-        <table class="table table-hover mb-0">
-            <thead><tr><th>#</th><th>Tên giải thưởng</th><th>Năm</th><th style="width:120px">Thao tác</th></tr></thead>
-            <tbody>
-                <?php if (!empty($awards)): foreach ($awards as $a): ?>
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
                 <tr>
-                    <td class="text-muted small"><?= $a['id'] ?></td>
+                    <th style="width:60px">#</th>
+                    <th style="width:100px">Ảnh</th>
+                    <th>Tên giải thưởng</th>
+                    <th>Đơn vị cấp</th>
+                    <th style="width:80px">Thứ tự</th>
+                    <th style="width:100px">Trạng thái</th>
+                    <th style="width:120px">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($awards as $award): ?>
+                <tr>
+                    <td class="text-muted small"><?= $award['id'] ?></td>
                     <td>
-                        <div class="d-flex align-items-center gap-2">
-                            <?php if (!empty($a['image'])): ?>
-                                <img src="<?= htmlspecialchars($a['image']) ?>" width="40" height="40" style="object-fit:cover;border-radius:6px" onerror="this.style.display='none'">
+                        <div class="award-thumb">
+                            <?php if (!empty($award['image'])): ?>
+                                <img src="<?= htmlspecialchars($award['image']) ?>"
+                                     alt="<?= htmlspecialchars($award['name'] ?? '') ?>"
+                                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                                <div class="award-thumb-empty" style="display:none">
+                                    <i class="bi bi-trophy text-muted"></i>
+                                </div>
+                            <?php else: ?>
+                                <div class="award-thumb-empty">
+                                    <i class="bi bi-trophy text-muted"></i>
+                                </div>
                             <?php endif; ?>
-                            <span class="fw-medium"><?= htmlspecialchars($a['title'] ?? $a['name'] ?? '') ?></span>
                         </div>
                     </td>
-                    <td class="text-muted small"><?= htmlspecialchars($a['year'] ?? '') ?></td>
+                    <td>
+                        <span class="fw-medium"><?= htmlspecialchars($award['name'] ?? '') ?></span>
+                    </td>
+                    <td class="text-muted small"><?= htmlspecialchars($award['certificate'] ?? '—') ?></td>
+                    <td class="text-center text-muted small"><?= (int)($award['sort_order'] ?? 0) ?></td>
+                    <td>
+                        <?php if (($award['status'] ?? 1) == 1): ?>
+                            <span class="badge bg-success">Hiển thị</span>
+                        <?php else: ?>
+                            <span class="badge bg-secondary">Ẩn</span>
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <div class="d-flex gap-1">
-                            <a href="/awards/edit/<?= $a['id'] ?>" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                            <form method="POST" action="/awards/delete/<?= $a['id'] ?>">
-                                <button type="submit" class="btn btn-sm btn-outline-danger btn-delete" data-confirm="Xóa giải thưởng này?"><i class="bi bi-trash"></i></button>
+                            <a href="/awards/edit/<?= $award['id'] ?>"
+                               class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form method="POST" action="/awards/delete/<?= $award['id'] ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
+                                        data-confirm="Xóa giải thưởng này?" title="Xóa">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </form>
                         </div>
                     </td>
                 </tr>
-                <?php endforeach; else: ?>
-                <tr><td colspan="4" class="text-center text-muted py-4"><i class="bi bi-inbox fs-3 d-block mb-2"></i>Chưa có giải thưởng nào</td></tr>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<?php else: ?>
+<div class="text-center text-muted py-5">
+    <i class="bi bi-trophy fs-1 d-block mb-3 opacity-50"></i>
+    <p class="mb-3">Chưa có giải thưởng nào</p>
+    <a href="/awards/create" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>Thêm giải thưởng đầu tiên
+    </a>
+</div>
+<?php endif; ?>

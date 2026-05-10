@@ -52,6 +52,11 @@
         case 'project-edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.projects.css">';
             break;
+        case 'awards':
+        case 'award.create':
+        case 'award.edit':
+            echo '<link rel="stylesheet" href="/assets/css/admin.awards.css">';
+            break;
         case 'client.logos':
         case 'client.logo.create':
         case 'client.logo.edit':
@@ -174,6 +179,11 @@ switch($currentPage) {
     case 'project-create':
     case 'project-edit':
         echo '<script src="/assets/js/admin.projects.js"></script>';
+        break;
+    case 'awards':
+    case 'award.create':
+    case 'award.edit':
+        echo '<script src="/assets/js/admin.awards.js"></script>';
         break;
     case 'client.logos':
     case 'client.logo.create':

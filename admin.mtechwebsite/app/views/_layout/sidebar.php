@@ -68,7 +68,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Awards -->
             <li class="nav-item">
-                <a href="/awards" class="nav-link <?= $currentPage === 'awards' ? 'active' : '' ?>">
+                <a href="/awards" class="nav-link <?= in_array($currentPage, ['awards', 'award.create', 'award.edit']) ? 'active' : '' ?>">
                     <i class="bi bi-trophy"></i>
                     <span>Giải thưởng</span>
                 </a>
