@@ -2,6 +2,18 @@
    Admin Projects Module Styles
    ============================================ */
 
+/* Rich Editor Placeholder Styles */
+.rich-editor-content[data-placeholder]:empty:before {
+    content: attr(data-placeholder);
+    color: #6c757d;
+    font-style: italic;
+    pointer-events: none;
+}
+
+.rich-editor-content[data-placeholder]:focus:before {
+    content: none;
+}
+
 /* Projects Table Specific Styles */
 .projects-table .project-thumbnail {
     width: 40px;

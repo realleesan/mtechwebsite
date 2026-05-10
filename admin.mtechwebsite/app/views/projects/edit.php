@@ -139,9 +139,10 @@ if (!isset($project) || empty($project)) {
                         </div>
                         
                         <div class="col-md-6">
-                            <div class="wireframe-image-placeholder" data-placeholder="Ảnh chi tiết chính">
+                            <div class="wireframe-image-placeholder" data-placeholder="Ảnh chi tiết chính" data-current-image="<?= htmlspecialchars($project['detail_image'] ?? '') ?>">
                                 <?php if (!empty($project['detail_image'])): ?>
                                     <img src="<?= htmlspecialchars($project['detail_image']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <input type="hidden" name="existing_detail_image" value="<?= htmlspecialchars($project['detail_image']) ?>">
                                 <?php else: ?>
                                     <i class="bi bi-image fs-1"></i>
                                     <p class="mb-0">Click để thêm ảnh chi tiết</p>
@@ -155,7 +156,9 @@ if (!isset($project) || empty($project)) {
                     <div class="wireframe-container mt-4" data-placeholder="Những gì chúng tôi đã làm">
                         <div class="mb-3">
                             <label for="what_we_did_title" class="form-label">Tiêu đề thành phần</label>
-                            <input type="text" class="form-control" id="what_we_did_title" name="what_we_did_title" value="<?= htmlspecialchars($project['what_we_did_title'] ?? 'Những gì chúng tôi đã làm') ?>">
+                            <input type="text" class="form-control" id="what_we_did_title" name="what_we_did_title" 
+                                   value="<?= htmlspecialchars($project['what_we_did_title'] ?? '') ?>" 
+                                   placeholder="Nhập tiêu đề cho phần những gì chúng tôi đã làm">
                         </div>
                         
                         <div class="row">
@@ -190,17 +193,18 @@ if (!isset($project) || empty($project)) {
                                             <i class="bi bi-eraser"></i>
                                         </button>
                                     </div>
-                                    <div class="rich-editor-content" contenteditable="true">
-                                        <?= $project['what_we_did'] ?? 'Nhập nội dung cho thành phần "Những gì chúng tôi đã làm"...' ?>
+                                    <div class="rich-editor-content" contenteditable="true" data-placeholder="Nhập nội dung cho những gì chúng tôi đã làm...">
+                                        <?= $project['what_we_did'] ?? '' ?>
                                     </div>
                                     <input type="hidden" name="what_we_did" value="<?= htmlspecialchars($project['what_we_did'] ?? '') ?>">
                                 </div>
                             </div>
                             
                             <div class="col-md-4">
-                                <div class="wireframe-image-placeholder" data-placeholder="Ảnh những gì chúng tôi đã làm">
+                                <div class="wireframe-image-placeholder" data-placeholder="Ảnh những gì chúng tôi đã làm" data-current-image="<?= htmlspecialchars($project['what_we_did_image'] ?? '') ?>">
                                     <?php if (!empty($project['what_we_did_image'])): ?>
                                         <img src="<?= htmlspecialchars($project['what_we_did_image']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <input type="hidden" name="existing_what_we_did_image" value="<?= htmlspecialchars($project['what_we_did_image']) ?>">
                                     <?php else: ?>
                                         <i class="bi bi-image fs-1"></i>
                                         <p class="mb-0">Click để thêm ảnh</p>
@@ -215,7 +219,9 @@ if (!isset($project) || empty($project)) {
                     <div class="wireframe-container mt-4" data-placeholder="Kết quả đạt được">
                         <div class="mb-3">
                             <label for="results_title" class="form-label">Tiêu đề thành phần</label>
-                            <input type="text" class="form-control" id="results_title" name="results_title" value="<?= htmlspecialchars($project['results_title'] ?? 'Kết quả đạt được') ?>">
+                            <input type="text" class="form-control" id="results_title" name="results_title" 
+                                   value="<?= htmlspecialchars($project['results_title'] ?? '') ?>" 
+                                   placeholder="Nhập tiêu đề cho phần kết quả đạt được">
                         </div>
                         
                         <div class="mb-3">
@@ -241,8 +247,8 @@ if (!isset($project) || empty($project)) {
                                         <i class="bi bi-eraser"></i>
                                     </button>
                                 </div>
-                                <div class="rich-editor-content" contenteditable="true">
-                                    <?= $project['results'] ?? 'Nhập nội dung cho thành phần "Kết quả đạt được"...' ?>
+                                <div class="rich-editor-content" contenteditable="true" data-placeholder="Nhập nội dung cho kết quả đạt được...">
+                                    <?= $project['results'] ?? '' ?>
                                 </div>
                                 <input type="hidden" name="results" value="<?= htmlspecialchars($project['results'] ?? '') ?>">
                             </div>
@@ -281,6 +287,7 @@ if (!isset($project) || empty($project)) {
                                 <div class="mt-2">
                                     <img src="<?= htmlspecialchars($project['image']) ?>" style="max-width: 200px;" class="img-thumbnail">
                                     <div class="form-text">Ảnh hiện tại</div>
+                                    <input type="hidden" name="existing_image" value="<?= htmlspecialchars($project['image']) ?>">
                                 </div>
                             <?php else: ?>
                                 <div class="mt-2">
@@ -297,14 +304,21 @@ if (!isset($project) || empty($project)) {
                                 <i class="bi bi-cloud-upload fs-1 mb-2"></i>
                                 <p class="mb-2">Kéo thả ảnh vào đây hoặc click để chọn</p>
                                 <small class="text-muted">Hỗ trợ: JPG, PNG, GIF (Tối đa 5MB)</small>
-                                <input type="file" id="gallery-input" multiple accept="image/*" style="display: none;">
+                                <input type="file" id="gallery-input" name="gallery[]" multiple accept="image/*" style="display: none;">
                             </div>
-                            <div class="gallery-preview"></div>
-                            <?php if (!empty($project['gallery'])): ?>
-                                <div class="mt-2">
-                                    <small class="text-muted">Gallery hiện tại: <?= htmlspecialchars($project['gallery']) ?></small>
-                                </div>
-                            <?php endif; ?>
+                            <div class="gallery-preview">
+                                <?php if (!empty($project['gallery'])): ?>
+                                    <?php $galleryImages = json_decode($project['gallery'], true); ?>
+                                    <?php if (is_array($galleryImages)): ?>
+                                        <?php foreach ($galleryImages as $img): ?>
+                                            <div class="gallery-preview-item existing">
+                                                <img src="<?= htmlspecialchars($img) ?>" alt="Gallery">
+                                                <small class="text-muted d-block mt-1"><?= htmlspecialchars(basename($img)) ?></small>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
