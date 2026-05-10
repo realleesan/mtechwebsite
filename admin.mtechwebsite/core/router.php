@@ -68,12 +68,15 @@ class AdminRouter
         // ----------------------------------------
         // Projects
         // ----------------------------------------
-        $this->get('/projects',             'ProjectsController@index');
-        $this->get('/projects/create',      'ProjectsController@create');
-        $this->post('/projects/store',      'ProjectsController@store');
-        $this->get('/projects/edit/{id}',   'ProjectsController@edit');
-        $this->post('/projects/update/{id}','ProjectsController@update');
-        $this->post('/projects/delete/{id}','ProjectsController@delete');
+        $this->get('/projects',                 'ProjectsController@index');
+        $this->get('/projects/create',          'ProjectsController@create');
+        $this->post('/projects/store',          'ProjectsController@store');
+        $this->get('/projects/edit/{id}',       'ProjectsController@edit');
+        $this->post('/projects/update/{id}',    'ProjectsController@update');
+        $this->post('/projects/delete/{id}',     'ProjectsController@delete');
+        $this->get('/projects/trash',           'ProjectsController@trash');
+        $this->post('/projects/restore/{id}',    'ProjectsController@restore');
+        $this->post('/projects/hard-delete/{id}','ProjectsController@hardDelete');
 
         // ----------------------------------------
         // Categories (Dịch vụ)
