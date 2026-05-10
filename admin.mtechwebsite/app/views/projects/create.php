@@ -1,9 +1,4 @@
-﻿<?php
-// Load projects CSS/JS
-$this->registerCSS('/assets/css/admin.projects.css');
-$this->registerJS('/assets/js/admin.projects.js');
-?>
-<div class="page-header">
+﻿<div class="page-header">
     <h4><i class="bi bi-building me-2"></i>Thêm dự án mới</h4>
     <a href="/projects" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
 </div>
