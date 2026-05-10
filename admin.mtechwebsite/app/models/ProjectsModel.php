@@ -382,4 +382,72 @@ class ProjectsModel {
             return [];
         }
     }
+
+    // ============================================================
+    // NEW METHODS FOR SERVICES (CATEGORIES)
+    // ============================================================
+    
+    /**
+     * Lấy tất cả dịch vụ (categories)
+     * @return array Danh sách dịch vụ
+     */
+    public function getServices() {
+        try {
+            $sql = "SELECT id, name, slug FROM categories 
+                    WHERE status = 1 
+                    ORDER BY sort_order ASC, name ASC";
+            $stmt = $this->db->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getServices Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    /**
+     * Lấy dịch vụ của một dự án
+     * @param int $projectId ID dự án
+     * @return array Danh sách dịch vụ
+     */
+    public function getProjectServices($projectId) {
+        try {
+            $sql = "SELECT c.id, c.name, c.slug 
+                    FROM project_services ps
+                    INNER JOIN categories c ON ps.category_id = c.id
+                    WHERE ps.project_id = ? 
+                    AND c.status = 1
+                    ORDER BY c.sort_order ASC, c.name ASC";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$projectId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getProjectServices Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    /**
+     * Thêm dịch vụ cho dự án
+     * @param int $projectId ID dự án
+     * @param array $serviceIds Array ID dịch vụ
+     * @return bool Kết quả
+     */
+    public function addProjectServices($projectId, $serviceIds) {
+        try {
+            // Xóa services cũ của project
+            $this->db->prepare("DELETE FROM project_services WHERE project_id = ?")->execute([$projectId]);
+            
+            // Thêm services mới
+            foreach ($serviceIds as $serviceId) {
+                $sql = "INSERT INTO project_services (project_id, category_id) VALUES (?, ?)";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$projectId, $serviceId]);
+            }
+            
+            return true;
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::addProjectServices Error: " . $e->getMessage());
+            return false;
+        }
+    }
 }

@@ -23,7 +23,16 @@ class ProjectsController extends BaseController
     {
         // Lấy dữ liệu từ model
         $projects = $this->projectsModel->getAll(9, 0, 1); // 9 projects, offset 0, status active
-        $categories = $this->projectsModel->getCategories();
+        $categories = $this->projectsModel->getServices(); // Use new services method
+        
+        // Lấy services cho các projects
+        $projectIds = array_column($projects, 'id');
+        $projectsServices = $this->projectsModel->getProjectsServicesList($projectIds);
+        
+        // Gắn services vào từng project
+        foreach ($projects as &$project) {
+            $project['services'] = $projectsServices[$project['id']] ?? [];
+        }
         
         // Chuẩn bị data cho view
         $data = [
@@ -76,8 +85,11 @@ class ProjectsController extends BaseController
             return;
         }
         
-        // Lấy dự án liên quan (cùng category)
-        $relatedProjects = $this->projectsModel->getRelated($projectDetail['category_id'], $projectDetail['id'], 3);
+        // Lấy services của project
+        $projectServices = $this->projectsModel->getProjectServices($projectDetail['id']);
+        
+        // Lấy dự án liên quan (cùng services)
+        $relatedProjects = $this->projectsModel->getRelatedByServices($projectDetail['id'], 3);
         
         // Breadcrumbs
         $breadcrumbs = [
@@ -88,6 +100,7 @@ class ProjectsController extends BaseController
         // Chuẩn bị data cho view
         $data = [
             'projectDetail' => $projectDetail,
+            'projectServices' => $projectServices,
             'relatedProjects' => $relatedProjects,
             'breadcrumbs' => $breadcrumbs,
             

@@ -43,10 +43,15 @@ class ProjectsController extends BaseController
 
     public function create()
     {
+        // Load services for dropdown
+        $projectsModel = new ProjectsModel();
+        $services = $projectsModel->getServices();
+        
         $this->view('projects/create', [
             'title' => 'Thêm dự án - Admin MTech',
             'page'  => 'project-create',
             'admin' => AuthMiddleware::getAdmin(),
+            'services' => $services,
         ]);
     }
 
@@ -59,7 +64,7 @@ class ProjectsController extends BaseController
         }
 
         // Validate required fields
-        $required = ['title', 'slug', 'category'];
+        $required = ['title', 'slug', 'service_id'];
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
@@ -72,24 +77,22 @@ class ProjectsController extends BaseController
         $data = [
             'title' => $_POST['title'],
             'slug' => $_POST['slug'],
-            'category' => $_POST['category'],
             'description' => $_POST['description'] ?? '',
             'content' => $_POST['content'] ?? '',
             'client' => $_POST['client'] ?? '',
             'location' => $_POST['location'] ?? '',
             'project_date' => $_POST['project_date'] ?? '',
             'status' => $_POST['status'] ?? 1,
-            'sort_order' => $_POST['sort_order'] ?? 0,
             'meta_title' => $_POST['meta_title'] ?? '',
             'meta_description' => $_POST['meta_description'] ?? '',
             'detail_image' => $_POST['detail_image'] ?? '',
-            'status_label' => $_POST['status_label'] ?? 'Completed',
+            'status_label' => $_POST['status_label'] ?? 'Đã hoàn thành',
             'live_demo' => $_POST['live_demo'] ?? '',
             'tags' => $_POST['tags'] ?? '',
-            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'What we did',
+            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'Những gì chúng tôi đã làm',
             'what_we_did' => $_POST['what_we_did'] ?? '',
             'what_we_did_image' => $_POST['what_we_did_image'] ?? '',
-            'results_title' => $_POST['results_title'] ?? 'Results',
+            'results_title' => $_POST['results_title'] ?? 'Kết quả đạt được',
             'results' => $_POST['results'] ?? '',
             'result_items' => $_POST['result_items'] ?? ''
         ];
@@ -150,6 +153,11 @@ class ProjectsController extends BaseController
         // Create project
         $projectId = $this->model->create($data);
         if ($projectId) {
+            // Save service for the project
+            if (!empty($_POST['service_id'])) {
+                $this->model->addProjectServices($projectId, [$_POST['service_id']]);
+            }
+            
             $_SESSION['success'] = 'Thêm dự án thành công!';
             $this->redirect('/projects');
         } else {
@@ -166,11 +174,18 @@ class ProjectsController extends BaseController
             $this->redirect('/projects');
             return;
         }
+        
+        // Load services for dropdown
+        $services = $this->model->getServices();
+        $projectServices = $this->model->getProjectServices($id);
+        
         $this->view('projects/edit', [
             'title'   => 'Chỉnh sửa dự án - Admin MTech',
             'page'    => 'project-edit',
             'project' => $project,
             'admin'   => AuthMiddleware::getAdmin(),
+            'services' => $services,
+            'projectServices' => $projectServices,
         ]);
     }
 
@@ -183,7 +198,7 @@ class ProjectsController extends BaseController
         }
 
         // Validate required fields
-        $required = ['title', 'slug', 'category'];
+        $required = ['title', 'slug', 'service_id'];
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
@@ -196,22 +211,20 @@ class ProjectsController extends BaseController
         $data = [
             'title' => $_POST['title'],
             'slug' => $_POST['slug'],
-            'category' => $_POST['category'],
             'description' => $_POST['description'] ?? '',
             'content' => $_POST['content'] ?? '',
             'client' => $_POST['client'] ?? '',
             'location' => $_POST['location'] ?? '',
             'project_date' => $_POST['project_date'] ?? '',
             'status' => $_POST['status'] ?? 1,
-            'sort_order' => $_POST['sort_order'] ?? 0,
             'meta_title' => $_POST['meta_title'] ?? '',
             'meta_description' => $_POST['meta_description'] ?? '',
-            'status_label' => $_POST['status_label'] ?? 'Completed',
+            'status_label' => $_POST['status_label'] ?? 'Đã hoàn thành',
             'live_demo' => $_POST['live_demo'] ?? '',
             'tags' => $_POST['tags'] ?? '',
-            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'What we did',
+            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'Những gì chúng tôi đã làm',
             'what_we_did' => $_POST['what_we_did'] ?? '',
-            'results_title' => $_POST['results_title'] ?? 'Results',
+            'results_title' => $_POST['results_title'] ?? 'Kết quả đạt được',
             'results' => $_POST['results'] ?? '',
             'result_items' => $_POST['result_items'] ?? ''
         ];
@@ -271,6 +284,11 @@ class ProjectsController extends BaseController
 
         // Update project
         if ($this->model->update($id, $data)) {
+            // Save service for the project
+            if (!empty($_POST['service_id'])) {
+                $this->model->addProjectServices($id, [$_POST['service_id']]);
+            }
+            
             $_SESSION['success'] = 'Cập nhật dự án thành công!';
             $this->redirect('/projects');
         } else {
