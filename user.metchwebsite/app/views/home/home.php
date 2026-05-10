@@ -327,7 +327,7 @@ include_once __DIR__ . '/../about/awards.php';
                                 <img src="assets/icons/phone-call.svg" alt="phone" class="svg-icon">
                             </div>
                             <div class="contact_info_body">
-                                <a href="tel:18004567890" class="f_600 f_size_18 title_color">1800 456 7890</a>
+                                <a href="tel:02436231691" class="f_600 f_size_18 title_color">0243.6231691</a>
                                 <p>Thứ 2 - Thứ 6, 8:00 - 17:30</p>
                             </div>
                         </div>
@@ -349,7 +349,7 @@ include_once __DIR__ . '/../about/awards.php';
                                 <img src="assets/icons/land-layer-location.svg" alt="address" class="svg-icon">
                             </div>
                             <div class="contact_info_body">
-                                <p>547, Mainroad Suit, Mount Lane<br>Montonrian, New York</p>
+                                <p>Tòa nhà 227 phố Nguyễn Ngọc Nại,<br>phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội</p>
                             </div>
                         </div>
 

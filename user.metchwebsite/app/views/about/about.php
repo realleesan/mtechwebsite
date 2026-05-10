@@ -61,7 +61,18 @@
     </div>
 </section>
 
-<!-- ===== SECTION 3: Our Workers (nhúng từ teams.php) ===== -->
+<!-- ===== SECTION 3: Our Workers (dynamic từ DB) ===== -->
+<?php
+// Lấy danh sách team nếu chưa có (about page không qua TeamsController)
+if (empty($teams)) {
+    require_once __DIR__ . '/../../models/TeamsModel.php';
+    $teamsModel = new TeamsModel();
+    $teams = $teamsModel->getAllActive();
+}
+// Chỉ hiển thị tối đa 4 thành viên trên trang about
+$aboutTeams = array_slice($teams, 0, 4);
+$delays = ['0s', '0.1s', '0.2s', '0.3s'];
+?>
 <section class="team_area sec_gap">
     <div class="container">
         <div class="section_title mb_55 scroll-reveal reveal-up">
@@ -69,72 +80,32 @@
             <span class="title_br"></span>
             <p class="mt_7">Sức mạnh cốt lõi của MTECH nằm ở đội ngũ gồm 25 Thạc sĩ, Kỹ sư và Chuyên gia am hiểu sâu sắc trong các lĩnh vực vật liệu, xây dựng, kiến trúc, cơ điện và kinh tế.</p>
         </div>
-        <!-- Nhúng grid team từ teams.php -->
         <div class="row team_inner mb-30">
-            <div class="col-lg-3 col-sm-6 scroll-reveal reveal-up" style="transition-delay:0s">
+            <?php foreach ($aboutTeams as $i => $member): ?>
+            <div class="col-lg-3 col-sm-6 scroll-reveal reveal-up" style="transition-delay:<?= $delays[$i] ?? '0s' ?>">
                 <div class="team_member text-center">
                     <div class="team_img">
-                        <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/team2.jpg" alt="Merry Joe">
+                        <?php if (!empty($member['image'])): ?>
+                            <img src="<?= htmlspecialchars($member['image'], ENT_QUOTES, 'UTF-8') ?>"
+                                 alt="<?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?>">
+                        <?php else: ?>
+                            <div class="team_img_placeholder"><i class="fa fa-user"></i></div>
+                        <?php endif; ?>
                         <div class="overlay"></div>
                         <ul class="nav social_icon">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#" aria-label="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" aria-label="Google Plus"><i class="fa fa-google-plus"></i></a></li>
                         </ul>
                     </div>
-                    <h5 class="f_600 f_size_20 title_color mb-0">Nguyễn Tùng Giang</h5>
-                    <p>Giám đốc</p>
+                    <h5 class="f_600 f_size_20 title_color mb-0">
+                        <?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?>
+                    </h5>
+                    <p><?= htmlspecialchars($member['position'], ENT_QUOTES, 'UTF-8') ?></p>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 scroll-reveal reveal-up" style="transition-delay:0.1s">
-                <div class="team_member text-center">
-                    <div class="team_img">
-                        <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/team1.jpg" alt="Robert Joe">
-                        <div class="overlay"></div>
-                        <ul class="nav social_icon">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        </ul>
-                    </div>
-                    <h5 class="f_600 f_size_20 title_color mb-0">Đỗ Bá Dương</h5>
-                    <p>Chủ nhiệm Khảo sát & Thiết kế</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 scroll-reveal reveal-up" style="transition-delay:0.2s">
-                <div class="team_member text-center">
-                    <div class="team_img">
-                        <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/team3.jpg" alt="Michale">
-                        <div class="overlay"></div>
-                        <ul class="nav social_icon">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        </ul>
-                    </div>
-                    <h5 class="f_600 f_size_20 title_color mb-0">Trần Văn Bình</h5>
-                    <p>Chủ trì thiết kế Điện</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 scroll-reveal reveal-up" style="transition-delay:0.3s">
-                <div class="team_member text-center">
-                    <div class="team_img">
-                        <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/team4.jpg" alt="Satlen Joe">
-                        <div class="overlay"></div>
-                        <ul class="nav social_icon">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        </ul>
-                    </div>
-                    <h5 class="f_600 f_size_20 title_color mb-0">Nguyễn Ngọc Trường</h5>
-                    <p>Chủ trì TK Cấp thoát nước</p>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
         <div class="text-center mt-4">
             <a href="/doi-ngu" class="read_more btn_yellow">Xem thêm</a>

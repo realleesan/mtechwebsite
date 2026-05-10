@@ -6,6 +6,7 @@
 
 require_once __DIR__ . '/../../core/BaseController.php';
 require_once __DIR__ . '/../models/ClientLogosModel.php';
+require_once __DIR__ . '/../models/TeamsModel.php';
 
 class AboutController extends BaseController
 {
@@ -17,19 +18,24 @@ class AboutController extends BaseController
         // Lấy dữ liệu client logos
         $clientLogosModel = new ClientLogosModel();
         $clientLogos = $clientLogosModel->getAllActive();
-        
+
+        // Lấy danh sách team (hiển thị tối đa 4 trên trang about)
+        $teamsModel = new TeamsModel();
+        $teams = $teamsModel->getAllActive();
+
         // Chuẩn bị data cho view
         $data = [
             'clientLogos' => $clientLogos,
-            
+            'teams'       => $teams,
+
             // Layout variables
-            'page' => 'about',
-            'title' => 'Giới thiệu - MTECHJSC',
+            'page'           => 'about',
+            'title'          => 'Giới thiệu - MTECHJSC',
             'showPageHeader' => true,
-            'showCTA' => true,
+            'showCTA'        => true,
             'showBreadcrumb' => true
         ];
-        
+
         // Render view
         $this->view('about/about.php', $data);
     }
