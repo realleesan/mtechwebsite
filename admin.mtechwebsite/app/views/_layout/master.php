@@ -23,13 +23,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Admin CSS -->
-    <link rel="stylesheet" href="/assets/css/admin.css">
 
     <?php
     // Determine current page for conditional CSS/JS loading
     $currentPage = isset($page) ? $page : (isset($_GET['page']) ? $_GET['page'] : 'dashboard');
+
+    // Auth pages: login, forgot-password, reset-password
+    $authPages = ['login', 'forgot-password', 'reset-password'];
+    $isAuthPage = in_array($currentPage, $authPages);
     ?>
+
+    <!-- Admin CSS (chỉ load cho trang admin, không phải auth) -->
+    <?php if (!$isAuthPage): ?>
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <?php endif; ?>
     <!-- ========================================== -->
     <!-- NOTE: Page-specific CSS - Thêm CSS theo từng trang -->
     <!-- ========================================== -->
@@ -45,6 +52,11 @@
         case 'project-edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.projects.css">';
             break;
+        case 'login':
+        case 'forgot-password':
+        case 'reset-password':
+            echo '<link rel="stylesheet" href="/assets/css/auth.css">';
+            break;
         // Add more cases as needed
         default:
             break;
@@ -52,14 +64,29 @@
     ?>
 </head>
 
-<body>
+<body class="<?= $isAuthPage ? 'auth-page' : '' ?>">
 
+<?php if (!$isAuthPage): ?>
 <?php
-// Track admin visits
+// Track admin visits (chỉ cho trang admin, không phải auth)
 require_once dirname(__DIR__, 2) . '/middleware/AccessMiddleware.php';
 AccessMiddleware::trackVisit();
 ?>
-<body>
+<?php endif; ?>
+
+<?php if ($isAuthPage): ?>
+
+    <!-- ========== AUTH LAYOUT (không có sidebar/topbar) ========== -->
+    <div class="auth-bg"></div>
+    <div class="auth-overlay">
+        <?php
+        if (isset($content) && file_exists($content)) {
+            include $content;
+        }
+        ?>
+    </div>
+
+<?php else: ?>
 
 <div class="admin-wrapper d-flex">
 
@@ -118,10 +145,15 @@ AccessMiddleware::trackVisit();
 
 </div><!-- /.admin-wrapper -->
 
+<?php endif; ?>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Admin JS -->
+
+<?php if (!$isAuthPage): ?>
+<!-- Admin JS (chỉ load cho trang admin) -->
 <script src="/assets/js/admin.js"></script>
+<?php endif; ?>
 
 <!-- ========================================== -->
 <!-- NOTE: Page-specific JavaScript - JS theo trang -->
@@ -137,6 +169,11 @@ switch($currentPage) {
     case 'project-create':
     case 'project-edit':
         echo '<script src="/assets/js/admin.projects.js"></script>';
+        break;
+    // Auth pages không cần JS riêng
+    case 'login':
+    case 'forgot-password':
+    case 'reset-password':
         break;
     // Add more cases as needed
     default:
