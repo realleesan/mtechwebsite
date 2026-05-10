@@ -52,6 +52,11 @@
         case 'project-edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.projects.css">';
             break;
+        case 'client.logos':
+        case 'client.logo.create':
+        case 'client.logo.edit':
+            echo '<link rel="stylesheet" href="/assets/css/admin.client.logos.css">';
+            break;
         case 'login':
         case 'forgot-password':
         case 'reset-password':
@@ -169,6 +174,11 @@ switch($currentPage) {
     case 'project-create':
     case 'project-edit':
         echo '<script src="/assets/js/admin.projects.js"></script>';
+        break;
+    case 'client.logos':
+    case 'client.logo.create':
+    case 'client.logo.edit':
+        echo '<script src="/assets/js/admin.client.logos.js"></script>';
         break;
     // Auth pages không cần JS riêng
     case 'login':
