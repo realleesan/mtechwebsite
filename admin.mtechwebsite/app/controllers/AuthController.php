@@ -25,8 +25,9 @@ class AuthController extends BaseController
         // Nếu đã login rồi thì redirect về dashboard
         AuthMiddleware::redirectIfLoggedIn();
 
-        $this->renderAuthView('auth/login', [
+        $this->view('auth/login', [
             'title' => 'Đăng nhập - Admin MTech',
+            'page'  => 'login',
         ]);
     }
 
@@ -122,8 +123,9 @@ class AuthController extends BaseController
     {
         AuthMiddleware::redirectIfLoggedIn();
 
-        $this->renderAuthView('auth/forgot', [
+        $this->view('auth/forgot', [
             'title' => 'Quên mật khẩu - Admin MTech',
+            'page'  => 'forgot-password',
         ]);
     }
 
@@ -224,8 +226,9 @@ class AuthController extends BaseController
             return;
         }
 
-        $this->renderAuthView('auth/reset', [
+        $this->view('auth/reset', [
             'title' => 'Đặt lại mật khẩu - Admin MTech',
+            'page'  => 'reset-password',
             'token' => $token,
         ]);
     }
@@ -271,21 +274,5 @@ class AuthController extends BaseController
 
         $_SESSION['success'] = 'Đặt lại mật khẩu thành công. Vui lòng đăng nhập';
         $this->redirect('/login');
-    }
-
-    // ----------------------------------------
-    // Helper: Render auth view (không dùng master layout)
-    // ----------------------------------------
-
-    private function renderAuthView($viewPath, $data = [])
-    {
-        extract($data);
-        $viewFile = __DIR__ . '/../views/' . $viewPath . '.php';
-
-        if (!file_exists($viewFile)) {
-            throw new Exception("View not found: {$viewPath}");
-        }
-
-        include $viewFile;
     }
 }
