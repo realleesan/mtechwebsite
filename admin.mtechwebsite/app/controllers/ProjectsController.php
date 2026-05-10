@@ -20,12 +20,15 @@ class ProjectsController extends BaseController
         $offset  = ($page - 1) * $perPage;
         $search  = trim($_GET['search'] ?? '');
 
+        // Admin should see ALL projects regardless of status
+        $statusFilter = null;
+        
         if (!empty($search)) {
-            $projects = $this->model->search($search, $perPage);
+            $projects = $this->model->search($search, $perPage, $statusFilter);
             $total    = count($projects);
         } else {
-            $projects = $this->model->getAll($perPage, $offset);
-            $total    = $this->model->count();
+            $projects = $this->model->getAll($perPage, $offset, $statusFilter);
+            $total    = $this->model->count($statusFilter);
         }
         $totalPages = ceil($total / $perPage);
         
@@ -353,6 +356,69 @@ class ProjectsController extends BaseController
         }
 
         $this->redirect('/projects');
+    }
+
+    /**
+     * Display trashed (soft-deleted) projects
+     */
+    public function trash()
+    {
+        $page    = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 20;
+        $offset  = ($page - 1) * $perPage;
+
+        $projects = $this->model->getTrashed($perPage, $offset);
+        $total    = $this->model->countTrashed();
+        $totalPages = ceil($total / $perPage);
+
+        $this->view('projects/trash', [
+            'title'       => 'Thùng rác - Admin MTech',
+            'page'        => 'projects',
+            'projects'    => $projects,
+            'total'       => $total,
+            'currentPage' => $page,
+            'totalPages'  => $totalPages,
+        ]);
+    }
+
+    /**
+     * Restore a soft-deleted project
+     */
+    public function restore($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Method not allowed';
+            $this->redirect('/projects/trash');
+            return;
+        }
+
+        if ($this->model->restore($id)) {
+            $_SESSION['success'] = 'Khôi phục dự án thành công!';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+        }
+
+        $this->redirect('/projects/trash');
+    }
+
+    /**
+     * Permanently delete a project (hard delete)
+     */
+    public function hardDelete($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Method not allowed';
+            $this->redirect('/projects/trash');
+            return;
+        }
+
+        if ($this->model->hardDelete($id)) {
+            $_SESSION['success'] = 'Đã xóa vĩnh viễn dự án!';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+        }
+
+        $this->redirect('/projects/trash');
     }
 
     public function countAll()

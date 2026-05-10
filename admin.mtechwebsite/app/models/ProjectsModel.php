@@ -135,19 +135,30 @@ class ProjectsModel {
      * Tìm kiếm dự án
      * @param string $keyword Từ khóa
      * @param int $limit Số lượng
+     * @param int $status Trạng thái: 0=inactive, 1=active, 2=featured, null=all
      * @return array Kết quả tìm kiếm
      */
-    public function search($keyword, $limit = 9) {
+    public function search($keyword, $limit = 9, $status = 1) {
         try {
             $sql = "SELECT * FROM {$this->table} 
                     WHERE (title LIKE ? OR description LIKE ? OR category LIKE ?) 
-                    AND deleted_at IS NULL 
-                    AND status = 1 
-                    ORDER BY created_at DESC 
-                    LIMIT ?";
+                    AND deleted_at IS NULL";
+            $params = [];
             $searchTerm = "%{$keyword}%";
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            
+            if ($status !== null) {
+                $sql .= " AND status = ?";
+                $params[] = $status;
+            }
+            
+            $sql .= " ORDER BY created_at DESC LIMIT ?";
+            $params[] = $limit;
+            
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$searchTerm, $searchTerm, $searchTerm, $limit]);
+            $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("ProjectsModel::search Error: " . $e->getMessage());
@@ -176,6 +187,55 @@ class ProjectsModel {
         } catch (PDOException $e) {
             error_log("ProjectsModel::count Error: " . $e->getMessage());
             return 0;
+        }
+    }
+    
+    /**
+     * Lấy danh sách dự án đã xóa (trash)
+     * @param int $limit Số lượng bản ghi
+     * @param int $offset Vị trí bắt đầu
+     * @return array Danh sách dự án đã xóa
+     */
+    public function getTrashed($limit = 20, $offset = 0) {
+        try {
+            $sql = "SELECT * FROM {$this->table} WHERE deleted_at IS NOT NULL ORDER BY deleted_at DESC LIMIT ? OFFSET ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$limit, $offset]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getTrashed Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    /**
+     * Đếm số dự án trong thùng rác
+     * @return int Số lượng dự án đã xóa
+     */
+    public function countTrashed() {
+        try {
+            $sql = "SELECT COUNT(*) FROM {$this->table} WHERE deleted_at IS NOT NULL";
+            $stmt = $this->db->query($sql);
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::countTrashed Error: " . $e->getMessage());
+            return 0;
+        }
+    }
+    
+    /**
+     * Khôi phục dự án từ thùng rác
+     * @param int $id ID dự án
+     * @return bool Kết quả
+     */
+    public function restore($id) {
+        try {
+            $sql = "UPDATE {$this->table} SET deleted_at = NULL WHERE id = ?";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::restore Error: " . $e->getMessage());
+            return false;
         }
     }
     
