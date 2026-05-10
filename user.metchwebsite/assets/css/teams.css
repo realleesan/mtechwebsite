@@ -392,4 +392,83 @@
     }
 }
 
+/* ========================================
+   Question Form — Flash Messages
+   ======================================== */
 
+.question-success-popup,
+.question-error-popup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    margin-top: 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    animation: fadeInDown 0.3s ease;
+}
+
+.question-success-popup {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+}
+
+.question-success-popup .flash-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+    line-height: 1;
+}
+
+.question-success-popup .flash-close:hover {
+    opacity: 1;
+}
+
+.question-error-popup {
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    color: #ffffff;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   Team Image Placeholder (khi chua co anh)
+   ======================================== */
+
+.team_img_placeholder {
+    width: 100%;
+    padding-bottom: 120%;
+    background: #e8ecf5;
+    position: relative;
+}
+
+.team_img_placeholder .fa {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60px;
+    color: #b0bcd8;
+}
+
+/* ========================================
+   Team Bio
+   ======================================== */
+
+.team_bio {
+    font-size: 13px;
+    color: #888;
+    margin-top: -10px;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
