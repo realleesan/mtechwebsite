@@ -20,14 +20,15 @@
 
 .pr_image img {
     width: 100%;
-    height: auto;
+    height: 500px;
     object-fit: cover;
     border-radius: 0;
 }
 
 .pr_image .img-fluid {
     max-width: 100%;
-    height: auto;
+    height: 500px !important;
+    object-fit: cover;
 }
 
 /* Project Info Box */
@@ -206,7 +207,12 @@
 /* What We Did Image */
 .project_list .col-lg-4 img {
     width: 100%;
-    height: auto;
+    height: 400px;
+    object-fit: cover;
+}
+
+.project_list .col-lg-4 img.img-fluid {
+    height: 400px !important;
     object-fit: cover;
 }
 

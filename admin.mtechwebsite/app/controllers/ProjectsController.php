@@ -28,6 +28,18 @@ class ProjectsController extends BaseController
             $total    = $this->model->count();
         }
         $totalPages = ceil($total / $perPage);
+        
+        // Load services for projects
+        if (!empty($projects)) {
+            $projectIds = array_column($projects, 'id');
+            $projectsServices = $this->model->getProjectsServicesList($projectIds);
+            
+            // Attach services to each project
+            foreach ($projects as &$project) {
+                $services = $projectsServices[$project['id']] ?? [];
+                $project['category_name'] = !empty($services) ? $services[0]['name'] : 'Chưa có';
+            }
+        }
 
         $this->view('projects/index', [
             'title'       => 'Quản lý Dự án - Admin MTech',
@@ -89,16 +101,17 @@ class ProjectsController extends BaseController
             'status_label' => $_POST['status_label'] ?? 'Đã hoàn thành',
             'live_demo' => $_POST['live_demo'] ?? '',
             'tags' => $_POST['tags'] ?? '',
-            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'Những gì chúng tôi đã làm',
+            'what_we_did_title' => $_POST['what_we_did_title'] ?? '',
             'what_we_did' => $_POST['what_we_did'] ?? '',
             'what_we_did_image' => $_POST['what_we_did_image'] ?? '',
-            'results_title' => $_POST['results_title'] ?? 'Kết quả đạt được',
+            'results_title' => $_POST['results_title'] ?? '',
             'results' => $_POST['results'] ?? '',
             'result_items' => $_POST['result_items'] ?? ''
         ];
 
         // Handle file uploads
         $uploadDir = __DIR__ . '/../../assets/uploads/projects/';
+        $baseUrl = 'https://admin.truongvinalogistics.com.vn/assets/uploads/projects/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -107,7 +120,7 @@ class ProjectsController extends BaseController
         if (!empty($_FILES['image']['name'])) {
             $imagePath = $this->handleFileUpload($_FILES['image'], $uploadDir);
             if ($imagePath) {
-                $data['image'] = '/assets/uploads/projects/' . $imagePath;
+                $data['image'] = $baseUrl . $imagePath;
             }
         }
 
@@ -115,7 +128,7 @@ class ProjectsController extends BaseController
         if (!empty($_FILES['detail_image']['name'])) {
             $detailImagePath = $this->handleFileUpload($_FILES['detail_image'], $uploadDir);
             if ($detailImagePath) {
-                $data['detail_image'] = '/assets/uploads/projects/' . $detailImagePath;
+                $data['detail_image'] = $baseUrl . $detailImagePath;
             }
         }
 
@@ -123,7 +136,7 @@ class ProjectsController extends BaseController
         if (!empty($_FILES['what_we_did_image']['name'])) {
             $whatWeDidImagePath = $this->handleFileUpload($_FILES['what_we_did_image'], $uploadDir);
             if ($whatWeDidImagePath) {
-                $data['what_we_did_image'] = '/assets/uploads/projects/' . $whatWeDidImagePath;
+                $data['what_we_did_image'] = $baseUrl . $whatWeDidImagePath;
             }
         }
 
@@ -141,7 +154,7 @@ class ProjectsController extends BaseController
                     ];
                     $galleryPath = $this->handleFileUpload($file, $uploadDir);
                     if ($galleryPath) {
-                        $galleryImages[] = '/assets/uploads/projects/' . $galleryPath;
+                        $galleryImages[] = $baseUrl . $galleryPath;
                     }
                 }
             }
@@ -222,46 +235,59 @@ class ProjectsController extends BaseController
             'status_label' => $_POST['status_label'] ?? 'Đã hoàn thành',
             'live_demo' => $_POST['live_demo'] ?? '',
             'tags' => $_POST['tags'] ?? '',
-            'what_we_did_title' => $_POST['what_we_did_title'] ?? 'Những gì chúng tôi đã làm',
+            'what_we_did_title' => $_POST['what_we_did_title'] ?? '',
             'what_we_did' => $_POST['what_we_did'] ?? '',
-            'results_title' => $_POST['results_title'] ?? 'Kết quả đạt được',
+            'results_title' => $_POST['results_title'] ?? '',
             'results' => $_POST['results'] ?? '',
             'result_items' => $_POST['result_items'] ?? ''
         ];
 
         // Handle file uploads
         $uploadDir = __DIR__ . '/../../assets/uploads/projects/';
+        $baseUrl = 'https://admin.truongvinalogistics.com.vn/assets/uploads/projects/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
 
-        // Handle main image
+        // Handle main image - prioritize new upload, fallback to existing
         if (!empty($_FILES['image']['name'])) {
             $imagePath = $this->handleFileUpload($_FILES['image'], $uploadDir);
             if ($imagePath) {
-                $data['image'] = '/assets/uploads/projects/' . $imagePath;
+                $data['image'] = $baseUrl . $imagePath;
             }
+        } elseif (!empty($_POST['existing_image'])) {
+            $data['image'] = $_POST['existing_image'];
         }
 
-        // Handle detail image
+        // Handle detail image - prioritize new upload, fallback to existing
         if (!empty($_FILES['detail_image']['name'])) {
             $detailImagePath = $this->handleFileUpload($_FILES['detail_image'], $uploadDir);
             if ($detailImagePath) {
-                $data['detail_image'] = '/assets/uploads/projects/' . $detailImagePath;
+                $data['detail_image'] = $baseUrl . $detailImagePath;
             }
+        } elseif (!empty($_POST['existing_detail_image'])) {
+            $data['detail_image'] = $_POST['existing_detail_image'];
         }
 
-        // Handle what_we_did_image
+        // Handle what_we_did_image - prioritize new upload, fallback to existing
         if (!empty($_FILES['what_we_did_image']['name'])) {
             $whatWeDidImagePath = $this->handleFileUpload($_FILES['what_we_did_image'], $uploadDir);
             if ($whatWeDidImagePath) {
-                $data['what_we_did_image'] = '/assets/uploads/projects/' . $whatWeDidImagePath;
+                $data['what_we_did_image'] = $baseUrl . $whatWeDidImagePath;
             }
+        } elseif (!empty($_POST['existing_what_we_did_image'])) {
+            $data['what_we_did_image'] = $_POST['existing_what_we_did_image'];
         }
 
-        // Handle gallery images
+        // Handle gallery images - get existing gallery first
+        $existingProject = $this->model->getById($id);
+        $existingGallery = [];
+        if ($existingProject && !empty($existingProject['gallery'])) {
+            $existingGallery = json_decode($existingProject['gallery'], true) ?: [];
+        }
+
+        $newGalleryImages = [];
         if (!empty($_FILES['gallery'])) {
-            $galleryImages = [];
             foreach ($_FILES['gallery']['name'] as $key => $name) {
                 if (!empty($name)) {
                     $file = [
@@ -273,13 +299,19 @@ class ProjectsController extends BaseController
                     ];
                     $galleryPath = $this->handleFileUpload($file, $uploadDir);
                     if ($galleryPath) {
-                        $galleryImages[] = '/assets/uploads/projects/' . $galleryPath;
+                        $newGalleryImages[] = $baseUrl . $galleryPath;
                     }
                 }
             }
-            if (!empty($galleryImages)) {
-                $data['gallery'] = json_encode($galleryImages);
-            }
+        }
+
+        // Merge existing gallery with new images
+        if (!empty($newGalleryImages)) {
+            $allGallery = array_merge($existingGallery, $newGalleryImages);
+            $data['gallery'] = json_encode($allGallery);
+        } elseif (!empty($existingGallery)) {
+            // Keep existing gallery if no new uploads
+            $data['gallery'] = json_encode($existingGallery);
         }
 
         // Update project

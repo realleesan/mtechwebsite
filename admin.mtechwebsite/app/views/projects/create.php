@@ -133,7 +133,7 @@
                     <div class="wireframe-container mt-4" data-placeholder="Những gì chúng tôi đã làm">
                         <div class="mb-3">
                             <label for="what_we_did_title" class="form-label">Tiêu đề thành phần</label>
-                            <input type="text" class="form-control" id="what_we_did_title" name="what_we_did_title" value="Những gì chúng tôi đã làm">
+                            <input type="text" class="form-control" id="what_we_did_title" name="what_we_did_title" placeholder="Nhập tiêu đề cho phần những gì chúng tôi đã làm">
                         </div>
                         
                         <div class="row">
@@ -168,8 +168,7 @@
                                             <i class="bi bi-eraser"></i>
                                         </button>
                                     </div>
-                                    <div class="rich-editor-content" contenteditable="true">
-                                        Nhập nội dung cho thành phần "Những gì chúng tôi đã làm"...
+                                    <div class="rich-editor-content" contenteditable="true" data-placeholder="Nhập nội dung cho những gì chúng tôi đã làm...">
                                     </div>
                                     <input type="hidden" name="what_we_did" value="">
                                 </div>
@@ -189,7 +188,7 @@
                     <div class="wireframe-container mt-4" data-placeholder="Kết quả đạt được">
                         <div class="mb-3">
                             <label for="results_title" class="form-label">Tiêu đề thành phần</label>
-                            <input type="text" class="form-control" id="results_title" name="results_title" value="Kết quả đạt được">
+                            <input type="text" class="form-control" id="results_title" name="results_title" placeholder="Nhập tiêu đề cho phần kết quả đạt được">
                         </div>
                         
                         <div class="mb-3">
@@ -215,8 +214,7 @@
                                         <i class="bi bi-eraser"></i>
                                     </button>
                                 </div>
-                                <div class="rich-editor-content" contenteditable="true">
-                                    Nhập nội dung cho thành phần "Kết quả đạt được"...
+                                <div class="rich-editor-content" contenteditable="true" data-placeholder="Nhập nội dung cho kết quả đạt được...">
                                 </div>
                                 <input type="hidden" name="results" value="">
                             </div>
@@ -264,7 +262,7 @@
                                 <i class="bi bi-cloud-upload fs-1 mb-2"></i>
                                 <p class="mb-2">Kéo thả ảnh vào đây hoặc click để chọn</p>
                                 <small class="text-muted">Hỗ trợ: JPG, PNG, GIF (Tối đa 5MB)</small>
-                                <input type="file" id="gallery-input" multiple accept="image/*" style="display: none;">
+                                <input type="file" id="gallery-input" name="gallery[]" multiple accept="image/*" style="display: none;">
                             </div>
                             <div class="gallery-preview"></div>
                         </div>

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initRichEditor();
     initWireframeInteractions();
     initResultItems();
+    initMainImagePreview();
     
 });
 
@@ -200,13 +201,22 @@ function initWireframeInteractions() {
         if (placeholder.dataset.imageHandler) return;
         placeholder.dataset.imageHandler = 'true';
         
+        // Gắn change listener cho input file sẵn có (nếu có)
+        const existingInput = placeholder.querySelector('input[type="file"]');
+        if (existingInput) {
+            existingInput.addEventListener('change', function(e) {
+                handleImageFileSelect(e.target.files[0], placeholder);
+            });
+        }
+        
         placeholder.addEventListener('click', function(e) {
             // Don't trigger if clicking on an existing input
             if (e.target.tagName === 'INPUT') return;
             
             // Check if file input already exists
-            if (this.querySelector('input[type="file"]')) {
-                this.querySelector('input[type="file"]').click();
+            const existingInput = this.querySelector('input[type="file"]');
+            if (existingInput) {
+                existingInput.click();
             } else {
                 const input = document.createElement('input');
                 input.type = 'file';
@@ -217,24 +227,51 @@ function initWireframeInteractions() {
                 input.click();
                 
                 input.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file && file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.style.width = '100%';
-                            img.style.height = '100%';
-                            img.style.objectFit = 'cover';
-                            placeholder.innerHTML = '';
-                            placeholder.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                    }
+                    handleImageFileSelect(e.target.files[0], placeholder);
                 });
             }
         });
     });
+}
+
+// Helper function to handle image file selection and display
+function handleImageFileSelect(file, placeholder) {
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Tìm và xóa các element cũ (icon, text) nhưng GIỮ LẠI input file
+            const icon = placeholder.querySelector('i');
+            const text = placeholder.querySelector('p');
+            if (icon) icon.remove();
+            if (text) text.remove();
+
+            // Xóa ảnh cũ nếu có
+            const oldImg = placeholder.querySelector('img');
+            if (oldImg) oldImg.remove();
+
+            // Xóa hidden input existing_... vì đã có file mới
+            const hiddenInput = placeholder.querySelector('input[type="hidden"]');
+            if (hiddenInput && hiddenInput.name.startsWith('existing_')) {
+                hiddenInput.remove();
+            }
+
+            // Thêm ảnh mới
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+
+            // Chèn ảnh vào đầu placeholder (trước input file)
+            const fileInput = placeholder.querySelector('input[type="file"]');
+            if (fileInput) {
+                placeholder.insertBefore(img, fileInput);
+            } else {
+                placeholder.appendChild(img);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
 }
 
 // ----------------------------------------
@@ -325,6 +362,31 @@ function updateResultItemsJSON() {
     if (jsonInput) {
         jsonInput.value = JSON.stringify(items);
     }
+}
+
+// ----------------------------------------
+// Main Image Preview (Media Tab)
+// ----------------------------------------
+function initMainImagePreview() {
+    const mainImageInput = document.getElementById('image');
+    if (!mainImageInput) return;
+
+    const previewId = mainImageInput.dataset.preview;
+    const previewImg = document.getElementById(previewId);
+
+    if (!previewImg) return;
+
+    mainImageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 }
 
 // ----------------------------------------

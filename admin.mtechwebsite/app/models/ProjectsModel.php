@@ -450,4 +450,49 @@ class ProjectsModel {
             return false;
         }
     }
+    
+    /**
+     * Get services for multiple projects
+     * @param array $projectIds Array of project IDs
+     * @return array Services grouped by project ID
+     */
+    public function getProjectsServicesList($projectIds) {
+        if (empty($projectIds)) {
+            return [];
+        }
+        
+        try {
+            $placeholders = str_repeat('?,', count($projectIds) - 1) . '?';
+            
+            $sql = "SELECT ps.project_id, c.id, c.name, c.slug
+                    FROM project_services ps
+                    INNER JOIN categories c ON ps.category_id = c.id
+                    WHERE ps.project_id IN ($placeholders)
+                    AND c.status = 1
+                    ORDER BY ps.project_id, c.sort_order ASC, c.name ASC";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($projectIds);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Group by project ID
+            $grouped = [];
+            foreach ($results as $row) {
+                $projectId = $row['project_id'];
+                if (!isset($grouped[$projectId])) {
+                    $grouped[$projectId] = [];
+                }
+                $grouped[$projectId][] = [
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'slug' => $row['slug']
+                ];
+            }
+            
+            return $grouped;
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getProjectsServicesList Error: " . $e->getMessage());
+            return [];
+        }
+    }
 }

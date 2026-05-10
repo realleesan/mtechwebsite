@@ -56,7 +56,8 @@
 
 .lt_project_img .img-fluid {
     max-width: 100%;
-    height: auto;
+    height: 280px !important;
+    object-fit: cover;
 }
 
 /* Arrow Link */
