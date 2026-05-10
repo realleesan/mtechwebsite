@@ -82,6 +82,10 @@ class ClientLogosController extends BaseController
 
         $id = $this->model->create($data);
         if ($id) {
+            // Điều chỉnh thứ tự tự động
+            $this->model->reorderLogos($id, $data['sort_order']);
+            // Normalize lại tất cả thứ tự từ 1 đến n
+            $this->model->normalizeOrders();
             $_SESSION['success'] = 'Thêm logo đối tác thành công!';
             $this->redirect('/client-logos');
         } else {
@@ -152,6 +156,10 @@ class ClientLogosController extends BaseController
         }
 
         if ($this->model->update($id, $data)) {
+            // Điều chỉnh thứ tự tự động (truyền thứ tự cũ để so sánh)
+            $this->model->reorderLogos($id, $data['sort_order'], $logo['sort_order']);
+            // Normalize lại tất cả thứ tự từ 1 đến n
+            $this->model->normalizeOrders();
             $_SESSION['success'] = 'Cập nhật logo đối tác thành công!';
             $this->redirect('/client-logos');
         } else {
