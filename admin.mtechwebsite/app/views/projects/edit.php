@@ -6,9 +6,6 @@ if (!isset($project) || empty($project)) {
     exit;
 }
 
-// Load projects CSS/JS
-$this->registerCSS('/assets/css/admin.projects.css');
-$this->registerJS('/assets/js/admin.projects.js');
 ?>
 <div class="page-header">
     <h4><i class="bi bi-building me-2"></i>Chỉnh sửa dự án</h4>

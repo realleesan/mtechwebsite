@@ -25,13 +25,31 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Admin CSS -->
     <link rel="stylesheet" href="/assets/css/admin.css">
-    
-    <!-- Additional CSS Files -->
-    <?php if (isset($this) && method_exists($this, 'getCSSFiles')): ?>
-        <?php foreach ($this->getCSSFiles() as $cssFile): ?>
-            <link rel="stylesheet" href="<?= htmlspecialchars($cssFile) ?>">
-        <?php endforeach; ?>
-    <?php endif; ?>
+
+    <?php
+    // Determine current page for conditional CSS/JS loading
+    $currentPage = isset($page) ? $page : (isset($_GET['page']) ? $_GET['page'] : 'dashboard');
+    ?>
+    <!-- ========================================== -->
+    <!-- NOTE: Page-specific CSS - Thêm CSS theo từng trang -->
+    <!-- ========================================== -->
+    <?php
+    switch($currentPage) {
+        case 'dashboard':
+            echo '<link rel="stylesheet" href="/assets/css/dashboard.css">';
+            break;
+        case 'projects':
+            echo '<link rel="stylesheet" href="/assets/css/admin.projects.css">';
+            break;
+        case 'project-create':
+        case 'project-edit':
+            echo '<link rel="stylesheet" href="/assets/css/admin.projects.css">';
+            break;
+        // Add more cases as needed
+        default:
+            break;
+    }
+    ?>
 </head>
 
 <body>
@@ -105,12 +123,26 @@ AccessMiddleware::trackVisit();
 <!-- Admin JS -->
 <script src="/assets/js/admin.js"></script>
 
-<!-- Additional JS Files -->
-<?php if (isset($this) && method_exists($this, 'getJSFiles')): ?>
-    <?php foreach ($this->getJSFiles() as $jsFile): ?>
-        <script src="<?= htmlspecialchars($jsFile) ?>"></script>
-    <?php endforeach; ?>
-<?php endif; ?>
+<!-- ========================================== -->
+<!-- NOTE: Page-specific JavaScript - JS theo trang -->
+<!-- ========================================== -->
+<?php
+switch($currentPage) {
+    case 'dashboard':
+        echo '<script src="/assets/js/dashboard.js"></script>';
+        break;
+    case 'projects':
+        echo '<script src="/assets/js/admin.projects.js"></script>';
+        break;
+    case 'project-create':
+    case 'project-edit':
+        echo '<script src="/assets/js/admin.projects.js"></script>';
+        break;
+    // Add more cases as needed
+    default:
+        break;
+}
+?>
 
 </body>
 </html>

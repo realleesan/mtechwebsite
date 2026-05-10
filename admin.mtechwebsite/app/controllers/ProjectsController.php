@@ -45,7 +45,7 @@ class ProjectsController extends BaseController
     {
         $this->view('projects/create', [
             'title' => 'Thêm dự án - Admin MTech',
-            'page'  => 'projects',
+            'page'  => 'project-create',
             'admin' => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -168,7 +168,7 @@ class ProjectsController extends BaseController
         }
         $this->view('projects/edit', [
             'title'   => 'Chỉnh sửa dự án - Admin MTech',
-            'page'    => 'projects',
+            'page'    => 'project-edit',
             'project' => $project,
             'admin'   => AuthMiddleware::getAdmin(),
         ]);
