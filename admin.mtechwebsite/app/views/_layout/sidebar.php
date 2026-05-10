@@ -76,7 +76,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Client Logos -->
             <li class="nav-item">
-                <a href="/client-logos" class="nav-link <?= $currentPage === 'client-logos' ? 'active' : '' ?>">
+                <a href="/client-logos" class="nav-link <?= in_array($currentPage, ['client.logos', 'client.logo.create', 'client.logo.edit']) ? 'active' : '' ?>">
                     <i class="bi bi-images"></i>
                     <span>Logo đối tác</span>
                 </a>
