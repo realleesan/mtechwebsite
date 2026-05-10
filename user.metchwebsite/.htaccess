@@ -73,23 +73,31 @@ Options -Indexes
     RewriteRule ^du-an$ index.php?page=projects [L]
 
     # ------------------------------------------
+    # Search / Tìm kiếm - Làm đẹp URL
+    # PHẢI ĐẶT TRƯỚC các rule chi-tiet-* để tránh conflict
+    # /ket-qua-tim-kiem-{keyword} → index.php?page=search&q={keyword}
+    # NE = No Escape: giữ nguyên ký tự Unicode, không re-encode
+    # ------------------------------------------
+    RewriteRule ^ket-qua-tim-kiem-(.+)$ index.php?page=search&q=$1 [L,QSA,NE]
+    RewriteRule ^ket-qua-tim-kiem$ index.php?page=search [L,QSA]
+    RewriteRule ^search$ index.php?page=search [L,QSA]
+    RewriteRule ^tim-kiem$ index.php?page=search [L,QSA]
+
+    # ------------------------------------------
     # Project Details - Làm đẹp URL
     # /chi-tiet-du-an-{slug} → index.php?page=project-details&slug={slug}
-    # Ví dụ: /chi-tiet-du-an-welding-processing
     # ------------------------------------------
     RewriteRule ^chi-tiet-du-an-(.+)$ index.php?page=project-details&slug=$1 [L,QSA]
 
     # ------------------------------------------
     # Chi tiết tin tức - Làm đẹp URL (PHẢI ĐẶT TRƯỚC chi-tiet-{slug})
     # /chi-tiet-tin-tuc-{slug} → index.php?page=blog-details&slug={slug}
-    # Ví dụ: /chi-tiet-tin-tuc-welding-processing
     # ------------------------------------------
     RewriteRule ^chi-tiet-tin-tuc-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
 
     # ------------------------------------------
     # Chi tiết Tuyển dụng - Làm đẹp URL
     # /chi-tiet-{slug} → index.php?page=blog-details&slug={slug}
-    # Ví dụ: /chi-tiet-cong-nhan-han-chuyen-nghiep
     # ------------------------------------------
     RewriteRule ^chi-tiet-(.+)$ index.php?page=blog-details&slug=$1 [L,QSA]
 
@@ -134,10 +142,10 @@ Options -Indexes
     RewriteRule ^dich-vu$ index.php?page=categories [L]
 
     # ------------------------------------------
-    # Mọi URL path không tồn tại → index.php?page=404
-    # Ví dụ: /444, /abc, /xyz → index.php?page=404
+    # Fallback: mọi URL còn lại → Router PHP xử lý
+    # KHÔNG dùng R=302 — rewrite nội bộ để Router tự quyết định 404
     # ------------------------------------------
-    RewriteRule ^ index.php?page=404 [L,R=302]
+    RewriteRule ^ index.php [L,QSA]
 </IfModule>
 
 # ==========================================

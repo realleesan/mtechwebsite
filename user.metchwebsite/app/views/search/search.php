@@ -16,16 +16,17 @@ $searchType    = $searchType    ?? '';
 $totalPages = $perPage > 0 ? (int) ceil($totalResults / $perPage) : 1;
 
 function search_page_url($p, $q, $type) {
-    $params = ['page' => 'search', 'q' => $q, 'p' => $p];
+    $slug = urlencode($q);
+    $params = ['p' => $p];
     if ($type) $params['type'] = $type;
-    return '?' . http_build_query($params);
+    return '/ket-qua-tim-kiem-' . $slug . '?' . http_build_query($params);
 }
 
 $typeLabels = [
-    ''        => 'All',
-    'blog'    => 'Blog',
-    'service' => 'Service',
-    'project' => 'Project',
+    ''        => 'Tất cả',
+    'blog'    => 'Tin tức',
+    'service' => 'Dịch vụ',
+    'project' => 'Dự án',
 ];
 ?>
 
@@ -47,7 +48,7 @@ $typeLabels = [
 
         <?php foreach ($searchResults as $item): ?>
             <?php
-            $detailUrl = SearchModel::getDetailUrl($item['type'], $item['slug']);
+            $detailUrl = SearchModel::getDetailUrl($item['type'], $item['slug'], $item['category_id'] ?? null);
             $typeLabel = SearchModel::getTypeLabel($item['type']);
             $dateStr   = !empty($item['created_at']) ? format_date_vietnamese(date('d F, Y', strtotime($item['created_at']))) : '';
             $imgSrc    = !empty($item['image']) ? $item['image'] : 'assets/images/blogs/default.jpg';
@@ -56,6 +57,17 @@ $typeLabels = [
                              ? mb_substr($item['excerpt'], 0, 220) . '...'
                              : $item['excerpt'])
                          : '';
+
+            // Tính hết hạn cho bài tuyển dụng (category_id = 7)
+            $isHiring      = ($item['type'] === 'blog' && ($item['category_id'] ?? 0) == 7);
+            $hiringClosed  = false;
+            $daysRemaining = null;
+            if ($isHiring && !empty($item['expires_in_days'])) {
+                $expiresAt     = strtotime($item['created_at'] . ' + ' . $item['expires_in_days'] . ' days');
+                $isExpired     = time() > $expiresAt;
+                $daysRemaining = max(0, (int) ceil(($expiresAt - time()) / 86400));
+                $hiringClosed  = $isExpired || empty($item['hiring_status']) || $item['hiring_status'] != 1;
+            }
             ?>
 
             <div class="lt_blog_item">
@@ -66,6 +78,11 @@ $typeLabels = [
                          alt="<?php echo htmlspecialchars($item['title']); ?>">
                     <?php if ($dateStr): ?>
                         <span class="blog-date-badge"><?php echo $dateStr; ?></span>
+                    <?php endif; ?>
+                    <?php if ($isHiring): ?>
+                        <span class="blog-expiry-badge <?php echo $hiringClosed ? 'expired' : 'active'; ?>">
+                            <?php echo $hiringClosed ? 'Hết hạn' : 'Hết hạn sau ' . $daysRemaining . ' ngày'; ?>
+                        </span>
                     <?php endif; ?>
                 </a>
 

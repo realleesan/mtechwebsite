@@ -228,13 +228,19 @@
         }
 
         // Validate: không cho submit khi input rỗng
+        // Redirect đến /ket-qua-tim-kiem-{keyword}
         const searchOverlayForm = searchOverlay ? searchOverlay.querySelector('form') : null;
         if (searchOverlayForm) {
             searchOverlayForm.addEventListener('submit', function (e) {
-                if (!searchInput || searchInput.value.trim() === '') {
-                    e.preventDefault();
-                    searchInput.focus();
+                e.preventDefault();
+                var keyword = searchInput ? searchInput.value.trim() : '';
+                if (!keyword) {
+                    if (searchInput) searchInput.focus();
+                    return;
                 }
+                // Chỉ thay dấu cách thành dấu gạch ngang, giữ nguyên ký tự Unicode
+                var slug = keyword.replace(/\s+/g, '-');
+                window.location.href = '/ket-qua-tim-kiem-' + slug;
             });
         }
 

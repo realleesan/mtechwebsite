@@ -114,6 +114,8 @@ class Router
         // Search
         $this->get('/search', 'SearchController@index');
         $this->get('/tim-kiem', 'SearchController@index');
+        $this->get('/ket-qua-tim-kiem', 'SearchController@index');
+        $this->get('/ket-qua-tim-kiem-{keyword}', 'SearchController@indexWithKeyword');
         
         // Awards
         $this->get('/awards', 'AwardsController@index');
@@ -175,6 +177,9 @@ class Router
         
         // Xóa query string
         $uri = explode('?', $uri)[0];
+        
+        // Decode %XX → Unicode (xử lý URL tiếng Việt)
+        $uri = urldecode($uri);
         
         // Normalize: bỏ dấu / ở cuối
         $uri = rtrim($uri, '/');
