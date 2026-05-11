@@ -145,6 +145,10 @@ class AdminRouter
         $this->post('/footer/store',        'FooterController@store');
         $this->get('/footer/edit/{id}',     'FooterController@edit');
         $this->post('/footer/update/{id}',  'FooterController@update');
+        $this->post('/footer/delete/{id}',   'FooterController@delete');
+        $this->get('/footer/trash',          'FooterController@trash');
+        $this->post('/footer/restore/{id}',   'FooterController@restore');
+        $this->post('/footer/hard-delete/{id}', 'FooterController@hardDelete');
 
         // ----------------------------------------
         // Settings

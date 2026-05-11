@@ -15,7 +15,7 @@ class FooterController extends BaseController
 
     public function index()
     {
-        $footer = $this->model->getFooterData();
+        $footer = $this->model->getFooterDataForAdmin();
         $this->view('footer/index', [
             'title'  => 'Quản lý Footer - Admin MTech',
             'page'   => 'footer',
@@ -95,6 +95,25 @@ class FooterController extends BaseController
         $this->redirect('/footer');
     }
 
+    /**
+     * Xóa footer link (soft delete)
+     */
+    public function delete($id = null)
+    {
+        if (!$id) {
+            $this->redirect('/footer');
+            return;
+        }
+        
+        if ($this->model->deleteLink($id)) {
+            $_SESSION['success'] = 'Xóa liên kết thành công';
+        } else {
+            $_SESSION['error'] = 'Không tìm thấy liên kết này';
+        }
+        
+        $this->redirect('/footer');
+    }
+
     public function add()
     {
         $this->view('footer/add', [
@@ -144,5 +163,70 @@ class FooterController extends BaseController
         }
         
         $this->redirect('/footer');
+    }
+
+    /**
+     * Hiển thị trang thùng rác
+     */
+    public function trash()
+    {
+        $limit = 20;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $offset = ($page - 1) * $limit;
+        
+        $links = $this->model->getTrashed($limit, $offset);
+        $total = $this->model->countTrashed();
+        $totalPages = ceil($total / $limit);
+        
+        $this->view('footer/trash', [
+            'title'  => 'Thùng rác Footer - Admin MTech',
+            'page'   => 'footer-trash',
+            'links'  => $links,
+            'pagination' => [
+                'current' => $page,
+                'total' => $totalPages,
+                'limit' => $limit,
+                'total_items' => $total
+            ],
+            'admin'  => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    /**
+     * Khôi phục link từ thùng rác
+     */
+    public function restore($id = null)
+    {
+        if (!$id) {
+            $this->redirect('/footer/trash');
+            return;
+        }
+        
+        if ($this->model->restore($id)) {
+            $_SESSION['success'] = 'Khôi phục liên kết thành công';
+        } else {
+            $_SESSION['error'] = 'Không tìm thấy liên kết này';
+        }
+        
+        $this->redirect('/footer/trash');
+    }
+
+    /**
+     * Xóa vĩnh viễn link
+     */
+    public function hardDelete($id = null)
+    {
+        if (!$id) {
+            $this->redirect('/footer/trash');
+            return;
+        }
+        
+        if ($this->model->hardDelete($id)) {
+            $_SESSION['success'] = 'Xóa vĩnh viễn liên kết thành công';
+        } else {
+            $_SESSION['error'] = 'Không tìm thấy liên kết này';
+        }
+        
+        $this->redirect('/footer/trash');
     }
 }

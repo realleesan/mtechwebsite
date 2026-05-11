@@ -8,7 +8,6 @@
 </div>
 
 <div class="admin-form-card">
-    <div class="alert alert-info"><i class="bi bi-info-circle me-2"></i>Chức năng đang phát triển.</div>
     
     <form method="POST" action="/footer/store" class="admin-form">
         <div class="row">
