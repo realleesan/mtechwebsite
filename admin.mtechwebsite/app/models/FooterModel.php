@@ -70,7 +70,7 @@ class FooterModel
     // =================================================================
 
     /**
-     * Lấy tất cả footer links đang active
+     * Lấy tất cả footer links (chưa bị xóa)
      * @return array
      */
     public function getAllLinks()
@@ -79,6 +79,7 @@ class FooterModel
             $stmt = $this->db->prepare(
                 "SELECT id, title, url, sort_order, is_active
                  FROM `footer_links`
+                 WHERE deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -99,7 +100,7 @@ class FooterModel
             $stmt = $this->db->prepare(
                 "SELECT id, title, url, sort_order
                  FROM `footer_links`
-                 WHERE is_active = 1
+                 WHERE is_active = 1 AND deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -119,7 +120,7 @@ class FooterModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT * FROM `footer_links` WHERE id = ? LIMIT 1"
+                "SELECT * FROM `footer_links` WHERE id = ? AND deleted_at IS NULL LIMIT 1"
             );
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
@@ -181,7 +182,7 @@ class FooterModel
     }
 
     /**
-     * Xóa link
+     * Xóa mềm footer link (soft delete)
      * @param int $id
      * @return bool
      */
@@ -189,11 +190,88 @@ class FooterModel
     {
         try {
             $stmt = $this->db->prepare(
-                "DELETE FROM `footer_links` WHERE id = ?"
+                "UPDATE `footer_links` SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?"
             );
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             error_log('FooterModel::deleteLink() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Lấy danh sách footer links đã xóa (trash)
+     * @param int $limit Số lượng bản ghi
+     * @param int $offset Vị trí bắt đầu
+     * @return array Danh sách footer links đã xóa
+     */
+    public function getTrashed($limit = 20, $offset = 0)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT * FROM `footer_links` 
+                 WHERE deleted_at IS NOT NULL 
+                 ORDER BY deleted_at DESC 
+                 LIMIT ? OFFSET ?"
+            );
+            $stmt->execute([$limit, $offset]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('FooterModel::getTrashed() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Đếm số footer links trong thùng rác
+     * @return int Số lượng footer links đã xóa
+     */
+    public function countTrashed()
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT COUNT(*) FROM `footer_links` WHERE deleted_at IS NOT NULL"
+            );
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('FooterModel::countTrashed() - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Khôi phục footer link từ thùng rác
+     * @param int $id
+     * @return bool
+     */
+    public function restore($id)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `footer_links` SET deleted_at = NULL WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('FooterModel::restore() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Xóa vĩnh viễn footer link (hard delete)
+     * @param int $id
+     * @return bool
+     */
+    public function hardDelete($id)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "DELETE FROM `footer_links` WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('FooterModel::hardDelete() - ' . $e->getMessage());
             return false;
         }
     }
@@ -370,6 +448,19 @@ class FooterModel
             'settings' => $this->getSettings(),
             'useful_links' => $this->getActiveLinks(),
             'social' => $this->getVisibleSocialLinks()
+        ];
+    }
+
+    /**
+     * Lấy tất cả dữ liệu footer cho admin (cả active và inactive)
+     * @return array
+     */
+    public function getFooterDataForAdmin()
+    {
+        return [
+            'settings' => $this->getSettings(),
+            'useful_links' => $this->getAllLinks(),
+            'social' => $this->getAllSocialLinks()
         ];
     }
 }

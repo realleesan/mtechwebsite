@@ -66,6 +66,7 @@
         case 'footer':
         case 'footer-add':
         case 'footer-edit':
+        case 'footer-trash':
             echo '<link rel="stylesheet" href="/assets/css/admin.footer.css">';
 
         case 'teams':
@@ -207,7 +208,8 @@ switch($currentPage) {
     case 'footer':
     case 'footer-add':
     case 'footer-edit':
-        echo '<script src="/assets/js/admin.footer.js"></script>';
+    case 'footer-trash':
+        echo '<script src="/assets/js/admin.footer.js">';
 
     case 'teams':
     case 'team.create':

@@ -1,6 +1,15 @@
 <div class="page-header">
     <h4><i class="bi bi-layout-text-window me-2"></i>Quản lý Footer</h4>
     <div class="page-actions">
+        <a href="/footer/trash" class="btn btn-warning">
+            <i class="bi bi-trash me-1"></i>Thùng rác
+            <?php 
+            // Count trashed items (need to implement this in FooterModel)
+            $trashedCount = 0; // $this->model->countTrashed();
+            if ($trashedCount > 0): ?>
+                <span class="badge bg-danger ms-1"><?= $trashedCount ?></span>
+            <?php endif; ?>
+        </a>
         <a href="/footer/add" class="btn btn-primary">
             <i class="bi bi-plus-circle me-1"></i>Thêm mục mới
         </a>
@@ -43,16 +52,25 @@
                     <?php foreach ($footer['useful_links'] as $link): ?>
                         <div class="link-item">
                             <div class="link-info">
-                                <div class="link-title"><?= htmlspecialchars($link['title']) ?></div>
+                                <div class="link-title">
+                                    <?= htmlspecialchars($link['title']) ?>
+                                    <?php if (!$link['is_active']): ?>
+                                        <span class="badge bg-secondary ms-2">Đã ẩn</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-success ms-2">Đang hiển thị</span>
+                                    <?php endif; ?>
+                                </div>
                                 <div class="link-url"><?= htmlspecialchars($link['url']) ?></div>
                             </div>
                             <div class="link-actions">
                                 <a href="/footer/edit/<?= $link['id'] ?>" class="btn btn-sm btn-outline-warning">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(<?= $link['id'] ?>)">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <form method="POST" action="/footer/delete/<?= $link['id'] ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" data-confirm="Xóa liên kết này?">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -73,17 +91,22 @@
             </h5>
             <?php if (!empty($footer['social'])): ?>
                 <div class="social-grid">
-                    <?php foreach ($footer['social'] as $platform => $url): ?>
+                    <?php foreach ($footer['social'] as $social): ?>
                         <div class="social-item">
                             <div class="social-info">
                                 <div class="social-platform">
-                                    <i class="bi bi-<?= strtolower($platform) ?>"></i>
-                                    <?= ucfirst($platform) ?>
+                                    <i class="bi bi-<?= strtolower($social['platform']) ?>"></i>
+                                    <?= ucfirst($social['platform']) ?>
+                                    <?php if (!$social['is_visible']): ?>
+                                        <span class="badge bg-secondary ms-2">Đã ẩn</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-success ms-2">Đang hiển thị</span>
+                                    <?php endif; ?>
                                 </div>
-                                <div class="social-url"><?= htmlspecialchars($url ?? '') ?></div>
+                                <div class="social-url"><?= htmlspecialchars($social['url'] ?? '') ?></div>
                             </div>
                             <div class="social-actions">
-                                <a href="/footer/social/<?= strtolower($platform) ?>" class="btn btn-sm btn-outline-primary">
+                                <a href="/footer/social/<?= strtolower($social['platform']) ?>" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                             </div>

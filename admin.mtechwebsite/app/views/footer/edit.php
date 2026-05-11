@@ -8,7 +8,6 @@
 </div>
 
 <div class="admin-form-card">
-    <div class="alert alert-info"><i class="bi bi-info-circle me-2"></i>Chức năng đang phát triển.</div>
     
     <?php if (!empty($link)): ?>
         <form method="POST" action="/footer/update/<?= $link['id'] ?>" class="admin-form">

@@ -12,52 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
  * Initialize footer management features
  */
 function initFooterManagement() {
-    // Confirm delete dialog
-    initDeleteConfirmation();
-    
     // Form validation
     initFormValidation();
     
     // Auto-focus on first input field
     autoFocusFirstInput();
-}
-
-/**
- * Initialize delete confirmation dialogs
- */
-function initDeleteConfirmation() {
-    // Add click event listeners to delete buttons
-    const deleteButtons = document.querySelectorAll('[onclick*="confirmDelete"]');
-    
-    deleteButtons.forEach(button => {
-        // Remove inline onclick and add event listener
-        const onclickAttr = button.getAttribute('onclick');
-        if (onclickAttr) {
-            button.removeAttribute('onclick');
-            
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Extract ID from the original onclick
-                const idMatch = onclickAttr.match(/confirmDelete\((\d+)\)/);
-                if (idMatch) {
-                    const id = idMatch[1];
-                    confirmDelete(id);
-                }
-            });
-        }
-    });
-}
-
-/**
- * Confirm delete action
- * @param {number|string} id - The ID of the item to delete
- */
-function confirmDelete(id) {
-    if (confirm('Bạn có chắc chắn muốn xóa liên kết này?')) {
-        // Redirect to delete URL
-        window.location.href = '/footer/delete/' + id;
-    }
 }
 
 /**
@@ -226,6 +185,7 @@ function handleAjaxFormSubmit(form) {
         form.submit();
     }, 500);
 }
+
 
 /**
  * Initialize tooltips and other UI components

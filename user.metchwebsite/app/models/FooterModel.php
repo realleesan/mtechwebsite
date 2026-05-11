@@ -99,7 +99,7 @@ class FooterModel
             $stmt = $this->db->prepare(
                 "SELECT id, title, url, sort_order
                  FROM `footer_links`
-                 WHERE is_active = 1
+                 WHERE is_active = 1 AND deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
