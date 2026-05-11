@@ -74,7 +74,20 @@
                             </select>
                         </div>
                         
-                                                
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="show_on_home" name="show_on_home" value="1" checked>
+                                <label class="form-check-label" for="show_on_home">Hiển thị trang chủ</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="show_in_menu" name="show_in_menu" value="1">
+                                <label class="form-check-label" for="show_in_menu">Hiển thị menu</label>
+                            </div>
+                        </div>
+                        
                         <div class="mb-3">
                             <label for="project_date" class="form-label">Ngày thực hiện</label>
                             <input type="date" class="form-control" id="project_date" name="project_date">

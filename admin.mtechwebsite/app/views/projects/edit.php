@@ -90,7 +90,22 @@ if (!isset($project) || empty($project)) {
                             <select class="form-select" id="status" name="status">
                                 <option value="1" <?= ($project['status'] ?? 1) == 1 ? 'selected' : '' ?>>Kích hoạt</option>
                                 <option value="0" <?= ($project['status'] ?? 1) == 0 ? 'selected' : '' ?>>Vô hiệu hóa</option>
+                                <option value="2" <?= ($project['status'] ?? 1) == 2 ? 'selected' : '' ?>>Nổi bật</option>
                             </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="show_on_home" name="show_on_home" value="1" <?= ($project['show_on_home'] ?? 0) == 1 ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="show_on_home">Hiển thị trang chủ</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="show_in_menu" name="show_in_menu" value="1" <?= ($project['show_in_menu'] ?? 0) == 1 ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="show_in_menu">Hiển thị menu</label>
+                            </div>
                         </div>
                         
                         <div class="mb-3">
