@@ -234,13 +234,33 @@ html, body {
 .team_img {
     position: relative;
     overflow: hidden;
+    /* Tỉ lệ cố định 4:5 — tất cả ảnh cùng chiều cao */
+    aspect-ratio: 4 / 5;
+    background: #e8ecf5;
 }
 
 .team_img img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
+    object-fit: cover;
+    object-position: center top;
     transition: transform 0.4s ease;
+}
+
+/* Placeholder khi chưa có ảnh */
+.team_img_placeholder {
+    width: 100%;
+    height: 100%;
+    background: #e8ecf5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team_img_placeholder .fa {
+    font-size: 60px;
+    color: #b0bcd8;
 }
 
 .team_member:hover .team_img img {

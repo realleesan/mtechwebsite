@@ -32,13 +32,37 @@ class TeamsModel
             $stmt = $this->db->prepare(
                 "SELECT id, name, position, image, bio
                  FROM `{$this->table}`
-                 WHERE status = 1
+                 WHERE status = 1 AND deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log('TeamsModel::getAllActive() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Lấy tối đa 4 thành viên được đánh dấu hiển thị trên trang Giới thiệu.
+     * Dùng cho section đội ngũ trong about.php.
+     *
+     * @return array
+     */
+    public function getAboutTeams(): array
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, position, image, bio
+                 FROM `{$this->table}`
+                 WHERE status = 1 AND deleted_at IS NULL AND show_in_about = 1
+                 ORDER BY sort_order ASC, id ASC
+                 LIMIT 4"
+            );
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('TeamsModel::getAboutTeams() - ' . $e->getMessage());
             return [];
         }
     }

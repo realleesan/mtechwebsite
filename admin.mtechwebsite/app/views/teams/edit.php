@@ -2,12 +2,15 @@
     <?php header('Location: /teams'); exit; ?>
 <?php endif; ?>
 
+<?php $hasImage = !empty($team['image']); ?>
+
 <div class="page-header">
     <h4><i class="bi bi-people me-2"></i>Chỉnh sửa thành viên</h4>
     <a href="/teams" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
 </div>
 
-<form method="POST" action="/teams/update/<?= $team['id'] ?>" enctype="multipart/form-data" id="teamForm">
+<form method="POST" action="/teams/update/<?= $team['id'] ?>" enctype="multipart/form-data" id="teamForm"
+      data-has-image="<?= $hasImage ? '1' : '0' ?>">
     <div class="admin-form-card">
         <div class="row">
 
@@ -50,14 +53,31 @@
                     </div>
                 </div>
 
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="show_in_about"
+                               name="show_in_about" value="1"
+                               <?= ($team['show_in_about'] ?? 0) == 1 ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="show_in_about">
+                            Hiển thị trên trang <strong>Giới thiệu</strong>
+                        </label>
+                    </div>
+                    <div class="form-text">Tối đa 4 thành viên được hiển thị trên trang Giới thiệu</div>
+                </div>
+
             </div>
 
             <!-- Right: Avatar Upload -->
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label class="form-label">Ảnh đại diện</label>
+                    <label class="form-label">
+                        Ảnh đại diện
+                        <?php if (!$hasImage): ?>
+                            <span class="text-danger">*</span>
+                        <?php endif; ?>
+                    </label>
                     <div class="team-upload-area" id="teamUploadArea">
-                        <?php if (!empty($team['image'])): ?>
+                        <?php if ($hasImage): ?>
                             <img id="teamPreview" src="<?= htmlspecialchars($team['image']) ?>"
                                  alt="<?= htmlspecialchars($team['name'] ?? '') ?>"
                                  class="team-preview">
@@ -78,20 +98,17 @@
                     </div>
                     <!-- Hidden input: báo server xóa ảnh khi không upload file mới -->
                     <input type="hidden" name="remove_image" id="removeImageFlag" value="0">
-                    <div class="mt-2 <?= empty($team['image']) ? 'd-none' : '' ?>" id="teamPreviewActions">
+                    <div id="imageError" class="text-danger small mt-1 d-none">
+                        <i class="bi bi-exclamation-circle me-1"></i>Vui lòng tải lên ảnh đại diện
+                    </div>
+                    <div class="mt-2 <?= !$hasImage ? 'd-none' : '' ?>" id="teamPreviewActions">
                         <button type="button" class="btn btn-sm btn-outline-danger" id="removeImageBtn">
                             <i class="bi bi-x-lg me-1"></i>Xóa ảnh
                         </button>
                     </div>
-                    <div class="form-text mt-1">Để trống nếu không muốn thay đổi ảnh</div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="image" class="form-label">Hoặc nhập URL ảnh</label>
-                    <input type="text" class="form-control" id="image" name="image"
-                           value="<?= htmlspecialchars($team['image'] ?? '') ?>"
-                           placeholder="https://example.com/avatar.jpg">
-                    <div class="form-text">Dùng nếu ảnh đã có sẵn trên server</div>
+                    <div class="form-text mt-1">
+                        <?= $hasImage ? 'Để trống nếu không muốn thay đổi ảnh' : 'Ảnh chân dung (tỉ lệ vuông khuyến nghị)' ?>
+                    </div>
                 </div>
             </div>
 
