@@ -269,7 +269,7 @@ class ProjectsModel {
                       'sort_order', 'meta_title', 'meta_description', 'detail_image',
                       'status_label', 'live_demo', 'tags', 'what_we_did_title',
                       'what_we_did', 'what_we_did_image', 'results_title',
-                      'results', 'result_items'];
+                      'results', 'result_items', 'show_on_home', 'show_in_menu'];
             
             $insertData = [];
             $columns = [];
@@ -308,7 +308,7 @@ class ProjectsModel {
                       'sort_order', 'meta_title', 'meta_description', 'detail_image',
                       'status_label', 'live_demo', 'tags', 'what_we_did_title',
                       'what_we_did', 'what_we_did_image', 'results_title',
-                      'results', 'result_items'];
+                      'results', 'result_items', 'show_on_home', 'show_in_menu'];
             
             $updateData = [];
             $sets = [];

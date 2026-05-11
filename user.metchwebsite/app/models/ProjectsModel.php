@@ -314,7 +314,7 @@ class ProjectsModel {
      */
     public function getHomeProjects($limit = 5) {
         try {
-            $sql = "SELECT id, title, slug, category, description, image, client, location 
+            $sql = "SELECT id, title, slug, description, image, client, location 
                     FROM {$this->table} 
                     WHERE status = 1 
                     AND show_on_home = 1 
