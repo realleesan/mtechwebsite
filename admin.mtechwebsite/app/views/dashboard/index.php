@@ -92,14 +92,22 @@
                     <h6 class="mb-0 fw-bold text-muted">
                         <i class="bi bi-graph-up me-2"></i>Thống kê truy cập
                     </h6>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-outline-primary active" data-period="7days">7 ngày</button>
+                        <button type="button" class="btn btn-outline-primary" data-period="month">1 tháng</button>
+                        <button type="button" class="btn btn-outline-primary" data-period="year">1 năm</button>
+                        <button type="button" class="btn btn-outline-primary" data-period="all">Tất cả</button>
+                    </div>
                 </div>
-                <div class="row text-center">
+                
+                <!-- Stats Cards -->
+                <div class="row text-center mb-4">
                     <div class="col-4">
                         <div class="d-flex flex-column align-items-center">
                             <div class="stat-icon bg-info bg-opacity-10 text-info mb-2">
                                 <i class="bi bi-people-fill"></i>
                             </div>
-                            <div class="stat-number text-info"><?= $access_stats['today']['visits'] ?? 0 ?></div>
+                            <div class="stat-number text-info" id="today-visits"><?= $access_stats['today']['visits'] ?? 0 ?></div>
                             <div class="text-muted small">Hôm nay</div>
                         </div>
                     </div>
@@ -108,7 +116,7 @@
                             <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-2">
                                 <i class="bi bi-calendar-week"></i>
                             </div>
-                            <div class="stat-number text-warning"><?= $access_stats['month']['visits'] ?? 0 ?></div>
+                            <div class="stat-number text-warning" id="month-visits"><?= $access_stats['month']['visits'] ?? 0 ?></div>
                             <div class="text-muted small">Tháng này</div>
                         </div>
                     </div>
@@ -117,10 +125,23 @@
                             <div class="stat-icon bg-success bg-opacity-10 text-success mb-2">
                                 <i class="bi bi-graph-up"></i>
                             </div>
-                            <div class="stat-number text-success"><?= $access_stats['total']['total'] ?? 0 ?></div>
+                            <div class="stat-number text-success" id="total-visits"><?= $access_stats['total']['total'] ?? 0 ?></div>
                             <div class="text-muted small">Tổng truy cập</div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Chart Container -->
+                <div class="chart-container" style="position: relative; height: 300px;">
+                    <canvas id="accessChart"></canvas>
+                </div>
+                
+                <!-- Loading Spinner -->
+                <div id="chart-loading" class="text-center py-4" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Đang tải...</span>
+                    </div>
+                    <div class="text-muted small mt-2">Đang tải dữ liệu...</div>
                 </div>
             </div>
         </div>

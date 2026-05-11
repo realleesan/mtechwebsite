@@ -84,6 +84,96 @@ class DashboardController extends BaseController
     }
 
     /**
+     * API endpoint lấy dữ liệu biểu đồ thống kê truy cập
+     * GET /api/access-stats?period=7days|month|year|all
+     */
+    public function getAccessStats()
+    {
+        // Set header for JSON response
+        header('Content-Type: application/json');
+        
+        // Get period from query parameter
+        $period = $_GET['period'] ?? '7days';
+        
+        // Validate period
+        $validPeriods = ['7days', 'month', 'year', 'all'];
+        if (!in_array($period, $validPeriods)) {
+            $period = '7days';
+        }
+        
+        try {
+            // Get chart data
+            $chartData = $this->accessLogsModel->getChartData($period);
+            
+            // Get current stats for the period
+            $stats = $this->getPeriodStats($period);
+            
+            // Return JSON response
+            echo json_encode([
+                'success' => true,
+                'labels' => $chartData['labels'],
+                'data' => $chartData['data'],
+                'stats' => $stats,
+                'period' => $period
+            ]);
+            
+        } catch (Exception $e) {
+            // Return error response
+            echo json_encode([
+                'success' => false,
+                'error' => 'Failed to load data',
+                'labels' => [],
+                'data' => [],
+                'stats' => ['today' => 0, 'month' => 0, 'total' => 0]
+            ]);
+        }
+        exit;
+    }
+
+    /**
+     * Lấy thống kê theo khoảng thời gian
+     */
+    private function getPeriodStats($period)
+    {
+        switch ($period) {
+            case '7days':
+                return [
+                    'today' => $this->accessLogsModel->getTodayStats()['visits'] ?? 0,
+                    'month' => $this->accessLogsModel->getMonthStats()['visits'] ?? 0,
+                    'total' => $this->accessLogsModel->getTotalVisits()['total'] ?? 0
+                ];
+            case 'month':
+                $monthData = $this->accessLogsModel->getMonthData();
+                $totalMonth = array_sum($monthData['data']);
+                return [
+                    'today' => $this->accessLogsModel->getTodayStats()['visits'] ?? 0,
+                    'month' => $totalMonth,
+                    'total' => $this->accessLogsModel->getTotalVisits()['total'] ?? 0
+                ];
+            case 'year':
+                $yearData = $this->accessLogsModel->getYearData();
+                $totalYear = array_sum($yearData['data']);
+                return [
+                    'today' => $this->accessLogsModel->getTodayStats()['visits'] ?? 0,
+                    'month' => $this->accessLogsModel->getMonthStats()['visits'] ?? 0,
+                    'total' => $totalYear
+                ];
+            case 'all':
+                return [
+                    'today' => $this->accessLogsModel->getTodayStats()['visits'] ?? 0,
+                    'month' => $this->accessLogsModel->getMonthStats()['visits'] ?? 0,
+                    'total' => $this->accessLogsModel->getTotalVisits()['total'] ?? 0
+                ];
+            default:
+                return [
+                    'today' => 0,
+                    'month' => 0,
+                    'total' => 0
+                ];
+        }
+    }
+
+    /**
      * Đếm số bản ghi trong bảng với điều kiện tùy chọn
      */
     private function countTable($table, $where = '')

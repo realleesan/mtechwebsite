@@ -117,4 +117,187 @@ class AccessLogsModel
             return false;
         }
     }
+
+    /**
+     * Lấy dữ liệu truy cập theo khoảng thời gian cho biểu đồ
+     * @param string $period Khoảng thời gian: 7days, month, year, all
+     * @return array Mảng chứa labels và data cho biểu đồ
+     */
+    public function getChartData($period = '7days')
+    {
+        try {
+            switch ($period) {
+                case '7days':
+                    return $this->getLast7DaysData();
+                case 'month':
+                    return $this->getMonthData();
+                case 'year':
+                    return $this->getYearData();
+                case 'all':
+                    return $this->getAllData();
+                default:
+                    return $this->getLast7DaysData();
+            }
+        } catch (PDOException $e) {
+            error_log('AccessLogsModel::getChartData() - ' . $e->getMessage());
+            return ['labels' => [], 'data' => []];
+        }
+    }
+
+    /**
+     * Lấy dữ liệu 7 ngày gần nhất
+     */
+    public function getLast7DaysData()
+    {
+        $sql = "
+            SELECT 
+                DATE(created_at) as date,
+                COUNT(*) as visits
+            FROM {$this->table}
+            WHERE domain = 'user' 
+                AND created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            GROUP BY DATE(created_at)
+            ORDER BY date ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Điền vào các ngày thiếu dữ liệu
+        $data = [];
+        $labels = [];
+        
+        for ($i = 6; $i >= 0; $i--) {
+            $date = date('Y-m-d', strtotime("-$i days"));
+            $dateFormatted = date('d/m', strtotime($date));
+            
+            $visits = 0;
+            foreach ($results as $row) {
+                if ($row['date'] === $date) {
+                    $visits = (int) $row['visits'];
+                    break;
+                }
+            }
+            
+            $labels[] = $dateFormatted;
+            $data[] = $visits;
+        }
+        
+        return ['labels' => $labels, 'data' => $data];
+    }
+
+    /**
+     * Lấy dữ liệu 30 ngày gần nhất (hiển thị cách 3 ngày)
+     */
+    public function getMonthData()
+    {
+        $sql = "
+            SELECT 
+                DATE(created_at) as date,
+                COUNT(*) as visits
+            FROM {$this->table}
+            WHERE domain = 'user' 
+                AND created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+            GROUP BY DATE(created_at)
+            ORDER BY date ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $data = [];
+        $labels = [];
+        
+        for ($i = 29; $i >= 0; $i -= 3) { // Lấy cách 3 ngày
+            $date = date('Y-m-d', strtotime("-$i days"));
+            $dateFormatted = date('d/m', strtotime($date));
+            
+            $visits = 0;
+            foreach ($results as $row) {
+                if ($row['date'] === $date) {
+                    $visits = (int) $row['visits'];
+                    break;
+                }
+            }
+            
+            $labels[] = $dateFormatted;
+            $data[] = $visits;
+        }
+        
+        return ['labels' => $labels, 'data' => $data];
+    }
+
+    /**
+     * Lấy dữ liệu 12 tháng gần nhất
+     */
+    public function getYearData()
+    {
+        $sql = "
+            SELECT 
+                DATE_FORMAT(created_at, '%Y-%m') as month,
+                COUNT(*) as visits
+            FROM {$this->table}
+            WHERE domain = 'user' 
+                AND created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+            GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+            ORDER BY month ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $data = [];
+        $labels = [];
+        
+        for ($i = 11; $i >= 0; $i--) {
+            $month = date('Y-m', strtotime("-$i months"));
+            $monthFormatted = date('M', strtotime($month));
+            
+            $visits = 0;
+            foreach ($results as $row) {
+                if ($row['month'] === $month) {
+                    $visits = (int) $row['visits'];
+                    break;
+                }
+            }
+            
+            $labels[] = $monthFormatted;
+            $data[] = $visits;
+        }
+        
+        return ['labels' => $labels, 'data' => $data];
+    }
+
+    /**
+     * Lấy dữ liệu tất cả các năm
+     */
+    private function getAllData()
+    {
+        $sql = "
+            SELECT 
+                YEAR(created_at) as year,
+                COUNT(*) as visits
+            FROM {$this->table}
+            WHERE domain = 'user'
+            GROUP BY YEAR(created_at)
+            ORDER BY year ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $data = [];
+        $labels = [];
+        
+        foreach ($results as $row) {
+            $labels[] = $row['year'];
+            $data[] = (int) $row['visits'];
+        }
+        
+        return ['labels' => $labels, 'data' => $data];
+    }
 }
