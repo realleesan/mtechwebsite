@@ -63,15 +63,11 @@
 
 <!-- ===== SECTION 3: Our Workers (dynamic từ DB) ===== -->
 <?php
-// Lấy danh sách team nếu chưa có (about page không qua TeamsController)
-if (empty($teams)) {
-    require_once __DIR__ . '/../../models/TeamsModel.php';
-    $teamsModel = new TeamsModel();
-    $teams = $teamsModel->getAllActive();
-}
-// Chỉ hiển thị tối đa 4 thành viên trên trang about
-$aboutTeams = array_slice($teams, 0, 4);
-$delays = ['0s', '0.1s', '0.2s', '0.3s'];
+// Lấy danh sách team được đánh dấu show_in_about = 1
+require_once __DIR__ . '/../../models/TeamsModel.php';
+$teamsModel  = new TeamsModel();
+$aboutTeams  = $teamsModel->getAboutTeams(); // tối đa 4, lọc show_in_about=1
+$delays      = ['0s', '0.1s', '0.2s', '0.3s'];
 ?>
 <section class="team_area sec_gap">
     <div class="container">

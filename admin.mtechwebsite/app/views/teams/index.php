@@ -1,7 +1,14 @@
-<?php // $teams ?>
+<?php // $teams, $trashedCount ?>
 <div class="page-header">
     <h4><i class="bi bi-people me-2"></i>Quản lý Đội ngũ</h4>
-    <a href="/teams/create" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Thêm mới</a>
+    <div class="d-flex gap-2">
+        <a href="/teams/trash" class="btn btn-outline-secondary">
+            <i class="bi bi-trash me-1"></i>Thùng rác
+        </a>
+        <a href="/teams/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Thêm mới
+        </a>
+    </div>
 </div>
 
 <?php if (!empty($teams)): ?>

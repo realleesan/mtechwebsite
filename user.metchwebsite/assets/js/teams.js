@@ -1,235 +1,165 @@
 /**
- * Teams Page JavaScript
- * Xử lý validation và AJAX submit cho Question form
+ * TEAMS CAROUSEL
+ * assets/js/teams.js
+ *
+ * Clone 100% logic từ awards.js
+ * — Carousel chạy liên tục từ phải qua trái
+ * — Drag/swipe để di chuyển
+ * — Lightbox khi click vào ảnh thành viên
  */
 
-document.addEventListener('DOMContentLoaded', function () {
-    initQuestionForm();
-    initTeamHoverEffects();
-});
+(function () {
+    'use strict';
 
-// ----------------------------------------------------------------
-// Question Form
-// ----------------------------------------------------------------
+    const SPEED          = 1.4;  // px/frame (~84px/s ở 60fps)
+    const DRAG_THRESHOLD = 5;    // px — dưới ngưỡng này vẫn là click
 
-function initQuestionForm() {
-    const form = document.getElementById('questionForm');
-    if (!form) return;
+    function initCarousel() {
+        const wrapper = document.querySelector('.teams_carousel_wrapper');
+        const track   = document.querySelector('.teams_carousel_track');
+        if (!wrapper || !track) return;
 
-    form.addEventListener('submit', handleQuestionSubmit);
+        let unitWidth = 0;
+        function getUnitWidth() {
+            unitWidth = track.scrollWidth / 3; // nhân 3 lần → chia 3
+        }
+        getUnitWidth();
 
-    // Real-time validation
-    form.querySelectorAll('.form-control').forEach(function (input) {
-        input.addEventListener('blur', validateQuestionField);
-        input.addEventListener('input', function () {
-            if (input.classList.contains('is-invalid')) {
-                clearQuestionFieldError(input);
-            }
-        });
-    });
-}
+        let currentX = 0;
+        let running  = true;
 
-/**
- * Xử lý submit form câu hỏi
- */
-function handleQuestionSubmit(e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const submitBtn = form.querySelector('input[type="submit"], button[type="submit"]');
-
-    if (!validateQuestionForm(form)) {
-        return;
-    }
-
-    // Loading state
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.value = 'Đang gửi...';
-    }
-
-    const formData = new FormData(form);
-
-    fetch('/doi-ngu/submit-question', {
-        method: 'POST',
-        body: formData,
-        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
-        .then(function (response) { return response.json(); })
-        .then(function (data) {
-            if (data.success) {
-                showQuestionMessage(data.message || 'Câu hỏi của bạn đã được gửi thành công!', 'success');
-                form.reset();
-                clearAllQuestionErrors(form);
-            } else {
-                showQuestionMessage(data.message || 'Có lỗi xảy ra. Vui lòng thử lại.', 'error');
-
-                if (data.errors) {
-                    Object.keys(data.errors).forEach(function (field) {
-                        showQuestionFieldError(field, data.errors[field]);
-                    });
+        // ── RAF loop ────────────────────────────────────────────────────
+        function tick() {
+            if (running) {
+                currentX -= SPEED;
+                if (Math.abs(currentX) >= unitWidth) {
+                    currentX += unitWidth;
                 }
+                track.style.transform = `translateX(${currentX}px)`;
             }
-        })
-        .catch(function (error) {
-            console.error('Question form error:', error);
-            showQuestionMessage('Có lỗi kết nối. Vui lòng thử lại sau.', 'error');
-        })
-        .finally(function () {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.value = 'Gửi câu hỏi';
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        // ── Drag / Swipe ─────────────────────────────────────────────
+        let isDragging      = false;
+        let hasMoved        = false;
+        let startX          = 0;
+        let startTranslateX = 0;
+
+        function dragStart(e) {
+            if (e.type === 'mousedown' && e.button !== 0) return;
+            isDragging      = true;
+            hasMoved        = false;
+            running         = false;
+            startTranslateX = currentX;
+            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            wrapper.style.cursor = 'grabbing';
+        }
+
+        function dragMove(e) {
+            if (!isDragging) return;
+            const clientX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            const diff    = clientX - startX;
+
+            if (Math.abs(diff) > DRAG_THRESHOLD) hasMoved = true;
+
+            let next = startTranslateX + diff;
+            if (next > 0)           next -= unitWidth;
+            if (next <= -unitWidth) next += unitWidth;
+
+            currentX = next;
+            track.style.transform = `translateX(${currentX}px)`;
+
+            if (e.cancelable && e.type.includes('touch')) e.preventDefault();
+        }
+
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            wrapper.style.cursor = 'grab';
+            running = true;
+        }
+
+        // Mouse events
+        wrapper.addEventListener('mousedown',  dragStart);
+        wrapper.addEventListener('mousemove',  dragMove);
+        wrapper.addEventListener('mouseup',    dragEnd);
+        wrapper.addEventListener('mouseleave', dragEnd);
+
+        // Touch events
+        wrapper.addEventListener('touchstart', dragStart, { passive: true });
+        wrapper.addEventListener('touchmove',  dragMove,  { passive: false });
+        wrapper.addEventListener('touchend',   dragEnd);
+
+        // Recalc khi resize
+        window.addEventListener('resize', () => {
+            setTimeout(() => { getUnitWidth(); }, 250);
+        });
+    }
+
+    // ── LIGHTBOX LOGIC ───────────────────────────────────────────────
+    function initLightbox() {
+        const overlay    = document.getElementById('teamsLightbox');
+        const closeBtn   = document.getElementById('teamsLightboxClose');
+        const clickables = document.querySelectorAll('.teams_clickable');
+
+        if (!overlay || !closeBtn || clickables.length === 0) return;
+
+        const imgEl      = document.getElementById('teamsLightboxImg');
+        const nameEl     = document.getElementById('teamsLightboxName');
+        const positionEl = document.getElementById('teamsLightboxPosition');
+        const bioEl      = document.getElementById('teamsLightboxBio');
+
+        clickables.forEach(el => {
+            el.addEventListener('click', function () {
+                const image    = this.dataset.image    || '';
+                const name     = this.dataset.name     || '';
+                const position = this.dataset.position || '';
+                const bio      = this.dataset.bio      || '';
+
+                if (!image) return;
+
+                imgEl.src          = image;
+                imgEl.alt          = name;
+                nameEl.textContent = name;
+                positionEl.textContent = position;
+                bioEl.textContent  = bio;
+                bioEl.style.display = bio ? 'block' : 'none';
+
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeLightbox() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+
+        overlay.addEventListener('click', function (e) {
+            if (e.target === this) closeLightbox();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closeLightbox();
             }
         });
-}
-
-/**
- * Validate toàn bộ form
- */
-function validateQuestionForm(form) {
-    var isValid = true;
-
-    form.querySelectorAll('[required]').forEach(function (field) {
-        if (!validateQuestionField({ target: field })) {
-            isValid = false;
-        }
-    });
-
-    return isValid;
-}
-
-/**
- * Validate một field
- */
-function validateQuestionField(e) {
-    var field = e.target;
-    var value = field.value.trim();
-    var name  = field.name;
-
-    if (field.hasAttribute('required') && !value) {
-        showQuestionFieldError(name, getQuestionFieldLabel(name) + ' là bắt buộc');
-        return false;
     }
 
-    if (field.type === 'email' && value) {
-        // Validation email chặt chẽ hơn
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(value)) {
-            showQuestionFieldError(name, 'Email không hợp lệ');
-            return false;
-        }
-        
-        // Kiểm tra thêm: domain phải có ít nhất 2 ký tự sau dấu chấm cuối
-        const parts = value.split('@');
-        if (parts.length === 2) {
-            const domain = parts[1];
-            const domainParts = domain.split('.');
-            if (domainParts.length < 2 || domainParts[domainParts.length - 1].length < 2) {
-                showQuestionFieldError(name, 'Email không hợp lệ');
-                return false;
-            }
-        }
+    // ── Boot ─────────────────────────────────────────────────────────
+    function init() {
+        initCarousel();
+        initLightbox();
     }
 
-    if (name === 'message' && value && value.length < 10) {
-        showQuestionFieldError(name, 'Nội dung phải có ít nhất 10 ký tự');
-        return false;
-    }
-
-    clearQuestionFieldError(field);
-    return true;
-}
-
-/**
- * Hiển thị lỗi cho field theo name
- */
-function showQuestionFieldError(fieldName, message) {
-    var field = document.querySelector('#questionForm [name="' + fieldName + '"]');
-    if (!field) return;
-
-    field.classList.add('is-invalid');
-    field.classList.remove('is-valid');
-
-    var feedback = field.parentElement.querySelector('.invalid-feedback');
-    if (!feedback) {
-        feedback = document.createElement('div');
-        feedback.className = 'invalid-feedback';
-        field.parentElement.appendChild(feedback);
-    }
-    feedback.textContent = message;
-}
-
-/**
- * Xóa lỗi của một field element
- */
-function clearQuestionFieldError(field) {
-    field.classList.remove('is-invalid');
-    field.classList.add('is-valid');
-
-    var feedback = field.parentElement.querySelector('.invalid-feedback');
-    if (feedback) feedback.textContent = '';
-}
-
-/**
- * Xóa tất cả lỗi trong form
- */
-function clearAllQuestionErrors(form) {
-    form.querySelectorAll('.form-control').forEach(function (field) {
-        field.classList.remove('is-invalid', 'is-valid');
-    });
-    form.querySelectorAll('.invalid-feedback').forEach(function (el) {
-        el.textContent = '';
-    });
-}
-
-/**
- * Hiển thị flash message
- */
-function showQuestionMessage(message, type) {
-    document.querySelectorAll('.question-flash-message').forEach(function (el) { el.remove(); });
-
-    var msgEl = document.createElement('div');
-    
-    if (type === 'success') {
-        // Popup xanh nhạt giống contact.php cho thành công
-        msgEl.className = 'question-success-popup';
-        msgEl.innerHTML = '<i class="fa fa-check-circle"></i>' + message + 
-                         '<button class="flash-close" onclick="this.parentElement.remove()">&times;</button>';
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
     } else {
-        // Popup hồng nhạt giống home.php cho lỗi
-        msgEl.className = 'question-error-popup';
-        msgEl.innerHTML = '<i class="fa fa-exclamation-circle"></i> ' + message;
+        init();
     }
 
-    var form = document.getElementById('questionForm');
-    if (form) {
-        form.parentElement.insertBefore(msgEl, form.nextSibling);
-        // Scroll vào vị trí thông báo
-        msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    setTimeout(function () { msgEl.remove(); }, 6000);
-}
-
-/**
- * Label tiếng Việt cho từng field
- */
-function getQuestionFieldLabel(name) {
-    var labels = {
-        email:   'Email',
-        subject: 'Tiêu đề',
-        message: 'Nội dung câu hỏi'
-    };
-    return labels[name] || name;
-}
-
-// ----------------------------------------------------------------
-// Team member hover effects
-// ----------------------------------------------------------------
-
-function initTeamHoverEffects() {
-    document.querySelectorAll('.team_member').forEach(function (member) {
-        member.addEventListener('mouseenter', function () { this.style.zIndex = '10'; });
-        member.addEventListener('mouseleave', function () { this.style.zIndex = '1'; });
-    });
-}
+})();

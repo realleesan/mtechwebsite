@@ -1,94 +1,26 @@
 ﻿/**
  * Teams Page Styles
- * Template: docs/template/about/code/teams.html
- * Reference: Wokrate Theme
+ * Carousel giống awards.css — ảnh vuông, chạy từ phải qua trái
  */
 
 /* ========================================
    Utility / Shared Classes
    ======================================== */
 
-.sec_gap {
-    padding: 100px 0;
-}
-
-.f_600 {
-    font-weight: 600;
-}
-
-.f_size_32 {
-    font-size: 32px;
-}
-
-.f_size_20 {
-    font-size: 20px;
-}
-
-.f_p {
-    font-family: "Poppins", sans-serif;
-}
-
-.title_color {
-    color: #0D1B3E;
-}
-
-.color_w {
-    color: #ffffff;
-}
-
-.mt_7 {
-    margin-top: 7px;
-}
-
-.mb_55 {
-    margin-bottom: 55px;
-}
-
-.mb_30 {
-    margin-bottom: 30px;
-}
-
-.mb-30 {
-    margin-bottom: 30px;
-}
-
-/* ========================================
-   Banner Area - dùng chung pageheader.css, không override
-   ======================================== */
-
-.banner_content .breadcrumb-item {
-    font-size: 14px;
-    color: #ffffff;
-}
-
-.banner_content .breadcrumb-item a {
-    color: #7EB3FF;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.banner_content .breadcrumb-item a:hover {
-    color: #ffffff;
-}
-
-.banner_content .breadcrumb-item.active {
-    color: #ffffff;
-}
-
-.banner_content .breadcrumb-item + .breadcrumb-item::before {
-    content: '›';
-    color: #7EB3FF;
-    font-size: 16px;
-    padding: 0 6px;
-}
+.sec_gap        { padding: 100px 0; }
+.f_600          { font-weight: 600; }
+.f_size_32      { font-size: 32px; }
+.f_size_20      { font-size: 20px; }
+.title_color    { color: #0D1B3E; }
+.mt_7           { margin-top: 7px; }
+.mb_55          { margin-bottom: 55px; }
+.mb_30          { margin-bottom: 30px; }
 
 /* ========================================
    Section Title
    ======================================== */
 
-.section_title {
-    text-align: left;
-}
+.section_title { text-align: left; }
 
 .section_title h2 {
     font-size: 32px;
@@ -106,9 +38,7 @@
     margin-bottom: 20px;
 }
 
-.section_title .title_br.dark {
-    background-color: #0D1B3E;
-}
+.section_title .title_br.dark { background-color: #0D1B3E; }
 
 .section_title p {
     font-size: 15px;
@@ -119,122 +49,199 @@
 }
 
 /* ========================================
-   Team Area
+   Teams Area
    ======================================== */
 
-.team_area {
-    background-color: #f9f9f9;
-}
-
-.team_inner {
-    margin-top: 0;
-}
-
-/* Team Member Card */
-.team_member {
-    margin-bottom: 30px;
-    cursor: pointer;
-}
-
-/* Team Image */
-.team_img {
-    position: relative;
+.teams_area {
+    background: #f5f6f8;
+    padding: 100px 0;
     overflow: hidden;
 }
 
-.team_img img {
+.teams_area .section_title { text-align: left; }
+
+/* ========================================
+   CAROUSEL — clone 100% từ awards.css
+   ======================================== */
+
+.teams_carousel_wrapper {
+    position: relative;
     width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.4s ease;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
 }
 
-.team_member:hover .team_img img,
-.team_member:focus-within .team_img img {
-    transform: scale(1.06);
-}
+.teams_carousel_wrapper:active { cursor: grabbing; }
 
-/* Overlay — tối như bản gốc */
-.team_img .overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(20, 20, 20, 0.55);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    z-index: 1;
-}
-
-.team_member:hover .team_img .overlay {
-    opacity: 1;
-}
-
-/* Social Icons */
-.team_img .social_icon {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
+.teams_carousel_track {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.35s ease, transform 0.35s ease;
-    z-index: 2;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 20px 0 30px;
+    will-change: transform;
 }
 
-.team_member:hover .team_img .social_icon {
-    opacity: 1;
-    transform: translateY(0);
+/* ========================================
+   SLIDE — khung ảnh vuông + text bên dưới
+   ======================================== */
+
+.teams_slide {
+    flex-shrink: 0;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 }
 
-.team_img .social_icon li {
-    display: inline-block;
-}
-
-.team_img .social_icon li a {
+/* Khung ảnh vuông */
+.teams_img_wrap {
+    width: 220px;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 50%;          /* tròn như avatar */
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
-    background: transparent;
-    color: #ffffff;
-    border: 2px solid rgba(255, 255, 255, 0.7);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.teams_slide:hover .teams_img_wrap {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+    transform: translateY(-4px);
+}
+
+/* Ảnh thực tế */
+.teams_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+/* Placeholder khi chưa có ảnh */
+.teams_img_placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e8ecf4 0%, #d0d8ea 100%);
+    color: #8a9bbf;
+    font-size: 60px;
+}
+
+/* Text bên dưới */
+.teams_info {
+    text-align: center;
+    width: 100%;
+}
+
+.teams_name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0D1B3E;
+    margin: 0 0 4px;
+    line-height: 1.4;
+}
+
+.teams_position {
+    font-size: 13px;
+    color: #A8B8D8;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ========================================
+   LIGHTBOX / MODAL
+   ======================================== */
+
+.teams_lightbox_overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.teams_lightbox_overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.teams_lightbox_box {
+    position: relative;
+    background: #ffffff;
+    border-radius: 12px;
+    max-width: 520px;
+    width: 90%;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.teams_lightbox_close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.teams_lightbox_close:hover { color: #0D1B3E; }
+
+.teams_lightbox_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.teams_lightbox_img {
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background 0.3s ease, border-color 0.3s ease;
+    object-fit: cover;
+    object-position: center top;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-.team_img .social_icon li a:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #ffffff;
-}
+.teams_lightbox_info { text-align: center; }
 
-/* Member Info */
-.team_member h5 {
+.teams_lightbox_name {
     font-size: 20px;
     font-weight: 600;
     color: #0D1B3E;
-    margin: 18px 0 5px;
-    line-height: 1.3;
-    transition: color 0.3s ease;
+    margin: 0 0 6px;
 }
 
-.team_member p {
+.teams_lightbox_position {
     font-size: 14px;
-    color: #A8B8D8;
-    margin-bottom: 18px;
-    transition: color 0.3s ease;
+    color: #1A3FBF;
+    margin: 0 0 12px;
+    font-weight: 500;
 }
 
-/* Hover vào tên/chức vụ cũng trigger hiệu ứng ảnh */
-.team_member:hover h5 {
-    color: #1A3FBF;
+.teams_lightbox_bio {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+    margin: 0;
 }
 
 /* ========================================
@@ -258,27 +265,15 @@
     z-index: 0;
 }
 
-.question_area .container {
-    position: relative;
-    z-index: 1;
-}
+.question_area .container { position: relative; z-index: 1; }
 
-.question_area .section_title h2 {
-    color: #ffffff;
-}
+.question_area .section_title h2 { color: #ffffff; }
 
 .question_area .section_title .title_br.dark {
     background-color: rgba(255,255,255,0.5);
 }
 
-/* Question Form */
-.question_form {
-    margin-top: 5px;
-}
-
-.question_form .form-group {
-    margin-bottom: 20px;
-}
+.question_form .form-group { margin-bottom: 20px; }
 
 .question_form .form-control {
     display: block;
@@ -286,7 +281,6 @@
     height: 50px;
     padding: 10px 0;
     font-size: 14px;
-    font-family: "Poppins", sans-serif;
     color: #ffffff;
     background-color: transparent;
     border: none;
@@ -295,14 +289,11 @@
     outline: none;
     box-shadow: none;
     transition: border-color 0.3s ease;
-    -webkit-appearance: none;
-    appearance: none;
 }
 
 .question_form .form-control:focus {
     border-color: #ffffff;
     box-shadow: none;
-    outline: none;
     background-color: transparent;
 }
 
@@ -325,15 +316,12 @@
     color: #0D1B3E;
     font-size: 14px;
     font-weight: 600;
-    font-family: "Poppins", sans-serif;
     text-transform: uppercase;
     letter-spacing: 1px;
     border: 2px solid #ffffff;
     border-radius: 0;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
-    -webkit-appearance: none;
-    appearance: none;
 }
 
 .question_form .submit_btn:hover {
@@ -346,129 +334,22 @@
    ======================================== */
 
 @media (max-width: 991px) {
-    .sec_gap {
-        padding: 70px 0;
-    }
-
-    .banner_content .page_title {
-        font-size: 36px;
-    }
-
-    .section_title h2 {
-        font-size: 28px;
-    }
+    .teams_area { padding: 70px 0; }
+    .teams_slide { width: 180px; }
+    .teams_img_wrap { width: 180px; height: 180px; }
+    .teams_carousel_track { gap: 24px; }
 }
 
 @media (max-width: 767px) {
-    .sec_gap {
-        padding: 50px 0;
-    }
-
-    .banner_content {
-        padding: 60px 0;
-    }
-
-    .banner_content .page_title {
-        font-size: 28px;
-    }
-
-    .section_title h2 {
-        font-size: 24px;
-    }
-
-    .team_member h5 {
-        font-size: 18px;
-    }
-
-    .question_form .submit_btn {
-        width: 100%;
-        text-align: center;
-    }
+    .teams_area { padding: 50px 0; }
+    .teams_slide { width: 155px; }
+    .teams_img_wrap { width: 155px; height: 155px; }
+    .teams_carousel_track { gap: 20px; }
+    .teams_name { font-size: 13px; }
 }
 
 @media (max-width: 575px) {
-    .banner_content .page_title {
-        font-size: 24px;
-    }
-}
-
-/* ========================================
-   Question Form — Flash Messages
-   ======================================== */
-
-.question-success-popup,
-.question-error-popup {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 20px;
-    margin-top: 16px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: "Poppins", sans-serif;
-    animation: fadeInDown 0.3s ease;
-}
-
-.question-success-popup {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: #ffffff;
-}
-
-.question-success-popup .flash-close {
-    margin-left: auto;
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0.7;
-    line-height: 1;
-}
-
-.question-success-popup .flash-close:hover {
-    opacity: 1;
-}
-
-.question-error-popup {
-    background: rgba(220, 53, 69, 0.2);
-    border: 1px solid rgba(220, 53, 69, 0.5);
-    color: #ffffff;
-}
-
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-8px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ========================================
-   Team Image Placeholder (khi chua co anh)
-   ======================================== */
-
-.team_img_placeholder {
-    width: 100%;
-    padding-bottom: 120%;
-    background: #e8ecf5;
-    position: relative;
-}
-
-.team_img_placeholder .fa {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 60px;
-    color: #b0bcd8;
-}
-
-/* ========================================
-   Team Bio
-   ======================================== */
-
-.team_bio {
-    font-size: 13px;
-    color: #888;
-    margin-top: -10px;
-    margin-bottom: 18px;
-    line-height: 1.6;
+    .teams_slide { width: 130px; }
+    .teams_img_wrap { width: 130px; height: 130px; }
+    .teams_carousel_track { gap: 16px; }
 }
