@@ -54,6 +54,7 @@ class AdminRouter
         // ----------------------------------------
         $this->get('/',                     'DashboardController@index');
         $this->get('/dashboard',            'DashboardController@index');
+        $this->get('/api/access-stats',     'DashboardController@getAccessStats');
 
         // ----------------------------------------
         // Blogs

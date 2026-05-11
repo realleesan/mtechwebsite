@@ -171,6 +171,7 @@ AccessMiddleware::trackVisit();
 <?php
 switch($currentPage) {
     case 'dashboard':
+        echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
         echo '<script src="/assets/js/dashboard.js"></script>';
         break;
     case 'projects':
