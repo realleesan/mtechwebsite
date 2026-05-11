@@ -62,6 +62,11 @@
         case 'client.logo.edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.client.logos.css">';
             break;
+        case 'footer':
+        case 'footer-add':
+        case 'footer-edit':
+            echo '<link rel="stylesheet" href="/assets/css/admin.footer.css">';
+            break;
         case 'login':
         case 'forgot-password':
         case 'reset-password':
@@ -190,6 +195,11 @@ switch($currentPage) {
     case 'client.logo.create':
     case 'client.logo.edit':
         echo '<script src="/assets/js/admin.client.logos.js"></script>';
+        break;
+    case 'footer':
+    case 'footer-add':
+    case 'footer-edit':
+        echo '<script src="/assets/js/admin.footer.js"></script>';
         break;
     // Auth pages không cần JS riêng
     case 'login':
