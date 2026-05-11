@@ -62,9 +62,20 @@ class AdminRouter
         $this->get('/blogs',                'BlogsController@index');
         $this->get('/blogs/create',         'BlogsController@create');
         $this->post('/blogs/store',         'BlogsController@store');
+        $this->get('/blogs/view/{id}',      'BlogsController@viewBlog');
         $this->get('/blogs/edit/{id}',      'BlogsController@edit');
         $this->post('/blogs/update/{id}',   'BlogsController@update');
         $this->post('/blogs/delete/{id}',   'BlogsController@delete');
+
+        // ----------------------------------------
+        // Blog Categories
+        // ----------------------------------------
+        $this->get('/blogs/categories',             'BlogCategoriesController@index');
+        $this->get('/blogs/categories/create',      'BlogCategoriesController@create');
+        $this->post('/blogs/categories/store',      'BlogCategoriesController@store');
+        $this->get('/blogs/categories/edit/{id}',   'BlogCategoriesController@edit');
+        $this->post('/blogs/categories/update/{id}','BlogCategoriesController@update');
+        $this->post('/blogs/categories/delete/{id}','BlogCategoriesController@delete');
 
         // ----------------------------------------
         // Projects
