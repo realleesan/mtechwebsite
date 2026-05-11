@@ -16,10 +16,17 @@ $searchType    = $searchType    ?? '';
 $totalPages = $perPage > 0 ? (int) ceil($totalResults / $perPage) : 1;
 
 function search_page_url($p, $q, $type) {
-    $slug = urlencode($q);
-    $params = ['p' => $p];
-    if ($type) $params['type'] = $type;
-    return '/ket-qua-tim-kiem-' . $slug . '?' . http_build_query($params);
+    $slug = !empty($q) ? slugify($q) : '';
+    // Map type → URL suffix
+    $typeSuffix = [
+        'blog'    => '-tin-tuc',
+        'project' => '-du-an',
+        'service' => '-dich-vu',
+        ''        => '',
+    ];
+    $suffix = $typeSuffix[$type] ?? '';
+    $base = $slug ? '/ket-qua-tim-kiem-' . $slug . $suffix : '/ket-qua-tim-kiem';
+    return $base . ($p > 1 ? '?p=' . $p : '');
 }
 
 $typeLabels = [

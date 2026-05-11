@@ -50,25 +50,27 @@ $isSearchPage = ($currentPage === 'search');
         </div>
         <ul>
             <?php
-            $typeLabels = [
-                ''        => 'Tất cả',
-                'blog'    => 'Tin tức',
-                'service' => 'Dịch vụ',
-                'project' => 'Dự án',
+            // typeKey => [label, url suffix]
+            $typeOptions = [
+                ''        => ['label' => 'Tất cả',  'suffix' => ''],
+                'blog'    => ['label' => 'Tin tức',  'suffix' => '-tin-tuc'],
+                'project' => ['label' => 'Dự án',    'suffix' => '-du-an'],
+                'service' => ['label' => 'Dịch vụ',  'suffix' => '-dich-vu'],
             ];
-            $searchSlug = str_replace(' ', '-', $searchQuery);
+            // Slug không dấu của từ khóa tìm kiếm
+            $searchSlug = !empty($searchQuery) ? slugify($searchQuery) : '';
             ?>
-            <?php foreach ($typeLabels as $typeKey => $typeText): ?>
+            <?php foreach ($typeOptions as $typeKey => $typeOpt): ?>
                 <li class="<?php echo $searchType === $typeKey ? 'active' : ''; ?>">
                     <?php
-                    if ($searchQuery) {
-                        $filterUrl = '/ket-qua-tim-kiem-' . $searchSlug . ($typeKey ? '?type=' . $typeKey : '');
+                    if ($searchSlug) {
+                        $filterUrl = '/ket-qua-tim-kiem-' . $searchSlug . $typeOpt['suffix'];
                     } else {
-                        $filterUrl = '/ket-qua-tim-kiem' . ($typeKey ? '?type=' . $typeKey : '');
+                        $filterUrl = '/ket-qua-tim-kiem';
                     }
                     ?>
                     <a href="<?php echo htmlspecialchars($filterUrl); ?>">
-                        <?php echo $typeText; ?>
+                        <?php echo $typeOpt['label']; ?>
                     </a>
                 </li>
             <?php endforeach; ?>

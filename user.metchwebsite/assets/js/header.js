@@ -2,6 +2,29 @@
  * Header JavaScript - MTech Website
  */
 
+/**
+ * Chuyển chuỗi tiếng Việt có dấu thành slug không dấu
+ * Ví dụ: "Tuyển Dụng" → "tuyen-dung"
+ */
+function slugifyVi(str) {
+    var from = 'àáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ'
+             + 'ÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴĐ';
+    var to   = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd'
+             + 'AAAAAAAAAAAAAAAAAEEEEEEEEEEEIIIIIOOOOOOOOOOOOOOOOOUUUUUUUUUUUYYYYYD';
+    // Dùng normalize + replace từng ký tự
+    var result = '';
+    for (var i = 0; i < str.length; i++) {
+        var idx = from.indexOf(str[i]);
+        result += idx !== -1 ? to[idx] : str[i];
+    }
+    return result
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
 (function () {
     'use strict';
 
@@ -228,7 +251,7 @@
         }
 
         // Validate: không cho submit khi input rỗng
-        // Redirect đến /ket-qua-tim-kiem-{keyword}
+        // Redirect đến /ket-qua-tim-kiem-{keyword} (không dấu)
         const searchOverlayForm = searchOverlay ? searchOverlay.querySelector('form') : null;
         if (searchOverlayForm) {
             searchOverlayForm.addEventListener('submit', function (e) {
@@ -238,8 +261,8 @@
                     if (searchInput) searchInput.focus();
                     return;
                 }
-                // Chỉ thay dấu cách thành dấu gạch ngang, giữ nguyên ký tự Unicode
-                var slug = keyword.replace(/\s+/g, '-');
+                // Bỏ dấu tiếng Việt và chuyển thành slug
+                var slug = slugifyVi(keyword);
                 window.location.href = '/ket-qua-tim-kiem-' + slug;
             });
         }

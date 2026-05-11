@@ -75,13 +75,19 @@ Options -Indexes
     # ------------------------------------------
     # Search / Tìm kiếm - Làm đẹp URL
     # PHẢI ĐẶT TRƯỚC các rule chi-tiet-* để tránh conflict
-    # /ket-qua-tim-kiem-{keyword} → index.php?page=search&q={keyword}
+    # /ket-qua-tim-kiem-{keyword}-tin-tuc  → index.php?page=search&q={keyword}&type=blog
+    # /ket-qua-tim-kiem-{keyword}-du-an    → index.php?page=search&q={keyword}&type=project
+    # /ket-qua-tim-kiem-{keyword}-dich-vu  → index.php?page=search&q={keyword}&type=service
+    # /ket-qua-tim-kiem-{keyword}          → index.php?page=search&q={keyword}
     # NE = No Escape: giữ nguyên ký tự Unicode, không re-encode
     # ------------------------------------------
-    RewriteRule ^ket-qua-tim-kiem-(.+)$ index.php?page=search&q=$1 [L,QSA,NE]
-    RewriteRule ^ket-qua-tim-kiem$ index.php?page=search [L,QSA]
-    RewriteRule ^search$ index.php?page=search [L,QSA]
-    RewriteRule ^tim-kiem$ index.php?page=search [L,QSA]
+    RewriteRule ^ket-qua-tim-kiem-(.+)-tin-tuc$  index.php?page=search&q=$1&type=blog    [L,QSA,NE]
+    RewriteRule ^ket-qua-tim-kiem-(.+)-du-an$    index.php?page=search&q=$1&type=project [L,QSA,NE]
+    RewriteRule ^ket-qua-tim-kiem-(.+)-dich-vu$  index.php?page=search&q=$1&type=service [L,QSA,NE]
+    RewriteRule ^ket-qua-tim-kiem-(.+)$          index.php?page=search&q=$1              [L,QSA,NE]
+    RewriteRule ^ket-qua-tim-kiem$               index.php?page=search                   [L,QSA]
+    RewriteRule ^search$                         index.php?page=search                   [L,QSA]
+    RewriteRule ^tim-kiem$                       index.php?page=search                   [L,QSA]
 
     # ------------------------------------------
     # Project Details - Làm đẹp URL

@@ -11,7 +11,7 @@
             <h1>404</h1>
             <h2><span>Oops</span> That page can't be found</h2>
             <p>Sorry, but the page you are looking for does not existing</p>
-            <a href="index.php" class="btn_error read_more border_radious_none">Go to home page</a>
+            <a href="/" class="btn_error read_more border_radious_none">Go to home page</a>
         </div>
     </div>
 </div>
