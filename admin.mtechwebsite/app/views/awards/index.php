@@ -10,16 +10,16 @@
         <span class="text-muted small">Tổng: <strong><?= count($awards) ?></strong> giải thưởng</span>
     </div>
     <div class="table-responsive">
-        <table class="table table-hover mb-0 align-middle">
+        <table class="table table-hover mb-0 align-middle awards-table">
             <thead>
                 <tr>
-                    <th style="width:60px">#</th>
-                    <th style="width:100px">Ảnh</th>
+                    <th>#</th>
+                    <th>Ảnh</th>
                     <th>Tên giải thưởng</th>
                     <th>Đơn vị cấp</th>
-                    <th style="width:80px">Thứ tự</th>
-                    <th style="width:100px">Trạng thái</th>
-                    <th style="width:120px">Thao tác</th>
+                    <th class="award-col-sort text-center">Thứ tự</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                         <span class="fw-medium"><?= htmlspecialchars($award['name'] ?? '') ?></span>
                     </td>
                     <td class="text-muted small"><?= htmlspecialchars($award['certificate'] ?? '—') ?></td>
-                    <td class="text-center text-muted small"><?= (int)($award['sort_order'] ?? 0) ?></td>
+                    <td class="award-col-sort text-center text-muted small"><?= (int)($award['sort_order'] ?? 0) ?></td>
                     <td>
                         <?php if (($award['status'] ?? 1) == 1): ?>
                             <span class="badge bg-success">Hiển thị</span>

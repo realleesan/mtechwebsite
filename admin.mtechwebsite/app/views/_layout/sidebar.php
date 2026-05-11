@@ -12,8 +12,8 @@ $headerSettings = $headerModel->getSettingsWithFallback();
     <!-- Logo -->
     <div class="sidebar-logo d-flex align-items-center px-3 py-4">
         <a href="/dashboard" class="d-flex align-items-center text-decoration-none">
-            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" 
-                 alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" 
+            <img src="<?php echo htmlspecialchars((string) ($headerSettings['logo_path'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" 
+                 alt="<?php echo htmlspecialchars((string) ($headerSettings['logo_alt'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" 
                  height="36" 
                  onerror="this.style.display='none'">
             <span class="ms-2 fw-bold text-white fs-5">MTECH.JSC</span>
@@ -36,7 +36,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Blogs -->
             <li class="nav-item">
-                <a href="/blogs" class="nav-link <?= $currentPage === 'blogs' ? 'active' : '' ?>">
+                <a href="/blogs" class="nav-link <?= in_array($currentPage, ['blogs', 'blog.create', 'blog.edit', 'blog.view', 'blog-categories', 'blog.category.create', 'blog.category.edit']) ? 'active' : '' ?>">
                     <i class="bi bi-newspaper"></i>
                     <span>Tin tức / Tuyển dụng</span>
                 </a>

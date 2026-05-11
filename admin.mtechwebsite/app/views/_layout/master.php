@@ -52,6 +52,15 @@
         case 'project-edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.projects.css">';
             break;
+        case 'blogs':
+        case 'blog.create':
+        case 'blog.edit':
+        case 'blog.view':
+        case 'blog-categories':
+        case 'blog.category.create':
+        case 'blog.category.edit':
+            echo '<link rel="stylesheet" href="/assets/css/admin.blogs.css">';
+            break;
         case 'awards':
         case 'award.create':
         case 'award.edit':
@@ -193,6 +202,15 @@ switch($currentPage) {
     case 'project-create':
     case 'project-edit':
         echo '<script src="/assets/js/admin.projects.js"></script>';
+        break;
+    case 'blogs':
+    case 'blog.create':
+    case 'blog.edit':
+    case 'blog.view':
+    case 'blog-categories':
+    case 'blog.category.create':
+    case 'blog.category.edit':
+        echo '<script src="/assets/js/admin.blogs.js"></script>';
         break;
     case 'awards':
     case 'award.create':

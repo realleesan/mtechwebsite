@@ -521,6 +521,73 @@ class BlogsModel
     // ----------------------------------------------------------------
 
     /**
+     * Lấy danh sách blogs cho admin với phân trang và filter
+     * @param int $page Trang hiện tại
+     * @param int $perPage Số bài mỗi trang
+     * @param int $catId Lọc theo category_id (0 = tất cả)
+     * @param string $search Từ khóa tìm kiếm
+     * @return array ['blogs' => [...], 'total' => int]
+     */
+    public function getAdminBlogs($page = 1, $perPage = 20, $catId = 0, $search = '')
+    {
+        try {
+            $offset = ($page - 1) * $perPage;
+            $params = [];
+
+            $baseJoin = "FROM `blogs` b
+                         LEFT JOIN `blog_categories` bc ON b.category_id = bc.id";
+
+            $where = "WHERE 1=1"; // Admin xem tất cả, không filter status
+
+            // Add category filter
+            if ($catId > 0) {
+                $where .= " AND b.category_id = ?";
+                $params[] = $catId;
+            }
+
+            // Add search filter
+            if (!empty($search)) {
+                $where .= " AND (b.title LIKE ? OR b.excerpt LIKE ? OR bc.name LIKE ?)";
+                $like = "%{$search}%";
+                $params[] = $like;
+                $params[] = $like;
+                $params[] = $like;
+            }
+
+            // Count total
+            $countSql = "SELECT COUNT(b.id) {$baseJoin} {$where}";
+            $countStmt = $this->db->prepare($countSql);
+            $countStmt->execute($params);
+            $total = (int) $countStmt->fetchColumn();
+
+            // Fetch blogs - bỏ sort_order vì không tồn tại
+            $sql = "SELECT b.id, b.title, b.slug, b.image, b.excerpt,
+                           b.author, b.created_at, b.views, b.category_id, b.status,
+                           b.is_featured,
+                           bc.name AS category_name, bc.slug AS category_slug
+                    {$baseJoin}
+                    {$where}
+                    ORDER BY b.created_at DESC
+                    LIMIT ? OFFSET ?";
+
+            $fetchParams = array_merge($params, [$perPage, $offset]);
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($fetchParams);
+            $blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Gắn tags cho từng blog
+            foreach ($blogs as &$blog) {
+                $blog['tags'] = $this->getTagsByBlogId($blog['id']);
+            }
+
+            return ['blogs' => $blogs, 'total' => $total];
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getAdminBlogs() - ' . $e->getMessage());
+            return ['blogs' => [], 'total' => 0];
+        }
+    }
+
+    /**
      * Lấy blog theo ID cho admin (không filter status)
      */
     public function getAdminBlogById($id)
@@ -541,6 +608,117 @@ class BlogsModel
         } catch (PDOException $e) {
             error_log('BlogsModel::getAdminBlogById() - ' . $e->getMessage());
             return null;
+        }
+    }
+
+    /**
+     * Lấy tất cả blog categories cho admin (không filter status)
+     */
+    public function getAdminBlogCategories()
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, status, show_in_menu, sort_order, created_at
+                 FROM `blog_categories`
+                 ORDER BY sort_order ASC, id ASC"
+            );
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getAdminBlogCategories() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Tạo blog mới
+     * @param array $data Dữ liệu blog
+     * @return int Blog ID
+     */
+    public function createBlog($data)
+    {
+        try {
+            $sql = "INSERT INTO blogs (
+                title, slug, category_id, excerpt, content, image, author, 
+                status, is_featured, views, hiring_status, position, 
+                expires_in_days, contact_email, contact_phone, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+            
+            $stmt = $this->db->prepare($sql);
+            // hiring_status: cột NOT NULL (DEFAULT 1 trên DB) — không được gửi NULL khi strict mode
+            $hiringStatus = isset($data['hiring_status']) ? (int) $data['hiring_status'] : 1;
+            $expiresRaw = $data['expires_in_days'] ?? null;
+            $expiresInDays = ($expiresRaw !== '' && $expiresRaw !== null) ? (int) $expiresRaw : null;
+
+            $stmt->execute([
+                $data['title'],
+                $data['slug'],
+                $data['category_id'],
+                $data['excerpt'] ?? '',
+                $data['content'] ?? '',
+                $data['image'] ?? '',
+                $data['author'] ?? 'Admin',
+                $data['status'] ?? 1,
+                $data['is_featured'] ?? 0,
+                $data['views'] ?? 0,
+                $hiringStatus,
+                $data['position'] ?? '',
+                $expiresInDays,
+                $data['contact_email'] ?? null,
+                $data['contact_phone'] ?? null
+            ]);
+            
+            return $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            error_log('BlogsModel::createBlog() - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Cập nhật blog
+     * @param int $id Blog ID
+     * @param array $data Dữ liệu cập nhật
+     * @return bool
+     */
+    public function updateBlog($id, $data)
+    {
+        try {
+            $fields = [];
+            $params = [];
+            
+            // Dynamic SET clause - chỉ update các field có trong $data
+            foreach ($data as $key => $value) {
+                $fields[] = "{$key} = ?";
+                $params[] = $value;
+            }
+            
+            if (empty($fields)) return false;
+            
+            $sql = "UPDATE blogs SET " . implode(', ', $fields) . ", updated_at = NOW() WHERE id = ?";
+            $params[] = $id;
+            
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::updateBlog() - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Xóa blog
+     * @param int $id Blog ID
+     * @return bool
+     */
+    public function deleteBlog($id)
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM blogs WHERE id = ?");
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::deleteBlog() - ' . $e->getMessage());
+            throw $e;
         }
     }
 
