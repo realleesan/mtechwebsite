@@ -4,12 +4,71 @@
 
 :root {
     --sidebar-width: 260px;
+    --topbar-height: 56px;
+    
+    /* Light mode colors */
     --sidebar-bg: #1e2a3a;
     --sidebar-hover: #2d3f55;
     --sidebar-active: #1A3FBF;
-    --topbar-height: 56px;
     --primary: #1A3FBF;
     --primary-light: #e8edff;
+    --primary-dark: #1535a8;
+    
+    --body-bg: #f4f6f9;
+    --body-color: #333;
+    --card-bg: #fff;
+    --card-border: rgba(0,0,0,0.06);
+    --card-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --card-hover-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    
+    --topbar-bg: #fff;
+    --topbar-border: rgba(0,0,0,0.06);
+    
+    --table-bg: #fff;
+    --table-header-bg: #f8f9fa;
+    --table-border: #e9ecef;
+    --table-hover: #f8f9ff;
+    
+    --text-muted: #6c757d;
+    --text-secondary: #444;
+    --border-color: #e9ecef;
+    --input-bg: #fff;
+    --input-border: #ced4da;
+    --input-focus-border: var(--primary);
+    --input-focus-shadow: rgba(26, 63, 191, 0.15);
+}
+
+/* Dark mode colors */
+[data-theme="dark"] {
+    --sidebar-bg: #0f1419;
+    --sidebar-hover: #1a1f2e;
+    --sidebar-active: #1A3FBF;
+    --primary: #4a7fff;
+    --primary-light: #1a3fbf;
+    --primary-dark: #6b9fff;
+    
+    --body-bg: #0d1117;
+    --body-color: #e6edf3;
+    --card-bg: #161b22;
+    --card-border: rgba(255,255,255,0.1);
+    --card-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    --card-hover-shadow: 0 4px 16px rgba(0,0,0,0.6);
+    
+    --topbar-bg: #161b22;
+    --topbar-border: rgba(255,255,255,0.1);
+    
+    --table-bg: #161b22;
+    --table-header-bg: #0d1117;
+    --table-border: rgba(255,255,255,0.1);
+    --table-hover: #1c2128;
+    
+    --text-muted: #8b949e;
+    --text-secondary: #c9d1d9;
+    --border-color: #30363d;
+    --input-bg: #0d1117;
+    --input-border: #30363d;
+    --input-focus-border: var(--primary);
+    --input-focus-shadow: rgba(74, 127, 255, 0.15);
 }
 
 * {
@@ -18,9 +77,10 @@
 
 body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: #f4f6f9;
-    color: #333;
+    background: var(--body-bg);
+    color: var(--body-color);
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ============================================
@@ -131,12 +191,13 @@ body {
    ============================================ */
 
 .admin-topbar {
-    background: #fff;
+    background: var(--topbar-bg);
     height: var(--topbar-height);
     position: sticky;
     top: 0;
     z-index: 99;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 4px var(--topbar-border);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .admin-avatar {
@@ -159,13 +220,14 @@ body {
 .stat-card {
     border: none;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--card-shadow);
+    background: var(--card-bg);
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
 }
 
 .stat-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: var(--card-hover-shadow);
 }
 
 .stat-card .stat-icon {
@@ -188,11 +250,63 @@ body {
    Tables
    ============================================ */
 
+/* Basic table styles for dark mode */
+[data-theme="dark"] .table {
+    background-color: var(--card-bg);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .table > thead > tr > th {
+    background-color: var(--table-header-bg);
+    border-color: var(--table-border);
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .table > tbody > tr > td {
+    background-color: var(--card-bg);
+    border-color: var(--table-border);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .table > tbody > tr:hover > td {
+    background-color: var(--table-hover);
+}
+
+[data-theme="dark"] .table > tbody > tr > th {
+    background-color: var(--table-header-bg);
+    border-color: var(--table-border);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > td {
+    background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(even) > td {
+    background-color: var(--table-header-bg);
+}
+
+/* Additional table fixes for dark mode */
+[data-theme="dark"] .table-bordered {
+    border-color: var(--table-border);
+}
+
+[data-theme="dark"] .table-bordered > thead > tr > th,
+[data-theme="dark"] .table-bordered > tbody > tr > td {
+    border-color: var(--table-border);
+}
+
+[data-theme="dark"] .table-sm > td,
+[data-theme="dark"] .table-sm > th {
+    padding: 0.5rem;
+}
+
 .admin-table {
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: var(--card-shadow);
     overflow: hidden;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .admin-table .table {
@@ -200,24 +314,27 @@ body {
 }
 
 .admin-table .table thead th {
-    background: #f8f9fa;
-    border-bottom: 2px solid #e9ecef;
+    background: var(--table-header-bg);
+    border-bottom: 2px solid var(--table-border);
     font-weight: 600;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #6c757d;
+    color: var(--text-muted);
     padding: 12px 16px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .admin-table .table tbody td {
     padding: 12px 16px;
     vertical-align: middle;
-    border-color: #f0f0f0;
+    border-color: var(--table-border);
+    transition: border-color 0.3s ease;
 }
 
 .admin-table .table tbody tr:hover {
-    background: #f8f9ff;
+    background: var(--table-hover);
+    transition: background-color 0.3s ease;
 }
 
 /* ============================================
@@ -225,22 +342,69 @@ body {
    ============================================ */
 
 .admin-form-card {
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: var(--card-shadow);
     padding: 24px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-label {
     font-weight: 500;
     font-size: 0.9rem;
-    color: #444;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 0.2rem rgba(26, 63, 191, 0.15);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 0.2rem var(--input-focus-shadow);
+    background-color: var(--input-bg);
+    transition: all 0.3s ease;
+}
+
+.form-control,
+.form-select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--body-color);
+    transition: all 0.3s ease;
+}
+
+/* Fix placeholder text color in dark mode */
+[data-theme="dark"] .form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .form-control::-webkit-input-placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .form-control::-moz-placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .form-control:-ms-input-placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* Fix select options in dark mode */
+[data-theme="dark"] .form-select option {
+    background-color: var(--card-bg);
+    color: var(--body-color);
+}
+
+/* Fix textarea in dark mode */
+[data-theme="dark"] .form-control:focus {
+    background-color: var(--input-bg);
+    color: var(--body-color);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 0.2rem var(--input-focus-shadow);
 }
 
 /* ============================================
@@ -250,11 +414,13 @@ body {
 .btn-primary {
     background: var(--primary);
     border-color: var(--primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: #1535a8;
-    border-color: #1535a8;
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* ============================================
@@ -271,7 +437,8 @@ body {
 .page-header h4 {
     font-weight: 700;
     margin: 0;
-    color: #1e2a3a;
+    color: var(--body-color);
+    transition: color 0.3s ease;
 }
 
 /* ============================================
@@ -284,12 +451,173 @@ body {
 }
 
 /* ============================================
+   Dark Mode Toggle
+   ============================================ */
+
+.dark-mode-toggle .btn {
+    transition: all 0.3s ease;
+    border-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+.dark-mode-toggle .btn:hover {
+    background-color: var(--card-bg);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.dark-mode-toggle .btn i {
+    transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle .btn:hover i {
+    transform: scale(1.1);
+}
+
+/* ============================================
+   Bootstrap Components Dark Mode Support
+   ============================================ */
+
+[data-theme="dark"] .btn-light {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .btn-light:hover {
+    background-color: var(--table-hover);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: var(--table-hover);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .dropdown-divider {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-content {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-header {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-footer {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .alert {
+    border-color: var(--border-color);
+}
+
+/* Text colors for dark mode */
+[data-theme="dark"] .text-muted {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+/* Bootstrap Cards for dark mode */
+[data-theme="dark"] .card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .card-header {
+    background-color: var(--table-header-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .card-body {
+    background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .card-footer {
+    background-color: var(--table-header-bg);
+    border-color: var(--border-color);
+}
+
+/* Input groups for dark mode */
+[data-theme="dark"] .input-group-text {
+    background-color: var(--table-header-bg);
+    border-color: var(--input-border);
+    color: var(--text-muted);
+}
+
+/* Pagination for dark mode */
+[data-theme="dark"] .pagination {
+    --bs-pagination-color: var(--body-color);
+    --bs-pagination-bg: var(--card-bg);
+    --bs-pagination-border-color: var(--border-color);
+    --bs-pagination-hover-color: var(--body-color);
+    --bs-pagination-hover-bg: var(--table-hover);
+    --bs-pagination-hover-border-color: var(--border-color);
+    --bs-pagination-focus-color: var(--body-color);
+    --bs-pagination-focus-bg: var(--table-hover);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-active-bg: var(--primary);
+    --bs-pagination-active-border-color: var(--primary);
+    --bs-pagination-disabled-color: var(--text-muted);
+    --bs-pagination-disabled-bg: var(--card-bg);
+    --bs-pagination-disabled-border-color: var(--border-color);
+}
+
+[data-theme="dark"] .page-link {
+    color: var(--body-color);
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .page-link:hover {
+    color: var(--body-color);
+    background-color: var(--table-hover);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .page-item.active .page-link {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Borders for dark mode */
+[data-theme="dark"] .border {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .border-top {
+    border-top-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .border-bottom {
+    border-bottom-color: var(--border-color) !important;
+}
+
+/* ============================================
    Footer
    ============================================ */
 
 .admin-footer {
     font-size: 0.8rem;
-    background: #fff;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* ============================================

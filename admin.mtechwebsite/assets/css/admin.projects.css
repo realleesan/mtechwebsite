@@ -5,7 +5,7 @@
 /* Rich Editor Placeholder Styles */
 .rich-editor-content[data-placeholder]:empty:before {
     content: attr(data-placeholder);
-    color: #6c757d;
+    color: var(--text-muted);
     font-style: italic;
     pointer-events: none;
 }
@@ -29,14 +29,16 @@
 
 .projects-table .project-title {
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--body-color);
     margin-bottom: 2px;
+    transition: color 0.3s ease;
 }
 
 .projects-table .project-slug {
     font-size: 0.8rem;
-    color: #6c757d;
+    color: var(--text-muted);
     font-family: 'Courier New', monospace;
+    transition: color 0.3s ease;
 }
 
 /* Project Status Badges */
@@ -45,7 +47,7 @@
 }
 
 .project-status-inactive {
-    background-color: #6c757d;
+    background-color: var(--text-muted);
 }
 
 .project-status-featured {
@@ -55,14 +57,15 @@
 
 /* Project Form Tabs */
 .project-form-tabs .nav-tabs {
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 2px solid var(--border-color);
     margin-bottom: 30px;
+    transition: border-color 0.3s ease;
 }
 
 .project-form-tabs .nav-tabs .nav-link {
     border: none;
     border-bottom: 3px solid transparent;
-    color: #6c757d;
+    color: var(--text-muted);
     font-weight: 500;
     padding: 12px 20px;
     transition: all 0.2s;
@@ -105,10 +108,11 @@
 
 /* Result Items Dynamic UI */
 .result-items-container {
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 15px;
-    background: #f8f9fa;
+    background: var(--table-header-bg);
+    transition: all 0.3s ease;
 }
 
 .result-item {
@@ -131,12 +135,13 @@
 
 /* Wireframe Styles for Project Details */
 .wireframe-container {
-    border: 2px dashed #dee2e6;
+    border: 2px dashed var(--border-color);
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    background: #f8f9fa;
+    background: var(--table-header-bg);
     position: relative;
+    transition: all 0.3s ease;
 }
 
 .wireframe-container::before {
@@ -144,24 +149,25 @@
     position: absolute;
     top: -10px;
     left: 20px;
-    background: #f8f9fa;
+    background: var(--table-header-bg);
     padding: 0 8px;
     font-size: 0.8rem;
-    color: #6c757d;
+    color: var(--text-muted);
     font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .wireframe-image-placeholder {
-    border: 2px dashed #ced4da;
+    border: 2px dashed var(--input-border);
     border-radius: 6px;
     min-height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6c757d;
+    color: var(--text-muted);
     font-size: 0.9rem;
-    background: #fff;
-    transition: border-color 0.2s;
+    background: var(--card-bg);
+    transition: border-color 0.2s, background-color 0.3s ease;
 }
 
 .wireframe-image-placeholder:hover {
@@ -169,14 +175,15 @@
 }
 
 .wireframe-text-placeholder {
-    border: 1px dashed #ced4da;
+    border: 1px dashed var(--input-border);
     border-radius: 4px;
     padding: 12px;
     margin-bottom: 12px;
-    background: #fff;
+    background: var(--card-bg);
     min-height: 60px;
-    color: #6c757d;
+    color: var(--text-muted);
     font-style: italic;
+    transition: all 0.3s ease;
 }
 
 .wireframe-grid {
@@ -187,20 +194,21 @@
 }
 
 .wireframe-grid-item {
-    border: 1px dashed #ced4da;
+    border: 1px dashed var(--input-border);
     border-radius: 6px;
     padding: 16px;
-    background: #fff;
+    background: var(--card-bg);
     text-align: center;
+    transition: all 0.3s ease;
 }
 
 /* Gallery Upload Area */
 .gallery-upload-area {
-    border: 2px dashed #dee2e6;
+    border: 2px dashed var(--border-color);
     border-radius: 8px;
     padding: 30px;
     text-align: center;
-    background: #f8f9fa;
+    background: var(--table-header-bg);
     cursor: pointer;
     transition: all 0.2s;
 }

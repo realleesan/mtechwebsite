@@ -5,7 +5,7 @@
 /* ---- Upload Area ---- */
 .award-upload-area {
     position: relative;
-    border: 2px dashed #dee2e6;
+    border: 2px dashed var(--border-color);
     border-radius: 10px;
     min-height: 200px;
     display: flex;
@@ -14,13 +14,13 @@
     cursor: pointer;
     transition: border-color 0.2s, background 0.2s;
     overflow: hidden;
-    background: #f8f9fa;
+    background: var(--table-header-bg);
 }
 
 .award-upload-area:hover,
 .award-upload-area.dragover {
-    border-color: #0d6efd;
-    background: #eef3ff;
+    border-color: var(--primary);
+    background: var(--primary-light);
 }
 
 .award-upload-placeholder {
@@ -58,10 +58,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8f9fa;
+    background: var(--table-header-bg);
     border-radius: 6px;
     overflow: hidden;
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
 }
 
 .award-thumb img {
@@ -77,4 +78,6 @@
     align-items: center;
     justify-content: center;
     font-size: 1.4rem;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
 }

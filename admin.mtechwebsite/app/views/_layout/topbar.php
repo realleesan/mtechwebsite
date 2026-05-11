@@ -16,6 +16,15 @@ $admin = $admin ?? \AuthMiddleware::getAdmin();
     <!-- Right side -->
     <div class="topbar-right d-flex align-items-center gap-3">
 
+        <!-- Dark Mode Toggle -->
+        <div class="dark-mode-toggle">
+            <button class="btn btn-sm btn-outline-secondary d-none d-md-inline-flex align-items-center gap-1" 
+                    id="darkModeToggle" title="Chuyển đổi chế độ sáng/tối">
+                <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                <span class="d-none d-lg-inline">Dark Mode</span>
+            </button>
+        </div>
+
         <!-- View website -->
         <a href="https://truongvinalogistics.com.vn" target="_blank"
            class="btn btn-sm btn-outline-primary d-none d-md-inline-flex align-items-center gap-1">
