@@ -98,6 +98,7 @@ class ProjectsController extends BaseController
             'location' => $_POST['location'] ?? '',
             'project_date' => $_POST['project_date'] ?? '',
             'status' => $_POST['status'] ?? 1,
+            'sort_order' => (int)($_POST['sort_order'] ?? 0),
             'show_on_home' => isset($_POST['show_on_home']) ? 1 : 0,
             'show_in_menu' => isset($_POST['show_in_menu']) ? 1 : 0,
             'meta_title' => $_POST['meta_title'] ?? '',
@@ -171,6 +172,10 @@ class ProjectsController extends BaseController
         // Create project
         $projectId = $this->model->create($data);
         if ($projectId) {
+            // Reorder projects
+            $this->model->reorderProjects($projectId, $data['sort_order']);
+            $this->model->normalizeOrders();
+            
             // Save service for the project
             if (!empty($_POST['service_id'])) {
                 $this->model->addProjectServices($projectId, [$_POST['service_id']]);
@@ -235,6 +240,7 @@ class ProjectsController extends BaseController
             'location' => $_POST['location'] ?? '',
             'project_date' => $_POST['project_date'] ?? '',
             'status' => $_POST['status'] ?? 1,
+            'sort_order' => (int)($_POST['sort_order'] ?? 0),
             'show_on_home' => isset($_POST['show_on_home']) ? 1 : 0,
             'show_in_menu' => isset($_POST['show_in_menu']) ? 1 : 0,
             'meta_title' => $_POST['meta_title'] ?? '',
@@ -323,6 +329,10 @@ class ProjectsController extends BaseController
 
         // Update project
         if ($this->model->update($id, $data)) {
+            // Reorder projects
+            $this->model->reorderProjects($id, $data['sort_order'], $project['sort_order'] ?? null);
+            $this->model->normalizeOrders();
+            
             // Save service for the project
             if (!empty($_POST['service_id'])) {
                 $this->model->addProjectServices($id, [$_POST['service_id']]);
@@ -354,6 +364,7 @@ class ProjectsController extends BaseController
 
         // Delete project (soft delete)
         if ($this->model->delete($id)) {
+            $this->model->normalizeOrders();
             $_SESSION['success'] = 'Xóa dự án thành công!';
         } else {
             $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';

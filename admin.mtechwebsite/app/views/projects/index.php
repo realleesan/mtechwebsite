@@ -26,7 +26,7 @@
     <div class="p-3 border-bottom"><span class="text-muted small">Tổng: <strong><?= $total ?? 0 ?></strong> dự án</span></div>
     <div class="table-responsive">
         <table class="table table-hover mb-0">
-            <thead><tr><th>#</th><th>Tên dự án</th><th>Danh mục</th><th>Trạng thái</th><th>Ngày tạo</th><th style="width:120px">Thao tác</th></tr></thead>
+            <thead><tr><th>#</th><th>Tên dự án</th><th>Danh mục</th><th>Thứ tự</th><th>Trạng thái</th><th>Ngày tạo</th><th style="width:120px">Thao tác</th></tr></thead>
             <tbody>
                 <?php if (!empty($projects)): foreach ($projects as $p): ?>
                 <tr>
@@ -43,6 +43,7 @@
                         </div>
                     </td>
                     <td><span class="badge bg-secondary"><?= htmlspecialchars($p['category_name'] ?? '') ?></span></td>
+                    <td class="text-center text-muted small"><?= (int)($p['sort_order'] ?? 0) ?></td>
                     <td>
                         <?php 
                         $status = $p['status'] ?? 1;
@@ -66,7 +67,7 @@
                     </td>
                 </tr>
                 <?php endforeach; else: ?>
-                <tr><td colspan="6" class="text-center text-muted py-4"><i class="bi bi-inbox fs-3 d-block mb-2"></i>Chưa có dự án nào</td></tr>
+                <tr><td colspan="7" class="text-center text-muted py-4"><i class="bi bi-inbox fs-3 d-block mb-2"></i>Chưa có dự án nào</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>

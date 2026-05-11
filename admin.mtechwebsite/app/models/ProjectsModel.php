@@ -555,4 +555,80 @@ class ProjectsModel {
             return [];
         }
     }
+
+    /**
+     * Điều chỉnh thứ tự tự động khi thêm/sửa dự án.
+     * Nếu sort_order trùng với dự án khác, tự động lùi các dự án sau đó.
+     *
+     * @param int      $projectId      ID của dự án đang được thêm/sửa
+     * @param int      $newSortOrder Thứ tự mới
+     * @param int|null $oldSortOrder Thứ tự cũ (null nếu thêm mới)
+     */
+    public function reorderProjects(int $projectId, int $newSortOrder, ?int $oldSortOrder = null): bool
+    {
+        try {
+            if ($oldSortOrder !== null && $oldSortOrder === $newSortOrder) {
+                return true;
+            }
+
+            $stmt = $this->db->prepare(
+                "SELECT id, sort_order FROM {$this->table} WHERE id != ? AND deleted_at IS NULL ORDER BY sort_order ASC"
+            );
+            $stmt->execute([$projectId]);
+            $others = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $newOrders = [];
+            $inserted  = false;
+
+            foreach ($others as $item) {
+                if (!$inserted && $item['sort_order'] >= $newSortOrder) {
+                    $newOrders[$projectId] = $newSortOrder;
+                    $inserted = true;
+                }
+                $newOrders[$item['id']] = $inserted
+                    ? $item['sort_order'] + 1
+                    : $item['sort_order'];
+            }
+
+            if (!$inserted) {
+                $newOrders[$projectId] = $newSortOrder;
+            }
+
+            foreach ($newOrders as $id => $order) {
+                $upd = $this->db->prepare("UPDATE {$this->table} SET sort_order = ? WHERE id = ?");
+                $upd->execute([$order, $id]);
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::reorderProjects Error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Normalize thứ tự của tất cả dự án từ 1 đến n.
+     */
+    public function normalizeOrders(): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id FROM {$this->table} WHERE deleted_at IS NULL ORDER BY sort_order ASC, id ASC"
+            );
+            $stmt->execute();
+            $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $order = 1;
+            foreach ($projects as $project) {
+                $upd = $this->db->prepare("UPDATE {$this->table} SET sort_order = ? WHERE id = ?");
+                $upd->execute([$order, $project['id']]);
+                $order++;
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::normalizeOrders Error: " . $e->getMessage());
+            return false;
+        }
+    }
 }

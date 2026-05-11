@@ -95,6 +95,13 @@ if (!isset($project) || empty($project)) {
                         </div>
                         
                         <div class="mb-3">
+                            <label for="sort_order" class="form-label">Thứ tự hiển thị</label>
+                            <input type="number" class="form-control" id="sort_order" name="sort_order" 
+                                   value="<?= (int)($project['sort_order'] ?? 0) ?>" min="0">
+                            <div class="form-text">Số nhỏ hơn hiển thị trước (từ trái sang phải, từ trên xuống)</div>
+                        </div>
+                        
+                        <div class="mb-3">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="show_on_home" name="show_on_home" value="1" <?= ($project['show_on_home'] ?? 0) == 1 ? 'checked' : '' ?>>
                                 <label class="form-check-label" for="show_on_home">Hiển thị trang chủ</label>
