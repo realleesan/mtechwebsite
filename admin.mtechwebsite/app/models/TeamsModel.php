@@ -47,7 +47,7 @@ class TeamsModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, position, image, bio, status, sort_order
+                "SELECT id, name, position, image, bio, status, sort_order, created_at
                  FROM `{$this->table}`
                  ORDER BY sort_order ASC, id ASC"
             );

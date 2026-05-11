@@ -29,7 +29,7 @@ class TeamsController extends BaseController
     {
         $this->view('teams/create', [
             'title' => 'Thêm thành viên - Admin MTech',
-            'page'  => 'teams',
+            'page'  => 'team.create',
             'admin' => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -77,7 +77,7 @@ class TeamsController extends BaseController
 
         $this->view('teams/edit', [
             'title' => 'Chỉnh sửa thành viên - Admin MTech',
-            'page'  => 'teams',
+            'page'  => 'team.edit',
             'team'  => $team,
             'admin' => AuthMiddleware::getAdmin(),
         ]);
