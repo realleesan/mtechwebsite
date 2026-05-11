@@ -28,22 +28,42 @@ class SearchController extends BaseController
     /**
      * Hiển thị kết quả tìm kiếm với keyword từ URL path
      * Route: /ket-qua-tim-kiem-{keyword}
-     * Router truyền $keyword đã được decode đúng từ REQUEST_URI
+     * Hỗ trợ suffix type: -tin-tuc, -du-an, -dich-vu
+     * Ví dụ: /ket-qua-tim-kiem-tuyen-dung-tin-tuc
      */
     public function indexWithKeyword($keyword = '')
     {
-        // Router PHP decode REQUEST_URI và truyền vào đây
-        // Đổi dấu - thành dấu cách để search
-        $searchQuery = trim(str_replace('-', ' ', urldecode($keyword)));
-        $this->renderSearch($searchQuery);
+        // Map suffix URL → type value
+        $typeSuffixes = [
+            '-tin-tuc'  => 'blog',
+            '-du-an'    => 'project',
+            '-dich-vu'  => 'service',
+        ];
+
+        $searchType = '';
+        // Kiểm tra xem keyword có kết thúc bằng suffix type không
+        foreach ($typeSuffixes as $suffix => $type) {
+            if (substr($keyword, -strlen($suffix)) === $suffix) {
+                $searchType = $type;
+                $keyword    = substr($keyword, 0, -strlen($suffix));
+                break;
+            }
+        }
+
+        // Chuyển dấu gạch ngang thành khoảng trắng để search
+        $searchQuery = trim(str_replace('-', ' ', $keyword));
+        $this->renderSearch($searchQuery, $searchType);
     }
 
     /**
      * Logic render chung cho cả hai method
      */
-    private function renderSearch($searchQuery)
+    private function renderSearch($searchQuery, $searchType = '')
     {
-        $searchType  = isset($_GET['type']) ? trim($_GET['type']) : '';
+        // Nếu type chưa được xác định từ URL suffix, thử lấy từ query string
+        if (empty($searchType)) {
+            $searchType = isset($_GET['type']) ? trim($_GET['type']) : '';
+        }
         $currentPage = isset($_GET['p']) ? max(1, (int) $_GET['p']) : 1;
         $perPage     = 10;
 
