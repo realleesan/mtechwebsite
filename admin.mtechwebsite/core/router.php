@@ -99,12 +99,15 @@ class AdminRouter
         // ----------------------------------------
         // Teams
         // ----------------------------------------
-        $this->get('/teams',                'TeamsController@index');
-        $this->get('/teams/create',         'TeamsController@create');
-        $this->post('/teams/store',         'TeamsController@store');
-        $this->get('/teams/edit/{id}',      'TeamsController@edit');
-        $this->post('/teams/update/{id}',   'TeamsController@update');
-        $this->post('/teams/delete/{id}',   'TeamsController@delete');
+        $this->get('/teams',                    'TeamsController@index');
+        $this->get('/teams/create',             'TeamsController@create');
+        $this->post('/teams/store',             'TeamsController@store');
+        $this->get('/teams/edit/{id}',          'TeamsController@edit');
+        $this->post('/teams/update/{id}',       'TeamsController@update');
+        $this->post('/teams/delete/{id}',       'TeamsController@delete');
+        $this->get('/teams/trash',              'TeamsController@trash');
+        $this->post('/teams/restore/{id}',      'TeamsController@restore');
+        $this->post('/teams/hard-delete/{id}',  'TeamsController@hardDelete');
 
         // ----------------------------------------
         // Awards
