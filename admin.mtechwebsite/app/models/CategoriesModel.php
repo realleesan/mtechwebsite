@@ -42,9 +42,9 @@ class CategoriesModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, image, description, sort_order
+                "SELECT id, name, slug, image, description, status, sort_order, created_at
                  FROM `{$this->table}`
-                 WHERE status = 1
+                 WHERE deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -229,6 +229,177 @@ class CategoriesModel
         } catch (PDOException $e) {
             error_log('CategoriesModel::getCategoryDetailBySlug() - ' . $e->getMessage());
             return null;
+        }
+    }
+
+    /**
+     * Tạo category mới.
+     */
+    public function create(array $data): int|false
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "INSERT INTO `{$this->table}`
+                 (name, slug, image, description, detail_description,
+                  benefit_image, benefit_title, benefit_description, benefit_items,
+                  feature_image,
+                  feature_1_icon, feature_1_title, feature_1_text,
+                  feature_2_icon, feature_2_title, feature_2_text,
+                  faq_items, status, sort_order)
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            );
+            $ok = $stmt->execute([
+                $data['name'],
+                $data['slug'],
+                $data['image']               ?? '',
+                $data['description']         ?? '',
+                $data['detail_description']  ?? '',
+                $data['benefit_image']       ?? '',
+                $data['benefit_title']       ?? '',
+                $data['benefit_description'] ?? '',
+                $data['benefit_items']       ?? null,
+                $data['feature_image']       ?? '',
+                $data['feature_1_icon']      ?? '',
+                $data['feature_1_title']     ?? '',
+                $data['feature_1_text']      ?? '',
+                $data['feature_2_icon']      ?? '',
+                $data['feature_2_title']     ?? '',
+                $data['feature_2_text']      ?? '',
+                $data['faq_items']           ?? null,
+                $data['status']              ?? 1,
+                $data['sort_order']          ?? 0,
+            ]);
+            return $ok ? (int)$this->db->lastInsertId() : false;
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::create() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Cập nhật category.
+     */
+    public function update(int $id, array $data): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET
+                 name = ?, slug = ?, image = ?, description = ?, detail_description = ?,
+                 benefit_image = ?, benefit_title = ?, benefit_description = ?, benefit_items = ?,
+                 feature_image = ?,
+                 feature_1_icon = ?, feature_1_title = ?, feature_1_text = ?,
+                 feature_2_icon = ?, feature_2_title = ?, feature_2_text = ?,
+                 faq_items = ?, status = ?, sort_order = ?
+                 WHERE id = ?"
+            );
+            return $stmt->execute([
+                $data['name'],
+                $data['slug'],
+                $data['image']               ?? '',
+                $data['description']         ?? '',
+                $data['detail_description']  ?? '',
+                $data['benefit_image']       ?? '',
+                $data['benefit_title']       ?? '',
+                $data['benefit_description'] ?? '',
+                $data['benefit_items']       ?? null,
+                $data['feature_image']       ?? '',
+                $data['feature_1_icon']      ?? '',
+                $data['feature_1_title']     ?? '',
+                $data['feature_1_text']      ?? '',
+                $data['feature_2_icon']      ?? '',
+                $data['feature_2_title']     ?? '',
+                $data['feature_2_text']      ?? '',
+                $data['faq_items']           ?? null,
+                $data['status']              ?? 1,
+                $data['sort_order']          ?? 0,
+                $id,
+            ]);
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::update() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Xóa mềm category (chuyển vào thùng rác).
+     */
+    public function delete(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::delete() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Lấy danh sách dịch vụ trong thùng rác.
+     */
+    public function getTrashed(int $limit = 20, int $offset = 0): array
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, image, deleted_at
+                 FROM `{$this->table}`
+                 WHERE deleted_at IS NOT NULL
+                 ORDER BY deleted_at DESC
+                 LIMIT ? OFFSET ?"
+            );
+            $stmt->execute([$limit, $offset]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::getTrashed() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Đếm số dịch vụ trong thùng rác.
+     */
+    public function countTrashed(): int
+    {
+        try {
+            $stmt = $this->db->query(
+                "SELECT COUNT(*) FROM `{$this->table}` WHERE deleted_at IS NOT NULL"
+            );
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::countTrashed() - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Khôi phục dịch vụ từ thùng rác.
+     */
+    public function restore(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = NULL WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::restore() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Xóa vĩnh viễn dịch vụ.
+     */
+    public function hardDelete(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM `{$this->table}` WHERE id = ?");
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::hardDelete() - ' . $e->getMessage());
+            return false;
         }
     }
 

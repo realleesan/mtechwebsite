@@ -2,7 +2,7 @@
 <div class="page-header">
     <h4><i class="bi bi-people me-2"></i>Quản lý Đội ngũ</h4>
     <div class="d-flex gap-2">
-        <a href="/teams/trash" class="btn btn-outline-secondary">
+        <a href="/teams/trash" class="btn btn-trash-custom">
             <i class="bi bi-trash me-1"></i>Thùng rác
         </a>
         <a href="/teams/create" class="btn btn-primary">

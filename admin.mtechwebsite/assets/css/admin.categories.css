@@ -1,0 +1,111 @@
+/* ============================================
+   Admin Categories - CSS
+   ============================================ */
+
+/* ---- Upload Area ---- */
+.cat-upload-area {
+    position: relative;
+    border: 2px dashed #ced4da;
+    border-radius: 12px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+    background: #f0f2f5;
+}
+
+.cat-upload-area.cat-upload-sm {
+    min-height: 180px;
+    height: 180px;
+}
+
+/* Gallery 3 ảnh — chiều cao cố định đều nhau */
+.cat-gallery-slot .cat-upload-area,
+.cat-gallery-slot .cat-upload-area.cat-upload-sm {
+    height: 200px;
+    min-height: 200px;
+}
+
+/* Ảnh dự án tiêu biểu — nhỏ hơn, giới hạn chiều rộng */
+.cat-feature-img .cat-upload-area,
+.cat-feature-img .cat-upload-area.cat-upload-sm {
+    height: 220px;
+    min-height: 220px;
+    max-width: 500px;
+}
+
+.cat-upload-area:hover,
+.cat-upload-area.dragover {
+    border-color: #0d6efd;
+    background: #eef3ff;
+}
+
+.cat-upload-area.cat-upload-error {
+    border-color: #dc3545 !important;
+    background: #fff5f5;
+}
+
+/* Placeholder — căn giữa, không nhận pointer events */
+.cat-upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Input ẩn về visual nhưng vẫn nhận JS .click() — KHÔNG dùng display:none */
+.cat-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+/* Khi có preview, input file không nên bao phủ */
+.cat-file-input.hidden-on-preview {
+    pointer-events: none;
+    display: none;
+}
+
+/* Preview — fill toàn bộ khung, object-fit cover */
+.cat-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    display: block;
+}
+
+/* Nút "Đổi ảnh" — overlay góc dưới, chỉ hiện khi có preview */
+.cat-change-btn {
+    display: none; /* JS sẽ bật/tắt */
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    z-index: 2;
+}
+.cat-change-btn:hover {
+    background: rgba(0, 0, 0, 0.78);
+}

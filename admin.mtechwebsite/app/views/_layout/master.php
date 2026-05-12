@@ -85,7 +85,12 @@
         case 'team.create':
         case 'team.edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.teams.css">';
-
+            break;
+        case 'categories':
+        case 'category.create':
+        case 'category.edit':
+            echo '<link rel="stylesheet" href="/assets/css/admin.blogs.css">';
+            echo '<link rel="stylesheet" href="/assets/css/admin.categories.css">';
             break;
         case 'login':
         case 'forgot-password':
@@ -239,7 +244,12 @@ switch($currentPage) {
     case 'team.create':
     case 'team.edit':
         echo '<script src="/assets/js/admin.teams.js"></script>';
-
+        break;
+    case 'categories':
+    case 'category.create':
+    case 'category.edit':
+        echo '<script src="/assets/js/admin.blogs.js"></script>';
+        echo '<script src="/assets/js/admin.categories.js"></script>';
         break;
     // Auth pages không cần JS riêng
     case 'login':
