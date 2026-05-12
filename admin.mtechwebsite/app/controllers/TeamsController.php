@@ -7,15 +7,11 @@ class TeamsController extends BaseController
 {
     private $model;
 
-<<<<<<< HEAD
-=======
     /** Upload directory — lưu trong admin site, DB lưu URL tuyệt đối */
     private const UPLOAD_DIR     = '/assets/uploads/teams/';
     private const ADMIN_BASE_URL = 'https://admin.truongvinalogistics.com.vn';
     private const MAX_FILE_SIZE  = 2 * 1024 * 1024;
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     public function __construct()
     {
         AuthMiddleware::requireLogin();
@@ -25,21 +21,13 @@ class TeamsController extends BaseController
     public function index()
     {
         $teams = $this->model->getAll();
-<<<<<<< HEAD
 
-        $this->view('teams/index', [
-            'title' => 'Quản lý Đội ngũ - Admin MTech',
-            'page'  => 'teams',
-            'teams' => $teams,
-            'admin' => AuthMiddleware::getAdmin(),
-=======
         $this->view('teams/index', [
             'title'        => 'Quản lý Đội ngũ - Admin MTech',
             'page'         => 'teams',
             'teams'        => $teams,
             'trashedCount' => $this->model->countTrashed(),
             'admin'        => AuthMiddleware::getAdmin(),
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
         ]);
     }
 
@@ -59,32 +47,14 @@ class TeamsController extends BaseController
             return;
         }
 
-<<<<<<< HEAD
-        $data = [
-            'name'       => trim($_POST['name'] ?? ''),
-            'position'   => trim($_POST['position'] ?? ''),
-            'image'      => trim($_POST['image'] ?? ''),
-            'bio'        => trim($_POST['bio'] ?? ''),
-            'status'     => (int)($_POST['status'] ?? 1),
-            'sort_order' => (int)($_POST['sort_order'] ?? 0),
-        ];
-
-        if (empty($data['name']) || empty($data['position'])) {
-            $_SESSION['error'] = 'Vui lòng nhập đầy đủ thông tin bắt buộc';
-=======
         $name     = trim($_POST['name']     ?? '');
         $position = trim($_POST['position'] ?? '');
 
         if (empty($name) || empty($position)) {
             $_SESSION['error'] = 'Vui lòng nhập đầy đủ Họ tên và Chức vụ';
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             $this->redirect('/teams/create');
             return;
         }
-
-<<<<<<< HEAD
-        if ($this->model->create($data)) {
-=======
         // Bắt buộc phải upload file ảnh
         if (empty($_FILES['image_file']['name'])) {
             $_SESSION['error'] = 'Vui lòng tải lên ảnh đại diện';
@@ -128,7 +98,6 @@ class TeamsController extends BaseController
         if ($id) {
             // Lấp khoảng trống sau khi insert
             $this->model->compactOrders();
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             $_SESSION['success'] = 'Đã thêm thành viên thành công';
             $this->redirect('/teams');
         } else {
@@ -140,19 +109,12 @@ class TeamsController extends BaseController
     public function edit($id)
     {
         $team = $this->model->getById($id);
-<<<<<<< HEAD
 
-=======
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
         if (!$team) {
             $_SESSION['error'] = 'Không tìm thấy thành viên';
             $this->redirect('/teams');
             return;
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
         $this->view('teams/edit', [
             'title' => 'Chỉnh sửa thành viên - Admin MTech',
             'page'  => 'team.edit',
@@ -168,19 +130,6 @@ class TeamsController extends BaseController
             return;
         }
 
-<<<<<<< HEAD
-        $data = [
-            'name'       => trim($_POST['name'] ?? ''),
-            'position'   => trim($_POST['position'] ?? ''),
-            'image'      => trim($_POST['image'] ?? ''),
-            'bio'        => trim($_POST['bio'] ?? ''),
-            'status'     => (int)($_POST['status'] ?? 1),
-            'sort_order' => (int)($_POST['sort_order'] ?? 0),
-        ];
-
-        if (empty($data['name']) || empty($data['position'])) {
-            $_SESSION['error'] = 'Vui lòng nhập đầy đủ thông tin bắt buộc';
-=======
         $team = $this->model->getById($id);
         if (!$team) {
             $_SESSION['error'] = 'Không tìm thấy thành viên';
@@ -193,14 +142,10 @@ class TeamsController extends BaseController
 
         if (empty($name) || empty($position)) {
             $_SESSION['error'] = 'Vui lòng nhập đầy đủ Họ tên và Chức vụ';
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             $this->redirect('/teams/edit/' . $id);
             return;
         }
 
-<<<<<<< HEAD
-        if ($this->model->update($id, $data)) {
-=======
         $newOrder    = (int)($_POST['sort_order'] ?? 0);
         $oldOrder    = (int)($team['sort_order'] ?? 0);
         $showInAbout = isset($_POST['show_in_about']) ? 1 : 0;
@@ -254,7 +199,6 @@ class TeamsController extends BaseController
         if ($this->model->update($id, $data)) {
             // Lấp khoảng trống sau khi update
             $this->model->compactOrders();
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             $_SESSION['success'] = 'Đã cập nhật thành viên thành công';
             $this->redirect('/teams');
         } else {
@@ -270,16 +214,6 @@ class TeamsController extends BaseController
             return;
         }
 
-<<<<<<< HEAD
-        if ($this->model->delete($id)) {
-            $_SESSION['success'] = 'Đã xóa thành viên thành công';
-        } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa thành viên';
-        }
-        
-        $this->redirect('/teams');
-    }
-=======
         $team = $this->model->getById($id);
         if (!$team) {
             $_SESSION['error'] = 'Không tìm thấy thành viên';
@@ -407,5 +341,4 @@ class TeamsController extends BaseController
             @unlink($fullPath);
         }
     }
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 }

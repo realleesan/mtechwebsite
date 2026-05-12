@@ -2,8 +2,7 @@
    Admin Awards - CSS
    ============================================ */
 
-<<<<<<< HEAD
-=======
+
 /* Cột thứ tự: đủ rộng + không xuống dòng tiêu đề */
 .award-col-sort {
     white-space: nowrap;
@@ -68,7 +67,6 @@
     word-wrap: break-word;
 }
 
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 /* ---- Upload Area ---- */
 .award-upload-area {
     position: relative;

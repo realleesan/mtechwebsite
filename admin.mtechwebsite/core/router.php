@@ -57,8 +57,7 @@ class AdminRouter
         $this->get('/api/access-stats',     'DashboardController@getAccessStats');
 
         // ----------------------------------------
-<<<<<<< HEAD
-=======
+
         // Blog Categories (đặt trước blogs để tránh conflict)
         // ----------------------------------------
         $this->get('/blogs/categories',             'BlogCategoriesController@index');
@@ -69,7 +68,7 @@ class AdminRouter
         $this->post('/blogs/categories/delete/{id}','BlogCategoriesController@delete');
 
         // ----------------------------------------
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
+
         // Blogs
         // ----------------------------------------
         $this->get('/blogs',                'BlogsController@index');
@@ -81,7 +80,7 @@ class AdminRouter
         $this->post('/blogs/delete/{id}',   'BlogsController@delete');
 
         // ----------------------------------------
-<<<<<<< HEAD
+
         // Blog Categories
         // ----------------------------------------
         $this->get('/blogs/categories',             'BlogCategoriesController@index');
@@ -92,8 +91,7 @@ class AdminRouter
         $this->post('/blogs/categories/delete/{id}','BlogCategoriesController@delete');
 
         // ----------------------------------------
-=======
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
+
         // Projects
         // ----------------------------------------
         $this->get('/projects',                 'ProjectsController@index');

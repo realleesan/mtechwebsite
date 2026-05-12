@@ -46,8 +46,6 @@ class TeamsModel
             return [];
         }
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Lấy tối đa 4 thành viên được đánh dấu hiển thị trên trang Giới thiệu.
@@ -72,5 +70,4 @@ class TeamsModel
             return [];
         }
     }
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 }

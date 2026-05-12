@@ -10,29 +10,23 @@ require_once __DIR__ . '/../middleware/AuthMiddleware.php';
 class BlogsController extends BaseController
 {
     private $blogsModel;
-<<<<<<< HEAD
-=======
     
     // Upload constants
     private const UPLOAD_DIR     = '/assets/uploads/blogs/';
     private const ADMIN_BASE_URL = 'https://admin.truongvinalogistics.com.vn';
     private const MAX_FILE_SIZE  = 5 * 1024 * 1024; // 5MB
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 
     public function __construct()
     {
         AuthMiddleware::requireLogin();
         $this->blogsModel = new BlogsModel();
-<<<<<<< HEAD
-=======
         
         // Ensure upload directory exists
         $uploadPath = __DIR__ . '/../../assets/uploads/blogs';
         if (!is_dir($uploadPath)) {
             mkdir($uploadPath, 0755, true);
         }
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     }
 
     // ----------------------------------------
@@ -46,14 +40,13 @@ class BlogsController extends BaseController
         $search   = trim($_GET['search'] ?? '');
         $catId    = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
 
-<<<<<<< HEAD
         $result = $this->blogsModel->getBlogs($page, $perPage, $catId, '', $search);
         $blogs  = $result['blogs'];
         $total  = $result['total'];
 
         $totalPages = ceil($total / $perPage);
         $categories = $this->blogsModel->getAllBlogCategories();
-=======
+
         // Debug: Log the request parameters
         error_log("BlogsController::index() - page: {$page}, search: '{$search}', catId: {$catId}");
 
@@ -69,7 +62,6 @@ class BlogsController extends BaseController
 
         // Debug: Log categories
         error_log("BlogsController::index() - Found " . count($categories) . " categories");
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 
         $this->view('blogs/index', [
             'title'      => 'Quản lý Tin tức - Admin MTech',
@@ -91,19 +83,11 @@ class BlogsController extends BaseController
 
     public function create()
     {
-<<<<<<< HEAD
-        $categories = $this->blogsModel->getAllBlogCategories();
-
-        $this->view('blogs/create', [
-            'title'      => 'Tạo tin tức mới - Admin MTech',
-            'page'       => 'blogs',
-=======
         $categories = $this->blogsModel->getAdminBlogCategories();
 
         $this->view('blogs/create', [
             'title'      => 'Tạo tin tức mới - Admin MTech',
             'page'       => 'blog.create',
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             'categories' => $categories,
             'admin'      => AuthMiddleware::getAdmin(),
         ]);
@@ -120,16 +104,12 @@ class BlogsController extends BaseController
             return;
         }
 
-<<<<<<< HEAD
         // TODO: Implement store logic
         // - Validate input
         // - Upload image
         // - Insert vào database
         // - Redirect về /blogs với success message
 
-        $_SESSION['error'] = 'Chức năng đang phát triển';
-        $this->redirect('/blogs/create');
-=======
         // Validate required fields
         $required = ['title', 'slug', 'category_id'];
         foreach ($required as $field) {
@@ -223,7 +203,6 @@ class BlogsController extends BaseController
                 . ' File log: admin.mtechwebsite/storage/logs/admin-errors.log (tải qua FTP/cPanel).';
             $this->redirect('/blogs/create');
         }
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     }
 
     // ----------------------------------------
@@ -240,13 +219,6 @@ class BlogsController extends BaseController
             return;
         }
 
-<<<<<<< HEAD
-        $categories = $this->blogsModel->getAllBlogCategories();
-
-        $this->view('blogs/edit', [
-            'title'      => 'Chỉnh sửa tin tức - Admin MTech',
-            'page'       => 'blogs',
-=======
         // Get blog details (SEO metadata)
         $blogDetails = $this->getBlogDetails($id);
         $blog = $this->mergeBlogDetailsIntoBlog($blog, $blogDetails);
@@ -256,7 +228,6 @@ class BlogsController extends BaseController
         $this->view('blogs/edit', [
             'title'      => 'Chỉnh sửa tin tức - Admin MTech',
             'page'       => 'blog.edit',
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             'blog'       => $blog,
             'categories' => $categories,
             'admin'      => AuthMiddleware::getAdmin(),
@@ -274,16 +245,11 @@ class BlogsController extends BaseController
             return;
         }
 
-<<<<<<< HEAD
         // TODO: Implement update logic
         // - Validate input
         // - Upload image (nếu có)
         // - Update database
         // - Redirect về /blogs với success message
-
-        $_SESSION['error'] = 'Chức năng đang phát triển';
-        $this->redirect('/blogs/edit/' . $id);
-=======
         $id = (int) $id;
 
         // Validate required fields
@@ -387,7 +353,6 @@ class BlogsController extends BaseController
                 . ' File log: admin.mtechwebsite/storage/logs/admin-errors.log';
             $this->redirect('/blogs/edit/' . $id);
         }
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     }
 
     // ----------------------------------------
@@ -401,14 +366,10 @@ class BlogsController extends BaseController
             return;
         }
 
-<<<<<<< HEAD
         // TODO: Implement delete logic
         // - Xóa khỏi database (soft delete: status = 0)
         // - Redirect về /blogs với success message
 
-        $_SESSION['error'] = 'Chức năng đang phát triển';
-        $this->redirect('/blogs');
-=======
         try {
             $blog = $this->blogsModel->getAdminBlogById($id);
             if (!$blog) {
@@ -742,7 +703,6 @@ class BlogsController extends BaseController
         $text = preg_replace('/[^A-Za-z0-9-]+/', '-', $text);
         $text = trim((string) $text, '-');
         return strtolower($text);
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     }
 
     // ----------------------------------------
@@ -751,17 +711,6 @@ class BlogsController extends BaseController
 
     public function countAll()
     {
-<<<<<<< HEAD
-        try {
-            $db = getDBConnection();
-            $stmt = $db->query("SELECT COUNT(*) FROM blogs WHERE status = 1");
-            return (int) $stmt->fetchColumn();
-        } catch (PDOException $e) {
-            error_log('BlogsController::countAll() - ' . $e->getMessage());
-            return 0;
-        }
-=======
         return $this->blogsModel->countAll();
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     }
 }
