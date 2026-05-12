@@ -10,6 +10,7 @@
         <span class="text-muted small">Tổng: <strong><?= count($logos) ?></strong> logo đối tác</span>
     </div>
     <div class="table-responsive">
+<<<<<<< HEAD
         <table class="table table-hover mb-0 align-middle">
             <thead>
                 <tr>
@@ -20,6 +21,18 @@
                     <th style="width:80px">Thứ tự</th>
                     <th style="width:100px">Trạng thái</th>
                     <th style="width:120px">Thao tác</th>
+=======
+        <table class="table table-hover mb-0 align-middle client-logos-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Logo</th>
+                    <th>Tên đối tác</th>
+                    <th>Link website</th>
+                    <th class="client-logo-col-sort text-center">Thứ tự</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                 </tr>
             </thead>
             <tbody>

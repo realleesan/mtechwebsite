@@ -1,0 +1,88 @@
+/* ============================================
+   Admin Teams - CSS
+   ============================================ */
+
+/* ---- Upload Area ---- */
+.team-upload-area {
+    position: relative;
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.team-upload-area:hover,
+.team-upload-area.dragover {
+    border-color: #0d6efd;
+    background: #eef3ff;
+}
+
+.team-upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    pointer-events: none;
+}
+
+.team-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---- Preview Image (square ratio for avatars) ---- */
+.team-preview {
+    max-width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+/* ---- Table Thumbnail (square avatar) ---- */
+.team-thumb {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.team-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-thumb-empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: #adb5bd;
+}
+
+/* ---- Validation error state ---- */
+.team-upload-area.upload-error {
+    border-color: #dc3545 !important;
+    background: #fff5f5;
+}

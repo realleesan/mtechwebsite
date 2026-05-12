@@ -52,6 +52,18 @@
         case 'project-edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.projects.css">';
             break;
+<<<<<<< HEAD
+=======
+        case 'blogs':
+        case 'blog.create':
+        case 'blog.edit':
+        case 'blog.view':
+        case 'blog-categories':
+        case 'blog.category.create':
+        case 'blog.category.edit':
+            echo '<link rel="stylesheet" href="/assets/css/admin.blogs.css">';
+            break;
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
         case 'awards':
         case 'award.create':
         case 'award.edit':
@@ -194,6 +206,18 @@ switch($currentPage) {
     case 'project-edit':
         echo '<script src="/assets/js/admin.projects.js"></script>';
         break;
+<<<<<<< HEAD
+=======
+    case 'blogs':
+    case 'blog.create':
+    case 'blog.edit':
+    case 'blog.view':
+    case 'blog-categories':
+    case 'blog.category.create':
+    case 'blog.category.edit':
+        echo '<script src="/assets/js/admin.blogs.js"></script>';
+        break;
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     case 'awards':
     case 'award.create':
     case 'award.edit':

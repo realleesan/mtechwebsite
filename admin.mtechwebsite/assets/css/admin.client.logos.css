@@ -2,6 +2,73 @@
    Admin Client Logos - CSS
    ============================================ */
 
+<<<<<<< HEAD
+=======
+/* Cột thứ tự: đủ rộng + không xuống dòng tiêu đề */
+.client-logo-col-sort {
+    white-space: nowrap;
+    min-width: 80px;
+    width: 80px;
+    vertical-align: middle;
+}
+
+/* Column styling for even distribution */
+.client-logos-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.client-logos-table th:nth-child(1) { /* # */
+    width: 60px;
+    min-width: 60px;
+}
+
+.client-logos-table th:nth-child(2) { /* Logo */
+    width: 100px;
+    min-width: 100px;
+}
+
+.client-logos-table th:nth-child(3) { /* Tên đối tác */
+    width: 25%;
+    min-width: 180px;
+}
+
+.client-logos-table th:nth-child(4) { /* Link website */
+    width: 25%;
+    min-width: 180px;
+}
+
+.client-logos-table th:nth-child(5) { /* Thứ tự */
+    width: 80px;
+    min-width: 80px;
+}
+
+.client-logos-table th:nth-child(6) { /* Trạng thái */
+    width: 100px;
+    min-width: 100px;
+}
+
+.client-logos-table th:nth-child(7) { /* Thao tác */
+    width: 120px;
+    min-width: 120px;
+}
+
+/* Text overflow handling for flexible columns */
+.client-logos-table td:nth-child(3),
+.client-logos-table td:nth-child(4) {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.client-logos-table td:nth-child(3):hover,
+.client-logos-table td:nth-child(4):hover {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 /* ---- Upload Area ---- */
 .client-logo-upload-area {
     position: relative;

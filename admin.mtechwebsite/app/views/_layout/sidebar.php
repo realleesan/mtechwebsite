@@ -12,8 +12,13 @@ $headerSettings = $headerModel->getSettingsWithFallback();
     <!-- Logo -->
     <div class="sidebar-logo d-flex align-items-center px-3 py-4">
         <a href="/dashboard" class="d-flex align-items-center text-decoration-none">
+<<<<<<< HEAD
             <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" 
                  alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" 
+=======
+            <img src="<?php echo htmlspecialchars((string) ($headerSettings['logo_path'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" 
+                 alt="<?php echo htmlspecialchars((string) ($headerSettings['logo_alt'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" 
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                  height="36" 
                  onerror="this.style.display='none'">
             <span class="ms-2 fw-bold text-white fs-5">MTECH.JSC</span>
@@ -36,7 +41,11 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Blogs -->
             <li class="nav-item">
+<<<<<<< HEAD
                 <a href="/blogs" class="nav-link <?= $currentPage === 'blogs' ? 'active' : '' ?>">
+=======
+                <a href="/blogs" class="nav-link <?= in_array($currentPage, ['blogs', 'blog.create', 'blog.edit', 'blog.view', 'blog-categories', 'blog.category.create', 'blog.category.edit']) ? 'active' : '' ?>">
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                     <i class="bi bi-newspaper"></i>
                     <span>Tin tức / Tuyển dụng</span>
                 </a>

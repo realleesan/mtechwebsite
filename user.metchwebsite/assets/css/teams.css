@@ -1,13 +1,18 @@
 ﻿/**
  * Teams Page Styles
+<<<<<<< HEAD
  * Template: docs/template/about/code/teams.html
  * Reference: Wokrate Theme
+=======
+ * Carousel giống awards.css — ảnh vuông, chạy từ phải qua trái
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
  */
 
 /* ========================================
    Utility / Shared Classes
    ======================================== */
 
+<<<<<<< HEAD
 .sec_gap {
     padding: 100px 0;
 }
@@ -81,14 +86,28 @@
     font-size: 16px;
     padding: 0 6px;
 }
+=======
+.sec_gap        { padding: 100px 0; }
+.f_600          { font-weight: 600; }
+.f_size_32      { font-size: 32px; }
+.f_size_20      { font-size: 20px; }
+.title_color    { color: #0D1B3E; }
+.mt_7           { margin-top: 7px; }
+.mb_55          { margin-bottom: 55px; }
+.mb_30          { margin-bottom: 30px; }
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 
 /* ========================================
    Section Title
    ======================================== */
 
+<<<<<<< HEAD
 .section_title {
     text-align: left;
 }
+=======
+.section_title { text-align: left; }
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 
 .section_title h2 {
     font-size: 32px;
@@ -106,9 +125,13 @@
     margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 .section_title .title_br.dark {
     background-color: #0D1B3E;
 }
+=======
+.section_title .title_br.dark { background-color: #0D1B3E; }
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 
 .section_title p {
     font-size: 15px;
@@ -119,6 +142,7 @@
 }
 
 /* ========================================
+<<<<<<< HEAD
    Team Area
    ======================================== */
 
@@ -235,6 +259,201 @@
 /* Hover vào tên/chức vụ cũng trigger hiệu ứng ảnh */
 .team_member:hover h5 {
     color: #1A3FBF;
+=======
+   Teams Area
+   ======================================== */
+
+.teams_area {
+    background: #f5f6f8;
+    padding: 100px 0;
+    overflow: hidden;
+}
+
+.teams_area .section_title { text-align: left; }
+
+/* ========================================
+   CAROUSEL — clone 100% từ awards.css
+   ======================================== */
+
+.teams_carousel_wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+}
+
+.teams_carousel_wrapper:active { cursor: grabbing; }
+
+.teams_carousel_track {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 20px 0 30px;
+    will-change: transform;
+}
+
+/* ========================================
+   SLIDE — khung ảnh vuông + text bên dưới
+   ======================================== */
+
+.teams_slide {
+    flex-shrink: 0;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Khung ảnh vuông */
+.teams_img_wrap {
+    width: 220px;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 50%;          /* tròn như avatar */
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.teams_slide:hover .teams_img_wrap {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+    transform: translateY(-4px);
+}
+
+/* Ảnh thực tế */
+.teams_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+/* Placeholder khi chưa có ảnh */
+.teams_img_placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e8ecf4 0%, #d0d8ea 100%);
+    color: #8a9bbf;
+    font-size: 60px;
+}
+
+/* Text bên dưới */
+.teams_info {
+    text-align: center;
+    width: 100%;
+}
+
+.teams_name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0D1B3E;
+    margin: 0 0 4px;
+    line-height: 1.4;
+}
+
+.teams_position {
+    font-size: 13px;
+    color: #A8B8D8;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ========================================
+   LIGHTBOX / MODAL
+   ======================================== */
+
+.teams_lightbox_overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.teams_lightbox_overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.teams_lightbox_box {
+    position: relative;
+    background: #ffffff;
+    border-radius: 12px;
+    max-width: 520px;
+    width: 90%;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.teams_lightbox_close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.teams_lightbox_close:hover { color: #0D1B3E; }
+
+.teams_lightbox_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.teams_lightbox_img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.teams_lightbox_info { text-align: center; }
+
+.teams_lightbox_name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0D1B3E;
+    margin: 0 0 6px;
+}
+
+.teams_lightbox_position {
+    font-size: 14px;
+    color: #1A3FBF;
+    margin: 0 0 12px;
+    font-weight: 500;
+}
+
+.teams_lightbox_bio {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+    margin: 0;
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 }
 
 /* ========================================
@@ -258,6 +477,7 @@
     z-index: 0;
 }
 
+<<<<<<< HEAD
 .question_area .container {
     position: relative;
     z-index: 1;
@@ -266,11 +486,17 @@
 .question_area .section_title h2 {
     color: #ffffff;
 }
+=======
+.question_area .container { position: relative; z-index: 1; }
+
+.question_area .section_title h2 { color: #ffffff; }
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 
 .question_area .section_title .title_br.dark {
     background-color: rgba(255,255,255,0.5);
 }
 
+<<<<<<< HEAD
 /* Question Form */
 .question_form {
     margin-top: 5px;
@@ -279,6 +505,9 @@
 .question_form .form-group {
     margin-bottom: 20px;
 }
+=======
+.question_form .form-group { margin-bottom: 20px; }
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 
 .question_form .form-control {
     display: block;
@@ -286,7 +515,10 @@
     height: 50px;
     padding: 10px 0;
     font-size: 14px;
+<<<<<<< HEAD
     font-family: "Poppins", sans-serif;
+=======
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     color: #ffffff;
     background-color: transparent;
     border: none;
@@ -295,14 +527,20 @@
     outline: none;
     box-shadow: none;
     transition: border-color 0.3s ease;
+<<<<<<< HEAD
     -webkit-appearance: none;
     appearance: none;
+=======
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 }
 
 .question_form .form-control:focus {
     border-color: #ffffff;
     box-shadow: none;
+<<<<<<< HEAD
     outline: none;
+=======
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     background-color: transparent;
 }
 
@@ -325,15 +563,21 @@
     color: #0D1B3E;
     font-size: 14px;
     font-weight: 600;
+<<<<<<< HEAD
     font-family: "Poppins", sans-serif;
+=======
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     text-transform: uppercase;
     letter-spacing: 1px;
     border: 2px solid #ffffff;
     border-radius: 0;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+<<<<<<< HEAD
     -webkit-appearance: none;
     appearance: none;
+=======
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 }
 
 .question_form .submit_btn:hover {
@@ -346,6 +590,7 @@
    ======================================== */
 
 @media (max-width: 991px) {
+<<<<<<< HEAD
     .sec_gap {
         padding: 70px 0;
     }
@@ -472,3 +717,24 @@
     margin-bottom: 18px;
     line-height: 1.6;
 }
+=======
+    .teams_area { padding: 70px 0; }
+    .teams_slide { width: 180px; }
+    .teams_img_wrap { width: 180px; height: 180px; }
+    .teams_carousel_track { gap: 24px; }
+}
+
+@media (max-width: 767px) {
+    .teams_area { padding: 50px 0; }
+    .teams_slide { width: 155px; }
+    .teams_img_wrap { width: 155px; height: 155px; }
+    .teams_carousel_track { gap: 20px; }
+    .teams_name { font-size: 13px; }
+}
+
+@media (max-width: 575px) {
+    .teams_slide { width: 130px; }
+    .teams_img_wrap { width: 130px; height: 130px; }
+    .teams_carousel_track { gap: 16px; }
+}
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647

@@ -44,12 +44,30 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
+=======
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="show_in_about"
+                               name="show_in_about" value="1">
+                        <label class="form-check-label" for="show_in_about">
+                            Hiển thị trên trang <strong>Giới thiệu</strong>
+                        </label>
+                    </div>
+                    <div class="form-text">Tối đa 4 thành viên được hiển thị trên trang Giới thiệu</div>
+                </div>
+
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             </div>
 
             <!-- Right: Avatar Upload -->
             <div class="col-md-4">
                 <div class="mb-3">
+<<<<<<< HEAD
                     <label class="form-label">Ảnh đại diện</label>
+=======
+                    <label class="form-label">Ảnh đại diện <span class="text-danger">*</span></label>
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                     <div class="team-upload-area" id="teamUploadArea">
                         <div class="team-upload-placeholder" id="teamPlaceholder">
                             <i class="bi bi-person-circle fs-2 mb-2 text-muted"></i>
@@ -59,6 +77,12 @@
                         <img id="teamPreview" src="" alt="Preview" class="team-preview d-none">
                         <input type="file" id="image_file" name="image_file" accept="image/*" class="team-file-input">
                     </div>
+<<<<<<< HEAD
+=======
+                    <div id="imageError" class="text-danger small mt-1 d-none">
+                        <i class="bi bi-exclamation-circle me-1"></i>Vui lòng tải lên ảnh đại diện
+                    </div>
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                     <div class="mt-2 d-none" id="teamPreviewActions">
                         <button type="button" class="btn btn-sm btn-outline-danger" id="removeImageBtn">
                             <i class="bi bi-x-lg me-1"></i>Xóa ảnh
@@ -66,6 +90,7 @@
                     </div>
                     <div class="form-text mt-1">Ảnh chân dung (tỉ lệ vuông khuyến nghị)</div>
                 </div>
+<<<<<<< HEAD
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Hoặc nhập URL ảnh</label>
@@ -73,6 +98,8 @@
                            placeholder="https://example.com/avatar.jpg">
                     <div class="form-text">Dùng nếu ảnh đã có sẵn trên server</div>
                 </div>
+=======
+>>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             </div>
 
         </div>
