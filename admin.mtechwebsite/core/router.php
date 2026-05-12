@@ -107,12 +107,15 @@ class AdminRouter
         // ----------------------------------------
         // Categories (Dịch vụ)
         // ----------------------------------------
-        $this->get('/categories',               'CategoriesController@index');
-        $this->get('/categories/create',        'CategoriesController@create');
-        $this->post('/categories/store',        'CategoriesController@store');
-        $this->get('/categories/edit/{id}',     'CategoriesController@edit');
-        $this->post('/categories/update/{id}',  'CategoriesController@update');
-        $this->post('/categories/delete/{id}',  'CategoriesController@delete');
+        $this->get('/categories',                   'CategoriesController@index');
+        $this->get('/categories/create',            'CategoriesController@create');
+        $this->post('/categories/store',            'CategoriesController@store');
+        $this->get('/categories/edit/{id}',         'CategoriesController@edit');
+        $this->post('/categories/update/{id}',      'CategoriesController@update');
+        $this->post('/categories/delete/{id}',      'CategoriesController@delete');
+        $this->get('/categories/trash',             'CategoriesController@trash');
+        $this->post('/categories/restore/{id}',     'CategoriesController@restore');
+        $this->post('/categories/hard-delete/{id}', 'CategoriesController@hardDelete');
 
         // ----------------------------------------
         // Contacts (chỉ xem)
