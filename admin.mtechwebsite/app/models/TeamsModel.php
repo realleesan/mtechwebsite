@@ -20,15 +20,12 @@ class TeamsModel
         }
     }
 
-<<<<<<< HEAD
-=======
     /** Trả về PDO instance (dùng cho controller khi cần truy vấn trực tiếp) */
     public function getDb(): \PDO
     {
         return $this->db;
     }
 
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
     /**
      * Lấy tất cả team members đang active, sắp xếp theo sort_order.
      */
@@ -38,11 +35,7 @@ class TeamsModel
             $stmt = $this->db->prepare(
                 "SELECT id, name, position, image, bio
                  FROM `{$this->table}`
-<<<<<<< HEAD
-                 WHERE status = 1
-=======
                  WHERE status = 1 AND deleted_at IS NULL
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -54,11 +47,7 @@ class TeamsModel
     }
 
     /**
-<<<<<<< HEAD
-     * Lấy tất cả team members cho admin.
-=======
      * Lấy tất cả team members cho admin (chưa bị xóa mềm).
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
      */
     public function getAll()
     {
@@ -66,10 +55,7 @@ class TeamsModel
             $stmt = $this->db->prepare(
                 "SELECT id, name, position, image, bio, status, sort_order, created_at
                  FROM `{$this->table}`
-<<<<<<< HEAD
-=======
                  WHERE deleted_at IS NULL
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -81,21 +67,13 @@ class TeamsModel
     }
 
     /**
-<<<<<<< HEAD
-     * Lấy team member theo ID.
-=======
      * Lấy team member theo ID (chưa bị xóa mềm).
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
      */
     public function getById($id)
     {
         try {
             $stmt = $this->db->prepare(
-<<<<<<< HEAD
-                "SELECT * FROM `{$this->table}` WHERE id = ? LIMIT 1"
-=======
                 "SELECT * FROM `{$this->table}` WHERE id = ? AND deleted_at IS NULL LIMIT 1"
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             );
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
@@ -106,41 +84,25 @@ class TeamsModel
     }
 
     /**
-<<<<<<< HEAD
-     * Tạo team member mới.
-=======
      * Tạo team member mới. Trả về ID vừa insert, hoặc false nếu lỗi.
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
      */
     public function create($data)
     {
         try {
             $stmt = $this->db->prepare(
-<<<<<<< HEAD
-                "INSERT INTO `{$this->table}` (name, position, image, bio, status, sort_order)
-                 VALUES (?, ?, ?, ?, ?, ?)"
-            );
-            return $stmt->execute([
-=======
                 "INSERT INTO `{$this->table}` (name, position, image, bio, status, sort_order, show_in_about)
                  VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
             $ok = $stmt->execute([
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                 $data['name'],
                 $data['position'],
                 $data['image'] ?? '',
                 $data['bio'] ?? '',
                 $data['status'] ?? 1,
-<<<<<<< HEAD
-                $data['sort_order'] ?? 0
-            ]);
-=======
                 $data['sort_order'] ?? 0,
                 $data['show_in_about'] ?? 0,
             ]);
             return $ok ? (int)$this->db->lastInsertId() : false;
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
         } catch (PDOException $e) {
             error_log('TeamsModel::create() - ' . $e->getMessage());
             return false;
@@ -149,30 +111,11 @@ class TeamsModel
 
     /**
      * Cập nhật team member.
-<<<<<<< HEAD
-=======
      * Nếu $data không chứa key 'image' thì giữ nguyên ảnh cũ trong DB.
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
      */
     public function update($id, $data)
     {
         try {
-<<<<<<< HEAD
-            $stmt = $this->db->prepare(
-                "UPDATE `{$this->table}` 
-                 SET name = ?, position = ?, image = ?, bio = ?, status = ?, sort_order = ?
-                 WHERE id = ?"
-            );
-            return $stmt->execute([
-                $data['name'],
-                $data['position'],
-                $data['image'] ?? '',
-                $data['bio'] ?? '',
-                $data['status'] ?? 1,
-                $data['sort_order'] ?? 0,
-                $id
-            ]);
-=======
             if (array_key_exists('image', $data)) {
                 $stmt = $this->db->prepare(
                     "UPDATE `{$this->table}`
@@ -205,7 +148,6 @@ class TeamsModel
                     $id
                 ]);
             }
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
         } catch (PDOException $e) {
             error_log('TeamsModel::update() - ' . $e->getMessage());
             return false;
@@ -213,30 +155,20 @@ class TeamsModel
     }
 
     /**
-<<<<<<< HEAD
-     * Xóa team member.
-=======
      * Xóa mềm team member (chuyển vào thùng rác).
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
      */
     public function delete($id)
     {
         try {
-<<<<<<< HEAD
-            $stmt = $this->db->prepare("DELETE FROM `{$this->table}` WHERE id = ?");
-=======
             $stmt = $this->db->prepare(
                 "UPDATE `{$this->table}` SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?"
             );
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             error_log('TeamsModel::delete() - ' . $e->getMessage());
             return false;
         }
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Lấy danh sách thành viên trong thùng rác.
@@ -391,5 +323,4 @@ class TeamsModel
     {
         $this->compactOrders();
     }
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 }
