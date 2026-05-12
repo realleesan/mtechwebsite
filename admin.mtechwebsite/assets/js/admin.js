@@ -94,20 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ----------------------------------------
-    // Submit form xóa khi click nút delete - Chỉ xử lý btn-delete
-    // ----------------------------------------
-    document.querySelectorAll('.btn-delete').forEach(function (btn) {
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            const message = btn.getAttribute('data-confirm') || 'Bạn có chắc muốn xóa mục này?';
-            if (confirm(message)) {
-                const form = btn.closest('form') || document.getElementById(btn.getAttribute('data-form'));
-                if (form) form.submit();
-            }
-        });
-    });
-
+    
     // ----------------------------------------
     // Preview ảnh khi chọn file
     // ----------------------------------------

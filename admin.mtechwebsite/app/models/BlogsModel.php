@@ -49,7 +49,7 @@ class BlogsModel
                                INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id";
             }
 
-            $where = "WHERE b.status = 1";
+            $where = "WHERE b.status = 1 AND b.deleted_at IS NULL";
 
             // Add tag filter
             if (!empty($tagSlug)) {
@@ -99,10 +99,11 @@ class BlogsModel
                     {$where}
                     ORDER BY b.created_at DESC
                     LIMIT ? OFFSET ?";
+            $params[] = $perPage;
+            $params[] = $offset;
 
-            $fetchParams = array_merge($params, [$perPage, $offset]);
             $stmt = $this->db->prepare($sql);
-            $stmt->execute($fetchParams);
+            $stmt->execute($params);
             $blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Gắn tags cho từng blog
@@ -118,10 +119,9 @@ class BlogsModel
     }
 
     /**
-     * Lấy chi tiết một blog theo slug.
-     *
-     * @param  string     $slug
-     * @return array|null
+     * Lấy blog theo slug (cho URL thân thiện)
+     * @param string $slug Slug dự án
+     * @return array|null Thông tin dự án
      */
     public function getBlogBySlug($slug)
     {
@@ -130,7 +130,7 @@ class BlogsModel
                 "SELECT b.*, bc.name AS category_name, bc.slug AS category_slug
                  FROM `blogs` b
                  LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
-                 WHERE b.slug = ? AND b.status = 1
+                 WHERE b.slug = ? AND b.status = 1 AND b.deleted_at IS NULL
                  LIMIT 1"
             );
             $stmt->execute([$slug]);
@@ -155,7 +155,7 @@ class BlogsModel
                 "SELECT b.*, bc.name AS category_name, bc.slug AS category_slug
                  FROM `blogs` b
                  LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
-                 WHERE b.id = ? AND b.status = 1
+                 WHERE b.id = ? AND b.status = 1 AND b.deleted_at IS NULL
                  LIMIT 1"
             );
             $stmt->execute([$id]);
@@ -169,150 +169,19 @@ class BlogsModel
         }
     }
 
-    // ----------------------------------------------------------------
-    // CATEGORIES
-    // ----------------------------------------------------------------
-
     /**
-     * Lấy tất cả blog categories kèm số lượng bài viết.
+     * Lấy các blog mới nhất cho trang chủ
+     * @param int $limit Số lượng tối đa
+     * @return array Danh sách blog
      */
-    public function getAllBlogCategories()
-    {
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT bc.id, bc.name, bc.slug,
-                        COUNT(b.id) AS post_count
-                 FROM `blog_categories` bc
-                 LEFT JOIN `blogs` b ON b.category_id = bc.id AND b.status = 1
-                 WHERE bc.status = 1
-                 GROUP BY bc.id
-                 ORDER BY bc.sort_order ASC, bc.id ASC"
-            );
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log('BlogsModel::getAllBlogCategories() - ' . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * Lấy blog category theo slug.
-     *
-     * @param  string     $slug
-     * @return array|null
-     */
-    public function getCategoryBySlug($slug)
-    {
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT id, name, slug
-                 FROM `blog_categories`
-                 WHERE slug = ? AND status = 1
-                 LIMIT 1"
-            );
-            $stmt->execute([$slug]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log('BlogsModel::getCategoryBySlug() - ' . $e->getMessage());
-            return null;
-        }
-    }
-
-    // ----------------------------------------------------------------
-    // TAGS
-    // ----------------------------------------------------------------
-
-    /**
-     * Lấy tất cả tags kèm số lượng bài viết.
-     */
-    public function getAllTags()
-    {
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT bt.id, bt.name, bt.slug,
-                        COUNT(btm.blog_id) AS post_count
-                 FROM `blog_tags` bt
-                 LEFT JOIN `blog_tag_map` btm ON btm.tag_id = bt.id
-                 GROUP BY bt.id
-                 ORDER BY post_count DESC, bt.name ASC"
-            );
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log('BlogsModel::getAllTags() - ' . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * Lấy tags của một blog theo blog_id.
-     */
-    public function getTagsByBlogId($blogId)
-    {
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT bt.id, bt.name, bt.slug
-                 FROM `blog_tags` bt
-                 INNER JOIN `blog_tag_map` btm ON btm.tag_id = bt.id
-                 WHERE btm.blog_id = ?
-                 ORDER BY bt.name ASC"
-            );
-            $stmt->execute([$blogId]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log('BlogsModel::getTagsByBlogId() - ' . $e->getMessage());
-            return [];
-        }
-    }
-
-    // ----------------------------------------------------------------
-    // RECENT NEWS (sidebar)
-    // ----------------------------------------------------------------
-
-    /**
-     * Lấy N bài viết mới nhất cho sidebar Recent News.
-     *
-     * @param int $limit
-     * @return array
-     */
-    public function getRecentBlogs($limit = 4)
+    public function getHomeBlogs($limit = 4)
     {
         try {
             $stmt = $this->db->prepare(
                 "SELECT id, title, slug, image, created_at
                  FROM `blogs`
-                 WHERE status = 1
+                 WHERE status = 1 AND deleted_at IS NULL
                  ORDER BY created_at DESC
-                 LIMIT ?"
-            );
-            $stmt->execute([$limit]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log('BlogsModel::getRecentBlogs() - ' . $e->getMessage());
-            return [];
-        }
-    }
-
-    // ----------------------------------------------------------------
-    // HOME PAGE - Latest News (tối đa 3 bài)
-    // ----------------------------------------------------------------
-
-    /**
-     * Lấy N bài viết mới nhất cho section Latest News trên trang home.
-     *
-     * @param int $limit Mặc định 3
-     * @return array
-     */
-    public function getHomeBlogs($limit = 3)
-    {
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT b.id, b.title, b.slug, b.image, b.excerpt,
-                        b.author, b.created_at
-                 FROM `blogs` b
-                 WHERE b.status = 1
-                 ORDER BY b.created_at DESC
                  LIMIT ?"
             );
             $stmt->execute([$limit]);
@@ -323,9 +192,52 @@ class BlogsModel
         }
     }
 
-    // ----------------------------------------------------------------
-    // VIEWS counter
-    // ----------------------------------------------------------------
+    /**
+     * Lấy các blog nổi bật cho trang chủ
+     * @param int $limit Số lượng tối đa
+     * @return array Danh sách blog nổi bật
+     */
+    public function getFeaturedBlogs($limit = 6)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, title, slug, image, excerpt, created_at
+                 FROM `blogs`
+                 WHERE status = 2 AND deleted_at IS NULL
+                 ORDER BY created_at DESC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getFeaturedBlogs() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Lấy các blog theo category
+     * @param int $categoryId ID category
+     * @param int $limit Số lượng tối đa
+     * @return array Danh sách blog
+     */
+    public function getBlogsByCategory($categoryId, $limit = 6)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, title, slug, image, excerpt, created_at
+                 FROM `blogs`
+                 WHERE category_id = ? AND status = 1 AND deleted_at IS NULL
+                 ORDER BY created_at DESC
+                 LIMIT ?"
+            );
+            $stmt->execute([$categoryId, $limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getBlogsByCategory() - ' . $e->getMessage());
+            return [];
+        }
+    }
 
     /**
      * Tăng lượt xem cho một blog.
@@ -349,7 +261,7 @@ class BlogsModel
     /**
      * Lấy chi tiết đầy đủ của một blog bao gồm nội dung mở rộng.
      *
-     * @param  string     $slug
+     * @param string     $slug
      * @return array|null
      */
     public function getBlogDetailsBySlug($slug)
@@ -363,7 +275,7 @@ class BlogsModel
                  FROM `blogs` b
                  LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
                  LEFT JOIN `blog_details` bd ON bd.blog_id = b.id
-                 WHERE b.slug = ? AND b.status = 1
+                 WHERE b.slug = ? AND b.status = 1 AND b.deleted_at IS NULL
                  LIMIT 1"
             );
             $stmt->execute([$slug]);
@@ -379,139 +291,81 @@ class BlogsModel
     }
 
     // ----------------------------------------------------------------
-    // MENU - Blog Categories hiển thị trong dropdown menu header
+    // BLOG CATEGORIES - Danh mục
     // ----------------------------------------------------------------
 
     /**
-     * Lấy blog categories hiển thị trong dropdown menu header (show_in_menu=1).
-     * Chỉ lấy các category active.
-     *
-     * @param int $limit Số lượng tối đa (mặc định 10)
-     * @return array Mảng blog categories cho menu dropdown
+     * Lấy tất cả blog categories cho dropdown menu header
      */
-    public function getMenuBlogCategories($limit = 10)
+    public function getAllBlogCategories()
     {
         try {
-            $stmt = $this->db->prepare(
-                "SELECT id, name, slug
+            $stmt = $this->db->query(
+                "SELECT id, name, slug, status, show_in_menu, sort_order, created_at
                  FROM `blog_categories`
-                 WHERE status = 1 AND show_in_menu = 1
-                 ORDER BY sort_order ASC, id ASC
-                 LIMIT ?"
+                 ORDER BY sort_order ASC, id ASC"
             );
-            $stmt->execute([$limit]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log('BlogsModel::getMenuBlogCategories() - ' . $e->getMessage());
+            error_log('BlogsModel::getAllBlogCategories() - ' . $e->getMessage());
             return [];
         }
     }
 
-    // ----------------------------------------------------------------
-    // HIRING - Tuyển dụng (category_id = 7)
-    // ----------------------------------------------------------------
-
     /**
-     * Kiểm tra xem blog có phải là tin tuyển dụng không (category_id = 7).
-     *
-     * @param int $blogId
-     * @return bool
+     * Lấy category theo slug
      */
-    public function isHiringBlog($blogId)
+    public function getCategoryBySlug($slug)
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT category_id FROM `blogs` WHERE id = ? AND status = 1 LIMIT 1"
+                "SELECT * FROM `blog_categories` WHERE slug = ? LIMIT 1"
             );
-            $stmt->execute([$blogId]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result && $result['category_id'] == 7;
+            $stmt->execute([$slug]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log('BlogsModel::isHiringBlog() - ' . $e->getMessage());
-            return false;
+            error_log('BlogsModel::getCategoryBySlug() - ' . $e->getMessage());
+            return null;
         }
     }
 
-    /**
-     * Kiểm tra xem tin tuyển dụng đã hết hạn chưa.
-     * Hết hạn khi: expires_in_days không null và (created_at + expires_in_days) < now
-     *
-     * @param array $blog Mảng chứa created_at, expires_in_days
-     * @return bool
-     */
-    public function isExpired($blog)
-    {
-        if (empty($blog['expires_in_days']) || empty($blog['created_at'])) {
-            return false; // Không có ngày hết hạn = không bao giờ hết hạn
-        }
-
-        $createdAt = strtotime($blog['created_at']);
-        $expiresAt = strtotime($blog['created_at'] . ' + ' . $blog['expires_in_days'] . ' days');
-
-        return time() > $expiresAt;
-    }
+    // ----------------------------------------------------------------
+    // BLOG TAGS - Tags
+    // ----------------------------------------------------------------
 
     /**
-     * Lấy số ngày còn lại để ứng tuyển.
-     * Trả về int >= 0 (số ngày còn lại) hoặc null (không giới hạn thời gian).
-     *
-     * @param array $blog Mảng chứa created_at, expires_in_days
-     * @return int|null
+     * Lấy tất cả tags
      */
-    public function getDaysRemaining($blog)
-    {
-        if (empty($blog['expires_in_days']) || empty($blog['created_at'])) {
-            return null; // Không giới hạn thời gian
-        }
-
-        $createdAt = strtotime($blog['created_at']);
-        $expiresAt = strtotime($blog['created_at'] . ' + ' . $blog['expires_in_days'] . ' days');
-        $remaining = ceil(($expiresAt - time()) / 86400); // 86400 = số giây trong 1 ngày
-
-        return max(0, (int) $remaining);
-    }
-
-    /**
-     * Kiểm tra xem tin tuyển dụng có đang mở để nhận CV không.
-     * Điều kiện: hiring_status = 1 và chưa hết hạn.
-     *
-     * @param array $blog Mảng chứa hiring_status, created_at, expires_in_days
-     * @return bool
-     */
-    public function isHiringOpen($blog)
-    {
-        // hiring_status = 0 (ngừng tuyển) -> không mở
-        if (empty($blog['hiring_status']) || $blog['hiring_status'] != 1) {
-            return false;
-        }
-
-        // Hết hạn -> không mở
-        return !$this->isExpired($blog);
-    }
-
-    /**
-     * Lấy tất cả vị trí tuyển dụng đang mở cho dropdown.
-     * Chỉ lấy các blog tuyển dụng (cat=7) đang active và chưa hết hạn.
-     *
-     * @return array Mảng các vị trí tuyển dụng
-     */
-    public function getAllHiringPositions()
+    public function getAllTags()
     {
         try {
-            $stmt = $this->db->prepare(
-                "SELECT id, title, position, slug
-                 FROM `blogs`
-                 WHERE category_id = 7 
-                   AND status = 1 
-                   AND hiring_status = 1
-                   AND (expires_in_days IS NULL OR 
-                        DATE_ADD(created_at, INTERVAL expires_in_days DAY) > NOW())
-                 ORDER BY created_at DESC"
+            $stmt = $this->db->query(
+                "SELECT id, name, slug FROM `blog_tags` ORDER BY name ASC"
             );
-            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log('BlogsModel::getAllHiringPositions() - ' . $e->getMessage());
+            error_log('BlogsModel::getAllTags() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Lấy tags theo blog ID
+     */
+    public function getTagsByBlogId($blogId)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT bt.id, bt.name, bt.slug
+                 FROM `blog_tags` bt
+                 INNER JOIN `blog_tag_map` btm ON bt.id = btm.tag_id
+                 WHERE btm.blog_id = ?
+                 ORDER BY bt.name ASC"
+            );
+            $stmt->execute([$blogId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getTagsByBlogId() - ' . $e->getMessage());
             return [];
         }
     }
@@ -521,8 +375,6 @@ class BlogsModel
     // ----------------------------------------------------------------
 
     /**
-<<<<<<< HEAD
-=======
      * Lấy danh sách blogs cho admin với phân trang và filter
      * @param int $page Trang hiện tại
      * @param int $perPage Số bài mỗi trang
@@ -539,7 +391,7 @@ class BlogsModel
             $baseJoin = "FROM `blogs` b
                          LEFT JOIN `blog_categories` bc ON b.category_id = bc.id";
 
-            $where = "WHERE 1=1"; // Admin xem tất cả, không filter status
+            $where = "WHERE deleted_at IS NULL"; // Admin xem tất cả, nhưng không bao gồm soft deleted
 
             // Add category filter
             if ($catId > 0) {
@@ -565,7 +417,6 @@ class BlogsModel
             // Fetch blogs - bỏ sort_order vì không tồn tại
             $sql = "SELECT b.id, b.title, b.slug, b.image, b.excerpt,
                            b.author, b.created_at, b.views, b.category_id, b.status,
-                           b.is_featured,
                            bc.name AS category_name, bc.slug AS category_slug
                     {$baseJoin}
                     {$where}
@@ -590,7 +441,6 @@ class BlogsModel
     }
 
     /**
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
      * Lấy blog theo ID cho admin (không filter status)
      */
     public function getAdminBlogById($id)
@@ -600,7 +450,7 @@ class BlogsModel
                 "SELECT b.*, bc.name AS category_name, bc.slug AS category_slug
                  FROM `blogs` b
                  LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
-                 WHERE b.id = ?
+                 WHERE b.id = ? AND deleted_at IS NULL
                  LIMIT 1"
             );
             $stmt->execute([$id]);
@@ -615,8 +465,6 @@ class BlogsModel
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Lấy tất cả blog categories cho admin (không filter status)
      */
     public function getAdminBlogCategories()
@@ -645,9 +493,9 @@ class BlogsModel
         try {
             $sql = "INSERT INTO blogs (
                 title, slug, category_id, excerpt, content, image, author, 
-                status, is_featured, views, hiring_status, position, 
+                status, views, hiring_status, position, 
                 expires_in_days, contact_email, contact_phone, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
             
             $stmt = $this->db->prepare($sql);
             // hiring_status: cột NOT NULL (DEFAULT 1 trên DB) — không được gửi NULL khi strict mode
@@ -664,7 +512,6 @@ class BlogsModel
                 $data['image'] ?? '',
                 $data['author'] ?? 'Admin',
                 $data['status'] ?? 1,
-                $data['is_featured'] ?? 0,
                 $data['views'] ?? 0,
                 $hiringStatus,
                 $data['position'] ?? '',
@@ -712,14 +559,14 @@ class BlogsModel
     }
 
     /**
-     * Xóa blog
+     * Xóa blog (soft delete)
      * @param int $id Blog ID
      * @return bool
      */
     public function deleteBlog($id)
     {
         try {
-            $stmt = $this->db->prepare("DELETE FROM blogs WHERE id = ?");
+            $stmt = $this->db->prepare("UPDATE blogs SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?");
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             error_log('BlogsModel::deleteBlog() - ' . $e->getMessage());
@@ -728,15 +575,127 @@ class BlogsModel
     }
 
     /**
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
      * Đếm tổng số blogs cho admin (kể cả draft)
      */
     public function countAll(): int
     {
         try {
-            return (int) $this->db->query("SELECT COUNT(*) FROM `blogs`")->fetchColumn();
+            return (int) $this->db->query("SELECT COUNT(*) FROM `blogs` WHERE deleted_at IS NULL")->fetchColumn();
         } catch (PDOException $e) {
             return 0;
+        }
+    }
+
+    // ----------------------------------------
+    // SOFT DELETE METHODS
+    // ----------------------------------------
+
+    /**
+     * Lấy danh sách blogs đã bị xóa (soft deleted)
+     * @param int $limit Số lượng bản ghi mỗi trang
+     * @param int $offset Vị trí bắt đầu
+     * @return array Danh sách blogs đã xóa
+     */
+    public function getTrashed($limit = 20, $offset = 0)
+    {
+        try {
+            $sql = "SELECT b.*, bc.name AS category_name, bc.slug AS category_slug
+                    FROM `blogs` b
+                    LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
+                    WHERE b.deleted_at IS NOT NULL 
+                    ORDER BY b.deleted_at DESC 
+                    LIMIT ? OFFSET ?";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$limit, $offset]);
+            $blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Gắn tags cho từng blog
+            foreach ($blogs as &$blog) {
+                $blog['tags'] = $this->getTagsByBlogId($blog['id']);
+            }
+
+            return $blogs;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getTrashed() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Đếm số lượng blogs đã bị xóa
+     * @return int Số lượng blogs đã xóa
+     */
+    public function countTrashed()
+    {
+        try {
+            $sql = "SELECT COUNT(*) FROM `blogs` WHERE deleted_at IS NOT NULL";
+            $stmt = $this->db->query($sql);
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('BlogsModel::countTrashed() - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Lấy blog đã bị xóa theo ID
+     * @param int $id Blog ID
+     * @return array|null Thông tin blog đã xóa
+     */
+    public function getTrashedById($id)
+    {
+        try {
+            $sql = "SELECT b.*, bc.name AS category_name, bc.slug AS category_slug
+                    FROM `blogs` b
+                    LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
+                    WHERE b.id = ? AND b.deleted_at IS NOT NULL
+                    LIMIT 1";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$id]);
+            $blog = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$blog) return null;
+            $blog['tags'] = $this->getTagsByBlogId($blog['id']);
+            return $blog;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getTrashedById() - ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Khôi phục blog đã bị xóa
+     * @param int $id Blog ID
+     * @return bool Kết quả
+     */
+    public function restore($id)
+    {
+        try {
+            $sql = "UPDATE blogs SET deleted_at = NULL WHERE id = ?";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::restore() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Xóa vĩnh viễn blog (hard delete)
+     * @param int $id Blog ID
+     * @return bool Kết quả
+     */
+    public function hardDelete($id)
+    {
+        try {
+            $sql = "DELETE FROM blogs WHERE id = ?";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::hardDelete() - ' . $e->getMessage());
+            return false;
         }
     }
 }

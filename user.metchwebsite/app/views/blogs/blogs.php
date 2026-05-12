@@ -109,7 +109,12 @@ $totalPages = $perPage > 0 ? (int) ceil($totalBlogs / $perPage) : 1;
                         <p><?php echo htmlspecialchars($excerpt); ?></p>
                     <?php endif; ?>
 
-                    <a href="<?php echo $blogUrl; ?>" class="read_btn_two">Xem chi tiết</a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="<?php echo $blogUrl; ?>" class="read_btn_two">Xem chi tiết</a>
+                        <span class="blog-views">
+                            Lượt xem: <?php echo number_format($blog['views'] ?? 0); ?>
+                        </span>
+                    </div>
                 </div>
 
             </div><!-- /.lt_blog_item -->

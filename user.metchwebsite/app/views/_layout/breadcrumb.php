@@ -29,7 +29,7 @@ function get_breadcrumbs(string $page, array $params = []): ?array
     // Kiểm tra nếu là trang tuyển dụng (blogs với cat=7)
     if ($page === 'blogs' && isset($_GET['cat']) && $_GET['cat'] == '7') {
         return [
-            ['title' => 'Tuyển dụng', 'url' => null],
+            ['title' => 'Tuyển dụng', 'url' => '/tuyen-dung'],
         ];
     }
 

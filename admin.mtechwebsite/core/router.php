@@ -78,6 +78,9 @@ class AdminRouter
         $this->get('/blogs/edit/{id}',      'BlogsController@edit');
         $this->post('/blogs/update/{id}',   'BlogsController@update');
         $this->post('/blogs/delete/{id}',   'BlogsController@delete');
+        $this->get('/blogs/trash',          'BlogsController@trash');
+        $this->post('/blogs/restore/{id}',  'BlogsController@restore');
+        $this->post('/blogs/hard-delete/{id}','BlogsController@hardDelete');
 
         // ----------------------------------------
 

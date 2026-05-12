@@ -83,6 +83,11 @@ unset($_SESSION['job_application_message'], $_SESSION['job_application_success']
 
         <hr class="border_bottom mt-0 mb_20">
 
+        <!-- View Count -->
+        <div class="blog-views-detail text-muted mb-3">
+            Lượt xem: <?php echo number_format($blogDetail['views'] ?? 0); ?>
+        </div>
+
         <!-- Title -->
         <div class="blog-text">
             <a href="#">

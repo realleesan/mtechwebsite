@@ -5,20 +5,17 @@
 <!-- Page Header -->
 <div class="page-header">
     <h4><i class="bi bi-newspaper me-2"></i>Quản lý Tin tức</h4>
-<<<<<<< HEAD
-    <a href="/blogs/create" class="btn btn-primary">
-        <i class="bi bi-plus-lg me-1"></i>Thêm mới
-    </a>
-=======
     <div class="d-flex gap-2">
         <a href="/blogs/categories" class="btn btn-outline-primary">
             <i class="bi bi-tags me-1"></i>Quản lý danh mục
+        </a>
+        <a href="/blogs/trash" class="btn btn-warning">
+            <i class="bi bi-trash me-1"></i>Thùng rác
         </a>
         <a href="/blogs/create" class="btn btn-primary">
             <i class="bi bi-plus-lg me-1"></i>Thêm mới
         </a>
     </div>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
 </div>
 
 <!-- Filter Bar -->
@@ -62,19 +59,12 @@
             <thead>
                 <tr>
                     <th style="width:60px">#</th>
-<<<<<<< HEAD
-                    <th>Tiêu đề</th>
-                    <th>Danh mục</th>
-                    <th>Ngày tạo</th>
-                    <th>Lượt xem</th>
-=======
                     <th style="width:80px">Ảnh</th>
                     <th>Tiêu đề</th>
                     <th>Danh mục</th>
                     <th>Trạng thái</th>
                     <th>Ngày tạo</th>
                     <th class="blog-col-views text-center">Lượt xem</th>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                     <th style="width:120px">Thao tác</th>
                 </tr>
             </thead>
@@ -84,32 +74,6 @@
                         <tr>
                             <td class="text-muted small"><?= $blog['id'] ?></td>
                             <td>
-<<<<<<< HEAD
-                                <div class="d-flex align-items-center gap-2">
-                                    <?php if (!empty($blog['image'])): ?>
-                                        <img src="<?= htmlspecialchars($blog['image']) ?>"
-                                             alt="" width="40" height="40"
-                                             style="object-fit:cover; border-radius:6px;"
-                                             onerror="this.style.display='none'">
-                                    <?php endif; ?>
-                                    <div>
-                                        <div class="fw-medium"><?= htmlspecialchars($blog['title']) ?></div>
-                                        <small class="text-muted"><?= htmlspecialchars($blog['slug'] ?? '') ?></small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge bg-secondary">
-                                    <?= htmlspecialchars($blog['category_name'] ?? '') ?>
-                                </span>
-                            </td>
-                            <td class="text-muted small">
-                                <?= isset($blog['created_at']) ? date('d/m/Y', strtotime($blog['created_at'])) : '' ?>
-                            </td>
-                            <td class="text-muted small"><?= $blog['views'] ?? 0 ?></td>
-                            <td>
-                                <div class="d-flex gap-1">
-=======
                                 <?php if (!empty($blog['image'])): ?>
                                     <img src="<?= htmlspecialchars($blog['image']) ?>"
                                          alt="" width="50" height="50"
@@ -134,17 +98,12 @@
                             <td>
                                 <?php 
                                 $status = (int)($blog['status'] ?? 1);
-                                $isFeatured = (int)($blog['is_featured'] ?? 0);
                                 ?>
                                 <div class="d-flex flex-column gap-1">
                                     <?php if ($status === 1): ?>
                                         <span class="badge bg-success">Kích hoạt</span>
                                     <?php else: ?>
                                         <span class="badge bg-secondary">Vô hiệu hóa</span>
-                                    <?php endif; ?>
-                                    
-                                    <?php if ($isFeatured === 1): ?>
-                                        <span class="badge bg-warning text-dark">Nổi bật</span>
                                     <?php endif; ?>
                                 </div>
                             </td>
@@ -158,7 +117,6 @@
                                        class="btn btn-sm btn-outline-info" title="Xem chi tiết">
                                         <i class="bi bi-eye"></i>
                                     </a>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                                     <a href="/blogs/edit/<?= $blog['id'] ?>"
                                        class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
                                         <i class="bi bi-pencil"></i>
@@ -175,11 +133,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-<<<<<<< HEAD
-                        <td colspan="6" class="text-center text-muted py-4">
-=======
-                        <td colspan="9" class="text-center text-muted py-4">
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
+                        <td colspan="8" class="text-center text-muted py-4">
                             <i class="bi bi-inbox fs-3 d-block mb-2"></i>
                             Chưa có tin tức nào
                         </td>
@@ -206,8 +160,4 @@
             </nav>
         </div>
     <?php endif; ?>
-<<<<<<< HEAD
 </div>
-=======
-</div>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647

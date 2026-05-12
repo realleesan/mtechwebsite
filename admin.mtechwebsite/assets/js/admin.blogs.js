@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initGalleryUpload();
     initRichEditor();
     initMainImagePreview();
-    initDeleteConfirmation();
     
 });
 
@@ -236,22 +235,6 @@ function initMainImagePreview() {
     });
 }
 
-// ----------------------------------------
-// Delete Confirmation
-// ----------------------------------------
-function initDeleteConfirmation() {
-    const deleteButtons = document.querySelectorAll('.btn-delete');
-    
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const confirmMessage = this.dataset.confirm || 'Bạn có chắc chắn muốn xóa?';
-            if (!confirm(confirmMessage)) {
-                e.preventDefault();
-                return false;
-            }
-        });
-    });
-}
 
 // ----------------------------------------
 // Toggle Recruitment Tab

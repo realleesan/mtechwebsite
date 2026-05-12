@@ -152,12 +152,6 @@ class BlogsController extends BaseController
         // Lấy danh sách vị trí tuyển dụng đang mở (cho form ứng tuyển)
         $hiringPositions = $this->blogsModel->getAllHiringPositions();
         
-        // Breadcrumbs
-        $breadcrumbs = [
-            ['title' => 'Tin tức', 'url' => '/tin-tuc'],
-            ['title' => htmlspecialchars($blogDetail['title']), 'url' => null],
-        ];
-        
         // Chuẩn bị data cho view
         $data = [
             'blogDetail' => $blogDetail,

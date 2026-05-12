@@ -155,7 +155,6 @@ class BlogsController extends BaseController
                 'image' => $imagePath,
                 'author' => $this->clampUtf8($_POST['author'] ?? 'Admin', 255),
                 'status' => $_POST['status'] ?? 1,
-                'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
                 'views' => 0
             ];
 
@@ -290,8 +289,7 @@ class BlogsController extends BaseController
                 'excerpt' => $this->clampUtf8($_POST['excerpt'] ?? '', 65535),
                 'content' => $_POST['content'] ?? '',
                 'author' => $this->clampUtf8($_POST['author'] ?? 'Admin', 255),
-                'status' => $_POST['status'] ?? 1,
-                'is_featured' => isset($_POST['is_featured']) ? 1 : 0
+                'status' => $_POST['status'] ?? 1
             ];
 
             // Add recruitment fields if category is recruitment (ID = 7)
@@ -366,10 +364,6 @@ class BlogsController extends BaseController
             return;
         }
 
-        // TODO: Implement delete logic
-        // - Xóa khỏi database (soft delete: status = 0)
-        // - Redirect về /blogs với success message
-
         try {
             $blog = $this->blogsModel->getAdminBlogById($id);
             if (!$blog) {
@@ -378,19 +372,13 @@ class BlogsController extends BaseController
                 return;
             }
 
-            // Delete blog
-            $this->blogsModel->deleteBlog($id);
+            // Soft delete blog
+            if ($this->blogsModel->deleteBlog($id)) {
+                $_SESSION['success'] = 'Xóa tin tức thành công!';
+            } else {
+                $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            }
 
-            // Delete image
-            $this->deleteOldImage($blog['image']);
-
-            // Delete tags
-            $this->deleteBlogTags($id);
-
-            // Delete blog details
-            $this->deleteBlogDetails($id);
-
-            $_SESSION['success'] = 'Xóa tin tức thành công';
             $this->redirect('/blogs');
 
         } catch (PDOException $e) {
@@ -712,5 +700,96 @@ class BlogsController extends BaseController
     public function countAll()
     {
         return $this->blogsModel->countAll();
+    }
+
+    // ----------------------------------------
+    // Soft Delete Functions
+    // ----------------------------------------
+
+    /**
+     * Display trashed (soft-deleted) blogs
+     */
+    public function trash()
+    {
+        $page     = max(1, (int)($_GET['page'] ?? 1));
+        $perPage  = 20;
+        $offset   = ($page - 1) * $perPage;
+
+        $blogs = $this->blogsModel->getTrashed($perPage, $offset);
+        $total = $this->blogsModel->countTrashed();
+        $totalPages = ceil($total / $perPage);
+
+        $this->view('blogs/trash', [
+            'title'       => 'Thùng rác - Admin MTech',
+            'page'        => 'blogs',
+            'blogs'       => $blogs,
+            'total'       => $total,
+            'currentPage' => $page,
+            'totalPages'  => $totalPages,
+            'admin'       => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    /**
+     * Restore a soft-deleted blog
+     */
+    public function restore($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Method not allowed';
+            $this->redirect('/blogs/trash');
+            return;
+        }
+
+        if ($this->blogsModel->restore($id)) {
+            $_SESSION['success'] = 'Khôi phục tin tức thành công!';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+        }
+
+        $this->redirect('/blogs/trash');
+    }
+
+    /**
+     * Permanently delete a blog (hard delete)
+     */
+    public function hardDelete($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Method not allowed';
+            $this->redirect('/blogs/trash');
+            return;
+        }
+
+        try {
+            $blog = $this->blogsModel->getTrashedById($id);
+            if (!$blog) {
+                $_SESSION['error'] = 'Không tìm thấy tin tức trong thùng rác';
+                $this->redirect('/blogs/trash');
+                return;
+            }
+
+            // Delete image
+            $this->deleteOldImage($blog['image']);
+
+            // Delete tags
+            $this->deleteBlogTags($id);
+
+            // Delete blog details
+            $this->deleteBlogDetails($id);
+
+            // Hard delete blog
+            if ($this->blogsModel->hardDelete($id)) {
+                $_SESSION['success'] = 'Đã xóa vĩnh viễn tin tức!';
+            } else {
+                $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            }
+
+        } catch (PDOException $e) {
+            error_log('BlogsController::hardDelete() - ' . $e->getMessage());
+            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa vĩnh viễn tin tức';
+        }
+
+        $this->redirect('/blogs/trash');
     }
 }

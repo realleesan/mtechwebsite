@@ -23,6 +23,15 @@ if (!isset($pageTitle)) {
     ];
     $currentPage = $_GET['page'] ?? 'home';
     
+    // Check if this is a blogs page (including pagination)
+    $isBlogsPage = false;
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $uri = $_SERVER['REQUEST_URI'];
+        if (strpos($uri, '/tin-tuc') !== false) {
+            $isBlogsPage = true;
+        }
+    }
+    
     // Nếu là trang blogs với cat=7 (tuyển dụng)
     if ($currentPage === 'blogs' && isset($_GET['cat']) && $_GET['cat'] == '7') {
         $pageTitle = 'Tuyển dụng';
@@ -30,8 +39,41 @@ if (!isset($pageTitle)) {
     // Nếu là trang blogs với danh mục (cat_slug)
     elseif ($currentPage === 'blogs' && isset($_GET['cat_slug']) && !empty($categoryName)) {
         $pageTitle = htmlspecialchars($categoryName);
+    }
+    // Nếu là trang tin tức (bao gồm cả pagination)
+    elseif ($isBlogsPage) {
+        $pageTitle = 'Tin tức';
     } else {
         $pageTitle = $pageTitles[$currentPage] ?? ucfirst($currentPage);
+    }
+    
+    // Get breadcrumbs for current page
+    // Handle pagination for blogs page
+    $pageNumber = null;
+    if (isset($_GET['p'])) {
+        $pageNumber = (int)$_GET['p'];
+    } elseif (isset($_GET['page'])) {
+        $pageNumber = (int)$_GET['page'];
+    }
+    
+    // Check if this is a paginated blogs page
+    $isBlogsPage = false;
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $uri = $_SERVER['REQUEST_URI'];
+        if (strpos($uri, '/tin-tuc') !== false || strpos($uri, '?page=') !== false || strpos($uri, '?p=') !== false) {
+            $isBlogsPage = true;
+        }
+    }
+    
+    // Handle breadcrumbs for paginated blogs
+    if ($isBlogsPage && $pageNumber && $pageNumber > 1) {
+        $breadcrumbs = [
+            ['title' => 'Tin tức', 'url' => '/tin-tuc'],
+            ['title' => 'trang ' . $pageNumber, 'url' => null],
+        ];
+    } else {
+        // Use default breadcrumb logic
+        $breadcrumbs = get_breadcrumbs($currentPage);
     }
 }
 

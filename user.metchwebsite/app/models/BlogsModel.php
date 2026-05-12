@@ -49,7 +49,7 @@ class BlogsModel
                                INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id";
             }
 
-            $where = "WHERE b.status = 1";
+            $where = "WHERE b.status = 1 AND b.deleted_at IS NULL";
 
             // Add tag filter
             if (!empty($tagSlug)) {
@@ -130,7 +130,7 @@ class BlogsModel
                 "SELECT b.*, bc.name AS category_name, bc.slug AS category_slug
                  FROM `blogs` b
                  LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
-                 WHERE b.slug = ? AND b.status = 1
+                 WHERE b.slug = ? AND b.status = 1 AND b.deleted_at IS NULL
                  LIMIT 1"
             );
             $stmt->execute([$slug]);
@@ -155,7 +155,7 @@ class BlogsModel
                 "SELECT b.*, bc.name AS category_name, bc.slug AS category_slug
                  FROM `blogs` b
                  LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
-                 WHERE b.id = ? AND b.status = 1
+                 WHERE b.id = ? AND b.status = 1 AND b.deleted_at IS NULL
                  LIMIT 1"
             );
             $stmt->execute([$id]);
@@ -282,7 +282,7 @@ class BlogsModel
             $stmt = $this->db->prepare(
                 "SELECT id, title, slug, image, created_at
                  FROM `blogs`
-                 WHERE status = 1
+                 WHERE status = 1 AND deleted_at IS NULL
                  ORDER BY created_at DESC
                  LIMIT ?"
             );

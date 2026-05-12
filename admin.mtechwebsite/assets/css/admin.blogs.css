@@ -87,10 +87,6 @@
     background-color: var(--text-muted);
 }
 
-.blog-status-featured {
-    background-color: #ffc107;
-    color: #212529;
-}
 
 /* Blog Form Tabs */
 .blog-form-tabs .nav-tabs {

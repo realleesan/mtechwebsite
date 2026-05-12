@@ -1,15 +1,4 @@
 ﻿<?php
-<<<<<<< HEAD
-?>
-<div class="page-header">
-    <h4>blogs / edit</h4>
-    <a href="/blogs" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
-</div>
-<div class="admin-form-card">
-    <div class="alert alert-info"><i class="bi bi-info-circle me-2"></i>Chức năng đang phát triển.</div>
-</div>
-
-=======
 // $blog, $categories
 // Trang user dùng blog_details.full_content; blogs.content có thể cũ/rỗng — ưu tiên full_content khi sửa.
 $contentForEditor = !empty($blog['full_content']) ? $blog['full_content'] : ($blog['content'] ?? '');
@@ -103,14 +92,7 @@ foreach ($blog['tags'] ?? [] as $t) {
                         
 
                         
-                        <div class="mb-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured" value="1" 
-                                    <?= ($blog['is_featured'] == 1) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="is_featured">Nổi bật</label>
-                            </div>
-                        </div>
-                        
+                                                
                         <div class="mb-3">
                             <label for="author" class="form-label">Tác giả</label>
                             <input type="text" class="form-control" id="author" name="author" value="<?= htmlspecialchars($blog['author'] ?? 'Admin') ?>">
@@ -187,19 +169,6 @@ foreach ($blog['tags'] ?? [] as $t) {
                                 </div>
                                 <input type="hidden" id="content" name="content" value="<?= $contentForEditorHidden ?>">
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label">Gallery Images</label>
-                            <div class="gallery-upload-area">
-                                <i class="bi bi-cloud-upload fs-1 mb-2"></i>
-                                <p class="mb-2">Kéo thả ảnh vào đây hoặc click để chọn</p>
-                                <small class="text-muted">Hỗ trợ: JPG, PNG, GIF (Tối đa 5MB)</small>
-                                <input type="file" id="gallery-input" name="gallery[]" multiple accept="image/*" style="display: none;">
-                            </div>
-                            <div class="gallery-preview"></div>
                         </div>
                     </div>
                 </div>
@@ -384,4 +353,3 @@ function validateBlogForm() {
     return true;
 }
 </script>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
