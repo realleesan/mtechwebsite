@@ -64,21 +64,42 @@ class ContactsModel
     }
 
     /**
-     * Lấy tất cả contacts, sắp xếp theo mới nhất
+     * Lấy tất cả contacts (chưa xóa), sắp xếp theo mới nhất
      *
      * @param int $limit Số lượng cần lấy
      * @param int $offset Vị trí bắt đầu
+     * @param string|null $search Từ khóa tìm kiếm
+     * @param int|null $statusFilter Lọc theo trạng thái
      * @return array Mảng các contact
      */
-    public function getAll($limit = 50, $offset = 0)
+    public function getAll($limit = 50, $offset = 0, $search = null, $statusFilter = null)
     {
         try {
+            $where = ['deleted_at IS NULL'];
+            $params = [];
+
+            if (!empty($search)) {
+                $where[] = '(name LIKE :search OR email LIKE :search OR phone LIKE :search)';
+                $params[':search'] = '%' . $search . '%';
+            }
+
+            if ($statusFilter !== null && $statusFilter !== '') {
+                $where[] = 'status = :status_filter';
+                $params[':status_filter'] = (int)$statusFilter;
+            }
+
+            $whereClause = 'WHERE ' . implode(' AND ', $where);
+
             $stmt = $this->db->prepare(
-                "SELECT id, name, email, phone, message, status, created_at 
+                "SELECT id, name, email, phone, subject, message, status, created_at 
                  FROM `{$this->table}`
+                 {$whereClause}
                  ORDER BY created_at DESC 
                  LIMIT :limit OFFSET :offset"
             );
+            foreach ($params as $key => $val) {
+                $stmt->bindValue($key, $val);
+            }
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
@@ -120,7 +141,7 @@ class ContactsModel
     {
         try {
             $stmt = $this->db->prepare(
-                "UPDATE `{$this->table}` SET status = ? WHERE id = ?"
+                "UPDATE `{$this->table}` SET status = ?, updated_at = NOW() WHERE id = ?"
             );
             return $stmt->execute([$status, $id]);
         } catch (PDOException $e) {
@@ -130,12 +151,71 @@ class ContactsModel
     }
 
     /**
-     * Xóa một contact
+     * Cập nhật status và admin_reply
+     *
+     * @param int $id
+     * @param int $status
+     * @param string|null $adminReply
+     * @return bool
+     */
+    public function update($id, $status, $adminReply = null)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET status = ?, admin_reply = ?, updated_at = NOW() WHERE id = ?"
+            );
+            return $stmt->execute([$status, $adminReply, $id]);
+        } catch (PDOException $e) {
+            error_log('ContactsModel::update() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Soft delete (chuyển vào thùng rác)
      *
      * @param int $id
      * @return bool
      */
-    public function delete($id)
+    public function softDelete($id)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = NOW() WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('ContactsModel::softDelete() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Khôi phục từ thùng rác
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function restore($id)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = NULL WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('ContactsModel::restore() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Xóa vĩnh viễn
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function hardDelete($id)
     {
         try {
             $stmt = $this->db->prepare(
@@ -143,28 +223,85 @@ class ContactsModel
             );
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
-            error_log('ContactsModel::delete() - ' . $e->getMessage());
+            error_log('ContactsModel::hardDelete() - ' . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Đếm tổng số contacts
+     * Lấy danh sách đã xóa (thùng rác)
      *
-     * @param int|null $status Lọc theo trạng thái (optional)
-     * @return int
+     * @param int $limit
+     * @param int $offset
+     * @return array
      */
-    public function count($status = null)
+    public function getTrashed($limit = 50, $offset = 0)
     {
         try {
-            $sql = "SELECT COUNT(*) FROM `{$this->table}`";
+            $stmt = $this->db->prepare(
+                "SELECT id, name, email, phone, subject, status, created_at, deleted_at
+                 FROM `{$this->table}`
+                 WHERE deleted_at IS NOT NULL
+                 ORDER BY deleted_at DESC
+                 LIMIT :limit OFFSET :offset"
+            );
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('ContactsModel::getTrashed() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Đếm số bản ghi trong thùng rác
+     *
+     * @return int
+     */
+    public function countTrashed()
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT COUNT(*) FROM `{$this->table}` WHERE deleted_at IS NOT NULL"
+            );
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('ContactsModel::countTrashed() - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Đếm tổng số contacts (chưa xóa)
+     *
+     * @param int|null $status Lọc theo trạng thái (optional)
+     * @param string|null $search Từ khóa tìm kiếm
+     * @return int
+     */
+    public function count($status = null, $search = null)
+    {
+        try {
+            $where = ['deleted_at IS NULL'];
             $params = [];
-            
+
             if ($status !== null) {
-                $sql .= " WHERE status = ?";
+                $where[] = 'status = ?';
                 $params[] = $status;
             }
-            
+
+            if (!empty($search)) {
+                $where[] = '(name LIKE ? OR email LIKE ? OR phone LIKE ?)';
+                $params[] = '%' . $search . '%';
+                $params[] = '%' . $search . '%';
+                $params[] = '%' . $search . '%';
+            }
+
+            $whereClause = 'WHERE ' . implode(' AND ', $where);
+            $sql = "SELECT COUNT(*) FROM `{$this->table}` {$whereClause}";
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
             return (int) $stmt->fetchColumn();

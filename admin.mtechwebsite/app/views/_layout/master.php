@@ -94,6 +94,12 @@
             echo '<link rel="stylesheet" href="/assets/css/admin.blogs.css">';
             echo '<link rel="stylesheet" href="/assets/css/admin.categories.css">';
             break;
+        case 'contacts':
+        case 'contact.view':
+        case 'contact.edit':
+        case 'contact.trash':
+            echo '<link rel="stylesheet" href="/assets/css/admin.contacts.css?v=1.1">';
+            break;
         case 'login':
         case 'forgot-password':
         case 'reset-password':
@@ -254,6 +260,12 @@ switch($currentPage) {
     case 'category.edit':
         echo '<script src="/assets/js/admin.blogs.js"></script>';
         echo '<script src="/assets/js/admin.categories.js"></script>';
+        break;
+    case 'contacts':
+    case 'contact.view':
+    case 'contact.edit':
+    case 'contact.trash':
+        echo '<script src="/assets/js/admin.contacts.js"></script>';
         break;
     // Auth pages không cần JS riêng
     case 'login':

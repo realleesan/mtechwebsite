@@ -515,6 +515,116 @@ HTML;
     }
 
     // ----------------------------------------------------------------
+    // CONTACT REPLY EMAIL
+    // ----------------------------------------------------------------
+
+    /**
+     * Gửi email phản hồi từ admin đến người gửi liên hệ
+     *
+     * @param array $contact  Dữ liệu contact: name, email, subject, message
+     * @param string $reply   Nội dung phản hồi của admin
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendContactReply($contact, $reply)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->clearAttachments();
+
+            $this->mailer->addAddress($contact['email'], $contact['name'] ?? '');
+
+            $this->mailer->isHTML(true);
+            $subject = !empty($contact['subject'])
+                ? 'Re: ' . $contact['subject']
+                : 'Phản hồi liên hệ từ MTECH.JSC';
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+
+            $body = $this->getContactReplyTemplate($contact, $reply);
+            $this->mailer->Body    = $body;
+            $this->mailer->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $body));
+
+            $this->mailer->send();
+
+            if ($this->config['log_emails']) {
+                error_log('EmailNotificationService: Contact reply sent to ' . $contact['email']);
+            }
+
+            return ['success' => true, 'message' => 'Email phản hồi đã được gửi đến ' . $contact['email']];
+
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            error_log('EmailNotificationService::sendContactReply() - PHPMailer: ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi gửi email: ' . $e->getMessage()];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendContactReply() - General: ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi hệ thống: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Template email phản hồi liên hệ
+     */
+    private function getContactReplyTemplate($contact, $reply)
+    {
+        $name        = htmlspecialchars($contact['name'] ?? 'Bạn');
+        $origMessage = nl2br(htmlspecialchars($contact['message'] ?? ''));
+        $origSubject = htmlspecialchars($contact['subject'] ?? 'Liên hệ');
+        $replyHtml   = nl2br(htmlspecialchars($reply));
+        $date        = date('d/m/Y H:i');
+        $supportEmail = htmlspecialchars($this->config['support_email']);
+        $year        = date('Y');
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 24px 16px; }
+        .container { max-width: 580px; margin: 0 auto; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .header { background: #1A3FBF; color: #fff; padding: 28px 24px; text-align: center; }
+        .header h1 { margin: 0 0 6px; font-size: 20px; }
+        .header p { margin: 0; font-size: 12px; opacity: 0.75; letter-spacing: 1px; text-transform: uppercase; }
+        .body { padding: 28px 24px; }
+        .greeting { font-size: 15px; color: #333; margin-bottom: 16px; }
+        .reply-box { background: #f0fff4; border-left: 4px solid #198754; border-radius: 6px; padding: 16px 18px; margin: 20px 0; font-size: 14px; line-height: 1.7; color: #1a3a2a; }
+        .divider { border: none; border-top: 1px dashed #dee2e6; margin: 24px 0; }
+        .original-label { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .original-box { background: #f8f9fa; border-radius: 6px; padding: 14px 16px; font-size: 13px; color: #666; line-height: 1.6; }
+        .footer { background: #f4f6fb; padding: 16px 24px; text-align: center; font-size: 11px; color: #999; border-top: 1px solid #e8ecf4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MTECH.JSC</h1>
+            <p>Phản hồi liên hệ</p>
+        </div>
+        <div class="body">
+            <p class="greeting">Xin chào <strong>{$name}</strong>,</p>
+            <p style="font-size:14px; color:#555;">Cảm ơn bạn đã liên hệ với chúng tôi. Dưới đây là phản hồi của chúng tôi về yêu cầu của bạn:</p>
+
+            <div class="reply-box">
+                {$replyHtml}
+            </div>
+
+            <p style="font-size:13px; color:#777;">Nếu bạn có thêm câu hỏi, vui lòng liên hệ lại qua email <a href="mailto:{$supportEmail}" style="color:#1A3FBF;">{$supportEmail}</a> hoặc truy cập website của chúng tôi.</p>
+
+            <hr class="divider">
+
+            <div class="original-label">Tin nhắn gốc của bạn ({$origSubject})</div>
+            <div class="original-box">{$origMessage}</div>
+        </div>
+        <div class="footer">
+            <p>&copy; {$year} MTECH.JSC &mdash; Email này được gửi lúc {$date}</p>
+            <p>Vui lòng không trả lời trực tiếp email này.</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
+
+    // ----------------------------------------------------------------
     // ADMIN LOGIN NOTIFICATION
     // ----------------------------------------------------------------
 

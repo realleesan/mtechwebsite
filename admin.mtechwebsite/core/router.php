@@ -121,11 +121,16 @@ class AdminRouter
         $this->post('/categories/hard-delete/{id}', 'CategoriesController@hardDelete');
 
         // ----------------------------------------
-        // Contacts (chỉ xem)
+        // Contacts
         // ----------------------------------------
-        $this->get('/contacts',             'ContactsController@index');
-        $this->get('/contacts/view/{id}',   'ContactsController@show');
-        $this->post('/contacts/delete/{id}','ContactsController@delete');
+        $this->get('/contacts',                     'ContactsController@index');
+        $this->get('/contacts/trash',               'ContactsController@trash');
+        $this->get('/contacts/view/{id}',           'ContactsController@show');
+        $this->get('/contacts/edit/{id}',           'ContactsController@edit');
+        $this->post('/contacts/update/{id}',        'ContactsController@update');
+        $this->post('/contacts/delete/{id}',        'ContactsController@delete');
+        $this->post('/contacts/restore/{id}',       'ContactsController@restore');
+        $this->post('/contacts/hard-delete/{id}',   'ContactsController@hardDelete');
 
         // ----------------------------------------
         // Teams

@@ -1,0 +1,132 @@
+/* ============================================================
+   admin.contacts.css — Styles cho trang quản lý Liên hệ
+   ============================================================ */
+
+/* ---- Badge trạng thái ---- */
+.contact-badge-unread {
+    background-color: #fff3cd !important;
+    color: #856404 !important;
+    border: 1px solid #ffc107;
+    font-weight: 500;
+}
+
+.contact-badge-read {
+    background-color: #cff4fc !important;
+    color: #055160 !important;
+    border: 1px solid #0dcaf0;
+    font-weight: 500;
+}
+
+.contact-badge-replied {
+    background-color: #d1e7dd !important;
+    color: #0a3622 !important;
+    border: 1px solid #198754;
+    font-weight: 500;
+}
+
+/* ---- Hàng chưa đọc nổi bật ---- */
+.contact-row-unread {
+    background-color: #fffdf0;
+}
+
+.contact-row-unread:hover {
+    background-color: #fff8d6 !important;
+}
+
+/* ---- Detail items ---- */
+.contact-detail-item {
+    padding: 0;
+}
+
+.contact-detail-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+}
+
+.contact-detail-value {
+    font-size: 0.92rem;
+    color: #212529;
+}
+
+/* ---- Message box ---- */
+.contact-message-box {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #343a40;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ---- Reply box ---- */
+.contact-reply-box {
+    background: #f0fff4;
+    border: 1px solid #b7ebc8;
+    border-left: 4px solid #28a745;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #155724;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ---- Status options (edit page) ---- */
+.contact-status-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.contact-status-option {
+    flex: 1;
+    min-width: 110px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    padding: 4px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
+
+.contact-status-option:hover {
+    border-color: #adb5bd;
+}
+
+.contact-status-option.active {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.contact-status-option .badge {
+    display: block;
+    font-size: 0.82rem;
+    border-radius: 6px;
+}
+
+/* ---- Textarea phản hồi ---- */
+#admin_reply {
+    resize: vertical;
+    min-height: 140px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 576px) {
+    .contact-status-options {
+        flex-direction: column;
+    }
+    .contact-status-option {
+        min-width: unset;
+    }
+}
