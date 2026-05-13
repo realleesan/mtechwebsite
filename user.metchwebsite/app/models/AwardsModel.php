@@ -22,6 +22,7 @@ class AwardsModel
 
     /**
      * Lấy tất cả awards đang active, sắp xếp theo sort_order.
+     * Không lấy các award đã bị xóa mềm (deleted_at IS NOT NULL).
      */
     public function getAllActive()
     {
@@ -29,7 +30,7 @@ class AwardsModel
             $stmt = $this->db->prepare(
                 "SELECT id, name, certificate, image
                  FROM `{$this->table}`
-                 WHERE status = 1
+                 WHERE status = 1 AND deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();

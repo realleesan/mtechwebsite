@@ -68,7 +68,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Awards -->
             <li class="nav-item">
-                <a href="/awards" class="nav-link <?= in_array($currentPage, ['awards', 'award.create', 'award.edit']) ? 'active' : '' ?>">
+                <a href="/awards" class="nav-link <?= in_array($currentPage, ['awards', 'award.create', 'award.edit', 'award.trash']) ? 'active' : '' ?>">
                     <i class="bi bi-trophy"></i>
                     <span>Giải thưởng</span>
                 </a>
@@ -76,7 +76,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Client Logos -->
             <li class="nav-item">
-                <a href="/client-logos" class="nav-link <?= in_array($currentPage, ['client.logos', 'client.logo.create', 'client.logo.edit']) ? 'active' : '' ?>">
+                <a href="/client-logos" class="nav-link <?= in_array($currentPage, ['client.logos', 'client.logo.create', 'client.logo.edit', 'client.logo.trash']) ? 'active' : '' ?>">
                     <i class="bi bi-images"></i>
                     <span>Logo đối tác</span>
                 </a>

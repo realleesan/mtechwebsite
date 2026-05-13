@@ -83,11 +83,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ----------------------------------------
-    // Confirm trước khi xóa - Chỉ xử lý các element không có class btn-delete
+    // Confirm trước khi xóa — xử lý tất cả [data-confirm]
     // ----------------------------------------
-    document.querySelectorAll('[data-confirm]:not(.btn-delete)').forEach(function (el) {
+    document.querySelectorAll('[data-confirm]').forEach(function (el) {
         el.addEventListener('click', function (e) {
-            const message = el.getAttribute('data-confirm') || 'Bạn có chắc muốn xóa?';
+            const message = el.getAttribute('data-confirm') || 'Bạn có chắc muốn thực hiện?';
             if (!confirm(message)) {
                 e.preventDefault();
             }

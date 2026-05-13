@@ -1,7 +1,14 @@
 <?php // $logos ?>
 <div class="page-header">
     <h4><i class="bi bi-images me-2"></i>Quản lý Logo đối tác</h4>
-    <a href="/client-logos/create" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Thêm mới</a>
+    <div class="d-flex gap-2">
+        <a href="/client-logos/trash" class="btn btn-warning">
+            <i class="bi bi-trash me-1"></i>Thùng rác
+        </a>
+        <a href="/client-logos/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Thêm mới
+        </a>
+    </div>
 </div>
 
 <?php if (!empty($logos)): ?>
@@ -10,18 +17,6 @@
         <span class="text-muted small">Tổng: <strong><?= count($logos) ?></strong> logo đối tác</span>
     </div>
     <div class="table-responsive">
-<<<<<<< HEAD
-        <table class="table table-hover mb-0 align-middle">
-            <thead>
-                <tr>
-                    <th style="width:60px">#</th>
-                    <th style="width:100px">Logo</th>
-                    <th>Tên đối tác</th>
-                    <th>Link website</th>
-                    <th style="width:80px">Thứ tự</th>
-                    <th style="width:100px">Trạng thái</th>
-                    <th style="width:120px">Thao tác</th>
-=======
         <table class="table table-hover mb-0 align-middle client-logos-table">
             <thead>
                 <tr>
@@ -32,7 +27,6 @@
                     <th class="client-logo-col-sort text-center">Thứ tự</th>
                     <th>Trạng thái</th>
                     <th>Thao tác</th>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                 </tr>
             </thead>
             <tbody>
@@ -66,7 +60,7 @@
                             <span class="text-muted small">—</span>
                         <?php endif; ?>
                     </td>
-                    <td class="text-center text-muted small"><?= (int)($logo['sort_order'] ?? 0) ?></td>
+                    <td class="client-logo-col-sort text-center text-muted small"><?= (int)($logo['sort_order'] ?? 0) ?></td>
                     <td>
                         <?php if (($logo['status'] ?? 1) == 1): ?>
                             <span class="badge bg-success">Hiển thị</span>
@@ -82,7 +76,7 @@
                             </a>
                             <form method="POST" action="/client-logos/delete/<?= $logo['id'] ?>">
                                 <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
-                                        data-confirm="Xóa logo đối tác này?" title="Xóa">
+                                        data-confirm="Chuyển logo đối tác này vào thùng rác?" title="Xóa">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>

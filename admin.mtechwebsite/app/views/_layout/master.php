@@ -66,11 +66,13 @@
         case 'awards':
         case 'award.create':
         case 'award.edit':
+        case 'award.trash':
             echo '<link rel="stylesheet" href="/assets/css/admin.awards.css">';
             break;
         case 'client.logos':
         case 'client.logo.create':
         case 'client.logo.edit':
+        case 'client.logo.trash':
             echo '<link rel="stylesheet" href="/assets/css/admin.client.logos.css">';
             break;
 
@@ -225,11 +227,13 @@ switch($currentPage) {
     case 'awards':
     case 'award.create':
     case 'award.edit':
+    case 'award.trash':
         echo '<script src="/assets/js/admin.awards.js"></script>';
         break;
     case 'client.logos':
     case 'client.logo.create':
     case 'client.logo.edit':
+    case 'client.logo.trash':
         echo '<script src="/assets/js/admin.client.logos.js"></script>';
         break;
 

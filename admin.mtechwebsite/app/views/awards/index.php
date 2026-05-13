@@ -1,7 +1,14 @@
 <?php // $awards ?>
 <div class="page-header">
     <h4><i class="bi bi-trophy me-2"></i>Quản lý Giải thưởng</h4>
-    <a href="/awards/create" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Thêm mới</a>
+    <div class="d-flex gap-2">
+        <a href="/awards/trash" class="btn btn-warning">
+            <i class="bi bi-trash me-1"></i>Thùng rác
+        </a>
+        <a href="/awards/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Thêm mới
+        </a>
+    </div>
 </div>
 
 <?php if (!empty($awards)): ?>
@@ -10,18 +17,6 @@
         <span class="text-muted small">Tổng: <strong><?= count($awards) ?></strong> giải thưởng</span>
     </div>
     <div class="table-responsive">
-<<<<<<< HEAD
-        <table class="table table-hover mb-0 align-middle">
-            <thead>
-                <tr>
-                    <th style="width:60px">#</th>
-                    <th style="width:100px">Ảnh</th>
-                    <th>Tên giải thưởng</th>
-                    <th>Đơn vị cấp</th>
-                    <th style="width:80px">Thứ tự</th>
-                    <th style="width:100px">Trạng thái</th>
-                    <th style="width:120px">Thao tác</th>
-=======
         <table class="table table-hover mb-0 align-middle awards-table">
             <thead>
                 <tr>
@@ -32,7 +27,6 @@
                     <th class="award-col-sort text-center">Thứ tự</th>
                     <th>Trạng thái</th>
                     <th>Thao tác</th>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                 </tr>
             </thead>
             <tbody>
@@ -59,11 +53,7 @@
                         <span class="fw-medium"><?= htmlspecialchars($award['name'] ?? '') ?></span>
                     </td>
                     <td class="text-muted small"><?= htmlspecialchars($award['certificate'] ?? '—') ?></td>
-<<<<<<< HEAD
-                    <td class="text-center text-muted small"><?= (int)($award['sort_order'] ?? 0) ?></td>
-=======
                     <td class="award-col-sort text-center text-muted small"><?= (int)($award['sort_order'] ?? 0) ?></td>
->>>>>>> 70909aa2291eb80ef37d22b71f05807579217647
                     <td>
                         <?php if (($award['status'] ?? 1) == 1): ?>
                             <span class="badge bg-success">Hiển thị</span>
@@ -79,7 +69,7 @@
                             </a>
                             <form method="POST" action="/awards/delete/<?= $award['id'] ?>">
                                 <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
-                                        data-confirm="Xóa giải thưởng này?" title="Xóa">
+                                        data-confirm="Chuyển giải thưởng này vào thùng rác?" title="Xóa">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>

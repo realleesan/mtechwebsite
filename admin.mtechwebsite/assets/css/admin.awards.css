@@ -146,3 +146,23 @@
     color: var(--text-muted);
     transition: color 0.3s ease;
 }
+
+/* ============================================
+   Trash Page
+   ============================================ */
+
+/* Row bị xóa — làm mờ nhẹ để phân biệt với trang index */
+.awards-trash-table tbody tr {
+    opacity: 0.85;
+}
+
+.awards-trash-table tbody tr:hover {
+    opacity: 1;
+}
+
+/* Ngày xóa */
+.awards-trash-table .deleted-date {
+    white-space: nowrap;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}

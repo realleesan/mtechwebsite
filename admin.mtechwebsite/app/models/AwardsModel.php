@@ -29,7 +29,7 @@ class AwardsModel
             $stmt = $this->db->prepare(
                 "SELECT *
                  FROM `{$this->table}`
-                 WHERE status = 1
+                 WHERE status = 1 AND deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -41,7 +41,7 @@ class AwardsModel
     }
 
     /**
-     * Lấy tất cả awards (kể cả inactive) cho admin.
+     * Lấy tất cả awards (kể cả inactive) cho admin — không bao gồm đã xóa mềm.
      */
     public function getAll()
     {
@@ -49,6 +49,7 @@ class AwardsModel
             $stmt = $this->db->prepare(
                 "SELECT *
                  FROM `{$this->table}`
+                 WHERE deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -140,16 +141,85 @@ class AwardsModel
     }
 
     /**
-     * Xóa award.
+     * Xóa mềm award (chuyển vào thùng rác).
      */
     public function delete(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('AwardsModel::delete() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Lấy danh sách awards trong thùng rác.
+     */
+    public function getTrashed(int $limit = 20, int $offset = 0): array
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, certificate, image, deleted_at
+                 FROM `{$this->table}`
+                 WHERE deleted_at IS NOT NULL
+                 ORDER BY deleted_at DESC
+                 LIMIT ? OFFSET ?"
+            );
+            $stmt->execute([$limit, $offset]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('AwardsModel::getTrashed() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Đếm số awards trong thùng rác.
+     */
+    public function countTrashed(): int
+    {
+        try {
+            $stmt = $this->db->query(
+                "SELECT COUNT(*) FROM `{$this->table}` WHERE deleted_at IS NOT NULL"
+            );
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('AwardsModel::countTrashed() - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Khôi phục award từ thùng rác.
+     */
+    public function restore(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = NULL WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('AwardsModel::restore() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Xóa vĩnh viễn award.
+     */
+    public function hardDelete(int $id): bool
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM `{$this->table}` WHERE id = ?");
             $stmt->execute([$id]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            error_log('AwardsModel::delete() - ' . $e->getMessage());
+            error_log('AwardsModel::hardDelete() - ' . $e->getMessage());
             return false;
         }
     }
@@ -170,7 +240,7 @@ class AwardsModel
             }
 
             $stmt = $this->db->prepare(
-                "SELECT id, sort_order FROM `{$this->table}` WHERE id != ? ORDER BY sort_order ASC"
+                "SELECT id, sort_order FROM `{$this->table}` WHERE id != ? AND deleted_at IS NULL ORDER BY sort_order ASC"
             );
             $stmt->execute([$awardId]);
             $others = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -205,13 +275,13 @@ class AwardsModel
     }
 
     /**
-     * Normalize thứ tự của tất cả awards từ 1 đến n.
+     * Normalize thứ tự của tất cả awards chưa bị xóa từ 1 đến n.
      */
     public function normalizeOrders(): bool
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id FROM `{$this->table}` ORDER BY sort_order ASC, id ASC"
+                "SELECT id FROM `{$this->table}` WHERE deleted_at IS NULL ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
             $awards = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -3,11 +3,6 @@
  * Scripts for footer management pages
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize footer management functionality
-    initFooterManagement();
-});
-
 /**
  * Initialize footer management features
  */
@@ -198,5 +193,8 @@ function initializeUIComponents() {
     }
 }
 
-// Initialize UI components when DOM is ready
-document.addEventListener('DOMContentLoaded', initializeUIComponents);
+// Gọi initializeUIComponents trong DOMContentLoaded đã có ở đầu file
+document.addEventListener('DOMContentLoaded', function() {
+    initFooterManagement();
+    initializeUIComponents();
+});

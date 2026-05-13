@@ -29,7 +29,7 @@ class ClientLogosModel
             $stmt = $this->db->prepare(
                 "SELECT id, name, logo, url
                  FROM `{$this->table}`
-                 WHERE status = 1
+                 WHERE status = 1 AND deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -41,7 +41,7 @@ class ClientLogosModel
     }
 
     /**
-     * Lấy tất cả logos cho admin.
+     * Lấy tất cả logos cho admin — không bao gồm đã xóa mềm.
      */
     public function getAll()
     {
@@ -49,6 +49,7 @@ class ClientLogosModel
             $stmt = $this->db->prepare(
                 "SELECT id, name, logo, url, status, sort_order
                  FROM `{$this->table}`
+                 WHERE deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
@@ -132,16 +133,85 @@ class ClientLogosModel
     }
 
     /**
-     * Xóa logo.
+     * Xóa mềm logo (chuyển vào thùng rác).
      */
     public function delete(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('ClientLogosModel::delete() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Lấy danh sách logos trong thùng rác.
+     */
+    public function getTrashed(int $limit = 20, int $offset = 0): array
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, logo, url, deleted_at
+                 FROM `{$this->table}`
+                 WHERE deleted_at IS NOT NULL
+                 ORDER BY deleted_at DESC
+                 LIMIT ? OFFSET ?"
+            );
+            $stmt->execute([$limit, $offset]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('ClientLogosModel::getTrashed() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Đếm số logos trong thùng rác.
+     */
+    public function countTrashed(): int
+    {
+        try {
+            $stmt = $this->db->query(
+                "SELECT COUNT(*) FROM `{$this->table}` WHERE deleted_at IS NOT NULL"
+            );
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('ClientLogosModel::countTrashed() - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Khôi phục logo từ thùng rác.
+     */
+    public function restore(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "UPDATE `{$this->table}` SET deleted_at = NULL WHERE id = ?"
+            );
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log('ClientLogosModel::restore() - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Xóa vĩnh viễn logo.
+     */
+    public function hardDelete(int $id): bool
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM `{$this->table}` WHERE id = ?");
             $stmt->execute([$id]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            error_log('ClientLogosModel::delete() - ' . $e->getMessage());
+            error_log('ClientLogosModel::hardDelete() - ' . $e->getMessage());
             return false;
         }
     }
@@ -165,9 +235,9 @@ class ClientLogosModel
                 return true;
             }
 
-            // Lấy tất cả logo khác (không phải logo đang sửa)
+            // Lấy tất cả logo khác (không phải logo đang sửa, chưa bị xóa)
             $stmt = $this->db->prepare(
-                "SELECT id, sort_order FROM `{$this->table}` WHERE id != ? ORDER BY sort_order ASC"
+                "SELECT id, sort_order FROM `{$this->table}` WHERE id != ? AND deleted_at IS NULL ORDER BY sort_order ASC"
             );
             $stmt->execute([$logoId]);
             $otherLogos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -218,9 +288,9 @@ class ClientLogosModel
     public function normalizeOrders(): bool
     {
         try {
-            // Lấy tất cả logo sắp xếp theo sort_order hiện tại
+            // Lấy tất cả logo sắp xếp theo sort_order hiện tại (chưa bị xóa)
             $stmt = $this->db->prepare(
-                "SELECT id FROM `{$this->table}` ORDER BY sort_order ASC, id ASC"
+                "SELECT id FROM `{$this->table}` WHERE deleted_at IS NULL ORDER BY sort_order ASC, id ASC"
             );
             $stmt->execute();
             $logos = $stmt->fetchAll(PDO::FETCH_ASSOC);

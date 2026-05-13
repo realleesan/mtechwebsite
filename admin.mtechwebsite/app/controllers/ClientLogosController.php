@@ -169,7 +169,7 @@ class ClientLogosController extends BaseController
     }
 
     // ----------------------------------------
-    // Delete
+    // Delete — Soft delete (chuyển vào thùng rác)
     // ----------------------------------------
 
     public function delete($id)
@@ -187,14 +187,86 @@ class ClientLogosController extends BaseController
         }
 
         if ($this->model->delete($id)) {
-            // Xóa file ảnh
-            $this->deleteOldLogo($logo['logo'] ?? '');
-            $_SESSION['success'] = 'Xóa logo đối tác thành công!';
+            $_SESSION['success'] = 'Đã chuyển logo đối tác vào thùng rác';
         } else {
             $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
         }
 
         $this->redirect('/client-logos');
+    }
+
+    // ----------------------------------------
+    // Trash — Danh sách đã xóa
+    // ----------------------------------------
+
+    public function trash()
+    {
+        $page    = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 20;
+        $offset  = ($page - 1) * $perPage;
+
+        $logos      = $this->model->getTrashed($perPage, $offset);
+        $total      = $this->model->countTrashed();
+        $totalPages = (int)ceil($total / $perPage);
+
+        $this->view('client-logos/trash', [
+            'title'       => 'Thùng rác - Logo đối tác - Admin MTech',
+            'page'        => 'client.logos',
+            'logos'       => $logos,
+            'total'       => $total,
+            'currentPage' => $page,
+            'totalPages'  => $totalPages,
+            'admin'       => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    // ----------------------------------------
+    // Restore — Khôi phục từ thùng rác
+    // ----------------------------------------
+
+    public function restore($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/client-logos/trash');
+            return;
+        }
+
+        if ($this->model->restore((int)$id)) {
+            $_SESSION['success'] = 'Đã khôi phục logo đối tác thành công';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra khi khôi phục';
+        }
+
+        $this->redirect('/client-logos/trash');
+    }
+
+    // ----------------------------------------
+    // Hard Delete — Xóa vĩnh viễn
+    // ----------------------------------------
+
+    public function hardDelete($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/client-logos/trash');
+            return;
+        }
+
+        $logo = $this->model->getById($id);
+        if (!$logo) {
+            $_SESSION['error'] = 'Không tìm thấy logo';
+            $this->redirect('/client-logos/trash');
+            return;
+        }
+
+        if ($this->model->hardDelete((int)$id)) {
+            $this->deleteOldLogo($logo['logo'] ?? '');
+            $this->model->normalizeOrders();
+            $_SESSION['success'] = 'Đã xóa vĩnh viễn logo đối tác';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa vĩnh viễn';
+        }
+
+        $this->redirect('/client-logos/trash');
     }
 
     // ----------------------------------------

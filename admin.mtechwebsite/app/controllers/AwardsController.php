@@ -169,7 +169,7 @@ class AwardsController extends BaseController
     }
 
     // ----------------------------------------
-    // Delete
+    // Delete — Soft delete (chuyển vào thùng rác)
     // ----------------------------------------
 
     public function delete($id)
@@ -187,14 +187,86 @@ class AwardsController extends BaseController
         }
 
         if ($this->model->delete($id)) {
-            $this->deleteOldImage($award['image'] ?? '');
-            $this->model->normalizeOrders();
-            $_SESSION['success'] = 'Xóa giải thưởng thành công!';
+            $_SESSION['success'] = 'Đã chuyển giải thưởng vào thùng rác';
         } else {
             $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
         }
 
         $this->redirect('/awards');
+    }
+
+    // ----------------------------------------
+    // Trash — Danh sách đã xóa
+    // ----------------------------------------
+
+    public function trash()
+    {
+        $page    = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = 20;
+        $offset  = ($page - 1) * $perPage;
+
+        $awards     = $this->model->getTrashed($perPage, $offset);
+        $total      = $this->model->countTrashed();
+        $totalPages = (int)ceil($total / $perPage);
+
+        $this->view('awards/trash', [
+            'title'       => 'Thùng rác - Giải thưởng - Admin MTech',
+            'page'        => 'awards',
+            'awards'      => $awards,
+            'total'       => $total,
+            'currentPage' => $page,
+            'totalPages'  => $totalPages,
+            'admin'       => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    // ----------------------------------------
+    // Restore — Khôi phục từ thùng rác
+    // ----------------------------------------
+
+    public function restore($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/awards/trash');
+            return;
+        }
+
+        if ($this->model->restore((int)$id)) {
+            $_SESSION['success'] = 'Đã khôi phục giải thưởng thành công';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra khi khôi phục';
+        }
+
+        $this->redirect('/awards/trash');
+    }
+
+    // ----------------------------------------
+    // Hard Delete — Xóa vĩnh viễn
+    // ----------------------------------------
+
+    public function hardDelete($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/awards/trash');
+            return;
+        }
+
+        $award = $this->model->getById($id);
+        if (!$award) {
+            $_SESSION['error'] = 'Không tìm thấy giải thưởng';
+            $this->redirect('/awards/trash');
+            return;
+        }
+
+        if ($this->model->hardDelete((int)$id)) {
+            $this->deleteOldImage($award['image'] ?? '');
+            $this->model->normalizeOrders();
+            $_SESSION['success'] = 'Đã xóa vĩnh viễn giải thưởng';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa vĩnh viễn';
+        }
+
+        $this->redirect('/awards/trash');
     }
 
     // ----------------------------------------

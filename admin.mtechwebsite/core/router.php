@@ -143,22 +143,28 @@ class AdminRouter
         // ----------------------------------------
         // Awards
         // ----------------------------------------
-        $this->get('/awards',               'AwardsController@index');
-        $this->get('/awards/create',        'AwardsController@create');
-        $this->post('/awards/store',        'AwardsController@store');
-        $this->get('/awards/edit/{id}',     'AwardsController@edit');
-        $this->post('/awards/update/{id}',  'AwardsController@update');
-        $this->post('/awards/delete/{id}',  'AwardsController@delete');
+        $this->get('/awards',                   'AwardsController@index');
+        $this->get('/awards/create',            'AwardsController@create');
+        $this->post('/awards/store',            'AwardsController@store');
+        $this->get('/awards/edit/{id}',         'AwardsController@edit');
+        $this->post('/awards/update/{id}',      'AwardsController@update');
+        $this->post('/awards/delete/{id}',      'AwardsController@delete');
+        $this->get('/awards/trash',             'AwardsController@trash');
+        $this->post('/awards/restore/{id}',     'AwardsController@restore');
+        $this->post('/awards/hard-delete/{id}', 'AwardsController@hardDelete');
 
         // ----------------------------------------
         // Client Logos
         // ----------------------------------------
-        $this->get('/client-logos',                 'ClientLogosController@index');
-        $this->get('/client-logos/create',          'ClientLogosController@create');
-        $this->post('/client-logos/store',          'ClientLogosController@store');
-        $this->get('/client-logos/edit/{id}',       'ClientLogosController@edit');
-        $this->post('/client-logos/update/{id}',    'ClientLogosController@update');
-        $this->post('/client-logos/delete/{id}',    'ClientLogosController@delete');
+        $this->get('/client-logos',                     'ClientLogosController@index');
+        $this->get('/client-logos/create',              'ClientLogosController@create');
+        $this->post('/client-logos/store',              'ClientLogosController@store');
+        $this->get('/client-logos/edit/{id}',           'ClientLogosController@edit');
+        $this->post('/client-logos/update/{id}',        'ClientLogosController@update');
+        $this->post('/client-logos/delete/{id}',        'ClientLogosController@delete');
+        $this->get('/client-logos/trash',               'ClientLogosController@trash');
+        $this->post('/client-logos/restore/{id}',       'ClientLogosController@restore');
+        $this->post('/client-logos/hard-delete/{id}',   'ClientLogosController@hardDelete');
 
         // ----------------------------------------
         // Job Applications (chỉ xem)
