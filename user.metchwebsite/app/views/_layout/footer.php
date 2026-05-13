@@ -20,6 +20,9 @@ $services = $categoriesModel->getMenuServices(5);
 $socialLinks = $footerModel->getVisibleSocialLinks();
 $headerSettings = $headerModel->getSettings();
 
+// Debug: Kiểm tra dữ liệu social links
+error_log('Social Links Debug: ' . json_encode($socialLinks));
+
 // Thông tin MTECH chuẩn từ hồ sơ năng lực
 $companyInfo = [
     'name' => 'Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH',
@@ -132,21 +135,20 @@ $companyInfo = [
                                     </form>
                                 </div>
                                 <ul class="nav social_icon">
-                                    <?php if (!empty($socialLinks['facebook'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['facebook']); ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                    <?php if (isset($socialLinks['facebook'])): ?>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['facebook']); ?>" target="_blank" <?php echo $socialLinks['facebook'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-facebook"></i></a></li>
                                     <?php endif; ?>
-                                    <?php if (!empty($socialLinks['linkedin'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['linkedin']); ?>" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                    <?php if (isset($socialLinks['linkedin'])): ?>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['linkedin']); ?>" target="_blank" <?php echo $socialLinks['linkedin'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-linkedin"></i></a></li>
                                     <?php endif; ?>
-                                    <?php if (!empty($socialLinks['twitter'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['twitter']); ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                    <?php if (isset($socialLinks['twitter'])): ?>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['twitter']); ?>" target="_blank" <?php echo $socialLinks['twitter'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-twitter"></i></a></li>
                                     <?php endif; ?>
-                                    <?php if (!empty($socialLinks['youtube'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['youtube']); ?>" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                                    <?php if (isset($socialLinks['google'])): ?>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['google']); ?>" target="_blank" <?php echo $socialLinks['google'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-google"></i></a></li>
                                     <?php endif; ?>
-                                    <?php if (empty($socialLinks)): ?>
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                    <?php if (isset($socialLinks['youtube'])): ?>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['youtube']); ?>" target="_blank" <?php echo $socialLinks['youtube'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-youtube"></i></a></li>
                                     <?php endif; ?>
                                 </ul>
                             </aside>

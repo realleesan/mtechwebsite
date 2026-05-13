@@ -229,4 +229,190 @@ class FooterController extends BaseController
         
         $this->redirect('/footer/trash');
     }
+
+    // =================================================================
+    // SOCIAL LINKS MANAGEMENT
+    // =================================================================
+
+    /**
+     * Hiển thị danh sách mạng xã hội
+     */
+    public function social()
+    {
+        $socialLinks = $this->model->getAllSocialLinks();
+        $this->view('footer/social', [
+            'title'       => 'Quản lý Mạng xã hội - Admin MTech',
+            'page'        => 'footer-social',
+            'socialLinks' => $socialLinks,
+            'admin'       => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    /**
+     * Trang chỉnh sửa một mạng xã hội
+     */
+    public function editSocial($platform = null)
+    {
+        if (!$platform) {
+            $this->redirect('/footer/social');
+            return;
+        }
+
+        $socialLink = $this->model->getSocialLinkByPlatform($platform);
+        if (!$socialLink) {
+            $_SESSION['error'] = 'Không tìm thấy mạng xã hội này';
+            $this->redirect('/footer/social');
+            return;
+        }
+
+        $this->view('footer/edit-social', [
+            'title'      => 'Chỉnh sửa ' . ucfirst($platform) . ' - Admin MTech',
+            'page'       => 'footer-social-edit',
+            'socialLink' => $socialLink,
+            'admin'      => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    /**
+     * Xử lý cập nhật mạng xã hội
+     */
+    public function updateSocial()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/footer/social');
+            return;
+        }
+
+        $platform = $_POST['platform'] ?? '';
+        $url = trim($_POST['url'] ?? '');
+        $isVisible = isset($_POST['is_visible']) ? 1 : 0;
+
+        if (empty($platform)) {
+            $_SESSION['error'] = 'Dữ liệu không hợp lệ';
+            $this->redirect('/footer/social');
+            return;
+        }
+
+        $data = [
+            'url' => !empty($url) ? $url : null,
+            'is_visible' => $isVisible
+        ];
+
+        if ($this->model->updateSocialLink($platform, $data)) {
+            $_SESSION['success'] = 'Cập nhật ' . ucfirst($platform) . ' thành công';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra khi cập nhật';
+        }
+
+        $this->redirect('/footer/social');
+    }
+
+    /**
+     * Bật/tắt hàng loạt hiển thị mạng xã hội
+     */
+    public function bulkToggleSocial()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/footer/social');
+            return;
+        }
+
+        $platforms = explode(',', $_POST['platforms'] ?? '');
+        $isVisible = (int) ($_POST['is_visible'] ?? 0);
+
+        $successCount = 0;
+        foreach ($platforms as $platform) {
+            $platform = trim($platform);
+            if (empty($platform)) continue;
+
+            $current = $this->model->getSocialLinkByPlatform($platform);
+            if ($current) {
+                $data = [
+                    'url' => $current['url'],
+                    'is_visible' => $isVisible
+                ];
+                if ($this->model->updateSocialLink($platform, $data)) {
+                    $successCount++;
+                }
+            }
+        }
+
+        $_SESSION['success'] = "Đã cập nhật trạng thái cho $successCount mạng xã hội";
+        $this->redirect('/footer/social');
+    }
+
+    /**
+     * Xóa trắng URL hàng loạt
+     */
+    public function clearSocialUrls()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/footer/social');
+            return;
+        }
+
+        $platforms = explode(',', $_POST['platforms'] ?? '');
+        
+        $successCount = 0;
+        foreach ($platforms as $platform) {
+            $platform = trim($platform);
+            if (empty($platform)) continue;
+
+            $data = [
+                'url' => null,
+                'is_visible' => 0
+            ];
+            if ($this->model->updateSocialLink($platform, $data)) {
+                $successCount++;
+            }
+        }
+
+        $_SESSION['success'] = "Đã xóa URL của $successCount mạng xã hội";
+        $this->redirect('/footer/social');
+    }
+
+    // =================================================================
+    // FOOTER SETTINGS
+    // =================================================================
+
+    /**
+     * Trang cài đặt chung footer
+     */
+    public function settings()
+    {
+        $settings = $this->model->getSettings();
+        $this->view('footer/settings', [
+            'title'    => 'Cài đặt Footer - Admin MTech',
+            'page'     => 'footer-settings',
+            'settings' => $settings,
+            'admin'    => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    /**
+     * Cập nhật cài đặt footer
+     */
+    public function updateSettings()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/footer/settings');
+            return;
+        }
+
+        $title = trim($_POST['useful_links_title'] ?? '');
+        
+        if (empty($title)) {
+            $_SESSION['error'] = 'Tiêu đề không được để trống';
+            $this->redirect('/footer/settings');
+            return;
+        }
+
+        if ($this->model->updateUsefulLinksTitle($title)) {
+            $_SESSION['success'] = 'Cập nhật cài đặt thành công';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra khi cập nhật';
+        }
+
+        $this->redirect('/footer/settings');
+    }
 }

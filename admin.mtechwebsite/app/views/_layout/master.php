@@ -81,6 +81,9 @@
         case 'footer-add':
         case 'footer-edit':
         case 'footer-trash':
+        case 'footer-social':
+        case 'footer-social-edit':
+        case 'footer-settings':
             echo '<link rel="stylesheet" href="/assets/css/admin.footer.css">';
             break;
 
@@ -249,6 +252,9 @@ switch($currentPage) {
     case 'footer-add':
     case 'footer-edit':
     case 'footer-trash':
+    case 'footer-social':
+    case 'footer-social-edit':
+    case 'footer-settings':
         echo '<script src="/assets/js/admin.footer.js"></script>';
         break;
 

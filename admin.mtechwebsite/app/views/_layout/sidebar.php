@@ -118,7 +118,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Footer -->
             <li class="nav-item">
-                <a href="/footer" class="nav-link <?= $currentPage === 'footer' ? 'active' : '' ?>">
+                <a href="/footer" class="nav-link <?= in_array($currentPage, ['footer', 'footer-add', 'footer-edit', 'footer-trash', 'footer-social', 'footer-social-edit', 'footer-settings']) ? 'active' : '' ?>">
                     <i class="bi bi-layout-text-window"></i>
                     <span>Footer</span>
                 </a>

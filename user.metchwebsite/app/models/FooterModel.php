@@ -303,7 +303,8 @@ class FooterModel
             // Convert to associative array với key là platform
             $social = [];
             foreach ($result as $item) {
-                $social[$item['platform']] = $item['url'];
+                // Nếu URL là NULL hoặc rỗng, sử dụng dấu # thay vì NULL
+                $social[$item['platform']] = !empty($item['url']) ? $item['url'] : '#';
             }
             return $social;
         } catch (PDOException $e) {

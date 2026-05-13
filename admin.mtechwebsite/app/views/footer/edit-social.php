@@ -126,15 +126,15 @@
     margin-top: 8px;
 }
 
-.preview-box {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+    .preview-box {
+        background: var(--table-header-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
 
 .preview-icon {
     width: 48px;
