@@ -35,24 +35,20 @@ Options -Indexes
 
     # ------------------------------------------
     # Tất cả requests khác → index.php
-    # Router sẽ xử lý routing trong PHP
+    # [QSA] = giữ lại query string (?page=2, v.v.)
     # ------------------------------------------
-    RewriteRule ^ index.php [L]
+    RewriteRule ^ index.php [L,QSA]
 </IfModule>
 
 # ==========================================
 # ERROR DOCUMENTS
-# Dùng trang lỗi tùy chỉnh của website
 # ==========================================
 
-# Lỗi 404 - Không tìm thấy trang
-ErrorDocument 404 /index.php?page=404
+# Lỗi 404
+ErrorDocument 404 /404.html
 
-# Lỗi 500 - Lỗi máy chủ nội bộ
-ErrorDocument 500 /index.php?page=500
-
-# Lỗi 403 - Không có quyền truy cập (dùng chung trang 404)
-ErrorDocument 403 /index.php?page=404
+# Lỗi 403
+ErrorDocument 403 /404.html
 
 # ==========================================
 # SECURITY HEADERS

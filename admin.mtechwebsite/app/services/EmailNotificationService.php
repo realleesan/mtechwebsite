@@ -1070,6 +1070,141 @@ HTML;
     }
 
     // ----------------------------------------------------------------
+    // JOB APPLICATION STATUS EMAIL — Thông báo kết quả xét duyệt
+    // ----------------------------------------------------------------
+
+    /**
+     * Gửi email thông báo kết quả xét duyệt đến ứng viên.
+     * Gọi khi admin chuyển status sang 'approved' hoặc 'rejected'.
+     *
+     * @param array       $app           Dữ liệu đơn: full_name, email, position
+     * @param string      $status        'approved' | 'rejected'
+     * @param string|null $employerReply Phản hồi tùy chỉnh từ nhà tuyển dụng (optional)
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function sendJobApplicationStatusEmail($app, $status, $employerReply = null)
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->clearAttachments();
+
+            $this->mailer->addAddress($app['email'], $app['full_name'] ?? '');
+
+            $this->mailer->isHTML(true);
+
+            if ($status === 'approved') {
+                $subject = 'Chúc mừng! Đơn ứng tuyển của bạn đã được duyệt - MTECH.JSC';
+            } else {
+                $subject = 'Thông báo kết quả ứng tuyển - MTECH.JSC';
+            }
+            $this->mailer->Subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+
+            $body = $this->getJobApplicationStatusTemplate($app, $status, $employerReply);
+            $this->mailer->Body    = $body;
+            $this->mailer->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $body));
+
+            $this->mailer->send();
+
+            if ($this->config['log_emails']) {
+                error_log('EmailNotificationService: Job application status email sent to ' . $app['email'] . ' [' . $status . ']');
+            }
+
+            return ['success' => true, 'message' => 'Email đã được gửi đến ' . $app['email']];
+
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            error_log('EmailNotificationService::sendJobApplicationStatusEmail() - PHPMailer: ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi gửi email: ' . $e->getMessage()];
+        } catch (\Exception $e) {
+            error_log('EmailNotificationService::sendJobApplicationStatusEmail() - General: ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Lỗi hệ thống: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Template email thông báo kết quả xét duyệt đơn ứng tuyển.
+     */
+    private function getJobApplicationStatusTemplate($app, $status, $employerReply = null)
+    {
+        $fullName     = htmlspecialchars($app['full_name'] ?? 'Bạn');
+        $position     = htmlspecialchars($app['position'] ?? '');
+        $date         = date('d/m/Y H:i');
+        $year         = date('Y');
+        $supportEmail = htmlspecialchars($this->config['support_email'] ?? '');
+
+        $isApproved = ($status === 'approved');
+
+        $headerBg    = $isApproved ? '#198754' : '#6c757d';
+        $headerTitle = $isApproved
+            ? '🎉 Đơn ứng tuyển của bạn đã được duyệt!'
+            : 'Thông báo kết quả ứng tuyển';
+
+        $resultBoxBg     = $isApproved ? '#d1e7dd' : '#f8f9fa';
+        $resultBoxBorder = $isApproved ? '#198754' : '#6c757d';
+        $resultText      = $isApproved
+            ? "Chúc mừng <strong>{$fullName}</strong>! Đơn ứng tuyển vị trí <strong>{$position}</strong> của bạn đã được <strong>chấp thuận</strong>."
+            : "Cảm ơn <strong>{$fullName}</strong> đã ứng tuyển vị trí <strong>{$position}</strong>. Sau khi xem xét, chúng tôi rất tiếc phải thông báo rằng đơn của bạn <strong>chưa phù hợp</strong> với yêu cầu hiện tại.";
+
+        $defaultReply = $isApproved
+            ? 'Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để sắp xếp các bước tiếp theo.'
+            : 'Chúng tôi sẽ lưu hồ sơ của bạn và có thể liên hệ lại khi có vị trí phù hợp trong tương lai. Chúc bạn sớm tìm được cơ hội phù hợp!';
+
+        $replyContent = !empty($employerReply)
+            ? nl2br(htmlspecialchars($employerReply))
+            : $defaultReply;
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 24px 16px; }
+        .container { max-width: 580px; margin: 0 auto; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .header { background: {$headerBg}; color: #fff; padding: 28px 24px; text-align: center; }
+        .header h1 { margin: 0 0 6px; font-size: 20px; }
+        .header p { margin: 0; font-size: 12px; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; }
+        .body { padding: 28px 24px; }
+        .result-box { background: {$resultBoxBg}; border-left: 4px solid {$resultBoxBorder}; border-radius: 6px; padding: 16px 18px; margin: 20px 0; font-size: 14px; line-height: 1.7; }
+        .reply-box { background: #f8f9fa; border-radius: 6px; padding: 16px 18px; margin: 16px 0; font-size: 14px; line-height: 1.7; color: #444; border: 1px solid #dee2e6; }
+        .reply-label { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .footer { background: #f4f6fb; padding: 16px 24px; text-align: center; font-size: 11px; color: #999; border-top: 1px solid #e8ecf4; }
+        p { font-size: 14px; color: #555; margin: 12px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{$headerTitle}</h1>
+            <p>MTECH.JSC — Tuyển dụng</p>
+        </div>
+        <div class="body">
+            <p>Xin chào <strong>{$fullName}</strong>,</p>
+
+            <div class="result-box">
+                {$resultText}
+            </div>
+
+            <div class="reply-label">Thông tin từ nhà tuyển dụng</div>
+            <div class="reply-box">
+                {$replyContent}
+            </div>
+
+            <p>Nếu bạn có câu hỏi, vui lòng liên hệ qua email
+               <a href="mailto:{$supportEmail}" style="color:#1A3FBF;">{$supportEmail}</a>.</p>
+
+            <p>Trân trọng,<br><strong>MTECH.JSC HR Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>&copy; {$year} MTECH.JSC &mdash; Email này được gửi lúc {$date}</p>
+            <p>Vui lòng không trả lời trực tiếp email này.</p>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+    }
+
+    // ----------------------------------------------------------------
     // NEWSLETTER METHODS
     // ----------------------------------------------------------------
 

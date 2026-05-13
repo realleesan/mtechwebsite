@@ -1,14 +1,20 @@
 <?php
-// $contacts, $total, $currentPage, $totalPages, $trashedCount
-$totalPages  = $totalPages  ?? 1;
-$currentPage = $currentPage ?? 1;
+// $contacts, $total, $pageNum, $totalPages, $trashedCount
+$totalPages = max(1, (int)($totalPages ?? 1));
+$pageNum    = max(1, (int)($pageNum    ?? 1));
+$total      = (int)($total ?? 0);
+$perPage    = 15;
+
+if ($totalPages <= 1 && $total > $perPage) {
+    $totalPages = (int)ceil($total / $perPage);
+}
 
 if (!function_exists('contactStatusBadge')) {
     function contactStatusBadge($status) {
         return match((int)$status) {
-            0 => '<span class="badge contact-badge-unread"><i class="bi bi-envelope me-1"></i>Chưa đọc</span>',
-            1 => '<span class="badge contact-badge-read"><i class="bi bi-envelope-open me-1"></i>Đã đọc</span>',
-            2 => '<span class="badge contact-badge-replied"><i class="bi bi-reply me-1"></i>Đã phản hồi</span>',
+            0 => '<span class="badge contact-badge-unread">Chưa đọc</span>',
+            1 => '<span class="badge contact-badge-read">Đã đọc</span>',
+            2 => '<span class="badge contact-badge-replied">Đã phản hồi</span>',
             default => '<span class="badge bg-secondary">Không xác định</span>',
         };
     }
@@ -43,9 +49,13 @@ if (!function_exists('contactStatusBadge')) {
 
 <div class="admin-table">
     <div class="p-3 border-bottom d-flex align-items-center gap-3">
-        <span class="text-muted small">Tổng: <strong><?= $total ?? 0 ?></strong> liên hệ</span>
+        <span class="text-muted small">Tổng: <strong><?= $total ?></strong> liên hệ
+            <?php if ($totalPages > 1): ?>
+                &nbsp;·&nbsp; Trang <?= $pageNum ?>/<?= $totalPages ?>
+            <?php endif; ?>
+        </span>
         <?php if (!empty($unreadCount) && $unreadCount > 0): ?>
-            <span class="badge contact-badge-unread"><i class="bi bi-envelope me-1"></i><?= $unreadCount ?> chưa đọc</span>
+            <span class="badge contact-badge-unread"><?= $unreadCount ?> chưa đọc</span>
         <?php endif; ?>
     </div>
     <div class="table-responsive">
@@ -116,25 +126,49 @@ if (!function_exists('contactStatusBadge')) {
 <?php if ($totalPages > 1): ?>
 <nav aria-label="Page navigation" class="mt-3">
     <ul class="pagination justify-content-center pagination-sm">
-        <?php if ($currentPage > 1): ?>
+
+        <?php
+        $queryBase = [];
+        if (isset($statusFilter) && $statusFilter !== '') {
+            $queryBase['status_filter'] = $statusFilter;
+        }
+        ?>
+
+        <!-- Nút prev -->
+        <?php if ($pageNum > 1): ?>
         <li class="page-item">
-            <a class="page-link" href="?page=<?= $currentPage - 1 ?><?= isset($statusFilter) && $statusFilter !== '' ? '&status_filter='.urlencode($statusFilter) : '' ?>">
+            <a class="page-link" href="/contacts?<?= http_build_query(array_merge($queryBase, ['page' => $pageNum - 1])) ?>">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </li>
+        <?php else: ?>
+        <li class="page-item disabled">
+            <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+        </li>
         <?php endif; ?>
+
+        <!-- Số trang -->
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-        <li class="page-item <?= $i == $currentPage ? 'active' : '' ?>">
-            <a class="page-link" href="?page=<?= $i ?><?= isset($statusFilter) && $statusFilter !== '' ? '&status_filter='.urlencode($statusFilter) : '' ?>"><?= $i ?></a>
+        <li class="page-item <?= $i === $pageNum ? 'active' : '' ?>">
+            <a class="page-link" href="/contacts?<?= http_build_query(array_merge($queryBase, ['page' => $i])) ?>">
+                <?= $i ?>
+            </a>
         </li>
         <?php endfor; ?>
-        <?php if ($currentPage < $totalPages): ?>
+
+        <!-- Nút next -->
+        <?php if ($pageNum < $totalPages): ?>
         <li class="page-item">
-            <a class="page-link" href="?page=<?= $currentPage + 1 ?><?= isset($statusFilter) && $statusFilter !== '' ? '&status_filter='.urlencode($statusFilter) : '' ?>">
+            <a class="page-link" href="/contacts?<?= http_build_query(array_merge($queryBase, ['page' => $pageNum + 1])) ?>">
                 <i class="bi bi-chevron-right"></i>
             </a>
         </li>
+        <?php else: ?>
+        <li class="page-item disabled">
+            <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+        </li>
         <?php endif; ?>
+
     </ul>
 </nav>
 <?php endif; ?>

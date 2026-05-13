@@ -13,28 +13,41 @@ class JobApplicationsController extends BaseController
         $this->model = new JobApplicationModel();
     }
 
+    // ----------------------------------------------------------------
+    // GET /job-applications
+    // ----------------------------------------------------------------
     public function index()
     {
-        $page    = max(1, (int)($_GET['page'] ?? 1));
-        $perPage = 20;
-        $offset  = ($page - 1) * $perPage;
+        $pageNum      = max(1, (int)($_GET['page'] ?? 1));
+        $perPage      = 15;
+        $offset       = ($pageNum - 1) * $perPage;
+        $statusFilter = $_GET['status_filter'] ?? '';
 
-        $applications = $this->model->getAllApplications('all', $perPage, $offset);
-        $stats        = $this->model->getStatistics();
-        $total        = $stats['total'] ?? 0;
-        $totalPages   = ceil($total / $perPage);
+        $applications = $this->model->getAllApplications(
+            $statusFilter ?: 'all',
+            $perPage,
+            $offset
+        );
+        $total        = $this->model->countAll($statusFilter ?: null);
+        $totalPages   = max(1, (int)ceil($total / $perPage));
+        $pendingCount = $this->model->countByStatus('pending');
 
         $this->view('job-applications/index', [
             'title'        => 'Quản lý Đơn ứng tuyển - Admin MTech',
             'page'         => 'job-applications',
             'applications' => $applications,
             'total'        => $total,
-            'currentPage'  => $page,
+            'pageNum'      => $pageNum,
             'totalPages'   => $totalPages,
+            'statusFilter' => $statusFilter,
+            'pendingCount' => $pendingCount,
             'admin'        => AuthMiddleware::getAdmin(),
         ]);
     }
 
+    // ----------------------------------------------------------------
+    // GET /job-applications/view/{id}
+    // ----------------------------------------------------------------
     public function show($id)
     {
         $app = $this->model->getApplicationById($id);
@@ -52,22 +65,163 @@ class JobApplicationsController extends BaseController
         ]);
     }
 
-    public function updateStatus($id)
+    // ----------------------------------------------------------------
+    // GET /job-applications/edit/{id}
+    // ----------------------------------------------------------------
+    public function edit($id)
+    {
+        $app = $this->model->getApplicationById($id);
+        if (!$app) {
+            $_SESSION['error'] = 'Không tìm thấy đơn ứng tuyển';
+            $this->redirect('/job-applications');
+            return;
+        }
+
+        $this->view('job-applications/edit', [
+            'title'       => 'Cập nhật trạng thái đơn - Admin MTech',
+            'page'        => 'job-applications',
+            'application' => $app,
+            'admin'       => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    // ----------------------------------------------------------------
+    // POST /job-applications/update/{id}
+    // ----------------------------------------------------------------
+    public function update($id)
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->redirect('/job-applications');
             return;
         }
 
-        $status = $_POST['status'] ?? '';
-        if (!in_array($status, ['pending', 'approved', 'rejected'])) {
+        $app = $this->model->getApplicationById($id);
+        if (!$app) {
+            $_SESSION['error'] = 'Không tìm thấy đơn ứng tuyển';
+            $this->redirect('/job-applications');
+            return;
+        }
+
+        $status        = $_POST['status']         ?? 'pending';
+        $adminNote     = trim($_POST['admin_note']     ?? '');
+        $employerReply = trim($_POST['employer_reply'] ?? '');
+
+        $allowed = ['pending', 'approved', 'rejected'];
+        if (!in_array($status, $allowed)) {
             $_SESSION['error'] = 'Trạng thái không hợp lệ';
+            $this->redirect('/job-applications/edit/' . $id);
+            return;
+        }
+
+        $oldStatus = $app['status'] ?? 'pending';
+
+        // Lưu vào DB
+        $this->model->updateStatusAndNote($id, $status, $adminNote ?: null, $employerReply ?: null);
+
+        // Gửi email khi chuyển sang approved hoặc rejected
+        if (in_array($status, ['approved', 'rejected']) && $status !== $oldStatus) {
+            try {
+                require_once __DIR__ . '/../services/EmailNotificationService.php';
+                $emailService = new EmailNotificationService();
+                $result = $emailService->sendJobApplicationStatusEmail($app, $status, $employerReply ?: null);
+                if ($result['success']) {
+                    $_SESSION['success'] = 'Đã cập nhật trạng thái và gửi email thông báo đến ứng viên';
+                } else {
+                    $_SESSION['success'] = 'Đã cập nhật trạng thái nhưng không gửi được email: ' . $result['message'];
+                }
+            } catch (\Exception $e) {
+                error_log('JobApplicationsController::update() - Email error: ' . $e->getMessage());
+                $_SESSION['success'] = 'Đã cập nhật trạng thái nhưng không gửi được email.';
+            }
+        } else {
+            $_SESSION['success'] = 'Đã cập nhật trạng thái đơn ứng tuyển';
+        }
+
+        // Redirect về trang index
+        $this->redirect('/job-applications');
+    }
+
+    // ----------------------------------------------------------------
+    // GET /job-applications/download-cv/{id}
+    // ----------------------------------------------------------------
+    public function downloadCv($id)
+    {
+        $app = $this->model->getApplicationById($id);
+        if (!$app || empty($app['cv_file'])) {
+            $_SESSION['error'] = 'Không tìm thấy file CV';
+            $this->redirect('/job-applications');
+            return;
+        }
+
+        // cv_file lưu dạng 'uploads/cvs/cv_xxx.pdf' — resolve từ root project
+        $filePath = __DIR__ . '/../../' . ltrim($app['cv_file'], '/');
+
+        if (!file_exists($filePath)) {
+            $_SESSION['error'] = 'File CV không tồn tại trên server';
             $this->redirect('/job-applications/view/' . $id);
             return;
         }
 
-        $this->model->updateStatus($id, $status);
-        $_SESSION['success'] = 'Đã cập nhật trạng thái';
-        $this->redirect('/job-applications/view/' . $id);
+        $fileName = 'CV_' . preg_replace('/[^a-zA-Z0-9_\-]/', '_', $app['full_name'] ?? 'ung_vien') . '.pdf';
+
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Cache-Control: private, no-cache');
+        readfile($filePath);
+        exit;
+    }
+
+    // ----------------------------------------------------------------
+    // POST /job-applications/delete/{id}  → soft delete
+    // ----------------------------------------------------------------
+    public function delete($id)
+    {
+        $this->model->softDelete($id);
+        $_SESSION['success'] = 'Đã chuyển đơn vào thùng rác';
+        $this->redirect('/job-applications');
+    }
+
+    // ----------------------------------------------------------------
+    // GET /job-applications/trash
+    // ----------------------------------------------------------------
+    public function trash()
+    {
+        $page       = max(1, (int)($_GET['page'] ?? 1));
+        $perPage    = 20;
+        $offset     = ($page - 1) * $perPage;
+        $apps       = $this->model->getTrashed($perPage, $offset);
+        $total      = $this->model->countTrashed();
+        $totalPages = (int)ceil($total / $perPage);
+
+        $this->view('job-applications/trash', [
+            'title'        => 'Thùng rác - Đơn ứng tuyển - Admin MTech',
+            'page'         => 'job-applications',
+            'applications' => $apps,
+            'total'        => $total,
+            'currentPage'  => $page,
+            'totalPages'   => $totalPages,
+            'admin'        => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    // ----------------------------------------------------------------
+    // POST /job-applications/restore/{id}
+    // ----------------------------------------------------------------
+    public function restore($id)
+    {
+        $this->model->restore($id);
+        $_SESSION['success'] = 'Đã khôi phục đơn ứng tuyển';
+        $this->redirect('/job-applications/trash');
+    }
+
+    // ----------------------------------------------------------------
+    // POST /job-applications/hard-delete/{id}
+    // ----------------------------------------------------------------
+    public function hardDelete($id)
+    {
+        $this->model->hardDelete($id);
+        $_SESSION['success'] = 'Đã xóa vĩnh viễn đơn ứng tuyển';
+        $this->redirect('/job-applications/trash');
     }
 }

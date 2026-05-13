@@ -116,6 +116,8 @@ $duplicated = array_merge($teams, $teams, $teams);
                             <input type="submit" value="Gửi câu hỏi" class="btn submit_btn" />
                         </div>
                     </form>
+                    <!-- Thông báo kết quả gửi form -->
+                    <div id="questionFormMsg" class="question_form_msg" style="display:none" role="alert" aria-live="polite"></div>
                 </div>
             </div>
         </div>

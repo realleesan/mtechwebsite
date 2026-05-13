@@ -15,15 +15,15 @@ class ContactsController extends BaseController
 
     public function index()
     {
-        $page         = max(1, (int)($_GET['page'] ?? 1));
-        $perPage      = 20;
-        $offset       = ($page - 1) * $perPage;
+        $pageNum      = max(1, (int)($_GET['page'] ?? 1));
+        $perPage      = 15;
+        $offset       = ($pageNum - 1) * $perPage;
         $search       = trim($_GET['search'] ?? '');
         $statusFilter = $_GET['status_filter'] ?? '';
 
         $contacts     = $this->model->getAll($perPage, $offset, $search ?: null, $statusFilter !== '' ? $statusFilter : null);
         $total        = $this->model->count($statusFilter !== '' ? (int)$statusFilter : null, $search ?: null);
-        $totalPages   = ceil($total / $perPage);
+        $totalPages   = max(1, (int)ceil($total / $perPage));
         $unreadCount  = $this->model->count(0);
         $trashedCount = $this->model->countTrashed();
 
@@ -32,7 +32,7 @@ class ContactsController extends BaseController
             'page'         => 'contacts',
             'contacts'     => $contacts,
             'total'        => $total,
-            'currentPage'  => $page,
+            'pageNum'      => $pageNum,
             'totalPages'   => $totalPages,
             'search'       => $search,
             'statusFilter' => $statusFilter,
@@ -124,7 +124,7 @@ class ContactsController extends BaseController
             $_SESSION['success'] = 'Đã cập nhật liên hệ thành công';
         }
 
-        $this->redirect('/contacts/view/' . $id);
+        $this->redirect('/contacts');
     }
 
     public function delete($id)

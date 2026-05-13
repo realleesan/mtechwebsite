@@ -97,7 +97,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
 
             <!-- Job Applications -->
             <li class="nav-item">
-                <a href="/job-applications" class="nav-link <?= $currentPage === 'job-applications' ? 'active' : '' ?>">
+                <a href="/job-applications" class="nav-link <?= in_array($currentPage, ['job-applications', 'job-application.view', 'job-application.edit', 'job-application.trash']) ? 'active' : '' ?>">
                     <i class="bi bi-file-person"></i>
                     <span>Đơn ứng tuyển</span>
                     <?php if (!empty($newJobsCount) && $newJobsCount > 0): ?>

@@ -150,10 +150,97 @@
         });
     }
 
+    // ── QUESTION FORM ────────────────────────────────────────────────
+    function initQuestionForm() {
+        const form = document.getElementById('questionForm');
+        if (!form) return;
+
+        const msgBox = document.getElementById('questionFormMsg');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Reset trạng thái cũ
+            clearErrors(form);
+            if (msgBox) {
+                msgBox.className = 'question_form_msg';
+                msgBox.textContent = '';
+                msgBox.style.display = 'none';
+            }
+
+            const submitBtn = form.querySelector('[type="submit"]');
+            const originalText = submitBtn.value;
+            submitBtn.value    = 'Đang gửi...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Hiển thị thông báo thành công
+                    showMsg(msgBox, data.message || 'Câu hỏi của bạn đã được gửi!', 'success');
+                    form.reset();
+                } else {
+                    // Hiển thị lỗi field nếu có
+                    if (data.errors) {
+                        showFieldErrors(form, data.errors);
+                    }
+                    showMsg(msgBox, data.message || 'Có lỗi xảy ra, vui lòng thử lại.', 'error');
+                }
+            })
+            .catch(() => {
+                showMsg(msgBox, 'Không thể kết nối máy chủ. Vui lòng thử lại.', 'error');
+            })
+            .finally(() => {
+                submitBtn.value    = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    }
+
+    function showMsg(box, text, type) {
+        if (!box) return;
+        box.textContent   = text;
+        box.className     = 'question_form_msg question_form_msg--' + type;
+        box.style.display = 'block';
+        // Scroll nhẹ đến thông báo
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function clearErrors(form) {
+        form.querySelectorAll('.invalid-feedback').forEach(el => {
+            el.textContent = '';
+            el.style.display = 'none';
+        });
+        form.querySelectorAll('.form-control').forEach(el => {
+            el.classList.remove('is-invalid');
+        });
+    }
+
+    function showFieldErrors(form, errors) {
+        Object.entries(errors).forEach(([field, msg]) => {
+            const input = form.querySelector('[name="' + field + '"]');
+            if (!input) return;
+            input.classList.add('is-invalid');
+            const fb = input.nextElementSibling;
+            if (fb && fb.classList.contains('invalid-feedback')) {
+                fb.textContent   = msg;
+                fb.style.display = 'block';
+            }
+        });
+    }
+
     // ── Boot ─────────────────────────────────────────────────────────
     function init() {
         initCarousel();
         initLightbox();
+        initQuestionForm();
     }
 
     if (document.readyState === 'loading') {

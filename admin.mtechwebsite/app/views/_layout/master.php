@@ -104,6 +104,12 @@
         case 'contact.trash':
             echo '<link rel="stylesheet" href="/assets/css/admin.contacts.css?v=1.1">';
             break;
+        case 'job-applications':
+        case 'job-application.view':
+        case 'job-application.edit':
+        case 'job-application.trash':
+            echo '<link rel="stylesheet" href="' . $baseUrl . '/assets/css/admin.job-applications.css?v=1.1">';
+            break;
         case 'login':
         case 'forgot-password':
         case 'reset-password':
@@ -274,6 +280,12 @@ switch($currentPage) {
     case 'contact.edit':
     case 'contact.trash':
         echo '<script src="/assets/js/admin.contacts.js"></script>';
+        break;
+    case 'job-applications':
+    case 'job-application.view':
+    case 'job-application.edit':
+    case 'job-application.trash':
+        echo '<script src="/assets/js/admin.job-applications.js"></script>';
         break;
     // Auth pages không cần JS riêng
     case 'login':

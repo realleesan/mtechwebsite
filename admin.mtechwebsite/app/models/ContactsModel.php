@@ -26,6 +26,69 @@ class ContactsModel
             require_once __DIR__ . '/../../core/database.php';
             $this->db = getDBConnection();
         }
+        $this->ensureColumns();
+    }
+
+    /**
+     * Kiểm tra cột deleted_at có tồn tại không
+     * Cache kết quả để tránh query nhiều lần
+     */
+    private $hasDeletedAt = null;
+    private $hasAdminReply = null;
+
+    private function columnExists($column)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
+                 WHERE TABLE_SCHEMA = DATABASE() 
+                 AND TABLE_NAME = ? 
+                 AND COLUMN_NAME = ?"
+            );
+            $stmt->execute([$this->table, $column]);
+            return (int)$stmt->fetchColumn() > 0;
+        } catch (\Exception $e) {
+            // Fallback: thử query trực tiếp
+            try {
+                $this->db->query("SELECT `{$column}` FROM `{$this->table}` LIMIT 0");
+                return true;
+            } catch (\Exception $e2) {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Tự động thêm các cột mới nếu chưa tồn tại trong bảng
+     * Giải quyết vấn đề migration chưa chạy
+     */
+    private function ensureColumns()
+    {
+        try {
+            $this->hasDeletedAt  = $this->columnExists('deleted_at');
+            $this->hasAdminReply = $this->columnExists('admin_reply');
+
+            if (!$this->hasDeletedAt) {
+                $this->db->exec("ALTER TABLE `{$this->table}` ADD COLUMN `deleted_at` DATETIME NULL DEFAULT NULL");
+                try {
+                    $this->db->exec("ALTER TABLE `{$this->table}` ADD INDEX `idx_deleted_at` (`deleted_at`)");
+                } catch (\Exception $e) { /* index có thể đã tồn tại */ }
+                $this->hasDeletedAt = true;
+            }
+            if (!$this->hasAdminReply) {
+                $this->db->exec("ALTER TABLE `{$this->table}` ADD COLUMN `admin_reply` TEXT NULL DEFAULT NULL AFTER `message`");
+                $this->hasAdminReply = true;
+            }
+            // updated_at
+            if (!$this->columnExists('updated_at')) {
+                $this->db->exec("ALTER TABLE `{$this->table}` ADD COLUMN `updated_at` DATETIME NULL DEFAULT NULL");
+            }
+        } catch (\Exception $e) {
+            error_log('ContactsModel::ensureColumns() - ' . $e->getMessage());
+            // Nếu ALTER TABLE thất bại (không có quyền), đặt lại flag
+            $this->hasDeletedAt  = $this->columnExists('deleted_at');
+            $this->hasAdminReply = $this->columnExists('admin_reply');
+        }
     }
 
     // ----------------------------------------------------------------
@@ -74,21 +137,43 @@ class ContactsModel
      */
     public function getAll($limit = 50, $offset = 0, $search = null, $statusFilter = null)
     {
+        // Thử query với deleted_at trước, nếu fail thì query không có deleted_at
+        $filters = [];
+        $params  = [];
+
+        if ($statusFilter !== null && $statusFilter !== '') {
+            $filters[] = 'status = :status_filter';
+            $params[':status_filter'] = (int)$statusFilter;
+        }
+
+        // Thử với deleted_at IS NULL
         try {
-            $where = ['deleted_at IS NULL'];
-            $params = [];
-
-            if (!empty($search)) {
-                $where[] = '(name LIKE :search OR email LIKE :search OR phone LIKE :search)';
-                $params[':search'] = '%' . $search . '%';
-            }
-
-            if ($statusFilter !== null && $statusFilter !== '') {
-                $where[] = 'status = :status_filter';
-                $params[':status_filter'] = (int)$statusFilter;
-            }
-
+            $where = array_merge(['deleted_at IS NULL'], $filters);
             $whereClause = 'WHERE ' . implode(' AND ', $where);
+
+            $stmt = $this->db->prepare(
+                "SELECT id, name, email, phone, subject, message, status, created_at 
+                 FROM `{$this->table}`
+                 {$whereClause}
+                 ORDER BY created_at DESC 
+                 LIMIT :limit OFFSET :offset"
+            );
+            foreach ($params as $key => $val) {
+                $stmt->bindValue($key, $val);
+            }
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+            $this->hasDeletedAt = true;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // deleted_at chưa tồn tại → query không có điều kiện đó
+            $this->hasDeletedAt = false;
+        }
+
+        // Fallback: không dùng deleted_at
+        try {
+            $whereClause = !empty($filters) ? 'WHERE ' . implode(' AND ', $filters) : '';
 
             $stmt = $this->db->prepare(
                 "SELECT id, name, email, phone, subject, message, status, created_at 
@@ -105,7 +190,7 @@ class ContactsModel
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log('ContactsModel::getAll() - ' . $e->getMessage());
+            error_log('ContactsModel::getAll() fallback - ' . $e->getMessage());
             return [];
         }
     }
@@ -237,6 +322,7 @@ class ContactsModel
      */
     public function getTrashed($limit = 50, $offset = 0)
     {
+        if (!$this->hasDeletedAt) return [];
         try {
             $stmt = $this->db->prepare(
                 "SELECT id, name, email, phone, subject, status, created_at, deleted_at
@@ -262,6 +348,7 @@ class ContactsModel
      */
     public function countTrashed()
     {
+        if (!$this->hasDeletedAt) return 0;
         try {
             $stmt = $this->db->prepare(
                 "SELECT COUNT(*) FROM `{$this->table}` WHERE deleted_at IS NOT NULL"
@@ -283,30 +370,34 @@ class ContactsModel
      */
     public function count($status = null, $search = null)
     {
+        $filters = [];
+        $params  = [];
+
+        if ($status !== null) {
+            $filters[] = 'status = ?';
+            $params[]  = $status;
+        }
+
+        // Thử với deleted_at IS NULL
         try {
-            $where = ['deleted_at IS NULL'];
-            $params = [];
-
-            if ($status !== null) {
-                $where[] = 'status = ?';
-                $params[] = $status;
-            }
-
-            if (!empty($search)) {
-                $where[] = '(name LIKE ? OR email LIKE ? OR phone LIKE ?)';
-                $params[] = '%' . $search . '%';
-                $params[] = '%' . $search . '%';
-                $params[] = '%' . $search . '%';
-            }
-
+            $where = array_merge(['deleted_at IS NULL'], $filters);
             $whereClause = 'WHERE ' . implode(' AND ', $where);
-            $sql = "SELECT COUNT(*) FROM `{$this->table}` {$whereClause}";
+            $stmt = $this->db->prepare("SELECT COUNT(*) FROM `{$this->table}` {$whereClause}");
+            $stmt->execute($params);
+            $this->hasDeletedAt = true;
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            $this->hasDeletedAt = false;
+        }
 
-            $stmt = $this->db->prepare($sql);
+        // Fallback: không dùng deleted_at
+        try {
+            $whereClause = !empty($filters) ? 'WHERE ' . implode(' AND ', $filters) : '';
+            $stmt = $this->db->prepare("SELECT COUNT(*) FROM `{$this->table}` {$whereClause}");
             $stmt->execute($params);
             return (int) $stmt->fetchColumn();
         } catch (PDOException $e) {
-            error_log('ContactsModel::count() - ' . $e->getMessage());
+            error_log('ContactsModel::count() fallback - ' . $e->getMessage());
             return 0;
         }
     }
