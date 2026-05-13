@@ -375,6 +375,29 @@ class BlogsModel
     // ----------------------------------------------------------------
 
     /**
+     * Lấy các blog mới nhất
+     * @param int $limit Số lượng tối đa
+     * @return array Danh sách blog
+     */
+    public function getRecentBlogs($limit = 5)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, title, slug, image, created_at
+                 FROM `blogs`
+                 WHERE status = 1 AND deleted_at IS NULL
+                 ORDER BY created_at DESC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getRecentBlogs() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Lấy danh sách blogs cho admin với phân trang và filter
      * @param int $page Trang hiện tại
      * @param int $perPage Số bài mỗi trang

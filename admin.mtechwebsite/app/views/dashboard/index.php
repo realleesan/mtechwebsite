@@ -220,18 +220,19 @@
                                     <td>
                                         <?php
                                         $status = $app['status'] ?? 'pending';
-                                        $badge = match($status) {
-                                            'pending'  => 'warning',
-                                            'approved' => 'success',
-                                            'rejected' => 'danger',
-                                            default    => 'secondary',
-                                        };
-                                        $label = match($status) {
-                                            'pending'  => 'Chờ duyệt',
-                                            'approved' => 'Đã duyệt',
-                                            'rejected' => 'Từ chối',
-                                            default    => $status,
-                                        };
+                                        if ($status === 'pending') {
+                                            $badge = 'warning';
+                                            $label = 'Chờ duyệt';
+                                        } elseif ($status === 'approved') {
+                                            $badge = 'success';
+                                            $label = 'Đã duyệt';
+                                        } elseif ($status === 'rejected') {
+                                            $badge = 'danger';
+                                            $label = 'Từ chối';
+                                        } else {
+                                            $badge = 'secondary';
+                                            $label = $status;
+                                        }
                                         ?>
                                         <span class="badge bg-<?= $badge ?>"><?= $label ?></span>
                                     </td>
