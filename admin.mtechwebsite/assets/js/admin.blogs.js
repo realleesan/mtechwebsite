@@ -189,20 +189,77 @@ function removeCurrentImage() {
     const currentImage = document.getElementById('currentImage');
     const removeFlag = document.getElementById('removeImageFlag');
     
+    // Nếu ảnh đã bị ẩn rồi thì không làm gì
+    if (!currentImage || currentImage.style.display === 'none') return;
+    
     if (currentImage && removeFlag) {
         currentImage.style.display = 'none';
         removeFlag.value = '1';
         
-        // Hide remove button
-        const removeBtn = currentImage.parentElement.querySelector('button');
-        if (removeBtn) removeBtn.style.display = 'none';
+        // Ẩn toàn bộ các nút trong container (Chỉnh sửa + Xóa)
+        const btnContainer = document.getElementById('currentImageBtns');
+        if (btnContainer) btnContainer.style.display = 'none';
         
-        // Show message
+        // Xóa thông báo cũ nếu có (tránh lặp)
+        const existingMsg = document.getElementById('removeImageMsg');
+        if (existingMsg) existingMsg.remove();
+        
+        // Hiện thông báo một lần duy nhất
         const message = document.createElement('div');
+        message.id = 'removeImageMsg';
         message.className = 'alert alert-warning alert-sm mt-2';
         message.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i>Ảnh sẽ được xóa khi lưu';
         currentImage.parentElement.appendChild(message);
     }
+}
+
+// ----------------------------------------
+// Edit Current Image (for edit page)
+// ----------------------------------------
+function editCurrentImage() {
+    const currentImg = document.getElementById('currentImage');
+    if (!currentImg) return;
+
+    // Sử dụng ảnh gốc từ data-original-src
+    const originalSrc = currentImg.dataset.originalSrc || currentImg.src;
+    if (!originalSrc) return;
+
+    // Dùng Image với crossOrigin để tránh lỗi CORS khi ảnh ở domain khác
+    const tmpImg = new Image();
+    tmpImg.crossOrigin = 'anonymous';
+
+    tmpImg.onload = function () {
+        // Chuyển sang canvas để lấy blob (bypass CORS taint)
+        const offscreen = document.createElement('canvas');
+        offscreen.width  = tmpImg.naturalWidth;
+        offscreen.height = tmpImg.naturalHeight;
+        offscreen.getContext('2d').drawImage(tmpImg, 0, 0);
+
+        offscreen.toBlob(function (blob) {
+            if (!blob) {
+                // Fallback: mở trực tiếp bằng Image object nếu toBlob thất bại
+                if (window.ImageEditor) {
+                    ImageEditor.openWithImage(tmpImg, originalSrc);
+                }
+                return;
+            }
+            const file = new File([blob], 'current-image.jpg', { type: 'image/jpeg' });
+            if (window.ImageEditor) {
+                ImageEditor.open(file);
+            }
+        }, 'image/jpeg', 0.95);
+    };
+
+    tmpImg.onerror = function () {
+        // CORS hoàn toàn bị chặn → thử mở trực tiếp bằng URL (không crop được nhưng vẫn hiển thị)
+        if (window.ImageEditor) {
+            ImageEditor.openWithUrl(originalSrc);
+        } else {
+            alert('Không thể tải ảnh để chỉnh sửa. Vui lòng tải ảnh mới.');
+        }
+    };
+
+    tmpImg.src = originalSrc + (originalSrc.includes('?') ? '&' : '?') + '_t=' + Date.now();
 }
 
 // ----------------------------------------
@@ -311,36 +368,90 @@ function generateSlug(text) {
 // Form Validation
 // ----------------------------------------
 function validateBlogForm() {
-    const title = document.getElementById('title');
-    const slug = document.getElementById('slug');
-    const categoryId = document.getElementById('category_id');
-    
-    if (!title || !title.value.trim()) {
-        alert('Vui lòng nhập tiêu đề tin tức');
-        if (title) title.focus();
-        return false;
-    }
-    
-    if (!slug || !slug.value.trim()) {
-        alert('Vui lòng nhập slug');
-        if (slug) slug.focus();
-        return false;
-    }
-    
-    if (!categoryId || !categoryId.value) {
-        alert('Vui lòng chọn danh mục');
-        if (categoryId) categoryId.focus();
-        return false;
-    }
-    
-    // Update rich editor content to hidden input
+    // Sync rich editor trước
     const richEditorContent = document.querySelector('.rich-editor-content');
     const contentInput = document.querySelector('input[name="content"]');
     if (richEditorContent && contentInput) {
         contentInput.value = richEditorContent.innerHTML;
     }
-    
-    return true;
+
+    const errors = [];
+
+    const title = document.getElementById('title');
+    const slug = document.getElementById('slug');
+    const categoryId = document.getElementById('category_id');
+
+    if (!title || !title.value.trim()) {
+        errors.push({ field: title, tab: '#basic', msg: 'Vui lòng nhập tiêu đề tin tức.' });
+    }
+    if (!slug || !slug.value.trim()) {
+        errors.push({ field: slug, tab: '#basic', msg: 'Vui lòng nhập slug.' });
+    }
+    if (!categoryId || !categoryId.value) {
+        errors.push({ field: categoryId, tab: '#basic', msg: 'Vui lòng chọn danh mục.' });
+    }
+
+    if (errors.length === 0) return true;
+
+    // Chuyển sang tab chứa lỗi đầu tiên
+    const firstError = errors[0];
+    const targetTab = document.querySelector(`[data-bs-target="${firstError.tab}"]`);
+    if (targetTab) targetTab.click();
+
+    // Highlight field lỗi
+    errors.forEach(e => {
+        if (e.field) {
+            e.field.classList.add('is-invalid');
+            e.field.addEventListener('input', function onFix() {
+                e.field.classList.remove('is-invalid');
+                e.field.removeEventListener('input', onFix);
+            }, { once: true });
+        }
+    });
+
+    // Focus field đầu tiên
+    setTimeout(() => { if (firstError.field) firstError.field.focus(); }, 150);
+
+    // Hiển thị popup thông báo
+    showValidationPopup(errors.map(e => e.msg));
+
+    return false;
+}
+
+function showValidationPopup(messages) {
+    // Xóa popup cũ nếu có
+    const old = document.getElementById('blogValidationPopup');
+    if (old) old.remove();
+
+    const list = messages.map(m => `<li>${m}</li>`).join('');
+    const popup = document.createElement('div');
+    popup.id = 'blogValidationPopup';
+    popup.style.cssText = [
+        'position:fixed', 'top:20px', 'right:20px', 'z-index:99999',
+        'background:#fff', 'border:1px solid #f5c2c7', 'border-left:4px solid #dc3545',
+        'border-radius:8px', 'padding:16px 20px', 'min-width:280px', 'max-width:380px',
+        'box-shadow:0 4px 20px rgba(0,0,0,0.15)', 'animation:slideInRight .25s ease'
+    ].join(';');
+    popup.innerHTML = `
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+            <i class="bi bi-exclamation-triangle-fill" style="color:#dc3545;font-size:18px;flex-shrink:0;margin-top:2px;"></i>
+            <div style="flex:1;">
+                <div style="font-weight:600;color:#842029;margin-bottom:6px;">Vui lòng kiểm tra lại</div>
+                <ul style="margin:0;padding-left:16px;color:#495057;font-size:14px;">${list}</ul>
+            </div>
+            <button onclick="document.getElementById('blogValidationPopup').remove()" style="background:none;border:none;cursor:pointer;color:#6c757d;font-size:18px;line-height:1;padding:0;flex-shrink:0;">&times;</button>
+        </div>`;
+
+    // Thêm animation CSS nếu chưa có
+    if (!document.getElementById('validationPopupStyle')) {
+        const style = document.createElement('style');
+        style.id = 'validationPopupStyle';
+        style.textContent = '@keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}';
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(popup);
+    setTimeout(() => { if (popup.parentElement) popup.remove(); }, 5000);
 }
 
 function validateCategoryForm() {

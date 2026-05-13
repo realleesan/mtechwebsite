@@ -1,5 +1,5 @@
 /* ============================================
-   Image Editor Overlay
+   Image Editor Overlay - Improved UI/UX
    Dùng cho module blogs (create & edit)
    ============================================ */
 
@@ -7,14 +7,14 @@
 .img-editor-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.72);
+    background: rgba(0, 0, 0, 0.85);
     z-index: 1060;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.22s ease, visibility 0.22s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .img-editor-backdrop.active {
@@ -24,16 +24,16 @@
 
 /* ---- Dialog box ---- */
 .img-editor-dialog {
-    background: var(--card-bg, #1e2329);
+    background: #fff;
     border-radius: 12px;
-    width: 560px;
-    max-width: calc(100vw - 32px);
-    max-height: calc(100vh - 48px);
+    width: 90vw;
+    max-width: 1000px;
+    height: 85vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-    transform: translateY(12px) scale(0.98);
-    transition: transform 0.22s ease;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s ease;
     overflow: hidden;
 }
 
@@ -47,55 +47,105 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1));
+    border-bottom: 1px solid #e9ecef;
+    background: #f8f9fa;
     flex-shrink: 0;
 }
 
 .img-editor-header h5 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 18px;
     font-weight: 600;
-    color: var(--text-primary, #e9ecef);
+    color: #212529; /* Màu đậm hơn */
+    display: flex;
+    align-items: center;
 }
 
 .img-editor-close {
     background: none;
     border: none;
-    color: var(--text-muted, #adb5bd);
+    color: #6c757d;
     cursor: pointer;
-    padding: 4px 8px;
+    padding: 6px;
     border-radius: 6px;
-    font-size: 1.1rem;
+    font-size: 20px;
     line-height: 1;
-    transition: background 0.15s, color 0.15s;
+    transition: all 0.2s ease;
 }
 
 .img-editor-close:hover {
-    background: rgba(255,255,255,0.08);
-    color: var(--text-primary, #e9ecef);
+    background: #e9ecef;
+    color: #495057;
 }
 
 /* ---- Body ---- */
 .img-editor-body {
     flex: 1;
-    overflow-y: auto;
-    padding: 20px;
+    overflow: hidden;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
+}
+
+/* ---- Toolbar ---- */
+.img-editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.img-editor-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    color: #495057; /* Màu đậm hơn */
+    font-size: 13px;
+    font-weight: 500; /* Đậm hơn */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.img-editor-tool-btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+    color: #212529; /* Màu đậm khi hover */
+}
+
+.img-editor-tool-btn.active {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
 }
 
 /* ---- Canvas wrapper ---- */
 .img-editor-canvas-wrap {
     position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    flex: 1;
     background: #111;
     border-radius: 8px;
     overflow: hidden;
-    cursor: crosshair;
+    cursor: grab;
     user-select: none;
     touch-action: none;
+    border: 2px solid #dee2e6;
+}
+
+.img-editor-canvas-wrap:active {
+    cursor: grabbing;
+}
+
+.img-editor-canvas-wrap.crop-mode {
+    cursor: crosshair !important;
 }
 
 .img-editor-canvas-wrap canvas {
@@ -104,73 +154,73 @@
     height: 100%;
 }
 
-/* ---- Grid overlay toggle button ---- */
-.img-editor-toolbar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.img-editor-tool-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+/* ---- Crop mode hint ---- */
+.img-editor-hint {
+    font-size: 13px;
+    color: #495057; /* Màu đậm hơn */
+    font-weight: 500; /* Đậm hơn */
+    text-align: center;
+    padding: 8px;
+    background: #f8f9fa;
     border-radius: 6px;
-    border: 1px solid var(--border-color, rgba(255,255,255,0.15));
-    background: transparent;
-    color: var(--text-muted, #adb5bd);
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-
-.img-editor-tool-btn:hover {
-    background: rgba(255,255,255,0.07);
-    color: var(--text-primary, #e9ecef);
-}
-
-.img-editor-tool-btn.active {
-    background: var(--primary, #0d6efd);
-    border-color: var(--primary, #0d6efd);
-    color: #fff;
+    border: 1px solid #e9ecef;
+    min-height: 20px;
 }
 
 /* ---- Zoom slider ---- */
 .img-editor-zoom-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
 }
 
 .img-editor-zoom-row .zoom-icon {
-    color: var(--text-muted, #adb5bd);
-    font-size: 0.9rem;
+    color: #6c757d;
+    font-size: 16px;
     flex-shrink: 0;
 }
 
 .img-editor-zoom-row input[type="range"] {
     flex: 1;
-    accent-color: var(--primary, #0d6efd);
-    height: 4px;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
     cursor: pointer;
 }
 
-.img-editor-zoom-label {
-    font-size: 0.78rem;
-    color: var(--text-muted, #adb5bd);
-    min-width: 38px;
-    text-align: right;
-    flex-shrink: 0;
+.img-editor-zoom-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #0d6efd;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* ---- Crop mode hint ---- */
-.img-editor-hint {
-    font-size: 0.78rem;
-    color: var(--text-muted, #adb5bd);
+.img-editor-zoom-row input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #0d6efd;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.img-editor-zoom-label {
+    font-size: 13px;
+    font-weight: 600; /* Đậm hơn */
+    color: #495057; /* Màu đậm hơn */
+    min-width: 45px;
     text-align: center;
-    min-height: 18px;
+    flex-shrink: 0;
 }
 
 /* ---- Footer ---- */
@@ -178,40 +228,138 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
-    padding: 14px 20px;
-    border-top: 1px solid var(--border-color, rgba(255,255,255,0.1));
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid #e9ecef;
+    background: #f8f9fa;
     flex-shrink: 0;
 }
 
-/* ---- Preview thumbnail (sau khi crop) ---- */
-.img-editor-preview-wrap {
-    display: none;
-    margin-top: 8px;
-}
-
-.img-editor-preview-wrap.show {
-    display: block;
-}
-
-.img-editor-preview-wrap img {
-    max-width: 200px;
-    max-height: 120px;
-    object-fit: contain;
+.img-editor-footer .btn {
+    font-weight: 500;
+    padding: 8px 20px;
     border-radius: 6px;
-    border: 1px solid var(--border-color, rgba(255,255,255,0.15));
+    font-size: 14px;
 }
 
-/* ---- Crop selection box ---- */
-.img-editor-crop-box {
-    position: absolute;
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 9999px rgba(0,0,0,0.45);
-    pointer-events: none;
-    box-sizing: border-box;
+/* ---- Preview controls (Edit & Remove buttons) ---- */
+.img-preview-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: center;
+}
+
+.btn-edit-image, .btn-remove-image {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-edit-image {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.btn-edit-image:hover {
+    background: #0b5ed7;
+}
+
+.btn-remove-image {
+    background: #dc3545;
+    color: #fff;
+}
+
+.btn-remove-image:hover {
+    background: #c82333;
+}
+
+/* ---- Preview image improvements ---- */
+#image-preview {
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 200px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#image-preview:hover {
+    border-color: #0d6efd;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+}
+
+/* ---- Aspect ratio presets ---- */
+.img-editor-aspect-presets {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid #dee2e6;
+}
+
+.img-editor-aspect-presets .aspect-label {
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.aspect-preset-btn {
+    padding: 4px 8px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    color: #495057;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.aspect-preset-btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.aspect-preset-btn.active {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
 }
 
 /* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .img-editor-dialog {
+        width: 95vw;
+        height: 90vh;
+    }
+    
+    .img-editor-toolbar {
+        flex-wrap: wrap;
+    }
+    
+    .img-editor-tool-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    .img-editor-zoom-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
 @media (max-width: 600px) {
     .img-editor-dialog {
         width: 100%;

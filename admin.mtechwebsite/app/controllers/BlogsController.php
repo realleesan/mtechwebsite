@@ -211,9 +211,7 @@ class BlogsController extends BaseController
                 $db->rollBack();
             }
             $this->logAdminThrowable('BlogsController::store', $e);
-            $detail = $this->formatThrowableForAdmin($e);
-            $_SESSION['error'] = 'Không lưu được tin tức. ' . $detail
-                . ' File log: admin.mtechwebsite/storage/logs/admin-errors.log (tải qua FTP/cPanel).';
+            $_SESSION['error'] = 'Hệ thống gặp lỗi, vui lòng thử lại. Nếu lỗi tiếp tục xảy ra, hãy liên hệ quản trị viên.';
             $this->redirect('/blogs/create');
         }
     }
@@ -373,9 +371,7 @@ class BlogsController extends BaseController
                 $db->rollBack();
             }
             $this->logAdminThrowable('BlogsController::update', $e);
-            $detail = $this->formatThrowableForAdmin($e);
-            $_SESSION['error'] = 'Không cập nhật được tin. ' . $detail
-                . ' File log: admin.mtechwebsite/storage/logs/admin-errors.log';
+            $_SESSION['error'] = 'Hệ thống gặp lỗi, vui lòng thử lại. Nếu lỗi tiếp tục xảy ra, hãy liên hệ quản trị viên.';
             $this->redirect('/blogs/edit/' . $id);
         }
     }

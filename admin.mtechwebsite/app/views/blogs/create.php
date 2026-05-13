@@ -42,18 +42,18 @@
                     <div class="col-md-8">
                         <div class="mb-3">
                             <label for="title" class="form-label">Tiêu đề tin tức <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <input type="text" class="form-control" id="title" name="title">
                         </div>
                         
                         <div class="mb-3">
                             <label for="slug" class="form-label">Slug <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="slug" name="slug" required>
+                            <input type="text" class="form-control" id="slug" name="slug">
                             <div class="form-text">URL thân thiện, sẽ tự động tạo từ tiêu đề</div>
                         </div>
                         
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                            <select class="form-select" id="category_id" name="category_id" required onchange="toggleRecruitmentTab()">
+                            <select class="form-select" id="category_id" name="category_id" onchange="toggleRecruitmentTab()">
                                 <option value="">-- Chọn danh mục --</option>
                                 <?php foreach ($categories ?? [] as $category): ?>
                                     <option value="<?= htmlspecialchars($category['id']) ?>">
@@ -106,8 +106,9 @@
                             <input type="hidden" id="imageEditedFlag" name="image_edited_flag" value="0">
                             <div class="mt-2">
                                 <img id="image-preview" style="max-width: 200px; display: none;" class="img-thumbnail">
+                                <!-- Preview controls sẽ được thêm tự động bởi JS -->
                             </div>
-                            <div class="form-text">Hỗ trợ: JPG, PNG, GIF, WebP (tối đa 5MB) &nbsp;·&nbsp; Ảnh sẽ mở editor để chỉnh sửa trước khi lưu</div>
+                            <div class="form-text">Hỗ trợ: JPG, PNG, GIF, WebP (tối đa 5MB) &nbsp;·&nbsp; Ảnh sẽ mở editor để chỉnh sửa trước khi lưu &nbsp;·&nbsp; Bấm vào ảnh preview để chỉnh sửa lại</div>
                         </div>
                         
                         <div class="mb-3">
@@ -233,94 +234,3 @@
         </div>
     </div>
 </form>
-
-<script>
-// Toggle recruitment tab based on category selection
-function toggleRecruitmentTab() {
-    const categorySelect = document.getElementById('category_id');
-    const recruitmentTabNav = document.getElementById('recruitment-tab-nav');
-    
-    // Giả sử category tuyển dụng có ID = 7 (dựa vào ảnh bạn gửi)
-    if (categorySelect.value == '7') {
-        recruitmentTabNav.style.display = 'block';
-    } else {
-        recruitmentTabNav.style.display = 'none';
-        // Reset recruitment tab if it was active
-        const recruitmentTab = document.getElementById('recruitment-tab');
-        if (recruitmentTab.classList.contains('active')) {
-            document.getElementById('basic-tab').click();
-        }
-    }
-}
-
-// Auto-generate slug from title
-document.getElementById('title').addEventListener('input', function() {
-    const title = this.value;
-    const slug = title.toLowerCase()
-        .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
-        .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
-        .replace(/[ìíịỉĩ]/g, 'i')
-        .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
-        .replace(/[ùúụủũưừứựửữ]/g, 'u')
-        .replace(/[ỳýỵỷỹ]/g, 'y')
-        .replace(/đ/g, 'd')
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim('-');
-    document.getElementById('slug').value = slug;
-});
-
-// Generate meta suggestions
-function generateMetaTitle() {
-    const title = document.getElementById('title').value;
-    if (title) {
-        document.getElementById('meta_title').value = title + ' - MTech';
-    }
-}
-
-function generateMetaDescription() {
-    const excerpt = document.getElementById('excerpt').value;
-    if (excerpt) {
-        document.getElementById('meta_description').value = excerpt.substring(0, 160);
-    }
-}
-
-function generateMetaKeywords() {
-    const tags = document.getElementById('tags').value;
-    if (tags) {
-        document.getElementById('meta_keywords').value = tags;
-    }
-}
-
-// Form validation
-function validateBlogForm() {
-    const title = document.getElementById('title').value.trim();
-    const slug = document.getElementById('slug').value.trim();
-    const categoryId = document.getElementById('category_id').value;
-    
-    if (!title) {
-        alert('Vui lòng nhập tiêu đề tin tức');
-        return false;
-    }
-    
-    if (!slug) {
-        alert('Vui lòng nhập slug');
-        return false;
-    }
-    
-    if (!categoryId) {
-        alert('Vui lòng chọn danh mục');
-        return false;
-    }
-    
-    // Update rich editor content to hidden input
-    const richEditorContent = document.querySelector('.rich-editor-content');
-    const contentInput = document.querySelector('input[name="content"]');
-    if (richEditorContent && contentInput) {
-        contentInput.value = richEditorContent.innerHTML;
-    }
-    
-    return true;
-}
-</script>

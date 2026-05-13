@@ -514,36 +514,38 @@ class BlogsModel
     public function createBlog($data)
     {
         try {
-            $sql = "INSERT INTO blogs (
-                title, slug, category_id, excerpt, content, image, author, 
-                status, views, hiring_status, position, 
-                expires_in_days, contact_email, contact_phone, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
-            
-            $stmt = $this->db->prepare($sql);
-            // hiring_status: cột NOT NULL (DEFAULT 1 trên DB) — không được gửi NULL khi strict mode
-            $hiringStatus = isset($data['hiring_status']) ? (int) $data['hiring_status'] : 1;
-            $expiresRaw = $data['expires_in_days'] ?? null;
+            $db = $this->db;
+
+            $hiringStatus  = isset($data['hiring_status']) ? (int) $data['hiring_status'] : 1;
+            $expiresRaw    = $data['expires_in_days'] ?? null;
             $expiresInDays = ($expiresRaw !== '' && $expiresRaw !== null) ? (int) $expiresRaw : null;
 
+            // Khớp đúng với cấu trúc bảng thực tế (DESCRIBE blogs)
+            $sql = "INSERT INTO blogs (
+                title, slug, category_id, excerpt, content, image, author,
+                status, views, hiring_status, position,
+                expires_in_days, contact_email, contact_phone
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $stmt = $db->prepare($sql);
             $stmt->execute([
-                $data['title'],
-                $data['slug'],
-                $data['category_id'],
-                $data['excerpt'] ?? '',
-                $data['content'] ?? '',
-                $data['image'] ?? '',
-                $data['author'] ?? 'Admin',
-                $data['status'] ?? 1,
-                $data['views'] ?? 0,
+                $data['title']         ?? '',
+                $data['slug']          ?? '',
+                $data['category_id']   ?? null,
+                $data['excerpt']       ?? '',
+                $data['content']       ?? '',
+                $data['image']         ?? '',
+                $data['author']        ?? 'Admin',
+                $data['status']        ?? 1,
+                $data['views']         ?? 0,
                 $hiringStatus,
-                $data['position'] ?? '',
+                $data['position']      ?? '',
                 $expiresInDays,
                 $data['contact_email'] ?? null,
-                $data['contact_phone'] ?? null
+                $data['contact_phone'] ?? null,
             ]);
-            
-            return $this->db->lastInsertId();
+
+            return $db->lastInsertId();
         } catch (PDOException $e) {
             error_log('BlogsModel::createBlog() - ' . $e->getMessage());
             throw $e;
