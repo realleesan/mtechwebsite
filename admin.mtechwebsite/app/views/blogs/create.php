@@ -100,11 +100,14 @@
                         
                         <div class="mb-3">
                             <label for="image" class="form-label">Ảnh bài viết</label>
-                            <input type="file" class="form-control" id="image" name="image" accept="image/*" data-preview="image-preview">
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            <!-- Hidden inputs cho image editor -->
+                            <input type="hidden" id="imageEdited"     name="image_edited"   value="">
+                            <input type="hidden" id="imageEditedFlag" name="image_edited_flag" value="0">
                             <div class="mt-2">
                                 <img id="image-preview" style="max-width: 200px; display: none;" class="img-thumbnail">
                             </div>
-                            <div class="form-text">Hỗ trợ: JPG, PNG, GIF, WebP (tối đa 5MB)</div>
+                            <div class="form-text">Hỗ trợ: JPG, PNG, GIF, WebP (tối đa 5MB) &nbsp;·&nbsp; Ảnh sẽ mở editor để chỉnh sửa trước khi lưu</div>
                         </div>
                         
                         <div class="mb-3">

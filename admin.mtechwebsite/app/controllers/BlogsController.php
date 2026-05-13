@@ -132,9 +132,23 @@ class BlogsController extends BaseController
                 return;
             }
 
-            // Handle image upload
+            // Handle image upload — ưu tiên ảnh đã qua editor (base64)
             $imagePath = '';
-            if (!empty($_FILES['image']['name'])) {
+            $imageEditedFlag = $_POST['image_edited_flag'] ?? '0';
+            $imageEdited     = $_POST['image_edited']      ?? '';
+
+            if ($imageEditedFlag === '1' && !empty($imageEdited)) {
+                // Ảnh đã qua Image Editor → lưu từ base64
+                $uploadResult = $this->handleBase64ImageUpload($imageEdited);
+                if ($uploadResult['success']) {
+                    $imagePath = $uploadResult['path'];
+                } else {
+                    $_SESSION['error'] = $uploadResult['error'];
+                    $this->redirect('/blogs/create');
+                    return;
+                }
+            } elseif (!empty($_FILES['image']['name'])) {
+                // Fallback: upload file thông thường (không qua editor)
                 $uploadResult = $this->handleImageUpload($_FILES['image']);
                 if ($uploadResult['success']) {
                     $imagePath = $uploadResult['path'];
@@ -303,12 +317,25 @@ class BlogsController extends BaseController
                     ? $this->clampUtf8($_POST['contact_phone'], 50) : null;
             }
 
-            // Handle image upload/removal
-            if (!empty($_FILES['image']['name'])) {
-                // New image uploaded
+            // Handle image upload/removal — ưu tiên ảnh đã qua editor (base64)
+            $imageEditedFlag = $_POST['image_edited_flag'] ?? '0';
+            $imageEdited     = $_POST['image_edited']      ?? '';
+
+            if ($imageEditedFlag === '1' && !empty($imageEdited)) {
+                // Ảnh đã qua Image Editor → lưu từ base64
+                $uploadResult = $this->handleBase64ImageUpload($imageEdited);
+                if ($uploadResult['success']) {
+                    $this->deleteOldImage($currentBlog['image']);
+                    $blogData['image'] = $uploadResult['path'];
+                } else {
+                    $_SESSION['error'] = $uploadResult['error'];
+                    $this->redirect('/blogs/edit/' . $id);
+                    return;
+                }
+            } elseif (!empty($_FILES['image']['name'])) {
+                // Fallback: upload file thông thường (không qua editor)
                 $uploadResult = $this->handleImageUpload($_FILES['image']);
                 if ($uploadResult['success']) {
-                    // Delete old image
                     $this->deleteOldImage($currentBlog['image']);
                     $blogData['image'] = $uploadResult['path'];
                 } else {
@@ -321,7 +348,7 @@ class BlogsController extends BaseController
                 $this->deleteOldImage($currentBlog['image']);
                 $blogData['image'] = '';
             }
-            // If no new image and no remove flag, keep current image (don't set image in $blogData)
+            // Không có gì → giữ ảnh cũ
 
             $db->beginTransaction();
 
@@ -458,6 +485,50 @@ class BlogsController extends BaseController
         // Return absolute URL
         $absoluteUrl = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $filename;
         return ['success' => true, 'path' => $absoluteUrl];
+    }
+
+    /**
+     * Lưu ảnh từ base64 (output của Image Editor) xuống disk.
+     * @param  string $dataURL  data:image/jpeg;base64,....
+     * @return array  ['success' => bool, 'path' => string, 'error' => string]
+     */
+    private function handleBase64ImageUpload(string $dataURL): array
+    {
+        // Tách header và data
+        if (!preg_match('/^data:(image\/[a-z]+);base64,(.+)$/s', $dataURL, $m)) {
+            return ['success' => false, 'error' => 'Dữ liệu ảnh không hợp lệ'];
+        }
+
+        $mimeType = $m[1]; // image/jpeg | image/png | image/webp
+        $allowed  = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        if (!in_array($mimeType, $allowed)) {
+            return ['success' => false, 'error' => 'Định dạng ảnh không được hỗ trợ'];
+        }
+
+        $imageData = base64_decode($m[2], true);
+        if ($imageData === false) {
+            return ['success' => false, 'error' => 'Không giải mã được ảnh'];
+        }
+
+        // Kiểm tra kích thước (5MB)
+        if (strlen($imageData) > self::MAX_FILE_SIZE) {
+            return ['success' => false, 'error' => 'Ảnh sau chỉnh sửa quá lớn (tối đa 5MB)'];
+        }
+
+        $extMap    = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp', 'image/gif' => 'gif'];
+        $extension = $extMap[$mimeType] ?? 'jpg';
+        $filename  = 'blog_edited_' . time() . '_' . uniqid() . '.' . $extension;
+
+        $uploadDir = __DIR__ . '/../../assets/uploads/blogs/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        if (file_put_contents($uploadDir . $filename, $imageData) === false) {
+            return ['success' => false, 'error' => 'Không thể lưu ảnh đã chỉnh sửa'];
+        }
+
+        return ['success' => true, 'path' => self::ADMIN_BASE_URL . self::UPLOAD_DIR . $filename];
     }
 
     private function deleteOldImage($imagePath)

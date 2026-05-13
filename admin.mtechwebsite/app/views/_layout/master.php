@@ -61,6 +61,7 @@
         case 'blog.category.create':
         case 'blog.category.edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.blogs.css">';
+            echo '<link rel="stylesheet" href="/assets/css/image-editor.css">';
             break;
 
         case 'awards':
@@ -228,6 +229,7 @@ switch($currentPage) {
     case 'blog.category.create':
     case 'blog.category.edit':
         echo '<script src="/assets/js/admin.blogs.js"></script>';
+        echo '<script src="/assets/js/image-editor.js"></script>';
         break;
 
     case 'awards':
