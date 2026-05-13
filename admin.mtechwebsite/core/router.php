@@ -172,11 +172,17 @@ class AdminRouter
         $this->post('/client-logos/hard-delete/{id}',   'ClientLogosController@hardDelete');
 
         // ----------------------------------------
-        // Job Applications (chỉ xem)
+        // Job Applications
         // ----------------------------------------
-        $this->get('/job-applications',             'JobApplicationsController@index');
-        $this->get('/job-applications/view/{id}',   'JobApplicationsController@show');
-        $this->post('/job-applications/update-status/{id}', 'JobApplicationsController@updateStatus');
+        $this->get('/job-applications',                       'JobApplicationsController@index');
+        $this->get('/job-applications/trash',                 'JobApplicationsController@trash');
+        $this->get('/job-applications/view/{id}',             'JobApplicationsController@show');
+        $this->get('/job-applications/edit/{id}',             'JobApplicationsController@edit');
+        $this->get('/job-applications/download-cv/{id}',      'JobApplicationsController@downloadCv');
+        $this->post('/job-applications/update/{id}',          'JobApplicationsController@update');
+        $this->post('/job-applications/delete/{id}',          'JobApplicationsController@delete');
+        $this->post('/job-applications/restore/{id}',         'JobApplicationsController@restore');
+        $this->post('/job-applications/hard-delete/{id}',     'JobApplicationsController@hardDelete');
 
         // ----------------------------------------
         // Header & Footer content
