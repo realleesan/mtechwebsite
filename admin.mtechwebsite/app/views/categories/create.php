@@ -145,7 +145,7 @@
                                placeholder="VD: Lợi ích dịch vụ">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Ảnh minh họa Benefit</label>
+                        <label class="form-label">Ảnh minh họa Benefit <span class="text-danger">*</span></label>
                         <div class="cat-upload-area cat-upload-sm" id="benefitImgUploadArea" data-target="benefit_image">
                             <div class="cat-upload-placeholder" id="benefitImgPlaceholder">
                                 <i class="bi bi-image fs-2 mb-1 text-muted"></i>
@@ -175,7 +175,7 @@
                 </h6>
                 <div class="row mb-4">
                     <div class="col-md-12 mb-3 cat-feature-img">
-                        <label class="form-label">Ảnh minh họa Dự án</label>
+                        <label class="form-label">Ảnh minh họa Dự án <span class="text-danger">*</span></label>
                         <div class="cat-upload-area cat-upload-sm" id="featureImgUploadArea" data-target="feature_image">
                             <div class="cat-upload-placeholder" id="featureImgPlaceholder">
                                 <i class="bi bi-image fs-2 mb-1 text-muted"></i>

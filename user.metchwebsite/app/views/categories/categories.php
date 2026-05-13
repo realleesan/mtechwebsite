@@ -4,10 +4,13 @@
  * Structure theo docs/template/categories/code/categories.html
  */
 
-require_once __DIR__ . '/../../../app/models/CategoriesModel.php';
-
-$categoriesModel = new CategoriesModel();
-$services        = $categoriesModel->getAllCategories();
+// Dùng $services được truyền từ controller (đã lọc deleted_at IS NULL)
+// Nếu controller chưa truyền thì lấy từ DB (cũng đã lọc deleted_at)
+if (!isset($services)) {
+    require_once __DIR__ . '/../../../app/models/CategoriesModel.php';
+    $categoriesModel = new CategoriesModel();
+    $services        = $categoriesModel->getAllCategories();
+}
 
 $templateImages = [
     'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img1.jpg',
@@ -17,17 +20,6 @@ $templateImages = [
     'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img5.jpg',
     'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img6.jpg',
 ];
-
-if (empty($services)) {
-    $services = [
-        ['id'=>1, 'name'=>'Lập quy hoạch xây dựng và Tư vấn dự án đầu tư',              'slug'=>'lap-quy-hoach-xay-dung-va-tu-van-du-an-dau-tu', 'image'=>$templateImages[0], 'sort_order'=>1],
-        ['id'=>2, 'name'=>'Thiết kế xây dựng chuyên dụng',                              'slug'=>'thiet-ke-xay-dung-chuyen-dung',                  'image'=>$templateImages[1], 'sort_order'=>2],
-        ['id'=>3, 'name'=>'Quản lý dự án, Giám sát thi công và Kiểm định chất lượng',   'slug'=>'quan-ly-du-an-giam-sat-thi-cong-kiem-dinh',      'image'=>$templateImages[2], 'sort_order'=>3],
-        ['id'=>4, 'name'=>'Quản lý chi phí xây dựng và Tư vấn đấu thầu',               'slug'=>'quan-ly-chi-phi-xay-dung-tu-van-dau-thau',       'image'=>$templateImages[3], 'sort_order'=>4],
-        ['id'=>5, 'name'=>'Tư vấn kỹ thuật tối ưu hóa năng lượng',                     'slug'=>'tu-van-ky-thuat-toi-uu-hoa-nang-luong',          'image'=>$templateImages[4], 'sort_order'=>5],
-        ['id'=>6, 'name'=>'Tổng thầu tư vấn dự án đầu tư',                              'slug'=>'tong-thau-tu-van-du-an-dau-tu',                  'image'=>$templateImages[5], 'sort_order'=>6],
-    ];
-}
 ?>
 
 <!-- =====================================================

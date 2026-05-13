@@ -68,6 +68,16 @@ class CategoriesController extends BaseController
             $this->redirect('/categories/create');
             return;
         }
+        if (empty($_FILES['benefit_image']['name'])) {
+            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Benefit';
+            $this->redirect('/categories/create');
+            return;
+        }
+        if (empty($_FILES['feature_image']['name'])) {
+            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Dự án';
+            $this->redirect('/categories/create');
+            return;
+        }
 
         $data = $this->buildData();
 
@@ -160,6 +170,16 @@ class CategoriesController extends BaseController
         }
         if (empty($data['image_1'])) {
             $_SESSION['error'] = 'Vui lòng tải lên ảnh 1 trong gallery chi tiết';
+            $this->redirect('/categories/edit/' . $id);
+            return;
+        }
+        if (empty($data['benefit_image'])) {
+            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Benefit';
+            $this->redirect('/categories/edit/' . $id);
+            return;
+        }
+        if (empty($data['feature_image'])) {
+            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Dự án';
             $this->redirect('/categories/edit/' . $id);
             return;
         }

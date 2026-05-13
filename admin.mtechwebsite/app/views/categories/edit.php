@@ -108,7 +108,8 @@ if (!empty($category['faq_items'])) {
                             <div class="cat-upload-area" id="mainUploadArea" data-target="image">
                                 <?php if (!empty($category['image'])): ?>
                                     <img id="mainPreview" src="<?= htmlspecialchars($category['image']) ?>"
-                                         alt="Ảnh hiện tại" class="cat-preview">
+                                         alt="Ảnh hiện tại" class="cat-preview"
+                                         onerror="this.classList.add('d-none');this.src='';document.getElementById('mainPlaceholder').classList.remove('d-none');">
                                     <div class="cat-upload-placeholder d-none" id="mainPlaceholder">
                                         <i class="bi bi-image fs-1 mb-2 text-muted"></i>
                                         <p class="mb-1 text-muted">Click hoặc kéo thả ảnh mới</p>
@@ -161,7 +162,8 @@ if (!empty($category['faq_items'])) {
                         <div class="cat-upload-area cat-upload-sm" id="<?= $slot['id'] ?>UploadArea" data-target="<?= $slot['id'] ?>">
                             <?php if (!empty($slot['current'])): ?>
                                 <img id="<?= $slot['id'] ?>Preview" src="<?= htmlspecialchars($slot['current']) ?>"
-                                     alt="" class="cat-preview">
+                                     alt="" class="cat-preview"
+                                     onerror="this.classList.add('d-none');this.src='';document.getElementById('<?= $slot['id'] ?>Placeholder').classList.remove('d-none');">
                                 <div class="cat-upload-placeholder d-none" id="<?= $slot['id'] ?>Placeholder">
                                     <i class="bi bi-image fs-2 mb-1 text-muted"></i>
                                     <small class="text-muted d-block">Click hoặc kéo thả ảnh mới</small>
@@ -199,11 +201,12 @@ if (!empty($category['faq_items'])) {
                                placeholder="VD: Lợi ích dịch vụ">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="benefit_image" class="form-label">Ảnh minh họa Benefit</label>
+                        <label for="benefit_image" class="form-label">Ảnh minh họa Benefit <span class="text-danger">*</span></label>
                         <div class="cat-upload-area cat-upload-sm" id="benefitImgUploadArea" data-target="benefit_image">
                             <?php if (!empty($category['benefit_image'])): ?>
                                 <img id="benefitImgPreview" src="<?= htmlspecialchars($category['benefit_image']) ?>"
-                                     alt="" class="cat-preview">
+                                     alt="" class="cat-preview"
+                                     onerror="this.classList.add('d-none');this.src='';document.getElementById('benefitImgPlaceholder').classList.remove('d-none');">
                                 <div class="cat-upload-placeholder d-none" id="benefitImgPlaceholder">
                                     <i class="bi bi-image fs-2 mb-1 text-muted"></i>
                                     <small class="text-muted d-block">Click hoặc kéo thả ảnh mới</small>
@@ -238,11 +241,12 @@ if (!empty($category['faq_items'])) {
                 </h6>
                 <div class="row mb-4">
                     <div class="col-md-12 mb-3 cat-feature-img">
-                        <label class="form-label">Ảnh minh họa Dự án</label>
+                        <label class="form-label">Ảnh minh họa Dự án <span class="text-danger">*</span></label>
                         <div class="cat-upload-area cat-upload-sm" id="featureImgUploadArea" data-target="feature_image">
                             <?php if (!empty($category['feature_image'])): ?>
                                 <img id="featureImgPreview" src="<?= htmlspecialchars($category['feature_image']) ?>"
-                                     alt="" class="cat-preview">
+                                     alt="" class="cat-preview"
+                                     onerror="this.classList.add('d-none');this.src='';document.getElementById('featureImgPlaceholder').classList.remove('d-none');">
                                 <div class="cat-upload-placeholder d-none" id="featureImgPlaceholder">
                                     <i class="bi bi-image fs-2 mb-1 text-muted"></i>
                                     <small class="text-muted d-block">Click hoặc kéo thả ảnh mới</small>

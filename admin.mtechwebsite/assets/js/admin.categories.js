@@ -72,6 +72,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Kiểm tra ngay khi init (trang edit đã có ảnh sẵn)
         updateChangeBtn();
 
+        // Lắng nghe sự kiện lỗi ảnh (onerror từ PHP render) để cập nhật nút đổi ảnh
+        preview.addEventListener('error', function () {
+            this.classList.add('d-none');
+            this.src = '';
+            placeholder.classList.remove('d-none');
+            updateChangeBtn();
+        });
+
         // Chọn file qua dialog
         fileInput.addEventListener('change', function () {
             if (this.files[0]) {
@@ -250,6 +258,66 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             if (image1Error) image1Error.classList.add('d-none');
             if (img1Area)    img1Area.classList.remove('cat-upload-error');
+        }
+
+        // --- Validate ảnh Benefit (bắt buộc) ---
+        const benefitArea    = document.getElementById('benefitImgUploadArea');
+        const benefitInput   = document.getElementById('benefit_image');
+        const benefitPreview = benefitArea ? benefitArea.querySelector('.cat-preview') : null;
+        const hasOldBenefit  = benefitPreview
+                            && !benefitPreview.classList.contains('d-none')
+                            && benefitPreview.src
+                            && benefitPreview.src !== window.location.href;
+        const hasNewBenefit  = benefitInput && benefitInput.files && benefitInput.files.length > 0;
+
+        // Tạo/lấy error element cho benefit
+        let benefitError = document.getElementById('benefitImgError');
+        if (!benefitError && benefitArea) {
+            benefitError = document.createElement('div');
+            benefitError.id = 'benefitImgError';
+            benefitError.className = 'text-danger small mt-1 d-none';
+            benefitError.innerHTML = '<i class="bi bi-exclamation-circle me-1"></i>Vui lòng tải lên ảnh minh họa Benefit';
+            benefitArea.parentNode.insertBefore(benefitError, benefitArea.nextSibling);
+        }
+
+        if (isCreate ? !hasNewBenefit : (!hasOldBenefit && !hasNewBenefit)) {
+            if (benefitError) benefitError.classList.remove('d-none');
+            if (benefitArea)  benefitArea.classList.add('cat-upload-error');
+            if (valid) document.getElementById('detail-tab')?.click();
+            valid = false;
+        } else {
+            if (benefitError) benefitError.classList.add('d-none');
+            if (benefitArea)  benefitArea.classList.remove('cat-upload-error');
+        }
+
+        // --- Validate ảnh Dự án / Feature (bắt buộc) ---
+        const featureArea    = document.getElementById('featureImgUploadArea');
+        const featureInput   = document.getElementById('feature_image');
+        const featurePreview = featureArea ? featureArea.querySelector('.cat-preview') : null;
+        const hasOldFeature  = featurePreview
+                            && !featurePreview.classList.contains('d-none')
+                            && featurePreview.src
+                            && featurePreview.src !== window.location.href;
+        const hasNewFeature  = featureInput && featureInput.files && featureInput.files.length > 0;
+
+        // Tạo/lấy error element cho feature
+        let featureError = document.getElementById('featureImgError');
+        if (!featureError && featureArea) {
+            featureError = document.createElement('div');
+            featureError.id = 'featureImgError';
+            featureError.className = 'text-danger small mt-1 d-none';
+            featureError.innerHTML = '<i class="bi bi-exclamation-circle me-1"></i>Vui lòng tải lên ảnh minh họa Dự án';
+            featureArea.parentNode.insertBefore(featureError, featureArea.nextSibling);
+        }
+
+        if (isCreate ? !hasNewFeature : (!hasOldFeature && !hasNewFeature)) {
+            if (featureError) featureError.classList.remove('d-none');
+            if (featureArea)  featureArea.classList.add('cat-upload-error');
+            if (valid) document.getElementById('detail-tab')?.click();
+            valid = false;
+        } else {
+            if (featureError) featureError.classList.add('d-none');
+            if (featureArea)  featureArea.classList.remove('cat-upload-error');
         }
 
         if (!valid) return false;
