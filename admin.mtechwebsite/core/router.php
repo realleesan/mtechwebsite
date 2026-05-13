@@ -194,6 +194,17 @@ class AdminRouter
         $this->get('/footer/trash',          'FooterController@trash');
         $this->post('/footer/restore/{id}',   'FooterController@restore');
         $this->post('/footer/hard-delete/{id}', 'FooterController@hardDelete');
+        
+        // Social Links Management
+        $this->get('/footer/social',                'FooterController@social');
+        $this->get('/footer/social/{platform}',     'FooterController@editSocial');
+        $this->post('/footer/social/update',        'FooterController@updateSocial');
+        $this->post('/footer/social/bulk-toggle',   'FooterController@bulkToggleSocial');
+        $this->post('/footer/social/clear-urls',    'FooterController@clearSocialUrls');
+        
+        // Footer Settings
+        $this->get('/footer/settings',              'FooterController@settings');
+        $this->post('/footer/settings/update',      'FooterController@updateSettings');
 
         // ----------------------------------------
         // Settings
