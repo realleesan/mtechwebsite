@@ -187,7 +187,11 @@ class AdminRouter
         // ----------------------------------------
         // Header & Footer content
         // ----------------------------------------
-        $this->get('/header',               'HeaderController@edit');
+        $this->get('/header',               'HeaderController@index');
+        $this->get('/header/settings',      'HeaderController@settings');
+        $this->post('/header/settings/update', 'HeaderController@updateSettings');
+        $this->get('/header/profile',       'HeaderController@profile');
+        $this->post('/header/profile/update', 'HeaderController@updateProfile');
         $this->post('/header/update',       'HeaderController@update');
         
         // Footer Management

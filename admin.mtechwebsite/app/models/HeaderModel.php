@@ -90,15 +90,15 @@ class HeaderModel
      */
     public function getSettingsWithFallback()
     {
-        $defaults = [
-            'logo_path'         => 'assets/images/logo.png',
-            'logo_alt'          => 'Wokrate Industrial',
-            'phone'             => '0123 456 789',
-            'phone_href'        => '0123456789',
-            'iso_text'          => 'ISO 9001 - 2010',
-            'profile_pdf_path'  => 'assets/files/ho-so-nang-luc.pdf',
-            'profile_pdf_label' => 'Hồ Sơ Năng Lực',
-        ];
+         $defaults = [
+             'logo_path'         => 'assets/images/logo.png',
+             'logo_alt'          => 'Wokrate Industrial',
+             'phone'             => '0123 456 789',
+             'phone_href'        => '0123456789',
+             'iso_text'          => 'ISO 9001 - 2010',
+             'profile_pdf_path'  => '/assets/files/ho-so-nang-luc.pdf',
+             'profile_pdf_label' => 'Hồ Sơ Năng Lực',
+         ];
 
         $settings = $this->getSettings();
         if (!$settings) return $defaults;
