@@ -26,9 +26,22 @@
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     opacity: 0;
     z-index: 0;
     transition: opacity 1s ease;
+    filter: brightness(1.15) contrast(1.1) saturate(1.05);
+    object-fit: cover;
+}
+
+/* Overlay protection layer - bảo vệ nội dung */
+.slider_item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .slider_item.active {
@@ -43,11 +56,7 @@
     transition: opacity 1s ease;
 }
 
-.slider_overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-}
+/* Overlay đã được xử lý bằng ::before của .slider_item */
 
 /* Caption container */
 .slider_caption {
@@ -56,7 +65,7 @@
     right: 10%;
     transform: translateY(-50%);
     max-width: 680px;
-    z-index: 2;
+    z-index: 3;
     /* trạng thái ẩn mặc định: dịch xuống + trong suốt */
     opacity: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -88,6 +97,7 @@
     color: #FFFFFF;
     line-height: 65px;
     margin: 0 0 0 0;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .slider_line2 {
@@ -98,6 +108,7 @@
     color: #FFFFFF;
     line-height: 65px;
     margin: 0 0 20px 0;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .slider_highlight {
@@ -106,6 +117,7 @@
     font-weight: 700;
     font-style: normal;
     color: #1A3FBF;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .slider_desc {
@@ -117,6 +129,7 @@
     line-height: 28px;
     margin: 0 0 30px 0;
     max-width: 680px;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
 }
 
 /* CTA Button */
@@ -133,6 +146,7 @@
     text-decoration: none;
     line-height: 30px;
     transition: background 0.3s ease, color 0.3s ease;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .slider_btn:hover {

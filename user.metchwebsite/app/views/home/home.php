@@ -26,7 +26,7 @@
     <div class="home_slider" id="homeBannerSlider">
 
         <!-- Slide 1 -->
-        <div class="slider_item active" style="background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/slider1.jpg');">
+        <div class="slider_item active" style="background-image: url('assets/images/home_slider/home_slider1.jpg');">
             <div class="slider_overlay"></div>
             <div class="slider_caption">
                 <p class="slider_line1">Hơn 15 Năm Kinh Nghiệm</p>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Slide 2 -->
-        <div class="slider_item" style="background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/slider2.jpg');">
+        <div class="slider_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');">
             <div class="slider_overlay"></div>
             <div class="slider_caption">
                 <p class="slider_line1">Đối tác Chiến lược của</p>
@@ -48,7 +48,7 @@
         </div>
 
         <!-- Slide 3 -->
-        <div class="slider_item" style="background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/slider3.jpg');">
+        <div class="slider_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');">
             <div class="slider_overlay"></div>
             <div class="slider_caption">
                 <p class="slider_line1">Giải pháp Toàn diện cho</p>
