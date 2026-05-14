@@ -199,16 +199,6 @@ if (isset($homeProjects) && !empty($homeProjects)) {
     </div>
 </section>
 
-<!-- Quote/CTA Section -->
-<section class="quote_area">
-    <div class="container d-flex">
-        <h2 class="f_600 title_color mb-0">Chúng tôi cung cấp các giải pháp tư vấn kỹ thuật<br> <span class="f_play f_700">cho sự phát triển bền vững.</span></h2>
-        <div class="quote_button">
-            <a href="/lien-he" class="read_more quote_btn">Liên hệ ngay</a>
-        </div>
-    </div>
-</section>
-
 
 <!-- ==========================================
      SECTION 3: AWARDS, LATEST NEWS, PROMO, CTA
