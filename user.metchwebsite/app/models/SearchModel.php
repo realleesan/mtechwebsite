@@ -44,7 +44,7 @@ class SearchModel
                                    b.excerpt AS excerpt, b.created_at,
                                    b.category_id, b.expires_in_days, b.hiring_status
                             FROM `blogs` b
-                            WHERE b.status = 1
+                            WHERE b.status = 1 AND b.deleted_at IS NULL
                               AND (b.title LIKE ? OR b.excerpt LIKE ?)";
                 $params[]      = $like;
                 $params[]      = $like;

@@ -183,7 +183,7 @@ class BlogsModel
                 "SELECT bc.id, bc.name, bc.slug,
                         COUNT(b.id) AS post_count
                  FROM `blog_categories` bc
-                 LEFT JOIN `blogs` b ON b.category_id = bc.id AND b.status = 1
+                 LEFT JOIN `blogs` b ON b.category_id = bc.id AND b.status = 1 AND b.deleted_at IS NULL
                  WHERE bc.status = 1
                  GROUP BY bc.id
                  ORDER BY bc.sort_order ASC, bc.id ASC"
@@ -311,7 +311,7 @@ class BlogsModel
                 "SELECT b.id, b.title, b.slug, b.image, b.excerpt,
                         b.author, b.created_at
                  FROM `blogs` b
-                 WHERE b.status = 1
+                 WHERE b.status = 1 AND b.deleted_at IS NULL
                  ORDER BY b.created_at DESC
                  LIMIT ?"
             );
@@ -363,7 +363,7 @@ class BlogsModel
                  FROM `blogs` b
                  LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
                  LEFT JOIN `blog_details` bd ON bd.blog_id = b.id
-                 WHERE b.slug = ? AND b.status = 1
+                 WHERE b.slug = ? AND b.status = 1 AND b.deleted_at IS NULL
                  LIMIT 1"
             );
             $stmt->execute([$slug]);

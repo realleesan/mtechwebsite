@@ -516,9 +516,24 @@ class BlogsModel
         try {
             $db = $this->db;
 
+            // Chuẩn bị dữ liệu
+            $title       = $data['title'] ?? '';
+            $slug        = $data['slug'] ?? '';
+            $categoryId  = $data['category_id'] ?? null;
+            $excerpt     = $data['excerpt'] ?? '';
+            $content     = $data['content'] ?? '';
+            $image       = $data['image'] ?? '';
+            $author      = $data['author'] ?? 'Admin';
+            $status      = $data['status'] ?? 1;
+            $views       = $data['views'] ?? 0;
+            
+            // Recruitment fields (chỉ có giá trị nếu category_id = 7)
             $hiringStatus  = isset($data['hiring_status']) ? (int) $data['hiring_status'] : 1;
+            $position      = $data['position'] ?? '';
             $expiresRaw    = $data['expires_in_days'] ?? null;
             $expiresInDays = ($expiresRaw !== '' && $expiresRaw !== null) ? (int) $expiresRaw : null;
+            $contactEmail  = $data['contact_email'] ?? null;
+            $contactPhone  = $data['contact_phone'] ?? null;
 
             // Khớp đúng với cấu trúc bảng thực tế (DESCRIBE blogs)
             $sql = "INSERT INTO blogs (
@@ -529,20 +544,20 @@ class BlogsModel
 
             $stmt = $db->prepare($sql);
             $stmt->execute([
-                $data['title']         ?? '',
-                $data['slug']          ?? '',
-                $data['category_id']   ?? null,
-                $data['excerpt']       ?? '',
-                $data['content']       ?? '',
-                $data['image']         ?? '',
-                $data['author']        ?? 'Admin',
-                $data['status']        ?? 1,
-                $data['views']         ?? 0,
+                $title,
+                $slug,
+                $categoryId,
+                $excerpt,
+                $content,
+                $image,
+                $author,
+                $status,
+                $views,
                 $hiringStatus,
-                $data['position']      ?? '',
+                $position,
                 $expiresInDays,
-                $data['contact_email'] ?? null,
-                $data['contact_phone'] ?? null,
+                $contactEmail,
+                $contactPhone,
             ]);
 
             return $db->lastInsertId();
