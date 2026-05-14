@@ -87,6 +87,10 @@
             echo '<link rel="stylesheet" href="/assets/css/admin.footer.css">';
             break;
 
+        case 'header':
+            echo '<link rel="stylesheet" href="/assets/css/admin.header.css">';
+            break;
+
         case 'teams':
         case 'team.create':
         case 'team.edit':
@@ -262,6 +266,10 @@ switch($currentPage) {
     case 'footer-social-edit':
     case 'footer-settings':
         echo '<script src="/assets/js/admin.footer.js"></script>';
+        break;
+
+    case 'header':
+        echo '<script src="/assets/js/admin.header.js"></script>';
         break;
 
     case 'teams':

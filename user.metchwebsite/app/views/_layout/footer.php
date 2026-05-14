@@ -100,7 +100,7 @@ $companyInfo = [
                                 <ul class="list-unstyled mb-0">
                                     <?php foreach ($services as $service): ?>
                                     <li>
-                                        <a href="/?page=categories-details&slug=<?php echo urlencode($service['slug']); ?>">
+                                        <a href="/dich-vu-<?php echo htmlspecialchars($service['slug']); ?>">
                                             <?php echo htmlspecialchars($service['name']); ?>
                                         </a>
                                     </li>

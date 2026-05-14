@@ -104,3 +104,10 @@ ErrorDocument 403 /404.html
 <IfModule mod_rewrite.c>
     RewriteRule ^\.git - [F,L]
 </IfModule>
+
+# ==========================================
+# PHP UPLOAD SETTINGS
+# ==========================================
+php_value upload_max_filesize 50M
+php_value post_max_size 50M
+php_value memory_limit 128M
