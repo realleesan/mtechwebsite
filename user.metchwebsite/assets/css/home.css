@@ -81,35 +81,38 @@
 
 /* Caption lines */
 .slider_line1 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 50px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     color: #FFFFFF;
     line-height: 65px;
     margin: 0 0 0 0;
 }
 
 .slider_line2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 50px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     color: #FFFFFF;
     line-height: 65px;
     margin: 0 0 20px 0;
 }
 
 .slider_highlight {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 50px;
     font-weight: 700;
+    font-style: normal;
     color: #1A3FBF;
-    font-style: italic;
 }
 
 .slider_desc {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 20px;
     font-weight: 400;
+    font-style: normal;
     color: #FFFFFF;
     line-height: 28px;
     margin: 0 0 30px 0;
@@ -119,9 +122,10 @@
 /* CTA Button */
 .slider_btn {
     display: inline-block;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 700;
+    font-style: normal;
     color: #FFFFFF;
     background: #1A3FBF;
     padding: 12px 42px;
@@ -197,16 +201,19 @@
 }
 
 .promo_box_body h3 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     margin: 0 0 12px 0;
     line-height: 1.3;
 }
 
 .promo_box_body p {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
     line-height: 1.7;
     margin: 0;
 }
@@ -286,35 +293,39 @@
 }
 
 .welcome_sub {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
     font-weight: 400;
+    font-style: normal;
     color: #888;
-    font-style: italic;
     margin: 0 0 15px 0;
 }
 
 .welcome_title {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 40px;
-    font-weight: 300;
+    font-weight: 700;
+    font-style: normal;
     color: #242424;
     line-height: 1.2;
     margin: 0 0 25px 0;
 }
 
 .welcome_desc {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
     color: #333333;
     line-height: 1.8;
     margin: 0 0 25px 0;
 }
 
 .welcome_ceo {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     color: #242424;
     margin: 0 0 20px 0;
 }
@@ -444,9 +455,10 @@
 }
 
 .section_title h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     color: #1E3070;
     margin-bottom: 15px;
 }
@@ -460,8 +472,10 @@
 }
 
 .section_title p {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
     color: #8AA0C8;
     line-height: 26px;
     max-width: 600px;
@@ -498,8 +512,9 @@
 }
 
 .f_play {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
+    font-family: 'Object Sans', sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
 
 .mb_55 {
@@ -582,9 +597,10 @@
     background: #1a1a1a;
     color: #fff;
     text-decoration: none;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
+    font-style: normal;
     border-radius: 3px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -598,9 +614,10 @@
 }
 
 .service_item h3 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     color: #333;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -709,9 +726,10 @@
     left: 0;
     right: 0;
     color: #fff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 700;
+    font-style: normal;
     margin: 0;
     padding: 15px;
     z-index: 2;
@@ -817,9 +835,10 @@
 }
 
 .quote_area h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     color: #FFFFFF;
     line-height: 1.4;
     margin: 0;
@@ -827,8 +846,8 @@
 
 .quote_area h2 span {
     color: #A8C8FF;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
+    font-family: 'Object Sans', sans-serif;
+    font-style: normal;
     font-weight: 700;
 }
 
@@ -845,7 +864,8 @@
     border-radius: 25px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     text-decoration: none;
     display: inline-block;
     transition: all 0.3s ease;
@@ -928,9 +948,10 @@
 
 /* Tên — đen đậm */
 .testimonial_item h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
     font-weight: 700;
+    font-style: normal;
     color: #111;
     margin: 0 0 4px;
     line-height: 1.4;
@@ -938,10 +959,11 @@
 
 /* Địa điểm — nghiêng, nhạt */
 .country_name {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
     color: #A0A0A0;
-    font-style: italic;
     margin-bottom: 16px;
     line-height: 1.4;
 }
@@ -952,8 +974,10 @@
 
 /* Nội dung — chừa chỗ dưới cho q_icon */
 .testimonial_item p {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
     color: #0F1A40;
     line-height: 1.75;
     flex: 1;
@@ -1036,9 +1060,10 @@
 
 /* Tiêu đề "Latest News" */
 .lt_news_content h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 32px;
     font-weight: 700;
+    font-style: normal;
     color: #fff;
     margin: 0;
     line-height: 1.25;
@@ -1056,8 +1081,10 @@
 
 /* Đoạn văn mô tả */
 .lt_news_content p {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
     color: rgba(255,255,255,0.85);
     line-height: 1.85;
     margin: 0 0 32px;
@@ -1069,9 +1096,10 @@
     padding: 12px 36px;
     background: #1A3FBF;
     color: #fff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     text-decoration: none;
     border-radius: 30px;
     text-transform: uppercase;
@@ -1154,9 +1182,10 @@
 }
 
 .lt_news_item .media-body h4 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
     font-weight: 700;
+    font-style: normal;
     color: #1E3070;
     margin: 0 0 6px;
     line-height: 1.4;
@@ -1173,8 +1202,10 @@
 }
 
 .lt_news_item .media-body p {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
     color: #666;
     line-height: 1.65;
     margin: 0 0 8px;
@@ -1188,8 +1219,10 @@
 }
 
 .blog-meta a {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 13px;
+    font-weight: 400;
+    font-style: normal;
     color: #999;
     text-decoration: none;
     transition: color 0.2s;
@@ -1280,9 +1313,10 @@
 }
 
 .promo_col_left h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 22px;
     font-weight: 700;
+    font-style: normal;
     color: #fff;
     line-height: 1.55;
     margin: 0;
@@ -1291,7 +1325,7 @@
 /* Từ "automotive" — nghiêng, không đậm */
 .promo_italic {
     font-weight: 400;
-    font-style: italic;
+    font-style: normal;
 }
 
 /* Đường kẻ dọc trắng chia đôi */
@@ -1311,9 +1345,10 @@
 }
 
 .promo_col_right .p_text {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 15px;
     font-weight: 400;
+    font-style: normal;
     color: rgba(255, 255, 255, 0.88);
     line-height: 1.85;
     margin: 0;
@@ -1356,9 +1391,10 @@
 }
 
 .c_logo_text {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 22px;
     font-weight: 700;
+    font-style: normal;
     color: #FFFFFF;
     letter-spacing: 1px;
 }
@@ -1397,9 +1433,10 @@
 }
 
 .contact_info_body a {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     color: #FFFFFF;
     text-decoration: none;
     display: block;
@@ -1412,8 +1449,10 @@
 }
 
 .contact_info_body p {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
     color: #FFFFFF;
     margin: 0;
     line-height: 1.5;
@@ -1441,7 +1480,8 @@
     color: #333;
     background: #fafafa;
     transition: border-color 0.25s;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Object Sans', sans-serif;
+    font-style: normal;
 }
 
 .contact_us_form .form-control:focus {
@@ -1460,9 +1500,10 @@
 .submit_btn {
     padding: 13px 38px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
+    font-style: normal;
     border-radius: 30px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
     text-transform: capitalize;
     letter-spacing: 0.3px;
 }

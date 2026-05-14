@@ -1,0 +1,271 @@
+/**
+ * typography.css
+ * 
+ * Định nghĩa font chữ cho toàn site
+ * - Tiêu đề, chữ lớn, highlight: Object Sans Bold
+ * - Nội dung, tiêu đề nhỏ: Object Sans Regular
+ * - Bỏ tất cả hiệu ứng nghiêng (italic)
+ */
+
+/* ========================================== */
+/* GLOBAL FONT SETTINGS */
+/* ========================================== */
+
+:root {
+    --font-primary: 'Object Sans', sans-serif;
+    --font-secondary: 'Object Sans', sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+}
+
+/* Base body font */
+body {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================== */
+/* HEADINGS - Tiêu đề lớn (Bold) */
+/* ========================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 2rem;
+    line-height: 1.3;
+}
+
+h3 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+}
+
+h4 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+}
+
+h5 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+}
+
+h6 {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* ========================================== */
+/* PARAGRAPH & TEXT - Nội dung (Regular) */
+/* ========================================== */
+
+p {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+}
+
+/* ========================================== */
+/* STRONG & BOLD - Chữ đậm (Bold) */
+/* ========================================== */
+
+strong, b, .bold, .font-weight-bold {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* EMPHASIS - Bỏ italic, thay bằng normal */
+/* ========================================== */
+
+em, i, .italic, .font-italic {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* LINKS */
+/* ========================================== */
+
+a {
+    font-family: var(--font-primary);
+    font-style: normal;
+    text-decoration: none;
+}
+
+a:hover {
+    font-style: normal;
+}
+
+/* ========================================== */
+/* SMALL TEXT & LABELS - Tiêu đề nhỏ (Regular) */
+/* ========================================== */
+
+small, .small, label, .label {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* HIGHLIGHT & ACCENT - Chữ highlight (Bold) */
+/* ========================================== */
+
+mark, .highlight, .accent, .text-highlight {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* BUTTONS - Nút (Bold) */
+/* ========================================== */
+
+button, .btn, input[type="button"], input[type="submit"] {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* FORM ELEMENTS */
+/* ========================================== */
+
+input, textarea, select {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* CODE & PREFORMATTED */
+/* ========================================== */
+
+code, pre, .code {
+    font-family: 'Courier New', monospace;
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* UTILITY CLASSES */
+/* ========================================== */
+
+.f_300 {
+    font-family: var(--font-primary);
+    font-weight: 300;
+    font-style: normal;
+}
+
+.f_400 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+}
+
+.f_500 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+.f_600 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-semibold);
+    font-style: normal;
+}
+
+.f_700 {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* TITLE CLASSES - Tiêu đề (Bold) */
+/* ========================================== */
+
+.title, .title_color, .main-title, .section-title {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* SUBTITLE CLASSES - Tiêu đề phụ (Regular) */
+/* ========================================== */
+
+.subtitle, .sub-title, .section-subtitle {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* CONTENT CLASSES - Nội dung (Regular) */
+/* ========================================== */
+
+.content, .text-content, .description {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+}
+
+/* ========================================== */
+/* REMOVE ALL ITALIC STYLES */
+/* ========================================== */
+
+*[style*="italic"],
+*[style*="font-style: italic"] {
+    font-style: normal !important;
+}
+
+/* ========================================== */
+/* RESPONSIVE TYPOGRAPHY */
+/* ========================================== */
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+    }
+    
+    h4 {
+        font-size: 1.1rem;
+    }
+    
+    h5 {
+        font-size: 1rem;
+    }
+    
+    h6 {
+        font-size: 0.9rem;
+    }
+}

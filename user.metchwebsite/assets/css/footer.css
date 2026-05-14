@@ -10,7 +10,8 @@
     background-position: center, top;
     background-repeat: no-repeat, no-repeat;
     color: #A8B8D8;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Object Sans', sans-serif;
+    font-style: normal;
     padding-top: 90px;
 }
 
@@ -100,8 +101,9 @@
 }
 
 .footer_logo_text {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
+    font-family: 'Object Sans', sans-serif;
+    font-weight: 700;
+    font-style: normal;
     font-size: 22px;
     color: #FFFFFF;
     letter-spacing: 3px;
@@ -112,7 +114,10 @@
 
 /* About Widget */
 .about_widget p {
+    font-family: 'Object Sans', sans-serif;
     font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
     line-height: 26px;
     color: #A8B8D8;
     margin-bottom: 15px;
@@ -135,6 +140,8 @@
     color: #ffffff;
     margin-bottom: 25px;
     font-weight: 700;
+    font-style: normal;
+    font-family: 'Object Sans', sans-serif;
 }
 
 .f_size_20 {

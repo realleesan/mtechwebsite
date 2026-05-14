@@ -296,7 +296,7 @@ include_once __DIR__ . '/../about/awards.php';
     <div class="container">
         <div class="promo_info">
             <div class="promo_col_left">
-                <h2>Chúng tôi tự hào đồng hành cùng các tập đoàn lớn, tạo ra những công trình công nghiệp <span class="promo_italic">bền vững</span> và hiệu quả trên toàn quốc.</h2>
+                <h2>Chúng tôi tự hào đồng hành cùng các tập đoàn lớn, tạo ra những công trình công nghiệp bền vững và hiệu quả trên toàn quốc.</h2>
             </div>
             <div class="promo_divider_v"></div>
             <div class="promo_col_right">
