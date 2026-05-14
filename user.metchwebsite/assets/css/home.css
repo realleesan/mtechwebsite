@@ -34,6 +34,16 @@
     object-fit: cover;
 }
 
+/* Overlay mờ toàn bộ ảnh slider - giảm độ sáng xuống 10% */
+.slider_item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.05);
+    z-index: 1;
+    pointer-events: none;
+}
+
 /* Overlay protection layer - bảo vệ nội dung */
 .slider_item::before {
     content: '';
@@ -65,7 +75,7 @@
     right: 10%;
     transform: translateY(-50%);
     max-width: 680px;
-    z-index: 3;
+    z-index: 5;
     /* trạng thái ẩn mặc định: dịch xuống + trong suốt */
     opacity: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;

@@ -30,9 +30,63 @@ body {
     justify-content: space-between;
     width: 100%;
     padding: 0 45px;
+    min-height: 60px;
 }
 
 .topbar_left {
+    display: flex;
+    align-items: center;
+}
+
+/* Topbar Logo */
+.topbar_logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    height: 100%;
+}
+
+.topbar_logo_img {
+    height: 85px;
+    width: auto;
+    display: block;
+}
+
+.topbar_logo_text {
+    font-family: 'Object Sans', sans-serif;
+    font-style: normal;
+    font-weight: 750;
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-transform: uppercase;
+    display: none;
+}
+
+/* Company Name in Navbar */
+.navbar_brand_text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+    padding-left: 0;
+    /* Căn chỉnh trục với logo: topbar height (60px) / 2 - navbar height / 2 */
+    transform: translateY(calc((60px - 80px) / 2));
+}
+
+.navbar_brand_text_content {
+    font-family: 'Object Sans', sans-serif;
+    font-style: normal;
+    font-weight: 750;
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
     display: flex;
     align-items: center;
 }
@@ -278,6 +332,8 @@ body {
     justify-content: space-between;
     width: 100%;
     padding: 0 45px;
+    min-height: 80px;
+    gap: 20px;
 }
 
 /* -- Logo -- */
@@ -324,6 +380,7 @@ body {
     padding-top: 15px;
     padding-bottom: 15px;
     min-height: 80px;
+    margin-left: auto;
 }
 
 /* -- Menu list -- */
@@ -557,6 +614,9 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
     .navbar-toggler { display: block; }
 
     .header-phone { display: none; }
+
+    /* Hide navbar brand text on mobile */
+    .navbar_brand_text { display: none; }
 
     /* Slide-in sidebar */
     .navbar-collapse {

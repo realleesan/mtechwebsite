@@ -5,7 +5,7 @@
 
 /* Footer Area */
 .footer_area {
-    background-image: linear-gradient(rgba(13, 27, 62, 0.94), rgba(13, 27, 62, 0.94)), url('../images/about_our_mission_bg.png');
+    background-image: linear-gradient(rgba(13, 27, 62, 0.94), rgba(13, 27, 62, 0.94)), url('../images/header_banner.png');
     background-size: cover, cover;
     background-position: center, top;
     background-repeat: no-repeat, no-repeat;

@@ -34,13 +34,11 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
     <!-- Top Bar -->
     <div class="header_top_five">
         <div class="topbar_inner">
-            <!-- Left: Call Us Today (thẳng hàng logo) -->
+            <!-- Left: Logo Only -->
             <div class="topbar_left">
-                <span class="topbar_phone">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;opacity:0.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    Liên hệ ngay
-                    <a href="tel:<?php echo htmlspecialchars($headerSettings['phone_href']); ?>"><?php echo htmlspecialchars($headerSettings['phone']); ?></a>
-                </span>
+                <a class="topbar_logo" href="./">
+                    <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" class="topbar_logo_img">
+                </a>
             </div>
 
             <!-- Right: ISO + Translate + Download Button (thẳng hàng menu) -->
@@ -63,11 +61,10 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
 
     <!-- Main Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light menu_absolute">
-        <!-- Logo -->
-        <a class="navbar-brand" href="./">
-            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" class="logo-img">
-            <span class="logo-text">MTECH.JSC</span>
-        </a>
+        <!-- Company Name Below Navbar -->
+        <div class="navbar_brand_text">
+            <span class="navbar_brand_text_content">MTECH.JSC</span>
+        </div>
         
         <!-- Hamburger Menu Button for Mobile -->
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +94,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 
                 <!-- Home -->
                 <li class="nav-item <?php echo ($currentPage === 'home') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="./" title="Home">Trang chủ</a>
+                    <a class="nav-link" href="./" title="Home">TRANG CHỦ</a>
                 </li>
                 
                 <!-- About -->
@@ -107,21 +104,21 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 ?>
                 <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Về chúng tôi" onclick="return false;">
-                        Về chúng tôi
+                        VỀ CHÚNG TÔI
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a class="nav-link" href="/ve-chung-toi" title="Về chúng tôi">Về chúng tôi</a>
+                            <a class="nav-link" href="/ve-chung-toi" title="Về chúng tôi">VỀ CHÚNG TÔI</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">Lịch sử hình thành & phát triển</a>
+                            <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">LỊCH SỬ HÌNH THÀNH & PHÁT TRIỂN</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/doi-ngu" title="Teams">Đội ngũ</a>
+                            <a class="nav-link" href="/doi-ngu" title="Teams">ĐỘI NGŨ</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/giai-thuong-chung-chi" title="Giải thưởng & Chứng chỉ">Giải thưởng & Chứng chỉ</a>
+                            <a class="nav-link" href="/giai-thuong-chung-chi" title="Giải thưởng & Chứng chỉ">GIẢI THƯỞNG & CHỨNG CHỈ</a>
                         </li>
                     </ul>
                 </li>
@@ -129,17 +126,17 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 <!-- Services -->
                 <li class="nav-item submenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Services" onclick="return false;">
-                        Dịch vụ cung cấp
+                        DỊCH VỤ CUNG CẤP
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/dich-vu" title="All Services">Tất cả dịch vụ</a>
+                            <a class="nav-link" href="/dich-vu" title="All Services">TẤT CẢ DỊCH VỤ</a>
                         </li>
                         <?php foreach ($menuServices as $service): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/dich-vu-<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
-                                <?php echo htmlspecialchars($service['name']); ?>
+                                <?php echo strtoupper(htmlspecialchars($service['name'])); ?>
                             </a>
                         </li>
                         <?php endforeach; ?>
@@ -149,17 +146,17 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 <!-- Projects -->
                 <li class="nav-item submenu <?php echo ($currentPage === 'projects' || $currentPage === 'project-details') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Dự án" onclick="return false;">
-                        Dự án
+                        DỰ ÁN
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/du-an" title="Tất cả dự án">Tất cả dự án</a>
+                            <a class="nav-link" href="/du-an" title="Tất cả dự án">TẤT CẢ DỰ ÁN</a>
                         </li>
                         <?php foreach ($menuProjects as $project): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/chi-tiet-du-an-<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
-                                <?php echo htmlspecialchars($project['title']); ?>
+                                <?php echo strtoupper(htmlspecialchars($project['title'])); ?>
                             </a>
                         </li>
                         <?php endforeach; ?>
@@ -168,7 +165,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
 
                 <!-- Tuyển Dụng -->
                 <li class="nav-item <?php echo (isset($_GET['cat']) && $_GET['cat'] == '7') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/tuyen-dung" title="Tuyển Dụng">Tuyển Dụng</a>
+                    <a class="nav-link" href="/tuyen-dung" title="Tuyển Dụng">TUYỂN DỤNG</a>
                 </li>
 
                 <!-- Blog -->
@@ -181,17 +178,17 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 ?>
                 <li class="nav-item submenu <?php echo $isBlogActive ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">
-                        Tin tức
+                        TIN TỨC
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="/tin-tuc" title="Tất cả tin tức">Tất cả tin tức</a>
+                            <a class="nav-link" href="/tin-tuc" title="Tất cả tin tức">TẤT CẢ TIN TỨC</a>
                         </li>
                         <?php foreach ($menuBlogCategories as $category): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/tin-tuc-<?php echo urlencode($category['slug']); ?>" title="<?php echo htmlspecialchars($category['name']); ?>">
-                                <?php echo htmlspecialchars($category['name']); ?>
+                                <?php echo strtoupper(htmlspecialchars($category['name'])); ?>
                             </a>
                         </li>
                         <?php endforeach; ?>
@@ -200,7 +197,7 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                 
                 <!-- Contact -->
                 <li class="nav-item <?php echo ($currentPage === 'contact') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/lien-he" title="Liên hệ">Liên hệ</a>
+                    <a class="nav-link" href="/lien-he" title="Liên hệ">LIÊN HỆ</a>
                 </li>
 
                 <!-- Search Icon -->
