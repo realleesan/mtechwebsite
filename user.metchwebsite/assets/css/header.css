@@ -206,15 +206,15 @@ body {
     z-index: 9999;
 }
 
-/* Gradient protection layer - chỉ khi scroll = 0 (main_menu_area) */
-.main_menu_area::before {
+/* Gradient protection layer - chỉ khi scroll = 0 (main_menu_area) và trên trang home */
+.home-page .main_menu_area::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 120px;
-    background: linear-gradient(to bottom, rgba(58, 95, 223, 1) 28%, transparent 100%);
+    background: linear-gradient(to bottom, rgba(58, 95, 223, 1) 30%, transparent 100%);
     z-index: -1;
     pointer-events: none;
     opacity: 1;
@@ -222,7 +222,7 @@ body {
 }
 
 /* Bỏ gradient khi sticky */
-.main_menu_area.sticky::before {
+.home-page .main_menu_area.sticky::before {
     opacity: 0;
     pointer-events: none;
 }
