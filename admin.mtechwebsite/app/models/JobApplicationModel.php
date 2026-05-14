@@ -350,9 +350,10 @@ class JobApplicationModel
             );
             $result = $stmt->execute([$id]);
 
-            // Xóa file CV nếu tồn tại
+            // Xóa file CV — file nằm ở user.metchwebsite/uploads/cvs/
             if ($result && !empty($app['cv_file'])) {
-                $fullPath = __DIR__ . '/../../' . $app['cv_file'];
+                $cvRelative = ltrim($app['cv_file'], '/');
+                $fullPath   = __DIR__ . '/../../../user.metchwebsite/' . $cvRelative;
                 if (file_exists($fullPath)) {
                     @unlink($fullPath);
                 }

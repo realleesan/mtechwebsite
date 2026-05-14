@@ -67,13 +67,14 @@ class JobApplicationModel
                 return ['success' => false, 'id' => null, 'error' => $uploadResult['error']];
             }
 
-            $cvPath = $uploadResult['path'];
+            $cvPath = $uploadResult['path'];      // absolute URL
+            $cvFile = $uploadResult['filename'];  // tên file để lưu cv_file
 
-            // Lưu vào database
+            // Lưu vào database — cv_file giữ tên file, cv_url lưu absolute URL
             $stmt = $this->db->prepare(
                 "INSERT INTO `job_applications` 
-                (`blog_id`, `full_name`, `email`, `phone`, `position`, `cv_file`, `message`, `status`, `created_at`) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NOW())"
+                (`blog_id`, `full_name`, `email`, `phone`, `position`, `cv_file`, `cv_url`, `message`, `status`, `created_at`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())"
             );
             $stmt->execute([
                 $blogId,
@@ -81,7 +82,8 @@ class JobApplicationModel
                 $email,
                 $phone,
                 $position,
-                $cvPath,
+                $cvFile,   // tên file: cv_xxx.pdf
+                $cvPath,   // absolute URL: https://truongvinalogistics.com.vn/uploads/cvs/cv_xxx.pdf
                 $message
             ]);
 
@@ -175,14 +177,19 @@ class JobApplicationModel
         // Tạo tên file unique
         $fileName = 'cv_' . uniqid() . '_' . time() . '.pdf';
         $filePath = $this->uploadDir . $fileName;
-        $webPath = 'uploads/cvs/' . $fileName;
+
+        // Lưu vào DB dạng absolute URL của user site
+        // để admin site có thể download qua HTTP bất kể cấu trúc server
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host     = $_SERVER['HTTP_HOST'] ?? 'truongvinalogistics.com.vn';
+        $webPath  = $protocol . '://' . $host . '/uploads/cvs/' . $fileName;
 
         // Di chuyển file
         if (!move_uploaded_file($file['tmp_name'], $filePath)) {
             return ['success' => false, 'path' => null, 'error' => 'Không thể lưu file'];
         }
 
-        return ['success' => true, 'path' => $webPath, 'error' => null];
+        return ['success' => true, 'path' => $webPath, 'filename' => $fileName, 'error' => null];
     }
 
     /**

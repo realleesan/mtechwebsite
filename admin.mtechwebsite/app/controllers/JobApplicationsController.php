@@ -147,28 +147,39 @@ class JobApplicationsController extends BaseController
     public function downloadCv($id)
     {
         $app = $this->model->getApplicationById($id);
-        if (!$app || empty($app['cv_file'])) {
-            $_SESSION['error'] = 'Không tìm thấy file CV';
+        if (!$app) {
+            $_SESSION['error'] = 'Không tìm thấy đơn ứng tuyển';
             $this->redirect('/job-applications');
             return;
         }
 
-        // cv_file lưu dạng 'uploads/cvs/cv_xxx.pdf' — resolve từ root project
-        $filePath = __DIR__ . '/../../' . ltrim($app['cv_file'], '/');
+        // Ưu tiên cv_url (absolute URL) — được thêm từ migration 027
+        // Fallback sang cv_file nếu cv_url chưa có
+        $cvUrl = !empty($app['cv_url']) ? $app['cv_url'] : null;
 
-        if (!file_exists($filePath)) {
-            $_SESSION['error'] = 'File CV không tồn tại trên server';
+        // Nếu cv_url chưa có, thử build từ cv_file
+        if (!$cvUrl && !empty($app['cv_file'])) {
+            $cvFile = $app['cv_file'];
+            if (filter_var($cvFile, FILTER_VALIDATE_URL)) {
+                // cv_file đã là absolute URL (dữ liệu trung gian)
+                $cvUrl = $cvFile;
+            } else {
+                // cv_file là relative path → build URL
+                $cvUrl = 'https://truongvinalogistics.com.vn/' . ltrim($cvFile, '/');
+            }
+        }
+
+        if (!$cvUrl) {
+            $_SESSION['error'] = 'Không tìm thấy file CV';
             $this->redirect('/job-applications/view/' . $id);
             return;
         }
 
         $fileName = 'CV_' . preg_replace('/[^a-zA-Z0-9_\-]/', '_', $app['full_name'] ?? 'ung_vien') . '.pdf';
 
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename="' . $fileName . '"');
-        header('Content-Length: ' . filesize($filePath));
-        header('Cache-Control: private, no-cache');
-        readfile($filePath);
+        // Redirect thẳng sang URL public — đơn giản, không cần proxy
+        // Trình duyệt sẽ tải file trực tiếp từ user site
+        header('Location: ' . $cvUrl);
         exit;
     }
 
