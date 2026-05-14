@@ -206,7 +206,7 @@ body {
     z-index: 9999;
 }
 
-/* Gradient protection layer - bảo vệ header khi transparent */
+/* Gradient protection layer - chỉ khi scroll = 0 (main_menu_area) */
 .main_menu_area::before {
     content: '';
     position: absolute;
@@ -216,6 +216,14 @@ body {
     height: 120px;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
     z-index: -1;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Bỏ gradient khi sticky */
+.main_menu_area.sticky::before {
+    opacity: 0;
     pointer-events: none;
 }
 
@@ -234,6 +242,33 @@ body {
 
 .main_menu_area.sticky {
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Sticky state - override nav link colors */
+.main_menu_area.sticky ul.menu > li.nav-item > a.nav-link {
+    color: #fff !important;
+}
+
+.main_menu_area.sticky ul.menu > li.nav-item:hover > a.nav-link,
+.main_menu_area.sticky ul.menu > li.nav-item.active > a.nav-link {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    text-shadow: none;
+}
+
+/* Sticky state - border bottom white for active */
+.main_menu_area.sticky ul.menu > li.nav-item > a.nav-link::after {
+    background: #1a3fbf;
+}
+
+.main_menu_area.sticky ul.menu > li.nav-item.active > a.nav-link::after {
+    background: #ffffff;
+}
+
+.main_menu_area.sticky ul.menu > li.nav-item:hover > a.nav-link::after,
+.main_menu_area.sticky ul.menu > li.nav-item.active > a.nav-link::after {
+    opacity: 1;
 }
 
 /* -- Navbar container -- */
@@ -320,12 +355,38 @@ ul.menu > li.nav-item > a.nav-link {
     display: flex;
     align-items: center;
     gap: 5px;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, border-radius 0.3s ease;
+    position: relative;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+/* Border bottom indicator */
+ul.menu > li.nav-item > a.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    height: 3px;
+    background: #1a3fbf;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 ul.menu > li.nav-item:hover > a.nav-link,
 ul.menu > li.nav-item.active > a.nav-link {
-    color: #4D7FFF !important;
+    color: #1a3fbf !important;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    text-shadow: none;
+    font-weight: 600;
+}
+
+ul.menu > li.nav-item:hover > a.nav-link::after,
+ul.menu > li.nav-item.active > a.nav-link::after {
+    opacity: 1;
 }
 
 /* -- Caret arrow -- */
