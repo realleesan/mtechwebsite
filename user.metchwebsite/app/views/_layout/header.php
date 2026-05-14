@@ -45,9 +45,6 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
 
             <!-- Right: ISO + Translate + Download Button (thẳng hàng menu) -->
             <div class="topbar_right">
-                <div class="topbar_iso"><?php echo htmlspecialchars($headerSettings['iso_text']); ?></div>
-                <div class="topbar_divider"></div>
-
                 <!-- Language Switcher (Elfsight) -->
                 <div class="topbar_lang">
                     <div class="elfsight-app-0f1ebd7d-aee6-4ddc-b2ba-1eba802b9ca5" data-elfsight-app-lazy></div>
