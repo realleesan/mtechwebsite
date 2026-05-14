@@ -99,6 +99,22 @@ if (!empty($category['faq_items'])) {
                             </div>
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label d-block">Vị trí hiển thị</label>
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                           id="show_in_footer" name="show_in_footer" value="1"
+                                           <?= !empty($category['show_in_footer']) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="show_in_footer">
+                                        <i class="bi bi-layout-text-window-reverse me-1 text-secondary"></i>
+                                        Hiển thị ở Footer
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-text">Dịch vụ sẽ xuất hiện trong cột dịch vụ ở footer trang web</div>
+                        </div>
+
                     </div>
 
                     <!-- Right col: Ảnh đại diện -->

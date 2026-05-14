@@ -310,6 +310,7 @@ class CategoriesController extends BaseController
             'faq_items'           => $faqItems,
             'status'              => (int)($_POST['status']             ?? 1),
             'sort_order'          => (int)($_POST['sort_order']         ?? 0),
+            'show_in_footer'      => isset($_POST['show_in_footer']) ? 1 : 0,
         ];
     }
 

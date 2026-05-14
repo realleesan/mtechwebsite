@@ -42,7 +42,7 @@ class CategoriesModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, image, description, status, sort_order, created_at
+                "SELECT id, name, slug, image, description, status, sort_order, show_in_footer, created_at
                  FROM `{$this->table}`
                  WHERE deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
@@ -245,8 +245,8 @@ class CategoriesModel
                   feature_image,
                   feature_1_icon, feature_1_title, feature_1_text,
                   feature_2_icon, feature_2_title, feature_2_text,
-                  faq_items, status, sort_order)
-                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                  faq_items, status, sort_order, show_in_footer)
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             );
             $ok = $stmt->execute([
                 $data['name'],
@@ -268,6 +268,7 @@ class CategoriesModel
                 $data['faq_items']           ?? null,
                 $data['status']              ?? 1,
                 $data['sort_order']          ?? 0,
+                $data['show_in_footer']      ?? 0,
             ]);
             return $ok ? (int)$this->db->lastInsertId() : false;
         } catch (PDOException $e) {
@@ -289,7 +290,7 @@ class CategoriesModel
                  feature_image = ?,
                  feature_1_icon = ?, feature_1_title = ?, feature_1_text = ?,
                  feature_2_icon = ?, feature_2_title = ?, feature_2_text = ?,
-                 faq_items = ?, status = ?, sort_order = ?
+                 faq_items = ?, status = ?, sort_order = ?, show_in_footer = ?
                  WHERE id = ?"
             );
             return $stmt->execute([
@@ -312,6 +313,7 @@ class CategoriesModel
                 $data['faq_items']           ?? null,
                 $data['status']              ?? 1,
                 $data['sort_order']          ?? 0,
+                $data['show_in_footer']      ?? 0,
                 $id,
             ]);
         } catch (PDOException $e) {

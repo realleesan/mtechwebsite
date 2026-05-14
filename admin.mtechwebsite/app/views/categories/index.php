@@ -56,6 +56,11 @@
                         <?php else: ?>
                             <span class="badge bg-secondary">Ẩn</span>
                         <?php endif; ?>
+                        <?php if (!empty($cat['show_in_footer'])): ?>
+                            <span class="badge bg-info mt-1 d-block" style="width:fit-content">
+                                <i class="bi bi-layout-text-window-reverse me-1"></i>Footer
+                            </span>
+                        <?php endif; ?>
                     </td>
                     <td class="text-muted small">
                         <?= !empty($cat['created_at']) ? date('d/m/Y', strtotime($cat['created_at'])) : '—' ?>
