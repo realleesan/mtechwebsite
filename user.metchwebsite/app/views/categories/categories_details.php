@@ -59,16 +59,6 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                         <?php endforeach; ?>
                     </ul>
 
-                    <!-- Tải tài liệu -->
-                    <div class="download_info">
-                        <a href="#" class="download-btn2">
-                            <i class="fa fa-file-pdf-o"></i> Tải tài liệu PDF
-                        </a>
-                        <a href="#" class="download-btn2">
-                            <i class="fa fa-file-word-o"></i> Tải tài liệu DOC
-                        </a>
-                    </div>
-
                 </div>
             </div><!-- /.col-lg-3 -->
 
