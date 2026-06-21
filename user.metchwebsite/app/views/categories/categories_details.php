@@ -39,27 +39,23 @@ $currentSlug = $categoryDetail['slug'] ?? '';
         <div class="row">
 
             <!-- ================================================
-                 SIDEBAR TRÁI
+                 SIDEBAR TRÁI - Unified Sidebar Design
                  ================================================ -->
             <div class="col-lg-3">
-                <div class="service_left_sidebar">
-
-                    <!-- Danh sách tất cả services -->
-                    <ul class="nav service_menu_tab mb_40">
-                        <?php foreach ($allCategories as $cat): 
-                            $isActive = (trim($currentSlug) === trim($cat['slug']));
-                        ?>
-                            <li class="nav-item <?php echo $isActive ? 'active' : ''; ?>">
-                                <a class="nav-link <?php echo $isActive ? 'active' : ''; ?>"
-                                   href="/dich-vu-<?php echo $h($cat['slug']); ?>"
-                                   title="<?php echo $h($cat['name']); ?>">
-                                    <?php echo $h($cat['name']); ?>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-
-                </div>
+                <?php
+                // Chuẩn bị dữ liệu cho unified sidebar
+                $page = 'categories-details';
+                $categories = $allCategories ?? [];
+                $currentItem = $categoryDetail ?? [];
+                
+                // Lấy các dịch vụ gần đây (có thể lấy từ $allCategories)
+                $recentItems = array_slice($allCategories, 0, 3, true);
+                
+                // Tags có thể thêm sau nếu có
+                $tags = [];
+                
+                include __DIR__ . '/../_layout/unified_sidebar.php';
+                ?>
             </div><!-- /.col-lg-3 -->
 
             <!-- ================================================
