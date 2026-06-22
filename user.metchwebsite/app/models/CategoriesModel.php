@@ -42,7 +42,7 @@ class CategoriesModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, image, description, sort_order
+                "SELECT id, name, slug, image, description, sort_order, parent_id
                  FROM `{$this->table}`
                  WHERE status = 1 AND deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
@@ -230,5 +230,33 @@ class CategoriesModel
             error_log('CategoriesModel::getFooterServices() - ' . $e->getMessage());
             return [];
         }
+    }
+
+    /**
+     * Dựng cấu trúc cây đệ quy cho danh mục
+     *
+     * @param array $elements
+     * @param int|null $parentId
+     * @return array
+     */
+    public function buildTree(array $elements, $parentId = null, $maxDepth = 10, $currentDepth = 0, $visitedIds = []): array
+    {
+        if ($currentDepth >= $maxDepth) return [];
+        $branch = [];
+        foreach ($elements as $element) {
+            $elementParentId = empty($element['parent_id']) ? null : (int)$element['parent_id'];
+            $checkParentId = empty($parentId) ? null : (int)$parentId;
+            
+            if ($elementParentId === $checkParentId) {
+                if (in_array($element['id'], $visitedIds)) {
+                    continue;
+                }
+                $newVisitedIds = array_merge($visitedIds, [$element['id']]);
+                $children = $this->buildTree($elements, $element['id'], $maxDepth, $currentDepth + 1, $newVisitedIds);
+                $element['children'] = $children ?: [];
+                $branch[] = $element;
+            }
+        }
+        return $branch;
     }
 }

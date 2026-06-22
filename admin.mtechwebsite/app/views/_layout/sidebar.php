@@ -116,6 +116,14 @@ $headerSettings = $headerModel->getSettingsWithFallback();
                 </a>
             </li>
 
+            <!-- Filter Config / Mega Menu -->
+            <li class="nav-item">
+                <a href="/filter-config" class="nav-link <?= $currentPage === 'filter_config' ? 'active' : '' ?>">
+                    <i class="bi bi-sliders"></i>
+                    <span>Cấu hình Mega Menu</span>
+                </a>
+            </li>
+
             <!-- Footer -->
             <li class="nav-item">
                 <a href="/footer" class="nav-link <?= in_array($currentPage, ['footer', 'footer-add', 'footer-edit', 'footer-trash', 'footer-social', 'footer-social-edit', 'footer-settings']) ? 'active' : '' ?>">

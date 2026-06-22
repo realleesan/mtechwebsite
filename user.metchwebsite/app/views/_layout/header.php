@@ -1,11 +1,13 @@
 <?php
 /**
- * Header Layout - Navigation Menu
+ * Header Layout - Mega Menu Navigation
  * Dự án: MTech Website
+ * 
+ * Hỗ trợ Mega Menu đa cấp sử dụng dữ liệu phân cấp từ FilterConfigService.
+ * Fallback về dữ liệu gốc nếu chưa có cấu hình filter_config.
  */
 
 // Lấy trang hiện tại để xác định active menu
-// Ưu tiên dùng $page từ index.php (đã được routing xử lý), fallback về $_GET['page']
 $currentPage = $page ?? $_GET['page'] ?? 'home';
 
 // Lấy header settings động
@@ -18,15 +20,70 @@ require_once __DIR__ . '/../../models/ProjectsModel.php';
 $projectsModel = new ProjectsModel();
 $menuProjects  = $projectsModel->getMenuProjects(10);
 
-// Lấy services hiển thị trong menu dropdown
+// Lấy services cho menu
 require_once __DIR__ . '/../../models/CategoriesModel.php';
 $categoriesModel = new CategoriesModel();
-$menuServices    = $categoriesModel->getMenuServices(10);
+$allServices     = $categoriesModel->getAllCategories();
 
-// Lấy blog categories hiển thị trong menu dropdown
+// Lấy blog categories cho menu
 require_once __DIR__ . '/../../models/BlogsModel.php';
-$blogsModel = new BlogsModel();
+$blogsModel         = new BlogsModel();
 $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
+
+// --- Mega Menu: Dựng cây phân cấp ---
+// Thử dùng FilterConfigService nếu có cấu hình
+$servicesTree = [];
+try {
+    require_once __DIR__ . '/../../services/FilterConfigService.php';
+    $filterService = new FilterConfigService();
+    $filteredTree  = $filterService->getFilteredMenuTree('services', $allServices);
+    
+    // Nếu có cấu hình → dùng cây đã lọc; nếu không → dùng cây gốc
+    $servicesTree = !empty($filteredTree) ? $filteredTree : $categoriesModel->buildTree($allServices);
+} catch (Exception $e) {
+    // Fallback: dùng cây gốc nếu FilterConfigService chưa sẵn sàng
+    $servicesTree = $categoriesModel->buildTree($allServices);
+}
+
+/**
+ * Hàm render đệ quy submenu đa cấp cho Mega Menu
+ * 
+ * @param array $items Mảng cây con
+ * @param int $depth Cấp hiện tại (0 = dropdown cấp 1, 1 = sub-dropdown, ...)
+ * @param string $urlPrefix Tiền tố URL
+ */
+function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '/dich-vu-'): string
+{
+    if (empty($items)) return '';
+    
+    $html = '';
+    foreach ($items as $item) {
+        $name     = htmlspecialchars($item['name']);
+        $slug     = urlencode($item['slug']);
+        $hasChild = !empty($item['children']);
+        
+        if ($hasChild) {
+            // Mục cha có con → tạo submenu lồng nhau (với class khác biệt cho mega menu)
+            $html .= '<li class="megamenu-item-has-children">';
+            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
+            $html .= strtoupper($name);
+            $html .= '</a>';
+            $html .= '<ul class="megamenu-sub-list">';
+            $html .= renderMegaMenuItems($item['children'], $depth + 1, $urlPrefix);
+            $html .= '</ul>';
+            $html .= '</li>';
+        } else {
+            // Mục lá → link trực tiếp
+            $html .= '<li>';
+            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
+            $html .= strtoupper($name);
+            $html .= '</a>';
+            $html .= '</li>';
+        }
+    }
+    return $html;
+}
+
 ?>
 
 <header class="main_menu_area">
@@ -123,24 +180,27 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                     </ul>
                 </li>
                 
-                <!-- Services -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="Services" onclick="return false;">
+                <!-- Services (Mega Menu đa cấp) -->
+                <li class="nav-item has-megamenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/dich-vu" title="Services">
                         DỊCH VỤ CUNG CẤP
                         <span class="caret-drop"></span>
                     </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/dich-vu" title="All Services">TẤT CẢ DỊCH VỤ</a>
-                        </li>
-                        <?php foreach ($menuServices as $service): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/dich-vu-<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
-                                <?php echo strtoupper(htmlspecialchars($service['name'])); ?>
-                            </a>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <div class="megamenu-panel">
+                        <div class="megamenu-container">
+                            <div class="megamenu-grid megamenu-services-only">
+                                <div class="megamenu-col">
+                                    <ul class="megamenu-list megamenu-services-list">
+                                        <?php 
+                                        // Render các mục cấp 1 đầu tiên
+                                        $firstHalf = $servicesTree;
+                                        echo renderMegaMenuItems($firstHalf, 0, '/dich-vu-'); 
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </li>
                 
                 <!-- Projects -->
@@ -163,16 +223,8 @@ $menuBlogCategories = $blogsModel->getMenuBlogCategories(10);
                     </ul>
                 </li>
 
-                <!-- Tuyển Dụng -->
-                <li class="nav-item <?php echo (isset($_GET['cat']) && $_GET['cat'] == '7') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/tuyen-dung" title="Tuyển Dụng">TUYỂN DỤNG</a>
-                </li>
-
                 <!-- Blog -->
                 <?php
-                // Logic active cho menu "Tin tức":
-                // - Trang blogs (không phải tuyển dụng cat=7)
-                // - Trang blog-details (chi tiết tin tức)
                 $isBlogActive = ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) || 
                                ($currentPage === 'blog-details');
                 ?>

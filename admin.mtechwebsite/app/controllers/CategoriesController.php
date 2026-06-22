@@ -34,9 +34,12 @@ class CategoriesController extends BaseController
 
     public function create()
     {
+        $allCategories = $this->model->getAllCategories();
+        $categoryOptions = $this->model->getFormattedTreeOptions($allCategories);
         $this->view('categories/create', [
             'title' => 'Thêm dịch vụ - Admin MTech',
             'page'  => 'category.create',
+            'categories' => $categoryOptions,
             'admin' => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -112,10 +115,13 @@ class CategoriesController extends BaseController
             $this->redirect('/categories');
             return;
         }
+        $allCategories = $this->model->getAllCategories();
+        $categoryOptions = $this->model->getFormattedTreeOptions($allCategories, $id);
         $this->view('categories/edit', [
             'title'    => 'Chỉnh sửa dịch vụ - Admin MTech',
             'page'     => 'category.edit',
             'category' => $category,
+            'categories' => $categoryOptions,
             'admin'    => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -288,6 +294,7 @@ class CategoriesController extends BaseController
         }
 
         return [
+            'parent_id'           => !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null,
             'name'                => trim($_POST['name']                ?? ''),
             'slug'                => trim($_POST['slug']                ?? ''),
             'image'               => '',  // sẽ được ghi đè bởi upload handler

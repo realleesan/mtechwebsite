@@ -1,4 +1,4 @@
-﻿<?php if (!isset($category) || empty($category)): ?>
+<?php if (!isset($category) || empty($category)): ?>
     <?php header('Location: /categories'); exit; ?>
 <?php endif; ?>
 
@@ -68,6 +68,18 @@ if (!empty($category['faq_items'])) {
                                    value="<?= htmlspecialchars($category['slug'] ?? '') ?>"
                                    placeholder="url-than-thien" required>
                             <div class="form-text">URL thân thiện, tự động tạo từ tên dịch vụ</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="parent_id" class="form-label">Dịch vụ cha (Không bắt buộc)</label>
+                            <select class="form-select" id="parent_id" name="parent_id">
+                                <option value="">-- Là dịch vụ gốc --</option>
+                                <?php if (!empty($categories) && is_array($categories)): ?>
+                                    <?php foreach ($categories as $cat): ?>
+                                        <option value="<?= $cat['id'] ?>" <?= ($category['parent_id'] ?? '') == $cat['id'] ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                            <div class="form-text">Chọn dịch vụ cấp trên của dịch vụ này nếu có</div>
                         </div>
 
                         <div class="mb-3">

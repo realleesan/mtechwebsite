@@ -42,7 +42,7 @@ class CategoriesModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, image, description, status, sort_order, show_in_footer, created_at
+                "SELECT id, parent_id, name, slug, image, description, status, sort_order, show_in_footer, created_at
                  FROM `{$this->table}`
                  WHERE deleted_at IS NULL
                  ORDER BY sort_order ASC, id ASC"
@@ -65,7 +65,11 @@ class CategoriesModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT * FROM `{$this->table}` WHERE id = ? LIMIT 1"
+                "SELECT id, parent_id, name, slug, image, description, status, sort_order, show_in_footer, created_at,
+                        image_1, image_2, image_3, detail_description, benefit_image, benefit_title, benefit_description,
+                        benefit_items, feature_image, feature_1_icon, feature_1_title, feature_1_text, feature_2_icon,
+                        feature_2_title, feature_2_text, faq_items
+                 FROM `{$this->table}` WHERE id = ? LIMIT 1"
             );
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
@@ -240,15 +244,16 @@ class CategoriesModel
         try {
             $stmt = $this->db->prepare(
                 "INSERT INTO `{$this->table}`
-                 (name, slug, image, description, detail_description,
+                 (parent_id, name, slug, image, description, detail_description,
                   benefit_image, benefit_title, benefit_description, benefit_items,
                   feature_image,
                   feature_1_icon, feature_1_title, feature_1_text,
                   feature_2_icon, feature_2_title, feature_2_text,
                   faq_items, status, sort_order, show_in_footer)
-                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             );
             $ok = $stmt->execute([
+                $data['parent_id']           ?? null,
                 $data['name'],
                 $data['slug'],
                 $data['image']               ?? '',
@@ -285,7 +290,7 @@ class CategoriesModel
         try {
             $stmt = $this->db->prepare(
                 "UPDATE `{$this->table}` SET
-                 name = ?, slug = ?, image = ?, description = ?, detail_description = ?,
+                 parent_id = ?, name = ?, slug = ?, image = ?, description = ?, detail_description = ?,
                  benefit_image = ?, benefit_title = ?, benefit_description = ?, benefit_items = ?,
                  feature_image = ?,
                  feature_1_icon = ?, feature_1_title = ?, feature_1_text = ?,
@@ -294,6 +299,7 @@ class CategoriesModel
                  WHERE id = ?"
             );
             return $stmt->execute([
+                $data['parent_id']           ?? null,
                 $data['name'],
                 $data['slug'],
                 $data['image']               ?? '',
@@ -496,5 +502,70 @@ class CategoriesModel
             error_log('CategoriesModel::getFooterServices() - ' . $e->getMessage());
             return [];
         }
+    }
+
+    /**
+     * Dựng cấu trúc cây phân cấp từ mảng phẳng (độ sâu vô hạn)
+     * 
+     * @param array $elements Mảng phẳng các đối tượng
+     * @param int|null $parentId ID của cha hiện tại
+     * @param int $maxDepth Độ sâu tối đa đề phòng vòng lặp vô tận
+     * @param int $currentDepth Độ sâu hiện tại
+     * @param array $visitedIds Mảng các ID đã duyệt qua
+     * @return array Mảng cây lồng nhau
+     */
+    public function buildTree(array $elements, $parentId = null, $maxDepth = 10, $currentDepth = 0, $visitedIds = []): array
+    {
+        if ($currentDepth >= $maxDepth) return [];
+        $branch = [];
+        foreach ($elements as $element) {
+            $elementParentId = empty($element['parent_id']) ? null : (int)$element['parent_id'];
+            $checkParentId = empty($parentId) ? null : (int)$parentId;
+            
+            if ($elementParentId === $checkParentId) {
+                if (in_array($element['id'], $visitedIds)) {
+                    continue;
+                }
+                $newVisitedIds = array_merge($visitedIds, [$element['id']]);
+                $children = $this->buildTree($elements, $element['id'], $maxDepth, $currentDepth + 1, $newVisitedIds);
+                $element['children'] = $children ?: [];
+                $branch[] = $element;
+            }
+        }
+        return $branch;
+    }
+
+    /**
+     * Lấy danh sách phẳng được thụt lề theo cấp bậc cha-con để dùng cho thẻ <select>
+     * 
+     * @param array $elements Mảng cây hoặc mảng phẳng
+     * @param int $excludeId ID cần loại trừ (để tránh chọn chính mình làm cha)
+     * @return array Danh sách danh mục đã format
+     */
+    public function getFormattedTreeOptions(array $elements, $excludeId = null): array
+    {
+        // Nếu truyền vào mảng phẳng, hãy dựng cây trước
+        if (isset($elements[0]) && !isset($elements[0]['children'])) {
+            $elements = $this->buildTree($elements);
+        }
+        
+        $options = [];
+        $helper = function($tree, $prefix = '') use (&$options, &$helper, $excludeId) {
+            foreach ($tree as $node) {
+                if ($excludeId !== null && (int)$node['id'] === (int)$excludeId) {
+                    continue;
+                }
+                $options[] = [
+                    'id' => $node['id'],
+                    'name' => $prefix . $node['name']
+                ];
+                if (!empty($node['children'])) {
+                    $helper($node['children'], $prefix . '— ');
+                }
+            }
+        };
+        
+        $helper($elements);
+        return $options;
     }
 }

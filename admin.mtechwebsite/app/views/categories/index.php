@@ -1,4 +1,22 @@
-<?php // $categories ?>
+<?php
+$categoryLevels = [];
+if (!empty($categories)) {
+    $childrenByParent = [];
+    foreach ($categories as $categoryItem) {
+        $parentKey = empty($categoryItem['parent_id']) ? 0 : (int)$categoryItem['parent_id'];
+        $childrenByParent[$parentKey][] = (int)$categoryItem['id'];
+    }
+
+    $assignCategoryLevel = function ($parentId, $level) use (&$assignCategoryLevel, &$childrenByParent, &$categoryLevels) {
+        foreach ($childrenByParent[(int)$parentId] ?? [] as $categoryId) {
+            $categoryLevels[$categoryId] = $level;
+            $assignCategoryLevel($categoryId, $level + 1);
+        }
+    };
+
+    $assignCategoryLevel(0, 1);
+}
+?>
 <div class="page-header">
     <h4><i class="bi bi-grid me-2"></i>Quản lý Dịch vụ</h4>
     <div class="d-flex gap-2">
@@ -22,6 +40,7 @@
                 <tr>
                     <th style="width:60px">#</th>
                     <th>Tên dịch vụ</th>
+                    <th style="width:90px">Cấp độ</th>
                     <th style="width:110px">Trạng thái</th>
                     <th style="width:120px">Ngày tạo</th>
                     <th style="width:120px">Thao tác</th>
@@ -49,6 +68,11 @@
                                 <small class="text-muted"><?= htmlspecialchars($cat['slug'] ?? '') ?></small>
                             </div>
                         </div>
+                    </td>
+                    <td>
+                        <span class="badge bg-light text-dark border">
+                            Cấp <?= (int)($categoryLevels[(int)$cat['id']] ?? 1) ?>
+                        </span>
                     </td>
                     <td>
                         <?php if (($cat['status'] ?? 1) == 1): ?>

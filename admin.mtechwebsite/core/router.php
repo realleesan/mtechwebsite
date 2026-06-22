@@ -217,6 +217,12 @@ class AdminRouter
         $this->post('/footer/settings/update',      'FooterController@updateSettings');
 
         // ----------------------------------------
+        // Filter Config (Mega Menu & Filters)
+        // ----------------------------------------
+        $this->get('/filter-config',        'FilterConfigController@index');
+        $this->post('/filter-config/save',  'FilterConfigController@save');
+
+        // ----------------------------------------
         // Settings
         // ----------------------------------------
         $this->get('/settings',             'SettingsController@index');

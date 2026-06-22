@@ -884,3 +884,271 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 .search_overlay_submit:hover {
     color: #1A3FBF;
 }
+
+/* ========================================
+   Mega Menu System - MTech Custom
+   ======================================== */
+
+/* Kích hoạt trạng thái Mega Menu */
+.nav-item.has-megamenu {
+    position: static !important;
+}
+
+.megamenu-panel {
+    display: block;
+    position: absolute;
+    top: calc(100% + 15px);
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: 1200px;
+    background: rgba(13, 27, 62, 0.98);
+    backdrop-filter: blur(10px);
+    border-top: 3px solid #1A3FBF;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.45);
+    padding: 40px 0;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    margin: 0 45px;
+}
+
+.nav-item.has-megamenu:hover .megamenu-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.megamenu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 45px;
+}
+
+.megamenu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+}
+
+.megamenu-services-only {
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+.megamenu-services-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 42px;
+    row-gap: 0;
+}
+
+.megamenu-list.megamenu-services-list > li {
+    margin-bottom: 0;
+    padding: 18px 0;
+}
+
+.megamenu-list.megamenu-services-list > li:nth-child(-n + 4) {
+    padding-top: 0;
+}
+
+.megamenu-list.megamenu-services-list > li:nth-child(n + 5) {
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Cột trong Mega Menu */
+.megamenu-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.megamenu-title {
+    font-family: "Object Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 750;
+    color: #1A3FBF;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.megamenu-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.megamenu-title a:hover {
+    color: #fff;
+}
+
+/* Danh sách link trong Mega Menu */
+.megamenu-list, .megamenu-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.megamenu-list > li {
+    margin-bottom: 12px;
+}
+
+.megamenu-list > li > a {
+    color: #FFFFFF;
+    font-family: "Object Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-block;
+}
+
+.megamenu-list > li > a:hover {
+    color: #1A3FBF;
+    transform: translateX(5px);
+}
+
+/* Hỗ trợ danh mục con (Sub-list) */
+.megamenu-item-has-children > a {
+    font-weight: 700 !important;
+    margin-bottom: 8px;
+}
+
+.megamenu-sub-list {
+    padding-left: 15px;
+    margin-top: 5px;
+    border-left: 1px solid rgba(26, 63, 191, 0.3);
+}
+
+.megamenu-sub-list li {
+    margin-bottom: 8px;
+}
+
+.megamenu-sub-list li a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.megamenu-sub-list li a:hover {
+    color: #1A3FBF;
+}
+
+/* Spotlight Card */
+.megamenu-spotlight {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.megamenu-spotlight:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.spotlight-image {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+}
+
+.spotlight-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.megamenu-spotlight:hover .spotlight-image img {
+    transform: scale(1.1);
+}
+
+.spotlight-content {
+    padding: 20px;
+}
+
+.spotlight-content h5 {
+    color: #FFFFFF;
+    font-family: "Object Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.spotlight-content p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.spotlight-link {
+    color: #1A3FBF;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.spotlight-link:hover {
+    color: #FFFFFF;
+}
+
+/* Responsive cho Mega Menu */
+@media (max-width: 991px) {
+    .nav-item.has-megamenu {
+        position: relative !important;
+    }
+    
+    .megamenu-panel {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        display: none; /* Sẽ được điều khiển bằng class .show trên mobile */
+        transform: none;
+        padding: 20px;
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .nav-item.has-megamenu.show .megamenu-panel {
+        display: block;
+    }
+    
+    .megamenu-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .megamenu-services-list {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+    }
+
+    .megamenu-list.megamenu-services-list > li {
+        padding: 14px 0;
+    }
+
+    .megamenu-list.megamenu-services-list > li:nth-child(-n + 4) {
+        padding-top: 14px;
+    }
+
+    .megamenu-list.megamenu-services-list > li:first-child {
+        padding-top: 0;
+    }
+
+    .megamenu-list.megamenu-services-list > li:nth-child(n + 2) {
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    
+    .spotlight-col {
+        display: none; /* Ẩn spotlight trên mobile để tiết kiệm không gian */
+    }
+}

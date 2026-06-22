@@ -1,4 +1,4 @@
-﻿<div class="page-header">
+<div class="page-header">
     <h4><i class="bi bi-grid me-2"></i>Thêm dịch vụ mới</h4>
     <a href="/categories" class="btn btn-outline-secondary btn-sm">
         <i class="bi bi-arrow-left me-1"></i>Quay lại
@@ -44,6 +44,18 @@
                             <input type="text" class="form-control" id="slug" name="slug"
                                    placeholder="url-than-thien" required>
                             <div class="form-text">URL thân thiện, tự động tạo từ tên dịch vụ</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="parent_id" class="form-label">Dịch vụ cha (Không bắt buộc)</label>
+                            <select class="form-select" id="parent_id" name="parent_id">
+                                <option value="">-- Là dịch vụ gốc --</option>
+                                <?php if (!empty($categories) && is_array($categories)): ?>
+                                    <?php foreach ($categories as $cat): ?>
+                                        <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                            <div class="form-text">Chọn dịch vụ cấp trên của dịch vụ này nếu có</div>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Mô tả ngắn</label>
