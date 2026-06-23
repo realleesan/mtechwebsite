@@ -61,54 +61,6 @@
     </div>
 </section>
 
-<!-- ===== SECTION 3: Our Workers (dynamic từ DB) ===== -->
-<?php
-// Lấy danh sách team được đánh dấu show_in_about = 1
-require_once __DIR__ . '/../../models/TeamsModel.php';
-$teamsModel  = new TeamsModel();
-$aboutTeams  = $teamsModel->getAboutTeams(); // tối đa 4, lọc show_in_about=1
-$delays      = ['0s', '0.1s', '0.2s', '0.3s'];
-?>
-<section class="team_area sec_gap">
-    <div class="container">
-        <div class="section_title mb_55 scroll-reveal reveal-up">
-            <h2 class="f_600 f_size_32 title_color">Đội ngũ chuyên gia</h2>
-            <span class="title_br"></span>
-            <p class="mt_7">Sức mạnh cốt lõi của MTECH nằm ở đội ngũ gồm 25 Thạc sĩ, Kỹ sư và Chuyên gia am hiểu sâu sắc trong các lĩnh vực vật liệu, xây dựng, kiến trúc, cơ điện và kinh tế.</p>
-        </div>
-        <div class="row team_inner mb-30">
-            <?php foreach ($aboutTeams as $i => $member): ?>
-            <div class="col-lg-3 col-sm-6 scroll-reveal reveal-up" style="transition-delay:<?= $delays[$i] ?? '0s' ?>">
-                <div class="team_member text-center">
-                    <div class="team_img">
-                        <?php if (!empty($member['image'])): ?>
-                            <img src="<?= htmlspecialchars($member['image'], ENT_QUOTES, 'UTF-8') ?>"
-                                 alt="<?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?>">
-                        <?php else: ?>
-                            <div class="team_img_placeholder"><i class="fa fa-user"></i></div>
-                        <?php endif; ?>
-                        <div class="overlay"></div>
-                        <ul class="nav social_icon">
-                            <li><a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#" aria-label="Twitter"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" aria-label="Google Plus"><i class="fa fa-google-plus"></i></a></li>
-                        </ul>
-                    </div>
-                    <h5 class="f_600 f_size_20 title_color mb-0">
-                        <?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?>
-                    </h5>
-                    <p><?= htmlspecialchars($member['position'], ENT_QUOTES, 'UTF-8') ?></p>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-        <div class="text-center mt-4">
-            <a href="/doi-ngu" class="read_more btn_yellow">Xem thêm</a>
-        </div>
-    </div>
-</section>
-
 <!-- ===== SECTION 4: Our History ===== -->
 <section class="history_area">
     <div class="container">

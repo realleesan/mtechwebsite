@@ -40,7 +40,7 @@ $duplicated = array_merge($awards, $awards, $awards);
 
         <!-- Section Title -->
         <div class="section_title mb_55">
-            <h2 class="f_600 f_size_32 title_color"> Giải thưởng &amp; Chứng chỉ </h2>
+            <h2 class="f_600 f_size_32 title_color"> Chứng chỉ năng lực </h2>
             <span class="title_br"></span>
             <p class="mt_7">
                 Những giải thưởng và chứng chỉ ghi nhận chất lượng, uy tín và năng lực của MTECH.JSC
