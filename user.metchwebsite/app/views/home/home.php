@@ -63,47 +63,6 @@
         <button class="slider_arrow slider_next" aria-label="Next slide">&#10095;</button>
     </div>
 
-    <!-- ---- 1B: PROMO BOX ITEMS (overlay lên slider) ---- -->
-    <div class="promo_boxes_wrap">
-        <div class="container">
-            <div class="about_promo_box">
-
-                <!-- Box vàng -->
-                <div class="promo_box_item box_one">
-                    <div class="promo_box_icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    </div>
-                    <div class="promo_box_body">
-                        <h3>Chất lượng dịch vụ Hạng I</h3>
-                        <p>Sở hữu các chứng chỉ năng lực hoạt động xây dựng Hạng I cấp cao nhất do Bộ Xây dựng cấp phép, đảm bảo tính chuẩn xác và an toàn tuyệt đối.</p>
-                    </div>
-                </div>
-
-                <!-- Box đen -->
-                <div class="promo_box_item box_two">
-                    <div class="promo_box_icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                    </div>
-                    <div class="promo_box_body">
-                        <h3>Hơn 15 Năm Kinh Nghiệm</h3>
-                        <p>Bề dày kinh nghiệm hoạt động từ năm 2011, thực hiện thành công hàng loạt các siêu dự án trọng điểm trên khắp cả nước.</p>
-                    </div>
-                </div>
-
-                <!-- Box xám -->
-                <div class="promo_box_item box_three">
-                    <div class="promo_box_icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14Z"/></svg>
-                    </div>
-                    <div class="promo_box_body">
-                        <h3>Vị thế Hàng đầu Thị trường</h3>
-                        <p>Là đối tác chiến lược tin cậy của Tập đoàn Xuân Thiện, Long Sơn, Vissai, SCG cùng nhiều Chủ đầu tư lớn mạnh khác.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
 </section>
 
 <!-- ---- 1C: WELCOME INFO ---- -->
@@ -115,7 +74,7 @@
 
             <div class="col-lg-7">
                 <div class="welcome_text">
-                    <h5 class="welcome_sub">Chào mừng đến với MTECH.JSC</h5>
+                    <h5 class="welcome_sub">Chào mừng đến với MTECH</h5>
                     <h1 class="welcome_title">Hơn 15 năm kiến tạo những công trình công nghiệp bền vững.</h1>
                     <p class="welcome_desc">Được thành lập từ ngày 26/05/2011, Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH tự hào là đơn vị uy tín cung cấp chuỗi dịch vụ khép kín từ lập quy hoạch, khảo sát, thiết kế bản vẽ thi công, đến giám sát và quản lý dự án. Với đội ngũ chuyên gia tận tâm, chúng tôi luôn mang tới những giải pháp tối ưu nhất, đồng hành cùng nhà đầu tư kiến tạo nên các dự án luyện kim - năng lượng, vật liệu xây dựng và nông nghiệp công nghệ cao mang tầm vóc quốc tế.</p>
                     <h6 class="welcome_ceo">Giám đốc : Nguyễn Tùng Giang</a></h6>
@@ -296,87 +255,3 @@ include_once __DIR__ . '/../about/awards.php';
     </div>
 </section>
 
-<!-- ---- 3D: CTA CONTACT SECTION (overlapping promo + white) ---- -->
-<section class="contact_sec_area">
-    <div class="container">
-        <div class="contact_inner m_top">
-            <div class="row">
-
-                <!-- Left: Contact Info -->
-                <div class="col-lg-4">
-                    <div class="contact_info_box">
-                        <!-- Logo Mtech -->
-                        <a href="./" class="c_logo">
-                            <img src="assets/images/logo.png" alt="MTECH.JSC" class="c_logo_img">
-                            <span class="c_logo_text">MTECH.JSC</span>
-                        </a>
-
-                        <!-- Phone -->
-                        <div class="contact_info_item">
-                            <div class="icon">
-                                <img src="assets/icons/phone-call.svg" alt="phone" class="svg-icon">
-                            </div>
-                            <div class="contact_info_body">
-                                <a href="tel:02436231691" class="f_600 f_size_18 title_color">0243.6231691</a>
-                                <p>Thứ 2 - Thứ 6, 8:00 - 17:30</p>
-                            </div>
-                        </div>
-
-                        <!-- Email -->
-                        <div class="contact_info_item">
-                            <div class="icon">
-                                <img src="assets/icons/envelope.svg" alt="email" class="svg-icon">
-                            </div>
-                            <div class="contact_info_body">
-                                <a href="mailto:contact@mtech.com" class="f_600 f_size_18 title_color">contact@mtech.com</a>
-                                <p>Phản hồi trong vòng 48 giờ</p>
-                            </div>
-                        </div>
-
-                        <!-- Address -->
-                        <div class="contact_info_item">
-                            <div class="icon">
-                                <img src="assets/icons/land-layer-location.svg" alt="address" class="svg-icon">
-                            </div>
-                            <div class="contact_info_body">
-                                <p>Tòa nhà 227 phố Nguyễn Ngọc Nại,<br>phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Right: Drop a Message Form -->
-                <div class="col-lg-8">
-                    <div class="contact_us_form">
-                        <div class="section_title mb_30">
-                            <h2 class="f_600 f_size_32 title_color">Gửi tin nhắn cho chúng tôi</h2>
-                            <span class="title_br"></span>
-                        </div>
-                        <form class="contact_form row" id="homeContactForm" method="post" action="?page=home&action=contact-submit" novalidate>
-                            <div class="form-group col-md-6">
-                                <input type="text" name="name" class="form-control" id="hc_name" placeholder="Họ và tên" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input type="email" name="email" class="form-control" id="hc_email" placeholder="Email" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input type="text" name="tphone" class="form-control" id="hc_phone" placeholder="Số điện thoại" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input type="text" name="subject" class="form-control" id="hc_subject" placeholder="Tiêu đề" required>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <textarea name="message" class="form-control" id="hc_message" rows="6" placeholder="Nội dung tin nhắn" required></textarea>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <button type="submit" class="btn_blue submit_btn">Gửi ngay</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section>
