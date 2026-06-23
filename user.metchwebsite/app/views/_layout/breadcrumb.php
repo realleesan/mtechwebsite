@@ -40,21 +40,21 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── About ─────────────────────────────────────────────────
         'about' => [
-            ['title' => 'Về chúng tôi', 'url' => null],
+            ['title' => 'Thư ngỏ', 'url' => null],
         ],
 
         'company.history' => [
-            ['title' => 'Về chúng tôi',           'url' => '/ve-chung-toi'],
+            ['title' => 'Thư ngỏ',           'url' => '/ve-chung-toi'],
             ['title' => 'Lịch sử hình thành & phát triển', 'url' => null],
         ],
 
         'teams' => [
-            ['title' => 'Về chúng tôi',    'url' => '/ve-chung-toi'],
+            ['title' => 'Thư ngỏ',    'url' => '/ve-chung-toi'],
             ['title' => 'Đội ngũ', 'url' => null],
         ],
 
         'awards' => [
-            ['title' => 'Về chúng tôi',                'url' => '/ve-chung-toi'],
+            ['title' => 'Thư ngỏ',                'url' => '/ve-chung-toi'],
             ['title' => 'Giải thưởng & Chứng chỉ', 'url' => null],
         ],
 

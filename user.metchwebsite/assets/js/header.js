@@ -68,24 +68,7 @@ function slugifyVi(str) {
             });
         }
 
-        // ── Sticky Header ──────────────────────────────────────────
-        const header  = document.querySelector('.main_menu_area');
-        const topbar  = document.querySelector('.header_top_five');
-        const navbar  = document.querySelector('.menu_absolute');
 
-        if (header) {
-            window.addEventListener('scroll', function () {
-                if (window.pageYOffset > 50) {
-                    header.classList.add('sticky');
-                    if (topbar) topbar.classList.add('sticky');
-                    if (navbar) navbar.classList.add('sticky');
-                } else {
-                    header.classList.remove('sticky');
-                    if (topbar) topbar.classList.remove('sticky');
-                    if (navbar) navbar.classList.remove('sticky');
-                }
-            });
-        }
 
         // ── Desktop Dropdown với delay ─────────────────────────────
         // Mỗi submenu item có timer riêng để tránh đóng ngay

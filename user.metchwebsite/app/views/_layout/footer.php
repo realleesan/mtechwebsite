@@ -76,11 +76,10 @@ $companyInfo = [
                                     <?php endforeach; ?>
                                     <?php if (empty($usefulLinks)): ?>
                                     <li><a href="./">Trang chủ</a></li>
-                                    <li><a href="/?page=about">Giới thiệu</a></li>
-                                    <li><a href="/?page=services">Dịch vụ</a></li>
+                                    <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
+                                    <li><a href="/dich-vu">Lĩnh vực</a></li>
                                     <li><a href="/du-an">Dự án</a></li>
-                                    <li><a href="/tuyen-dung">Tuyển dụng</a></li>
-                                    <li><a href="/?page=blogs">Bài viết</a></li>
+                                    <li><a href="/tin-tuc">Tin tức</a></li>
                                     <li><a href="/lien-he">Liên hệ</a></li>
                                     <?php endif; ?>
                                 </ul>
@@ -89,13 +88,13 @@ $companyInfo = [
                     </div>
                 </div>
 
-                <!-- Cột 3: Dịch vụ (Dynamic) -->
+                <!-- Cột 3: Lĩnh vực (Dynamic) -->
                 <div class="col-lg-3 col-sm-6">
                     <div id="custom_html-6">
                         <div class="textwidget custom-html-widget">
                             <aside class="f_widget link_widget">
                                 <h4 class="f_title f_size_20 f_500 color_w">
-                                    Dịch vụ
+                                    Lĩnh vực hoạt động
                                 </h4>
                                 <ul class="list-unstyled mb-0">
                                     <?php foreach ($services as $service): ?>
@@ -165,7 +164,7 @@ $companyInfo = [
                     Bản quyền © <?php echo date('Y'); ?> <a href="./"><?php echo htmlspecialchars($companyInfo['short_name']); ?></a>. Đã đăng ký bảo hộ.
                 </div>
                 <div class="pull-right">
-                    MST: 0105330414 | Thiết kế bởi: <a href="https://www.mistydev.id.vn/" target="_blank">MistyTeam</a>
+                    Thiết kế bởi: <a href="https://www.mistydev.id.vn/" target="_blank">MistyTeam</a>
                 </div>
             </div>
         </div>

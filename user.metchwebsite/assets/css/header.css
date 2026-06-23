@@ -10,158 +10,7 @@ body {
     margin: 0;
 }
 
-/* -- Top Bar -- */
-.header_top_five {
-    background: transparent;
-    padding: 8px 0;
-    width: 100%;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    transition: background 0.4s ease;
-}
-
-.header_top_five.sticky {
-    background: #0D1B3E;
-}
-
-/* Layout topbar */
-.topbar_inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 45px;
-    min-height: 60px;
-}
-
-.topbar_left {
-    display: flex;
-    align-items: center;
-}
-
-/* Topbar Logo */
-.topbar_logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    height: 100%;
-}
-
-.topbar_logo_img {
-    height: 85px;
-    width: auto;
-    display: block;
-}
-
-.topbar_logo_text {
-    font-family: 'Object Sans', sans-serif;
-    font-style: normal;
-    font-weight: 750;
-    font-size: 26px;
-    color: #FFFFFF;
-    letter-spacing: 2px;
-    line-height: 1.2;
-    white-space: nowrap;
-    text-transform: uppercase;
-    display: none;
-}
-
-/* Company Name in Navbar */
-.navbar_brand_text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: auto;
-    padding-left: 0;
-    /* Căn chỉnh trục với logo: topbar height (60px) / 2 - navbar height / 2 */
-    transform: translateY(calc((60px - 80px) / 2));
-}
-
-.navbar_brand_text_content {
-    font-family: 'Object Sans', sans-serif;
-    font-style: normal;
-    font-weight: 750;
-    font-size: 26px;
-    color: #FFFFFF;
-    letter-spacing: 2px;
-    line-height: 1;
-    white-space: nowrap;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-}
-
-.topbar_right {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.topbar_phone {
-    color: rgba(255, 255, 255, 0.85);
-    font-family: "Object Sans", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    font-style: normal;
-    display: flex;
-    align-items: center;
-}
-
-.topbar_phone a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 700;
-    font-style: normal;
-    margin-left: 8px;
-    font-size: 16px;
-    transition: color 0.25s ease;
-}
-
-.topbar_phone a:hover {
-    color: #fff;
-}
-
-.topbar_divider {
-    width: 1px;
-    height: 18px;
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* -- Nut tai Ho So Nang Luc -- */
-.btn_profile_download {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: #1A3FBF;
-    color: #FFFFFF !important;
-    font-family: "Object Sans", sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    font-style: normal;
-    text-decoration: none !important;
-    padding: 6px 16px;
-    border-radius: 4px;
-    white-space: nowrap;
-    transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
-    line-height: 1.4;
-}
-
-.btn_profile_download svg {
-    flex-shrink: 0;
-}
-
-.btn_profile_download:hover {
-    background: #1530A0;
-    color: #FFFFFF !important;
-    transform: translateY(-1px);
-}
-
-/* Language Switcher */
-.topbar_lang {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
+/* -- Layout topbar - REMOVED -- */
 
 /* An dong branding Elfsight */
 .eapps-widget-toolbar,
@@ -251,89 +100,102 @@ body {
     color: #fff;
 }
 
-/* -- Wrapper: fixed, boc ca topbar + navbar -- */
+/* -- Wrapper: static, không chạy theo scroll -- */
 .main_menu_area {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: static;
     width: 100%;
     z-index: 9999;
+    padding: 0 !important;
 }
 
-/* Gradient protection layer - chỉ khi scroll = 0 (main_menu_area) và trên trang home */
+/* Gradient protection layer - ẩn vì header giờ không còn transparent */
 .home-page .main_menu_area::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background: linear-gradient(to bottom, rgba(58, 95, 223, 1) 30%, transparent 100%);
-    z-index: -1;
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-/* Bỏ gradient khi sticky */
-.home-page .main_menu_area.sticky::before {
-    opacity: 0;
-    pointer-events: none;
+    display: none;
 }
 
 .menu_absolute {
     width: 100%;
-    background: transparent;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    transition: background 0.4s ease;
-    padding: 18px 0;
-}
-
-.main_menu_area.sticky,
-.main_menu_area.sticky .header_top_five {
     background: #0D1B3E;
-}
-
-.main_menu_area.sticky {
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 18px 0;
+    margin: 0;
 }
 
 /* Sticky state - override nav link colors */
-.main_menu_area.sticky ul.menu > li.nav-item > a.nav-link {
-    color: #fff !important;
-}
+/* Removed - header is no longer sticky */
 
-.main_menu_area.sticky ul.menu > li.nav-item:hover > a.nav-link,
-.main_menu_area.sticky ul.menu > li.nav-item.active > a.nav-link {
-    color: #fff !important;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    text-shadow: none;
-}
-
-/* Sticky state - border bottom white for active */
-.main_menu_area.sticky ul.menu > li.nav-item > a.nav-link::after {
-    background: #1a3fbf;
-}
-
-.main_menu_area.sticky ul.menu > li.nav-item.active > a.nav-link::after {
-    background: #ffffff;
-}
-
-.main_menu_area.sticky ul.menu > li.nav-item:hover > a.nav-link::after,
-.main_menu_area.sticky ul.menu > li.nav-item.active > a.nav-link::after {
-    opacity: 1;
-}
-
-/* -- Navbar container -- */
+/* -- Navbar Layout -- */
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     padding: 0 45px;
-    min-height: 80px;
+    min-height: 70px;
     gap: 20px;
+}
+
+/* -- Navbar Logo + MTECH - Moved from Topbar -- */
+.navbar_logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    margin-left: 0;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 30px;
+}
+
+.navbar_logo_img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.navbar_logo_text {
+    font-family: 'Object Sans', sans-serif;
+    font-style: normal;
+    font-weight: 750;
+    font-size: 20px;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+/* Profile Button in Navbar */
+.nav-profile-btn {
+    padding: 0 8px !important;
+}
+
+.btn_profile_download_nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #1A3FBF;
+    color: #FFFFFF !important;
+    font-family: "Object Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    font-style: normal;
+    text-decoration: none !important;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    line-height: 1.4;
+}
+
+.btn_profile_download_nav svg {
+    flex-shrink: 0;
+}
+
+.btn_profile_download_nav:hover {
+    background: #1530A0;
+    color: #FFFFFF !important;
+    transform: translateY(-1px);
 }
 
 /* -- Logo -- */
@@ -415,7 +277,6 @@ ul.menu > li.nav-item > a.nav-link {
     transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, border-radius 0.3s ease;
     position: relative;
     padding: 5px 15px;
-    border-radius: 20px;
 }
 
 /* Border bottom indicator */
@@ -435,9 +296,6 @@ ul.menu > li.nav-item > a.nav-link::after {
 ul.menu > li.nav-item:hover > a.nav-link,
 ul.menu > li.nav-item.active > a.nav-link {
     color: #1a3fbf !important;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    text-shadow: none;
     font-weight: 600;
 }
 
@@ -778,6 +636,19 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
 
 .search_toggle:hover {
     color: #1A3FBF;
+}
+
+/* -- Language Switcher in Navbar -- */
+.nav-lang-item {
+    margin-left: auto;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+.nav_lang {
+    display: flex;
+    align-items: center;
 }
 
 /* -- Search Overlay -- */

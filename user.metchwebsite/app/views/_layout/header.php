@@ -88,40 +88,14 @@ function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '
 
 <header class="main_menu_area">
 
-    <!-- Top Bar -->
-    <div class="header_top_five">
-        <div class="topbar_inner">
-            <!-- Left: Logo Only -->
-            <div class="topbar_left">
-                <a class="topbar_logo" href="./">
-                    <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" class="topbar_logo_img">
-                </a>
-            </div>
-
-            <!-- Right: ISO + Translate + Download Button (thẳng hàng menu) -->
-            <div class="topbar_right">
-                <!-- Language Switcher (Elfsight) -->
-                <div class="topbar_lang">
-                    <div class="elfsight-app-0f1ebd7d-aee6-4ddc-b2ba-1eba802b9ca5" data-elfsight-app-lazy></div>
-                </div>
-
-                <div class="topbar_divider"></div>
-
-                 <!-- Nút tải Hồ Sơ Năng Lực -->
-                 <a href="/<?php echo htmlspecialchars($headerSettings['profile_pdf_path']); ?>" class="btn_profile_download" download title="Tải Hồ Sơ Năng Lực">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                     <?php echo htmlspecialchars($headerSettings['profile_pdf_label']); ?>
-                 </a>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light menu_absolute">
-        <!-- Company Name Below Navbar -->
-        <div class="navbar_brand_text">
-            <span class="navbar_brand_text_content">MTECH.JSC</span>
-        </div>
+        
+        <!-- Logo + MTECH - Moved from Topbar -->
+        <a class="navbar_logo" href="./">
+            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" class="navbar_logo_img">
+            <span class="navbar_logo_text">MTECH</span>
+        </a>
         
         <!-- Hamburger Menu Button for Mobile -->
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -160,13 +134,13 @@ function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '
                 $isAboutActive = in_array($currentPage, $aboutPages);
                 ?>
                 <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="Về chúng tôi" onclick="return false;">
-                        VỀ CHÚNG TÔI
+                    <a class="nav-link" href="#" title="Thư ngỏ" onclick="return false;">
+                        THƯ NGỎ
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a class="nav-link" href="/ve-chung-toi" title="Về chúng tôi">VỀ CHÚNG TÔI</a>
+                            <a class="nav-link" href="/ve-chung-toi" title="Thư ngỏ">THƯ NGỎ</a>
                         </li>
                         <li>
                             <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">LỊCH SỬ HÌNH THÀNH & PHÁT TRIỂN</a>
@@ -182,8 +156,8 @@ function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '
                 
                 <!-- Services (Mega Menu đa cấp) -->
                 <li class="nav-item has-megamenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/dich-vu" title="Services">
-                        DỊCH VỤ CUNG CẤP
+                    <a class="nav-link" href="/dich-vu" title="Lĩnh vực hoạt động">
+                        LĨNH VỰC HOẠT ĐỘNG
                         <span class="caret-drop"></span>
                     </a>
                     <div class="megamenu-panel">
@@ -257,6 +231,21 @@ function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '
                     <button class="search_toggle" aria-label="Open search" title="Search">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     </button>
+                </li>
+
+                <!-- Profile Button - Before Language Switcher -->
+                <li class="nav-item nav-profile-btn">
+                    <a href="/<?php echo htmlspecialchars($headerSettings['profile_pdf_path']); ?>" class="btn_profile_download_nav" download title="Tải Profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Profile
+                    </a>
+                </li>
+
+                <!-- Language Switcher (Elfsight) - Moved from topbar -->
+                <li class="nav-item nav-lang-item">
+                    <div class="nav_lang">
+                        <div class="elfsight-app-0f1ebd7d-aee6-4ddc-b2ba-1eba802b9ca5" data-elfsight-app-lazy></div>
+                    </div>
                 </li>
                 
             </ul>
