@@ -1,7 +1,31 @@
 ﻿<?php
-// $categories
-// Ensure categories exist
-$categories = $categories ?? [];
+/**
+ * Render category checkboxes with hierarchy support
+ */
+function renderCategoryCheckboxes($categories, $selectedIds = [], $depth = 0) {
+    $html = '';
+    foreach ($categories as $category) {
+        $indent = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth);
+        $checked = in_array($category['id'], $selectedIds) ? 'checked' : '';
+        $isRecruitment = $category['id'] == 7 ? 'data-is-recruitment="1"' : '';
+        
+        $html .= '<div class="form-check category-checkbox" style="margin-left: ' . ($depth * 20) . 'px;">';
+        $html .= '<input class="form-check-input category-checkbox-input" type="checkbox" name="category_ids[]" ';
+        $html .= 'value="' . htmlspecialchars($category['id']) . '" id="cat_' . htmlspecialchars($category['id']) . '" ';
+        $html .= $checked . ' ' . $isRecruitment . ' onchange="checkRecruitmentCategory()">';
+        $html .= '<label class="form-check-label" for="cat_' . htmlspecialchars($category['id']) . '">';
+        $html .= $indent . htmlspecialchars($category['name']);
+        $html .= '</label></div>';
+        
+        if (!empty($category['children'])) {
+            $html .= renderCategoryCheckboxes($category['children'], $selectedIds, $depth + 1);
+        }
+    }
+    return $html;
+}
+
+// Ensure data exists
+$categoriesHierarchy = $categoriesHierarchy ?? [];
 ?>
 
 <div class="page-header">
@@ -9,7 +33,7 @@ $categories = $categories ?? [];
     <a href="/blogs" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
 </div>
 
-<form method="POST" action="/blogs/store" enctype="multipart/form-data" onsubmit="return validateBlogForm()">
+<form method="POST" action="/blogs/store" enctype="multipart/form-data" onsubmit="return validateBlogFormWithCategories()">
     <div class="admin-form-card blog-form-tabs">
         <!-- Tab Navigation -->
         <ul class="nav nav-tabs" id="blogTabs" role="tablist">
@@ -54,15 +78,15 @@ $categories = $categories ?? [];
                         </div>
                         
                         <div class="mb-3">
-                            <label for="category_id" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                            <select class="form-select" id="category_id" name="category_id" onchange="toggleRecruitmentTab()">
-                                <option value="">-- Chọn danh mục --</option>
-                                <?php foreach ($categories ?? [] as $category): ?>
-                                    <option value="<?= htmlspecialchars($category['id']) ?>">
-                                        <?= htmlspecialchars($category['name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <label class="form-label">Danh mục tin tức <span class="text-danger">*</span></label>
+                            <div class="category-hierarchy-checkboxes border rounded p-3">
+                                <div class="form-text mb-2">Chọn một hoặc nhiều danh mục (có thể chọn nhiều):</div>
+                                <?php if (!empty($categoriesHierarchy)): ?>
+                                    <?= renderCategoryCheckboxes($categoriesHierarchy) ?>
+                                <?php else: ?>
+                                    <div class="text-muted">Chưa có danh mục nào. <a href="/blog-categories/create">Tạo danh mục đầu tiên</a></div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                         
                         <div class="mb-3">

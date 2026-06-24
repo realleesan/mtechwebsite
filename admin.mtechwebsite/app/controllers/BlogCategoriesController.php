@@ -39,9 +39,13 @@ class BlogCategoriesController extends BaseController
 
     public function create()
     {
+        // Get existing categories for parent dropdown
+        $categories = $this->blogsModel->getCategoriesForMultiSelect();
+
         $this->view('blog-categories/create', [
             'title' => 'Thêm danh mục tin tức - Admin MTech',
             'page'  => 'blog.category.create',
+            'categories' => $categories,
             'admin' => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -79,13 +83,16 @@ class BlogCategoriesController extends BaseController
                 return;
             }
 
-            // Insert new category
+            // Insert new category with parent_id support
             $stmt = $db->prepare("
-                INSERT INTO blog_categories (name, slug, status, show_in_menu, sort_order, created_at) 
-                VALUES (?, ?, ?, ?, ?, NOW())
+                INSERT INTO blog_categories (parent_id, name, slug, status, show_in_menu, sort_order, created_at) 
+                VALUES (?, ?, ?, ?, ?, ?, NOW())
             ");
             
+            $parentId = !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null;
+            
             $stmt->execute([
+                $parentId,
                 $_POST['name'],
                 $_POST['slug'],
                 $_POST['status'] ?? 1,
@@ -121,10 +128,17 @@ class BlogCategoriesController extends BaseController
                 return;
             }
 
+            // Get all categories for parent dropdown (exclude current and its descendants)
+            $categories = $this->blogsModel->getCategoriesForMultiSelect();
+            $availableParents = array_filter($categories, function($cat) use ($id) {
+                return $cat['id'] != $id; // Exclude self (prevent circular reference)
+            });
+
             $this->view('blog-categories/edit', [
                 'title'    => 'Chỉnh sửa danh mục - Admin MTech',
                 'page'     => 'blog.category.edit',
                 'category' => $category,
+                'categories' => $availableParents,
                 'admin'    => AuthMiddleware::getAdmin(),
             ]);
 
@@ -168,14 +182,17 @@ class BlogCategoriesController extends BaseController
                 return;
             }
 
-            // Update category
+            // Update category with parent_id support
             $stmt = $db->prepare("
                 UPDATE blog_categories 
-                SET name = ?, slug = ?, status = ?, show_in_menu = ?, sort_order = ?, updated_at = NOW()
+                SET parent_id = ?, name = ?, slug = ?, status = ?, show_in_menu = ?, sort_order = ?, updated_at = NOW()
                 WHERE id = ?
             ");
             
+            $parentId = !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null;
+            
             $stmt->execute([
+                $parentId,
                 $_POST['name'],
                 $_POST['slug'],
                 $_POST['status'] ?? 1,
@@ -208,8 +225,19 @@ class BlogCategoriesController extends BaseController
         try {
             $db = getDBConnection();
             
-            // Check if category has blogs
-            $stmt = $db->prepare("SELECT COUNT(*) FROM blogs WHERE category_id = ?");
+            // Check if category has children
+            $stmt = $db->prepare("SELECT COUNT(*) FROM blog_categories WHERE parent_id = ?");
+            $stmt->execute([$id]);
+            $childCount = $stmt->fetchColumn();
+            
+            if ($childCount > 0) {
+                $_SESSION['error'] = "Không thể xóa danh mục này vì còn {$childCount} danh mục con. Vui lòng xóa danh mục con trước.";
+                $this->redirect('/blogs/categories');
+                return;
+            }
+            
+            // Check if category has blogs via blog_category_map
+            $stmt = $db->prepare("SELECT COUNT(*) FROM blog_category_map WHERE category_id = ?");
             $stmt->execute([$id]);
             $blogCount = $stmt->fetchColumn();
 

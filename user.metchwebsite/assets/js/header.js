@@ -117,6 +117,47 @@ function slugifyVi(str) {
             });
         });
 
+        // ── Nested Dropdowns (danh mục cha có danh mục con) ────────
+        // Xử lý submenu bên trong dropdown menu
+        const nestedSubmenus = document.querySelectorAll('ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu');
+
+        nestedSubmenus.forEach(function (nestedItem) {
+            let nestedHideTimer = null;
+            const nestedDropdown = nestedItem.querySelector('ul.dropdown-menu');
+            const nestedLink = nestedItem.querySelector(':scope > a.nav-link');
+            
+            if (!nestedDropdown) return;
+
+            // Chặn navigate khi click
+            if (nestedLink) {
+                nestedLink.addEventListener('click', function (e) {
+                    if (window.innerWidth >= 992) {
+                        e.preventDefault();
+                    }
+                });
+            }
+
+            function showNestedDropdown() {
+                clearTimeout(nestedHideTimer);
+                if (window.innerWidth >= 992) {
+                    nestedDropdown.style.display = 'block';
+                }
+            }
+
+            function hideNestedDropdown() {
+                if (window.innerWidth >= 992) {
+                    nestedHideTimer = setTimeout(function () {
+                        nestedDropdown.style.display = 'none';
+                    }, HIDE_DELAY);
+                }
+            }
+
+            nestedItem.addEventListener('mouseenter', showNestedDropdown);
+            nestedItem.addEventListener('mouseleave', hideNestedDropdown);
+            nestedDropdown.addEventListener('mouseenter', showNestedDropdown);
+            nestedDropdown.addEventListener('mouseleave', hideNestedDropdown);
+        });
+
         // ── Hamburger Menu (Mobile) ────────────────────────────────
         const toggler  = document.querySelector('.navbar-toggler');
         const collapse = document.querySelector('.navbar-collapse');

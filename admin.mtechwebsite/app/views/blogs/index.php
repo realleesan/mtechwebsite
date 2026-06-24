@@ -1,13 +1,49 @@
 <?php
-// $blogs, $categories, $total, $currentPage, $totalPages, $search, $catId
+// $blogs, $categoriesHierarchy, $total, $currentPage, $totalPages, $search, $catId
 // Set default values to prevent undefined index notices
 $blogs = $blogs ?? [];
-$categories = $categories ?? [];
+$categoriesHierarchy = $categoriesHierarchy ?? [];
 $total = $total ?? 0;
 $currentPage = $currentPage ?? 1;
 $totalPages = $totalPages ?? 1;
 $search = $search ?? '';
 $catId = $catId ?? 0;
+
+/**
+ * Helper function to render category options with hierarchy
+ */
+function renderCategoryOptions($categories, $selectedId = 0, $depth = 0) {
+    $html = '';
+    foreach ($categories as $cat) {
+        $indent = str_repeat('&nbsp;&nbsp;', $depth);
+        $selected = ($cat['id'] == $selectedId) ? 'selected' : '';
+        $html .= '<option value="' . htmlspecialchars($cat['id']) . '" ' . $selected . '>';
+        $html .= $indent . htmlspecialchars($cat['name']);
+        $html .= '</option>';
+        
+        if (!empty($cat['children'])) {
+            $html .= renderCategoryOptions($cat['children'], $selectedId, $depth + 1);
+        }
+    }
+    return $html;
+}
+
+/**
+ * Helper function to render multiple categories as badges
+ */
+function renderCategoryBadges($categories) {
+    if (empty($categories)) {
+        return '<span class="badge bg-light text-muted">Chưa có danh mục</span>';
+    }
+    
+    $html = '';
+    foreach ($categories as $category) {
+        $html .= '<span class="badge bg-secondary me-1 mb-1">';
+        $html .= htmlspecialchars($category['name']);
+        $html .= '</span>';
+    }
+    return $html;
+}
 ?>
 
 <!-- Page Header -->
@@ -41,12 +77,29 @@ $catId = $catId ?? 0;
             <div class="col-12 col-md-4">
                 <select class="form-select form-select-sm" name="cat">
                     <option value="0">-- Tất cả danh mục --</option>
-                    <?php foreach ($categories as $cat): ?>
-                        <option value="<?= $cat['id'] ?>"
-                            <?= ($catId ?? 0) == $cat['id'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($cat['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                    <?php
+                    // Build hierarchy from flat array
+                    $hierarchyCategories = [];
+                    $indexed = [];
+                    
+                    // First, index all categories
+                    foreach ($categoriesHierarchy as $cat) {
+                        $indexed[$cat['id']] = $cat;
+                        $indexed[$cat['id']]['children'] = [];
+                    }
+                    
+                    // Then build parent-child relationships
+                    foreach ($indexed as $id => &$cat) {
+                        if ($cat['parent_id'] && isset($indexed[$cat['parent_id']])) {
+                            $indexed[$cat['parent_id']]['children'][] = &$cat;
+                        } else {
+                            $hierarchyCategories[] = &$cat;
+                        }
+                    }
+                    
+                    // Render hierarchical options
+                    echo renderCategoryOptions($hierarchyCategories, $catId);
+                    ?>
                 </select>
             </div>
             <div class="col-auto">
@@ -99,9 +152,7 @@ $catId = $catId ?? 0;
                                 <small class="text-muted"><?= htmlspecialchars($blog['slug'] ?? '') ?></small>
                             </td>
                             <td>
-                                <span class="badge bg-secondary">
-                                    <?= htmlspecialchars($blog['category_name'] ?? 'Chưa có') ?>
-                                </span>
+                                <?= renderCategoryBadges($blog['categories'] ?? []) ?>
                             </td>
                             <td>
                                 <?php 

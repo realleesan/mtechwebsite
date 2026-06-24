@@ -297,3 +297,173 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* ============================================
+   Blog Categories Hierarchy Styles
+   ============================================ */
+
+/* Blog Categories Hierarchy Checkboxes */
+.category-hierarchy-checkboxes {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.category-checkbox {
+    margin-bottom: 8px;
+}
+
+/* Blog Index - Multiple Category Badges */
+.badge.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+.badge.bg-light {
+    color: #6c757d !important;
+    border: 1px solid #dee2e6;
+}
+
+/* Blog Categories Management Hierarchy */
+.category-child {
+    transition: all 0.3s ease;
+}
+
+.category-child.hidden {
+    display: none;
+}
+
+/* Hierarchy depth visual indicators */
+tr[data-depth="1"] {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+tr[data-depth="2"] {
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+tr[data-depth="3"] {
+    background-color: rgba(255, 193, 7, 0.05);
+}
+
+/* Chevron expand/collapse animation */
+[id^="chevron-"] {
+    transition: transform 0.2s ease;
+}
+
+.btn-link:hover [id^="chevron-"] {
+    transform: scale(1.1);
+}
+
+/* Category hierarchy indentation */
+.category-hierarchy-name {
+    display: flex;
+    align-items: center;
+}
+
+.category-hierarchy-name .chevron-toggle {
+    margin-right: 8px;
+    color: #6c757d;
+}
+
+.category-hierarchy-name .chevron-toggle:hover {
+    color: #495057;
+}
+
+/* Parent category indication */
+.parent-category-info {
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Disabled delete button for parents */
+.btn-outline-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Category management controls */
+.category-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.expand-collapse-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.expand-collapse-controls .btn-sm {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+}
+
+/* Responsive category table */
+@media (max-width: 768px) {
+    .category-hierarchy-name {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .parent-category-info {
+        margin-top: 4px;
+    }
+    
+    .expand-collapse-controls {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+/* ============================================
+   Blog Edit Form Styles (from edit.php)
+   ============================================ */
+
+.category-hierarchy-checkboxes {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.category-checkbox {
+    margin-bottom: 8px;
+}
+
+/* ============================================
+   Blog Categories Management - Level Display
+   ============================================ */
+
+.category-row {
+    transition: all 0.2s ease;
+}
+
+.category-row.hidden {
+    display: none;
+}
+
+.category-name-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.category-row[data-level="1"] {
+    font-weight: 600;
+    background-color: rgba(0, 123, 255, 0.03);
+}
+
+.category-row[data-level="2"] {
+    background-color: rgba(0, 123, 255, 0.02);
+}
+
+.category-row[data-level="3"] {
+    background-color: rgba(40, 167, 69, 0.02);
+}
+
+.chevron-toggle {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.chevron-toggle:hover {
+    transform: scale(1.15);
+}

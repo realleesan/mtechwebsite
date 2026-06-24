@@ -40,24 +40,26 @@ class BlogsController extends BaseController
         $search   = trim($_GET['search'] ?? '');
         $catId    = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
 
-        // Get blogs and categories for admin
+        // Get blogs with multiple categories
         $result = $this->blogsModel->getAdminBlogs($page, $perPage, $catId, $search);
         $blogs  = $result['blogs'];
         $total  = $result['total'];
 
         $totalPages = ceil($total / $perPage);
-        $categories = $this->blogsModel->getAdminBlogCategories();
+        
+        // Get categories in flat format for filter dropdown
+        $categoriesHierarchy = $this->blogsModel->getCategoriesForMultiSelect();
 
         // Debug: Log the request parameters
         error_log("BlogsController::index() - page: {$page}, search: '{$search}', catId: {$catId}");
         error_log("BlogsController::index() - Found {$total} total blogs, " . count($blogs) . " on current page");
-        error_log("BlogsController::index() - Found " . count($categories) . " categories");
+        error_log("BlogsController::index() - Found " . count($categoriesHierarchy) . " categories");
 
         $this->view('blogs/index', [
             'title'      => 'Quản lý Tin tức - Admin MTech',
             'page'       => 'blogs',
             'blogs'      => $blogs,
-            'categories' => $categories,
+            'categoriesHierarchy' => $categoriesHierarchy,
             'currentPage'=> $page,
             'totalPages' => $totalPages,
             'total'      => $total,
@@ -73,12 +75,13 @@ class BlogsController extends BaseController
 
     public function create()
     {
-        $categories = $this->blogsModel->getAdminBlogCategories();
+        // Get categories in hierarchy format for checkbox display
+        $categoriesHierarchy = $this->blogsModel->getCategoriesForMultiSelect();
 
         $this->view('blogs/create', [
             'title'      => 'Tạo tin tức mới - Admin MTech',
             'page'       => 'blog.create',
-            'categories' => $categories,
+            'categoriesHierarchy' => $categoriesHierarchy,
             'admin'      => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -96,6 +99,7 @@ class BlogsController extends BaseController
 
         // Debug: Log incoming POST data
         error_log("BlogsController::store() - POST data: " . json_encode($_POST));
+        error_log("BlogsController::store() - category_ids: " . json_encode($_POST['category_ids'] ?? 'NOT SET'));
         error_log("BlogsController::store() - FILES data: " . json_encode(array_keys($_FILES)));
 
         // TODO: Implement store logic
@@ -104,8 +108,8 @@ class BlogsController extends BaseController
         // - Insert vào database
         // - Redirect về /blogs với success message
 
-        // Validate required fields
-        $required = ['title', 'slug', 'category_id'];
+        // Validate required fields - remove category_id since we use many-to-many
+        $required = ['title', 'slug'];
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
@@ -114,6 +118,16 @@ class BlogsController extends BaseController
                 return;
             }
         }
+
+        // Validate category selection - at least one category must be selected
+        if (empty($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
+            error_log("BlogsController::store() - Category validation failed: " . json_encode($_POST['category_ids'] ?? 'NOT SET'));
+            $_SESSION['error'] = "Vui lòng chọn ít nhất một danh mục";
+            $this->redirect('/blogs/create');
+            return;
+        }
+        
+        error_log("BlogsController::store() - Categories passed validation: " . json_encode($_POST['category_ids']));
 
         try {
             $db = getDBConnection();
@@ -154,11 +168,10 @@ class BlogsController extends BaseController
                 }
             }
 
-            // Prepare blog data
+            // Prepare blog data - remove parent_id
             $blogData = [
                 'title' => $this->clampUtf8($_POST['title'] ?? '', 500),
                 'slug' => $this->clampUtf8($_POST['slug'] ?? '', 500),
-                'category_id' => $_POST['category_id'],
                 'excerpt' => $this->clampUtf8($_POST['excerpt'] ?? '', 65535),
                 'content' => $_POST['content'] ?? '',
                 'image' => $imagePath,
@@ -167,8 +180,9 @@ class BlogsController extends BaseController
                 'views' => 0
             ];
 
-            // Add recruitment fields if category is recruitment (ID = 7)
-            if ($_POST['category_id'] == 7) {
+            // Check if any selected category is recruitment (ID = 7) for special fields
+            $categoryIds = array_map('intval', $_POST['category_ids']);
+            if (in_array(7, $categoryIds)) {
                 $blogData['hiring_status'] = $_POST['hiring_status'] ?? 1;
                 $blogData['position'] = $this->clampUtf8($_POST['position'] ?? '', 255);
                 $blogData['expires_in_days'] = !empty($_POST['expires_in_days']) ? $_POST['expires_in_days'] : null;
@@ -182,6 +196,9 @@ class BlogsController extends BaseController
             $db->beginTransaction();
 
             $blogId = $this->blogsModel->createBlog($blogData);
+            
+            // Link blog to selected categories (many-to-many)
+            $this->blogsModel->linkBlogToCategories($blogId, $categoryIds);
 
             if (!empty($_POST['tags'])) {
                 $this->handleTags($blogId, $_POST['tags']);
@@ -229,13 +246,19 @@ class BlogsController extends BaseController
         $blogDetails = $this->getBlogDetails($id);
         $blog = $this->mergeBlogDetailsIntoBlog($blog, $blogDetails);
 
-        $categories = $this->blogsModel->getAdminBlogCategories();
+        // Get categories in hierarchy format for checkbox display
+        $categoriesHierarchy = $this->blogsModel->getCategoriesForMultiSelect();
+        
+        // Get current blog categories
+        $currentCategories = $this->blogsModel->getCategoriesByBlogId($id);
+        $selectedCategoryIds = array_column($currentCategories, 'id');
 
         $this->view('blogs/edit', [
             'title'      => 'Chỉnh sửa tin tức - Admin MTech',
             'page'       => 'blog.edit',
             'blog'       => $blog,
-            'categories' => $categories,
+            'categoriesHierarchy' => $categoriesHierarchy,
+            'selectedCategoryIds' => $selectedCategoryIds,
             'admin'      => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -258,8 +281,8 @@ class BlogsController extends BaseController
         // - Redirect về /blogs với success message
         $id = (int) $id;
 
-        // Validate required fields
-        $required = ['title', 'slug', 'category_id'];
+        // Validate required fields - remove category_id since we use many-to-many
+        $required = ['title', 'slug'];
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
@@ -267,6 +290,16 @@ class BlogsController extends BaseController
                 return;
             }
         }
+
+        // Validate category selection - at least one category must be selected
+        if (empty($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
+            error_log("BlogsController::update() - Category validation failed: " . json_encode($_POST['category_ids'] ?? 'NOT SET'));
+            $_SESSION['error'] = "Vui lòng chọn ít nhất một danh mục";
+            $this->redirect('/blogs/edit/' . $id);
+            return;
+        }
+        
+        error_log("BlogsController::update() - Categories passed validation: " . json_encode($_POST['category_ids']));
 
         try {
             $db = getDBConnection();
@@ -288,19 +321,19 @@ class BlogsController extends BaseController
                 return;
             }
 
-            // Prepare blog data
+            // Prepare blog data - remove parent_id
             $blogData = [
                 'title' => $this->clampUtf8($_POST['title'] ?? '', 500),
                 'slug' => $this->clampUtf8($_POST['slug'] ?? '', 500),
-                'category_id' => $_POST['category_id'],
                 'excerpt' => $this->clampUtf8($_POST['excerpt'] ?? '', 65535),
                 'content' => $_POST['content'] ?? '',
                 'author' => $this->clampUtf8($_POST['author'] ?? 'Admin', 255),
                 'status' => $_POST['status'] ?? 1
             ];
 
-            // Add recruitment fields if category is recruitment (ID = 7)
-            if ($_POST['category_id'] == 7) {
+            // Check if any selected category is recruitment (ID = 7) for special fields
+            $categoryIds = array_map('intval', $_POST['category_ids']);
+            if (in_array(7, $categoryIds)) {
                 $blogData['hiring_status'] = $_POST['hiring_status'] ?? 1;
                 $blogData['position'] = $this->clampUtf8($_POST['position'] ?? '', 255);
                 $blogData['expires_in_days'] = !empty($_POST['expires_in_days']) ? $_POST['expires_in_days'] : null;
@@ -346,6 +379,9 @@ class BlogsController extends BaseController
             $db->beginTransaction();
 
             $this->blogsModel->updateBlog($id, $blogData);
+            
+            // Update blog categories (many-to-many)
+            $this->blogsModel->linkBlogToCategories($id, $categoryIds);
 
             $this->handleTags($id, $_POST['tags'] ?? '');
 

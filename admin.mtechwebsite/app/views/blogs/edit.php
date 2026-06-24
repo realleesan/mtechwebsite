@@ -1,14 +1,42 @@
 ﻿<?php
-// $blog, $categories
+/**
+ * Render category checkboxes with hierarchy support for edit form
+ */
+function renderCategoryCheckboxes($categories, $selectedIds = [], $depth = 0) {
+    $html = '';
+    // Convert selectedIds to integers for comparison
+    $selectedIds = array_map('intval', $selectedIds);
+    
+    foreach ($categories as $category) {
+        $catId = (int)$category['id'];
+        $indent = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth);
+        $checked = in_array($catId, $selectedIds) ? 'checked' : '';
+        $isRecruitment = $catId == 7 ? 'data-is-recruitment="1"' : '';
+        
+        $html .= '<div class="form-check category-checkbox" style="margin-left: ' . ($depth * 20) . 'px;">';
+        $html .= '<input class="form-check-input category-checkbox-input" type="checkbox" name="category_ids[]" ';
+        $html .= 'value="' . htmlspecialchars($catId) . '" id="cat_' . htmlspecialchars($catId) . '" ';
+        $html .= $checked . ' ' . $isRecruitment . ' onchange="checkRecruitmentCategory()">';
+        $html .= '<label class="form-check-label" for="cat_' . htmlspecialchars($catId) . '">';
+        $html .= $indent . htmlspecialchars($category['name']);
+        $html .= '</label></div>';
+        
+        if (!empty($category['children'])) {
+            $html .= renderCategoryCheckboxes($category['children'], $selectedIds, $depth + 1);
+        }
+    }
+    return $html;
+}
+
 // Ensure all required variables exist
 $blog = $blog ?? [];
-$categories = $categories ?? [];
+$categoriesHierarchy = $categoriesHierarchy ?? [];
+$selectedCategoryIds = $selectedCategoryIds ?? [];
 
 // Set default values for all blog fields
 if (!isset($blog['id'])) $blog['id'] = 0;
 if (!isset($blog['title'])) $blog['title'] = '';
 if (!isset($blog['slug'])) $blog['slug'] = '';
-if (!isset($blog['category_id'])) $blog['category_id'] = '';
 if (!isset($blog['excerpt'])) $blog['excerpt'] = '';
 if (!isset($blog['content'])) $blog['content'] = '';
 if (!isset($blog['full_content'])) $blog['full_content'] = '';
@@ -25,17 +53,21 @@ if (!isset($blog['expires_in_days'])) $blog['expires_in_days'] = '';
 if (!isset($blog['contact_email'])) $blog['contact_email'] = '';
 if (!isset($blog['contact_phone'])) $blog['contact_phone'] = '';
 
-// Trang user dùng blog_details.full_content; blogs.content có thể cũ/rỗng — ưu tiên full_content khi sửa.
+// Content for editor (prioritize full_content over content)
 $contentForEditor = !empty($blog['full_content']) ? $blog['full_content'] : ($blog['content'] ?? '');
 $contentForEditor = (string) $contentForEditor;
 $contentForEditorHidden = htmlspecialchars($contentForEditor, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
+// Tags for input
 $tagsForInput = [];
 foreach ($blog['tags'] ?? [] as $t) {
     if (is_array($t) && array_key_exists('name', $t)) {
         $tagsForInput[] = (string) $t['name'];
     }
 }
+
+// Check if recruitment category is selected
+$hasRecruitmentCategory = in_array(7, $selectedCategoryIds);
 ?>
 
 <div class="page-header">
@@ -43,7 +75,7 @@ foreach ($blog['tags'] ?? [] as $t) {
     <a href="/blogs" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
 </div>
 
-<form method="POST" action="/blogs/update/<?= $blog['id'] ?>" enctype="multipart/form-data" onsubmit="return validateBlogForm()">
+<form method="POST" action="/blogs/update/<?= $blog['id'] ?>" enctype="multipart/form-data" onsubmit="return validateBlogFormWithCategories()">
     <div class="admin-form-card blog-form-tabs">
         <!-- Tab Navigation -->
         <ul class="nav nav-tabs" id="blogTabs" role="tablist">
@@ -62,7 +94,7 @@ foreach ($blog['tags'] ?? [] as $t) {
                     <i class="bi bi-search me-2"></i>SEO & Metadata
                 </button>
             </li>
-            <li class="nav-item" role="presentation" id="recruitment-tab-nav" style="display: <?= ((int) ($blog['category_id'] ?? 0) === 7) ? 'block' : 'none' ?>;">
+            <li class="nav-item" role="presentation" id="recruitment-tab-nav" style="display: <?= $hasRecruitmentCategory ? 'block' : 'none' ?>;">
                 <button class="nav-link" id="recruitment-tab" data-bs-toggle="tab" data-bs-target="#recruitment" type="button" role="tab">
                     <i class="bi bi-briefcase me-2"></i>Tuyển dụng
                 </button>
@@ -88,16 +120,15 @@ foreach ($blog['tags'] ?? [] as $t) {
                         </div>
                         
                         <div class="mb-3">
-                            <label for="category_id" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                            <select class="form-select" id="category_id" name="category_id" onchange="toggleRecruitmentTab()">
-                                <option value="">-- Chọn danh mục --</option>
-                                <?php foreach ($categories ?? [] as $category): ?>
-                                    <option value="<?= htmlspecialchars($category['id']) ?>" 
-                                        <?= ($blog['category_id'] == $category['id']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($category['name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <label class="form-label">Danh mục tin tức <span class="text-danger">*</span></label>
+                            <div class="category-hierarchy-checkboxes border rounded p-3">
+                                <div class="form-text mb-2">Chọn một hoặc nhiều danh mục (có thể chọn nhiều):</div>
+                                <?php if (!empty($categoriesHierarchy)): ?>
+                                    <?= renderCategoryCheckboxes($categoriesHierarchy, $selectedCategoryIds) ?>
+                                <?php else: ?>
+                                    <div class="text-muted">Chưa có danh mục nào. <a href="/blog-categories/create">Tạo danh mục đầu tiên</a></div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                         
                         <div class="mb-3">

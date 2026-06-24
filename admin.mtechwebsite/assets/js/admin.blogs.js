@@ -61,13 +61,13 @@ function initBlogForm() {
         });
     }
     
-    // Toggle recruitment tab based on category selection
-    const categorySelect = document.getElementById('category_id');
-    if (categorySelect) {
-        categorySelect.addEventListener('change', toggleRecruitmentTab);
-        // Initialize on page load
-        toggleRecruitmentTab();
-    }
+    // Note: toggleRecruitmentTab removed - now using checkRecruitmentCategory() for checkboxes
+    
+    // Handle category checkbox changes for recruitment tab toggling
+    const categoryCheckboxes = document.querySelectorAll('input[name="category_ids[]"]');
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', checkRecruitmentCategory);
+    });
 }
 
 // ----------------------------------------
@@ -507,4 +507,265 @@ function showToast(message, type = 'success') {
             toast.remove();
         }
     }, 5000);
+}
+
+// ============================================
+// Blog Categories Hierarchy Management
+// ============================================
+
+// Auto-generate slug from name for categories
+function initCategorySlugGeneration() {
+    const nameInput = document.getElementById('name');
+    const slugInput = document.getElementById('slug');
+    
+    if (nameInput && slugInput) {
+        nameInput.addEventListener('input', function() {
+            const slug = generateSlug(this.value);
+            slugInput.value = slug;
+        });
+    }
+}
+
+// Check if recruitment category is selected to show/hide recruitment tab
+function checkRecruitmentCategory() {
+    const recruitmentCheckbox = document.querySelector('input[data-is-recruitment="1"]');
+    const recruitmentTab = document.getElementById('recruitment-tab-nav');
+    
+    if (recruitmentCheckbox && recruitmentCheckbox.checked) {
+        if (recruitmentTab) recruitmentTab.style.display = 'block';
+    } else {
+        if (recruitmentTab) recruitmentTab.style.display = 'none';
+        // If recruitment tab is active, switch to basic tab
+        const recruitmentTabButton = document.getElementById('recruitment-tab');
+        if (recruitmentTabButton && recruitmentTabButton.classList.contains('active')) {
+            const basicTab = document.getElementById('basic-tab');
+            if (basicTab) basicTab.click();
+        }
+    }
+}
+
+// Enhanced form validation for multiple categories
+function validateBlogFormWithCategories() {
+    // Check title
+    const title = document.getElementById('title');
+    if (!title || !title.value.trim()) {
+        alert('Vui lòng nhập tiêu đề tin tức');
+        if (title) {
+            const basicTab = document.getElementById('basic-tab');
+            if (basicTab) basicTab.click();
+            title.focus();
+        }
+        return false;
+    }
+    
+    // Check slug
+    const slug = document.getElementById('slug');
+    if (!slug || !slug.value.trim()) {
+        alert('Vui lòng nhập slug');
+        if (slug) {
+            const basicTab = document.getElementById('basic-tab');
+            if (basicTab) basicTab.click();
+            slug.focus();
+        }
+        return false;
+    }
+    
+    // Check categories - at least one must be selected
+    const checkedCategories = document.querySelectorAll('input[name="category_ids[]"]:checked');
+    if (checkedCategories.length === 0) {
+        alert('Vui lòng chọn ít nhất một danh mục');
+        const basicTab = document.getElementById('basic-tab');
+        if (basicTab) basicTab.click();
+        return false;
+    }
+    
+    // Sync rich editor content
+    const editorContent = document.querySelector('.rich-editor-content');
+    const contentInput = document.getElementById('content');
+    if (editorContent && contentInput) {
+        contentInput.value = editorContent.innerHTML;
+    }
+    
+    return true;
+}
+
+// Meta generation helpers
+function generateMetaTitleFromInput() {
+    const title = document.getElementById('title');
+    const metaTitle = document.getElementById('meta_title');
+    if (title && metaTitle && title.value) {
+        metaTitle.value = title.value.substring(0, 60);
+    }
+}
+
+function generateMetaDescriptionFromExcerpt() {
+    const excerpt = document.getElementById('excerpt');
+    const metaDescription = document.getElementById('meta_description');
+    if (excerpt && metaDescription && excerpt.value) {
+        metaDescription.value = excerpt.value.substring(0, 160);
+    }
+}
+
+function generateMetaKeywordsFromTags() {
+    const title = document.getElementById('title');
+    const tags = document.getElementById('tags');
+    const metaKeywords = document.getElementById('meta_keywords');
+    let keywords = [];
+    
+    if (title && title.value) {
+        // Extract keywords from title
+        const titleWords = title.value.toLowerCase().split(' ')
+            .filter(word => word.length > 3)
+            .slice(0, 3);
+        keywords = keywords.concat(titleWords);
+    }
+    
+    if (tags && tags.value) {
+        keywords = keywords.concat(tags.value.split(',').map(tag => tag.trim()));
+    }
+    
+    if (metaKeywords) {
+        metaKeywords.value = keywords.slice(0, 8).join(', ');
+    }
+}
+
+// ============================================
+// Category Hierarchy Management
+// ============================================
+
+// Toggle children categories
+function toggleChildren(categoryId) {
+    const chevron = document.getElementById('chevron-' + categoryId);
+    const childRows = document.querySelectorAll(`tr[data-category-id="${categoryId}"] ~ tr`);
+    
+    if (!chevron) return;
+    
+    let isExpanded = chevron.classList.contains('bi-chevron-down');
+    
+    if (isExpanded) {
+        // Collapse - hide direct children
+        chevron.className = 'bi bi-chevron-right';
+        hideChildrenRecursive(categoryId);
+    } else {
+        // Expand - show direct children
+        chevron.className = 'bi bi-chevron-down';
+        showDirectChildren(categoryId);
+    }
+}
+
+function hideChildrenRecursive(parentId) {
+    const allRows = document.querySelectorAll('tr[data-category-id]');
+    let currentParentDepth = null;
+    let hideMode = false;
+    
+    for (let row of allRows) {
+        const rowId = parseInt(row.dataset.categoryId);
+        const rowDepth = parseInt(row.dataset.depth);
+        
+        if (rowId === parentId) {
+            currentParentDepth = rowDepth;
+            hideMode = true;
+            continue;
+        }
+        
+        if (hideMode) {
+            if (rowDepth > currentParentDepth) {
+                row.style.display = 'none';
+                // Also collapse any chevrons in hidden children
+                const chevron = row.querySelector('[id^="chevron-"]');
+                if (chevron) {
+                    chevron.className = 'bi bi-chevron-right';
+                }
+            } else {
+                hideMode = false;
+            }
+        }
+    }
+}
+
+function showDirectChildren(parentId) {
+    const allRows = document.querySelectorAll('tr[data-category-id]');
+    let currentParentDepth = null;
+    let showMode = false;
+    
+    for (let row of allRows) {
+        const rowId = parseInt(row.dataset.categoryId);
+        const rowDepth = parseInt(row.dataset.depth);
+        
+        if (rowId === parentId) {
+            currentParentDepth = rowDepth;
+            showMode = true;
+            continue;
+        }
+        
+        if (showMode) {
+            if (rowDepth === currentParentDepth + 1) {
+                // Show direct children only
+                row.style.display = '';
+            } else if (rowDepth <= currentParentDepth) {
+                showMode = false;
+            }
+        }
+    }
+}
+
+function expandAllCategories() {
+    document.querySelectorAll('tr[data-category-id]').forEach(row => {
+        row.style.display = '';
+    });
+    document.querySelectorAll('[id^="chevron-"]').forEach(chevron => {
+        chevron.className = 'bi bi-chevron-down';
+    });
+}
+
+function collapseAllCategories() {
+    // Hide all depth > 0 rows
+    document.querySelectorAll('tr[data-category-id]').forEach(row => {
+        if (parseInt(row.dataset.depth) > 0) {
+            row.style.display = 'none';
+        }
+    });
+    // Set all chevrons to collapsed state
+    document.querySelectorAll('[id^="chevron-"]').forEach(chevron => {
+        chevron.className = 'bi bi-chevron-right';
+    });
+}
+
+// Initialize category management when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize category slug generation
+    initCategorySlugGeneration();
+    
+    // Initialize category hierarchy collapse (if on categories page)
+    if (document.querySelector('tr[data-category-id]')) {
+        collapseAllCategories();
+    }
+    
+    // Initialize recruitment category checking (if on blog forms)
+    if (document.querySelector('input[data-is-recruitment="1"]')) {
+        checkRecruitmentCategory();
+    }
+    
+    // Initialize edit page specific functionality
+    if (document.querySelector('.category-hierarchy-checkboxes')) {
+        initEditPageFunctionality();
+    }
+});
+
+// ============================================
+// Blog Edit Page Specific Functions
+// ============================================
+
+function initEditPageFunctionality() {
+    // This function initializes functionality specific to the edit page
+    // The form validation and other handlers are already in validateBlogFormWithCategories()
+}
+
+// Helper function for edit page - sync rich editor on form submission
+function syncRichEditorOnSubmit() {
+    const editorContent = document.querySelector('.rich-editor-content');
+    const contentInput = document.getElementById('content');
+    if (editorContent && contentInput) {
+        contentInput.value = editorContent.innerHTML;
+    }
 }

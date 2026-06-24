@@ -370,6 +370,122 @@ class BlogsModel
         }
     }
 
+    /**
+     * Lấy categories theo blog ID (multiple categories via many-to-many)
+     * @param int $blogId Blog ID
+     * @return array Danh sách categories
+     */
+    public function getCategoriesByBlogId($blogId)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT bc.id, bc.name, bc.slug, bc.parent_id, bcm.sort_order
+                 FROM `blog_categories` bc
+                 INNER JOIN `blog_category_map` bcm ON bc.id = bcm.category_id
+                 WHERE bcm.blog_id = ?
+                 ORDER BY bcm.sort_order ASC, bc.sort_order ASC"
+            );
+            $stmt->execute([$blogId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getCategoriesByBlogId() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Lấy categories in hierarchy format for multi-select/checkboxes
+     * @return array Categories organized with hierarchy
+     */
+    public function getCategoriesForMultiSelect()
+    {
+        try {
+            // Get all categories
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, parent_id, status, sort_order
+                 FROM `blog_categories`
+                 ORDER BY parent_id IS NULL DESC, parent_id ASC, sort_order ASC"
+            );
+            $stmt->execute();
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Build hierarchy
+            return $this->buildCategoryHierarchy($categories);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getCategoriesForMultiSelect() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Build category hierarchy from flat array
+     * @param array $categories Flat array of categories
+     * @return array Hierarchical array
+     */
+    private function buildCategoryHierarchy($categories)
+    {
+        $hierarchy = [];
+        $indexed = [];
+        
+        // First, index all categories
+        foreach ($categories as $cat) {
+            $indexed[$cat['id']] = $cat;
+            $indexed[$cat['id']]['children'] = [];
+        }
+        
+        // Then build parent-child relationships
+        foreach ($indexed as $id => &$cat) {
+            if ($cat['parent_id'] && isset($indexed[$cat['parent_id']])) {
+                $indexed[$cat['parent_id']]['children'][] = &$cat;
+            } else {
+                $hierarchy[] = &$cat;
+            }
+        }
+        
+        return $hierarchy;
+    }
+
+    /**
+     * Link blog to multiple categories (many-to-many)
+     * @param int $blogId Blog ID
+     * @param array $categoryIds Array of category IDs
+     * @return bool Success
+     */
+    public function linkBlogToCategories($blogId, $categoryIds = [])
+    {
+        try {
+            error_log("BlogsModel::linkBlogToCategories() - blogId: {$blogId}, categoryIds: " . json_encode($categoryIds));
+            
+            // Delete existing mappings
+            $deleteStmt = $this->db->prepare("DELETE FROM `blog_category_map` WHERE blog_id = ?");
+            $deleteStmt->execute([$blogId]);
+            error_log("BlogsModel::linkBlogToCategories() - Deleted existing mappings for blog {$blogId}");
+            
+            // If no categories, we're done
+            if (empty($categoryIds)) {
+                error_log("BlogsModel::linkBlogToCategories() - No categories to link, returning");
+                return true;
+            }
+            
+            // Insert new mappings
+            $insertStmt = $this->db->prepare(
+                "INSERT INTO `blog_category_map` (blog_id, category_id, sort_order) 
+                 VALUES (?, ?, ?)"
+            );
+            
+            foreach ($categoryIds as $index => $catId) {
+                error_log("BlogsModel::linkBlogToCategories() - Linking blog {$blogId} to category {$catId}");
+                $insertStmt->execute([$blogId, $catId, $index]);
+            }
+            
+            error_log("BlogsModel::linkBlogToCategories() - Success!");
+            return true;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::linkBlogToCategories() - ERROR: ' . $e->getMessage());
+            return false;
+        }
+    }
+
     // ----------------------------------------------------------------
     // ADMIN METHODS - Không filter status
     // ----------------------------------------------------------------
@@ -411,20 +527,30 @@ class BlogsModel
             $offset = ($page - 1) * $perPage;
             $params = [];
 
-            $baseJoin = "FROM `blogs` b
-                         LEFT JOIN `blog_categories` bc ON b.category_id = bc.id";
+            // Base query without category join since we use many-to-many now
+            $baseFrom = "FROM `blogs` b";
+            $baseJoin = "";
 
-            $where = "WHERE deleted_at IS NULL"; // Admin xem tất cả, nhưng không bao gồm soft deleted
+            $where = "WHERE b.deleted_at IS NULL"; // Admin xem tất cả, nhưng không bao gồm soft deleted
 
-            // Add category filter
+            // Add category filter through blog_category_map
             if ($catId > 0) {
-                $where .= " AND b.category_id = ?";
+                $baseJoin .= " INNER JOIN `blog_category_map` bcm ON b.id = bcm.blog_id";
+                $where .= " AND bcm.category_id = ?";
                 $params[] = $catId;
             }
 
-            // Add search filter
+            // Add search filter - now searches in title, excerpt, and categories via mapping
             if (!empty($search)) {
-                $where .= " AND (b.title LIKE ? OR b.excerpt LIKE ? OR bc.name LIKE ?)";
+                $where .= " AND (
+                    b.title LIKE ? OR 
+                    b.excerpt LIKE ? OR
+                    EXISTS (
+                        SELECT 1 FROM `blog_category_map` search_bcm
+                        INNER JOIN `blog_categories` search_bc ON search_bcm.category_id = search_bc.id
+                        WHERE search_bcm.blog_id = b.id AND search_bc.name LIKE ?
+                    )
+                )";
                 $like = "%{$search}%";
                 $params[] = $like;
                 $params[] = $like;
@@ -432,16 +558,15 @@ class BlogsModel
             }
 
             // Count total
-            $countSql = "SELECT COUNT(b.id) {$baseJoin} {$where}";
+            $countSql = "SELECT COUNT(DISTINCT b.id) {$baseFrom} {$baseJoin} {$where}";
             $countStmt = $this->db->prepare($countSql);
             $countStmt->execute($params);
             $total = (int) $countStmt->fetchColumn();
 
-            // Fetch blogs - bỏ sort_order vì không tồn tại
-            $sql = "SELECT b.id, b.title, b.slug, b.image, b.excerpt,
-                           b.author, b.created_at, b.views, b.category_id, b.status,
-                           bc.name AS category_name, bc.slug AS category_slug
-                    {$baseJoin}
+            // Fetch blogs - remove old category fields
+            $sql = "SELECT DISTINCT b.id, b.title, b.slug, b.image, b.excerpt,
+                           b.author, b.created_at, b.views, b.status
+                    {$baseFrom} {$baseJoin}
                     {$where}
                     ORDER BY b.created_at DESC
                     LIMIT ? OFFSET ?";
@@ -451,9 +576,19 @@ class BlogsModel
             $stmt->execute($fetchParams);
             $blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Gắn tags cho từng blog
+            // Load multiple categories and tags for each blog
             foreach ($blogs as &$blog) {
+                $blog['categories'] = $this->getCategoriesByBlogId($blog['id']);
                 $blog['tags'] = $this->getTagsByBlogId($blog['id']);
+                
+                // For backward compatibility, set first category as primary
+                if (!empty($blog['categories'])) {
+                    $blog['category_name'] = $blog['categories'][0]['name'];
+                    $blog['category_slug'] = $blog['categories'][0]['slug'];
+                } else {
+                    $blog['category_name'] = null;
+                    $blog['category_slug'] = null;
+                }
             }
 
             return ['blogs' => $blogs, 'total' => $total];
@@ -494,12 +629,25 @@ class BlogsModel
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, status, show_in_menu, sort_order, created_at
-                 FROM `blog_categories`
-                 ORDER BY sort_order ASC, id ASC"
+                "SELECT bc.id, bc.name, bc.slug, bc.status, bc.show_in_menu, 
+                        bc.sort_order, bc.created_at, bc.parent_id, bc.level,
+                        parent.name as parent_name
+                 FROM `blog_categories` bc
+                 LEFT JOIN `blog_categories` parent ON bc.parent_id = parent.id
+                 ORDER BY bc.parent_id IS NULL DESC, bc.parent_id ASC, bc.sort_order ASC, bc.id ASC"
             );
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Automatically calculate level if not set
+            foreach ($categories as &$cat) {
+                if (!isset($cat['level']) || $cat['level'] === null) {
+                    // Root = level 1, child = level 2, etc
+                    $cat['level'] = $cat['parent_id'] ? 2 : 1;
+                }
+            }
+            
+            return $categories;
         } catch (PDOException $e) {
             error_log('BlogsModel::getAdminBlogCategories() - ' . $e->getMessage());
             return [];
@@ -742,4 +890,52 @@ class BlogsModel
             return false;
         }
     }
+
+    // ================================================================
+    // HIRING POSITIONS - Tuyển dụng
+    // ================================================================
+
+    /**
+     * Lấy tất cả vị trí tuyển dụng từ blogs
+     * @return array Danh sách các vị trí tuyển dụng
+     */
+    public function getAllHiringPositions()
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT DISTINCT b.id, b.title, b.position, b.hiring_status, b.expires_in_days, b.created_at
+                 FROM `blogs` b
+                 WHERE b.hiring_status = 1 AND b.status = 1 AND b.deleted_at IS NULL
+                   AND b.position IS NOT NULL AND b.position != ''
+                 ORDER BY b.created_at DESC"
+            );
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getAllHiringPositions() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Kiểm tra blog có phải tin tuyển dụng
+     * @param int $blogId Blog ID
+     * @return bool True nếu là tin tuyển dụng
+     */
+    public function isHiringBlog($blogId)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT 1 FROM `blogs` 
+                 WHERE id = ? AND hiring_status = 1 AND status = 1 AND deleted_at IS NULL
+                 LIMIT 1"
+            );
+            $stmt->execute([$blogId]);
+            return $stmt->fetch() !== false;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::isHiringBlog() - ' . $e->getMessage());
+            return false;
+        }
+    }
+    
 }

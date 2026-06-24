@@ -12,6 +12,22 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="mb-3">
+                    <label for="parent_id" class="form-label">Danh mục cha (tùy chọn)</label>
+                    <select class="form-select" id="parent_id" name="parent_id">
+                        <option value="">-- Danh mục gốc --</option>
+                        <?php if (!empty($categories)): ?>
+                            <?php foreach ($categories as $cat): ?>
+                                <option value="<?= htmlspecialchars($cat['id']) ?>"
+                                    <?= ($category['parent_id'] == $cat['id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($cat['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                    <div class="form-text">Chọn danh mục cha nếu đây là danh mục con</div>
+                </div>
+                
+                <div class="mb-3">
                     <label for="name" class="form-label">Tên danh mục <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($category['name'] ?? '') ?>" required>
                 </div>
@@ -62,41 +78,3 @@
         </div>
     </div>
 </form>
-
-<script>
-// Auto-generate slug from name
-document.getElementById('name').addEventListener('input', function() {
-    const name = this.value;
-    const slug = name.toLowerCase()
-        .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
-        .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
-        .replace(/[ìíịỉĩ]/g, 'i')
-        .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
-        .replace(/[ùúụủũưừứựửữ]/g, 'u')
-        .replace(/[ỳýỵỷỹ]/g, 'y')
-        .replace(/đ/g, 'd')
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim('-');
-    document.getElementById('slug').value = slug;
-});
-
-// Form validation
-function validateCategoryForm() {
-    const name = document.getElementById('name').value.trim();
-    const slug = document.getElementById('slug').value.trim();
-    
-    if (!name) {
-        alert('Vui lòng nhập tên danh mục');
-        return false;
-    }
-    
-    if (!slug) {
-        alert('Vui lòng nhập slug');
-        return false;
-    }
-    
-    return true;
-}
-</script>

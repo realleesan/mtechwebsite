@@ -26,6 +26,7 @@ class BlogsModel
 
     /**
      * Lấy danh sách blogs có phân trang, lọc theo category/tag/search.
+     * Hỗ trợ hierarchy: nếu lọc theo category cha, sẽ lấy blogs của category cha + tất cả con
      *
      * @param int    $page       Trang hiện tại (bắt đầu từ 1)
      * @param int    $perPage    Số bài mỗi trang
@@ -57,10 +58,15 @@ class BlogsModel
                 $params[] = $tagSlug;
             }
 
-            // Add category filter
+            // Add category filter - hỗ trợ hierarchy
             if ($catId > 0) {
-                $where .= " AND b.category_id = ?";
-                $params[] = $catId;
+                // Lấy tất cả child categories của category này
+                $childCatIds = $this->getChildCategoryIds($catId);
+                $childCatIds[] = $catId; // Thêm chính category này
+                
+                $placeholders = implode(',', array_fill(0, count($childCatIds), '?'));
+                $where .= " AND b.category_id IN ({$placeholders})";
+                $params = array_merge($params, $childCatIds);
             }
 
             // Add search filter
@@ -114,6 +120,40 @@ class BlogsModel
         } catch (PDOException $e) {
             error_log('BlogsModel::getBlogs() - ' . $e->getMessage());
             return ['blogs' => [], 'total' => 0];
+        }
+    }
+
+    /**
+     * Lấy tất cả child category IDs của một category (đệ quy)
+     * @param int $parentId
+     * @return array Mảng các ID của child categories
+     */
+    private function getChildCategoryIds($parentId)
+    {
+        try {
+            $childIds = [];
+            
+            // Lấy trực tiếp child (cấp 1)
+            $stmt = $this->db->prepare(
+                "SELECT id FROM `blog_categories` 
+                 WHERE parent_id = ? AND status = 1"
+            );
+            $stmt->execute([$parentId]);
+            $directChildren = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            
+            // Thêm vào mảng
+            $childIds = array_merge($childIds, $directChildren);
+            
+            // Lặp qua từng child để lấy grandchildren (đệ quy)
+            foreach ($directChildren as $childId) {
+                $grandChildren = $this->getChildCategoryIds($childId);
+                $childIds = array_merge($childIds, $grandChildren);
+            }
+            
+            return $childIds;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getChildCategoryIds() - ' . $e->getMessage());
+            return [];
         }
     }
 
@@ -389,22 +429,51 @@ class BlogsModel
      * @param int $limit Số lượng tối đa (mặc định 10)
      * @return array Mảng blog categories cho menu dropdown
      */
-    public function getMenuBlogCategories($limit = 10)
+    public function getMenuBlogCategories($limit = 50)
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug
+                "SELECT id, name, slug, parent_id, level, sort_order
                  FROM `blog_categories`
                  WHERE status = 1 AND show_in_menu = 1
-                 ORDER BY sort_order ASC, id ASC
+                 ORDER BY parent_id IS NULL DESC, parent_id ASC, sort_order ASC, id ASC
                  LIMIT ?"
             );
             $stmt->execute([$limit]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Build hierarchy
+            return $this->buildCategoryHierarchy($categories);
         } catch (PDOException $e) {
             error_log('BlogsModel::getMenuBlogCategories() - ' . $e->getMessage());
             return [];
         }
+    }
+
+    /**
+     * Build category hierarchy from flat array
+     */
+    private function buildCategoryHierarchy($categories)
+    {
+        $hierarchy = [];
+        $indexed = [];
+        
+        // First, index all categories
+        foreach ($categories as $cat) {
+            $indexed[$cat['id']] = $cat;
+            $indexed[$cat['id']]['children'] = [];
+        }
+        
+        // Then build parent-child relationships
+        foreach ($indexed as $id => &$cat) {
+            if ($cat['parent_id'] && isset($indexed[$cat['parent_id']])) {
+                $indexed[$cat['parent_id']]['children'][] = &$cat;
+            } else {
+                $hierarchy[] = &$cat;
+            }
+        }
+        
+        return $hierarchy;
     }
 
     // ----------------------------------------------------------------
