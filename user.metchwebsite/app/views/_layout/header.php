@@ -149,7 +149,7 @@ function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '
                             <a class="nav-link" href="/doi-ngu" title="Teams">ĐỘI NGŨ</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/giai-thuong-chung-chi" title="Giải thưởng & Chứng chỉ">GIẢI THƯỞNG & CHỨNG CHỈ</a>
+                            <a class="nav-link" href="/chung-chi-nang-luc" title="Chứng chỉ năng lực">CHỨNG CHỈ NĂNG LỰC</a>
                         </li>
                     </ul>
                 </li>

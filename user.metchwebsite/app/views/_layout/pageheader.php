@@ -8,7 +8,7 @@
 if (!isset($pageTitle)) {
     $pageTitles = [
         'about'              => 'Thư ngỏ',
-        'awards'             => 'Giải thưởng & Chứng chỉ',
+        'awards'             => 'Chứng chỉ năng lực',
         'services'           => 'Lĩnh vực hoạt động',
         'categories'         => 'Lĩnh vực hoạt động',
         'categories-details' => 'Chi tiết lĩnh vực hoạt động',
@@ -21,7 +21,7 @@ if (!isset($pageTitle)) {
         'teams'              => 'Đội ngũ',
         'search'             => 'Kết quả tìm kiếm',
     ];
-    $currentPage = $_GET['page'] ?? 'home';
+    $currentPage = $page ?? $_GET['page'] ?? 'home';
     
     // Check if this is a blogs page (including pagination)
     $isBlogsPage = false;

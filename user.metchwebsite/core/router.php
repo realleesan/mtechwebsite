@@ -120,7 +120,7 @@ class Router
         // Awards
         $this->get('/awards', 'AwardsController@index');
         $this->get('/giai-thuong', 'AwardsController@index');
-        $this->get('/giai-thuong-chung-chi', 'AwardsController@index');
+        $this->get('/chung-chi-nang-luc', 'AwardsController@index');
         
         // Coming Soon
         $this->get('/comingsoon', 'ComingSoonController@index');

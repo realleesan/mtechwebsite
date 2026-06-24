@@ -30,7 +30,7 @@ class AwardsController extends BaseController
             
             // Layout variables
             'page' => 'awards',
-            'title' => 'Giải thưởng & Chứng chỉ - MTECH.JSC',
+            'title' => 'Chứng chỉ năng lực - MTECH.JSC',
             'showPageHeader' => true,
             'showCTA' => false,
             'showBreadcrumb' => true

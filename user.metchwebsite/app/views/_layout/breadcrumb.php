@@ -54,8 +54,8 @@ function get_breadcrumbs(string $page, array $params = []): ?array
         ],
 
         'awards' => [
-            ['title' => 'Thư ngỏ',                'url' => '/ve-chung-toi'],
-            ['title' => 'Giải thưởng & Chứng chỉ', 'url' => null],
+            ['title' => 'Thư ngỏ',              'url' => '/ve-chung-toi'],
+            ['title' => 'Chứng chỉ năng lực',   'url' => null],
         ],
 
         // ── Services ──────────────────────────────────────────────

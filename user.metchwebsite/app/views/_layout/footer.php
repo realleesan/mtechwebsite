@@ -26,7 +26,7 @@ error_log('Social Links Debug: ' . json_encode($socialLinks));
 // Thông tin MTECH chuẩn từ hồ sơ năng lực
 $companyInfo = [
     'name' => 'Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH',
-    'short_name' => 'MTECH.JSC',
+    'short_name' => 'MTECH',
     'description' => 'Đơn vị tư vấn hạng I trong lĩnh vực thiết kế và giám sát công trình công nghiệp.',
     'address' => 'Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội',
     'phone' => $headerSettings['phone'] ?? '0243.6231691',
