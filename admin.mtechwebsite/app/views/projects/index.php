@@ -42,7 +42,17 @@
                             </div>
                         </div>
                     </td>
-                    <td><span class="badge bg-secondary"><?= htmlspecialchars($p['category_name'] ?? '') ?></span></td>
+                    <td>
+                        <div class="d-flex flex-wrap gap-1">
+                        <?php if (!empty($p['category_names'])): ?>
+                            <?php foreach ($p['category_names'] as $catName): ?>
+                                <span class="badge bg-secondary"><?= htmlspecialchars($catName) ?></span>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span class="text-muted small">Chưa có</span>
+                        <?php endif; ?>
+                        </div>
+                    </td>
                     <td class="text-center text-muted small"><?= (int)($p['sort_order'] ?? 0) ?></td>
                     <td>
                         <?php 

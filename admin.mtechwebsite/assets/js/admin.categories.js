@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.prepareCategoryForm = function () {
         let valid = true;
 
-        // --- Validate ảnh đại diện ---
+        // --- Validate ảnh đại diện (CHỈ bắt buộc khi CREATE) ---
         const mainArea    = document.getElementById('mainUploadArea');
         const mainInput   = document.getElementById('image');
         const mainPreview = mainArea ? mainArea.querySelector('.cat-preview') : null;
@@ -229,7 +229,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const hasNewMain  = mainInput && mainInput.files && mainInput.files.length > 0;
         const imageError  = document.getElementById('imageError');
 
-        if (isCreate ? !hasNewMain : (!hasOldMain && !hasNewMain)) {
+        // Chỉ validate khi CREATE
+        if (isCreate && !hasNewMain) {
             if (imageError) imageError.classList.remove('d-none');
             if (mainArea)   mainArea.classList.add('cat-upload-error');
             document.getElementById('basic-tab')?.click();
@@ -239,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (mainArea)   mainArea.classList.remove('cat-upload-error');
         }
 
-        // --- Validate ảnh 1 gallery ---
+        // --- Validate ảnh 1 gallery (CHỈ validate khi CREATE hoặc khi EDIT mà chưa có ảnh cũ) ---
         const img1Area    = document.getElementById('image_1UploadArea');
         const img1Input   = document.getElementById('image_1');
         const img1Preview = img1Area ? img1Area.querySelector('.cat-preview') : null;
@@ -250,7 +251,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const hasNewImg1  = img1Input && img1Input.files && img1Input.files.length > 0;
         const image1Error = document.getElementById('image1Error');
 
-        if (isCreate ? !hasNewImg1 : (!hasOldImg1 && !hasNewImg1)) {
+        // Chỉ validate nếu: CREATE và chưa upload HOẶC EDIT và không có ảnh cũ cũng không có ảnh mới
+        if (isCreate && !hasNewImg1) {
             if (image1Error) image1Error.classList.remove('d-none');
             if (img1Area)    img1Area.classList.add('cat-upload-error');
             if (valid) document.getElementById('detail-tab')?.click();
@@ -260,7 +262,69 @@ document.addEventListener('DOMContentLoaded', function () {
             if (img1Area)    img1Area.classList.remove('cat-upload-error');
         }
 
-        // --- Validate ảnh Benefit (bắt buộc) ---
+        // --- Validate ảnh 2 gallery ---
+        const img2Area    = document.getElementById('image_2UploadArea');
+        const img2Input   = document.getElementById('image_2');
+        const img2Preview = img2Area ? img2Area.querySelector('.cat-preview') : null;
+        const hasOldImg2  = img2Preview
+                         && !img2Preview.classList.contains('d-none')
+                         && img2Preview.src
+                         && img2Preview.src !== window.location.href;
+        const hasNewImg2  = img2Input && img2Input.files && img2Input.files.length > 0;
+
+        // Tạo/lấy error element cho image_2
+        let image2Error = document.getElementById('image2Error');
+        if (!image2Error && img2Area) {
+            image2Error = document.createElement('div');
+            image2Error.id = 'image2Error';
+            image2Error.className = 'text-danger small mt-1 d-none';
+            image2Error.innerHTML = '<i class="bi bi-exclamation-circle me-1"></i>Vui lòng tải lên ảnh 2';
+            img2Area.parentNode.insertBefore(image2Error, img2Area.nextSibling);
+        }
+
+        // Chỉ validate khi CREATE
+        if (isCreate && !hasNewImg2) {
+            if (image2Error) image2Error.classList.remove('d-none');
+            if (img2Area)    img2Area.classList.add('cat-upload-error');
+            if (valid) document.getElementById('detail-tab')?.click();
+            valid = false;
+        } else {
+            if (image2Error) image2Error.classList.add('d-none');
+            if (img2Area)    img2Area.classList.remove('cat-upload-error');
+        }
+
+        // --- Validate ảnh 3 gallery ---
+        const img3Area    = document.getElementById('image_3UploadArea');
+        const img3Input   = document.getElementById('image_3');
+        const img3Preview = img3Area ? img3Area.querySelector('.cat-preview') : null;
+        const hasOldImg3  = img3Preview
+                         && !img3Preview.classList.contains('d-none')
+                         && img3Preview.src
+                         && img3Preview.src !== window.location.href;
+        const hasNewImg3  = img3Input && img3Input.files && img3Input.files.length > 0;
+
+        // Tạo/lấy error element cho image_3
+        let image3Error = document.getElementById('image3Error');
+        if (!image3Error && img3Area) {
+            image3Error = document.createElement('div');
+            image3Error.id = 'image3Error';
+            image3Error.className = 'text-danger small mt-1 d-none';
+            image3Error.innerHTML = '<i class="bi bi-exclamation-circle me-1"></i>Vui lòng tải lên ảnh 3';
+            img3Area.parentNode.insertBefore(image3Error, img3Area.nextSibling);
+        }
+
+        // Chỉ validate khi CREATE
+        if (isCreate && !hasNewImg3) {
+            if (image3Error) image3Error.classList.remove('d-none');
+            if (img3Area)    img3Area.classList.add('cat-upload-error');
+            if (valid) document.getElementById('detail-tab')?.click();
+            valid = false;
+        } else {
+            if (image3Error) image3Error.classList.add('d-none');
+            if (img3Area)    img3Area.classList.remove('cat-upload-error');
+        }
+
+        // --- Validate ảnh Benefit (CHỈ bắt buộc khi CREATE) ---
         const benefitArea    = document.getElementById('benefitImgUploadArea');
         const benefitInput   = document.getElementById('benefit_image');
         const benefitPreview = benefitArea ? benefitArea.querySelector('.cat-preview') : null;
@@ -280,7 +344,8 @@ document.addEventListener('DOMContentLoaded', function () {
             benefitArea.parentNode.insertBefore(benefitError, benefitArea.nextSibling);
         }
 
-        if (isCreate ? !hasNewBenefit : (!hasOldBenefit && !hasNewBenefit)) {
+        // Chỉ validate khi CREATE
+        if (isCreate && !hasNewBenefit) {
             if (benefitError) benefitError.classList.remove('d-none');
             if (benefitArea)  benefitArea.classList.add('cat-upload-error');
             if (valid) document.getElementById('detail-tab')?.click();
@@ -290,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (benefitArea)  benefitArea.classList.remove('cat-upload-error');
         }
 
-        // --- Validate ảnh Dự án / Feature (bắt buộc) ---
+        // --- Validate ảnh Dự án / Feature (CHỈ bắt buộc khi CREATE) ---
         const featureArea    = document.getElementById('featureImgUploadArea');
         const featureInput   = document.getElementById('feature_image');
         const featurePreview = featureArea ? featureArea.querySelector('.cat-preview') : null;
@@ -310,7 +375,8 @@ document.addEventListener('DOMContentLoaded', function () {
             featureArea.parentNode.insertBefore(featureError, featureArea.nextSibling);
         }
 
-        if (isCreate ? !hasNewFeature : (!hasOldFeature && !hasNewFeature)) {
+        // Chỉ validate khi CREATE
+        if (isCreate && !hasNewFeature) {
             if (featureError) featureError.classList.remove('d-none');
             if (featureArea)  featureArea.classList.add('cat-upload-error');
             if (valid) document.getElementById('detail-tab')?.click();

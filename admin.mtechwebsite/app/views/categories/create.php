@@ -128,14 +128,14 @@
                 <!-- Gallery ảnh -->
                 <h6 class="fw-semibold mb-3 border-bottom pb-2">
                     <i class="bi bi-images me-2 text-primary"></i>Ảnh gallery trang chi tiết
-                    <small class="text-danger ms-1">* Ảnh 1 bắt buộc</small>
+                    <small class="text-danger ms-1">* Tất cả 3 ảnh đều bắt buộc</small>
                 </h6>
                 <div class="row mb-4">
                     <?php
                     $gallerySlots = [
                         ['id' => 'image_1', 'label' => 'Ảnh 1', 'required' => true],
-                        ['id' => 'image_2', 'label' => 'Ảnh 2', 'required' => false],
-                        ['id' => 'image_3', 'label' => 'Ảnh 3', 'required' => false],
+                        ['id' => 'image_2', 'label' => 'Ảnh 2', 'required' => true],
+                        ['id' => 'image_3', 'label' => 'Ảnh 3', 'required' => true],
                     ];
                     foreach ($gallerySlots as $slot):
                     ?>

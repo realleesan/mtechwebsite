@@ -48,15 +48,21 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="service_id" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                            <select class="form-select" id="service_id" name="service_id" required>
-                                <option value="">-- Chọn danh mục --</option>
+                            <label class="form-label">Danh mục <span class="text-danger">*</span></label>
+                            <div class="category-checkbox-list border rounded p-3" style="max-height:220px; overflow-y:auto;">
                                 <?php foreach ($services ?? [] as $service): ?>
-                                    <option value="<?= htmlspecialchars($service['id']) ?>">
-                                        <?= htmlspecialchars($service['name']) ?>
-                                    </option>
+                                    <div class="form-check">
+                                        <input class="form-check-input service-checkbox" type="checkbox"
+                                               name="service_ids[]"
+                                               value="<?= htmlspecialchars($service['id']) ?>"
+                                               id="svc_<?= $service['id'] ?>">
+                                        <label class="form-check-label" for="svc_<?= $service['id'] ?>">
+                                            <?= htmlspecialchars($service['name']) ?>
+                                        </label>
+                                    </div>
                                 <?php endforeach; ?>
-                            </select>
+                            </div>
+                            <div class="form-text">Chọn một hoặc nhiều danh mục</div>
                         </div>
                         
                         <div class="mb-3">

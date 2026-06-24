@@ -40,8 +40,14 @@ class ProjectsController extends BaseController
             // Attach services to each project
             foreach ($projects as &$project) {
                 $services = $projectsServices[$project['id']] ?? [];
-                $project['category_name'] = !empty($services) ? $services[0]['name'] : 'Chưa có';
+                $project['category_names'] = !empty($services)
+                    ? array_column($services, 'name')
+                    : [];
+                $project['category_name'] = !empty($project['category_names'])
+                    ? implode(', ', $project['category_names'])
+                    : 'Chưa có';
             }
+            unset($project); // Quan trọng: bỏ reference sau foreach
         }
 
         $this->view('projects/index', [
@@ -79,13 +85,19 @@ class ProjectsController extends BaseController
         }
 
         // Validate required fields
-        $required = ['title', 'slug', 'service_id'];
+        $required = ['title', 'slug'];
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
                 $this->redirect('/projects/create');
                 return;
             }
+        }
+
+        if (empty($_POST['service_ids'])) {
+            $_SESSION['error'] = "Vui lòng chọn ít nhất một danh mục";
+            $this->redirect('/projects/create');
+            return;
         }
 
         // Prepare data
@@ -176,9 +188,9 @@ class ProjectsController extends BaseController
             $this->model->reorderProjects($projectId, $data['sort_order']);
             $this->model->normalizeOrders();
             
-            // Save service for the project
-            if (!empty($_POST['service_id'])) {
-                $this->model->addProjectServices($projectId, [$_POST['service_id']]);
+            // Save services for the project
+            if (!empty($_POST['service_ids'])) {
+                $this->model->addProjectServices($projectId, $_POST['service_ids']);
             }
             
             $_SESSION['success'] = 'Thêm dự án thành công!';
@@ -221,13 +233,19 @@ class ProjectsController extends BaseController
         }
 
         // Validate required fields
-        $required = ['title', 'slug', 'service_id'];
+        $required = ['title', 'slug'];
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
                 $this->redirect('/projects/edit/' . $id);
                 return;
             }
+        }
+
+        if (empty($_POST['service_ids'])) {
+            $_SESSION['error'] = "Vui lòng chọn ít nhất một danh mục";
+            $this->redirect('/projects/edit/' . $id);
+            return;
         }
 
         // Prepare data
@@ -333,9 +351,9 @@ class ProjectsController extends BaseController
             $this->model->reorderProjects($id, $data['sort_order'], $project['sort_order'] ?? null);
             $this->model->normalizeOrders();
             
-            // Save service for the project
-            if (!empty($_POST['service_id'])) {
-                $this->model->addProjectServices($id, [$_POST['service_id']]);
+            // Save services for the project
+            if (!empty($_POST['service_ids'])) {
+                $this->model->addProjectServices($id, $_POST['service_ids']);
             }
             
             $_SESSION['success'] = 'Cập nhật dự án thành công!';

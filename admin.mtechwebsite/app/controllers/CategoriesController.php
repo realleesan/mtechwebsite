@@ -60,26 +60,23 @@ class CategoriesController extends BaseController
             return;
         }
 
-        // Validate ảnh bắt buộc (server-side)
-        if (empty($_FILES['image']['name'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh đại diện dịch vụ';
-            $this->redirect('/categories/create');
-            return;
-        }
-        if (empty($_FILES['image_1']['name'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh 1 trong gallery chi tiết';
-            $this->redirect('/categories/create');
-            return;
-        }
-        if (empty($_FILES['benefit_image']['name'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Benefit';
-            $this->redirect('/categories/create');
-            return;
-        }
-        if (empty($_FILES['feature_image']['name'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Dự án';
-            $this->redirect('/categories/create');
-            return;
+        // Validate ảnh bắt buộc khi tạo mới (server-side)
+        $requiredImages = ['image', 'image_1', 'image_2', 'image_3', 'benefit_image', 'feature_image'];
+        $imageLabels = [
+            'image' => 'ảnh đại diện dịch vụ',
+            'image_1' => 'ảnh 1 trong gallery',
+            'image_2' => 'ảnh 2 trong gallery',
+            'image_3' => 'ảnh 3 trong gallery',
+            'benefit_image' => 'ảnh minh họa Benefit',
+            'feature_image' => 'ảnh minh họa Dự án'
+        ];
+
+        foreach ($requiredImages as $field) {
+            if (empty($_FILES[$field]['name'])) {
+                $_SESSION['error'] = 'Vui lòng tải lên ' . $imageLabels[$field];
+                $this->redirect('/categories/create');
+                return;
+            }
         }
 
         $data = $this->buildData();
@@ -151,44 +148,28 @@ class CategoriesController extends BaseController
 
         $data = $this->buildData();
 
-        // Xử lý upload ảnh mới — giữ ảnh cũ nếu không upload
+        // Xử lý upload ảnh - CHỈ upload nếu có file mới, nếu không giữ nguyên ảnh cũ
         foreach (self::IMAGE_FIELDS as $field) {
-            if (!empty($_FILES[$field]['name'])) {
+            if (!empty($_FILES[$field]['name']) && $_FILES[$field]['error'] === UPLOAD_ERR_OK) {
+                // Có file mới được upload
                 $uploaded = $this->handleImageUpload($_FILES[$field]);
                 if ($uploaded === false) {
                     $_SESSION['error'] = "Ảnh '{$field}' không hợp lệ. Chỉ chấp nhận JPG, PNG, GIF, WEBP và tối đa 5MB";
                     $this->redirect('/categories/edit/' . $id);
                     return;
                 }
+                // Xóa ảnh cũ nếu có
                 $this->deleteOldImage($category[$field] ?? '');
+                // Gán URL ảnh mới
                 $data[$field] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $uploaded;
             } else {
-                // Không upload mới → giữ nguyên ảnh cũ từ DB
+                // KHÔNG có file mới - GIỮ NGUYÊN ảnh cũ từ database
                 $data[$field] = $category[$field] ?? '';
             }
         }
 
-        // Validate ảnh bắt buộc sau khi merge với ảnh cũ
-        if (empty($data['image'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh đại diện dịch vụ';
-            $this->redirect('/categories/edit/' . $id);
-            return;
-        }
-        if (empty($data['image_1'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh 1 trong gallery chi tiết';
-            $this->redirect('/categories/edit/' . $id);
-            return;
-        }
-        if (empty($data['benefit_image'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Benefit';
-            $this->redirect('/categories/edit/' . $id);
-            return;
-        }
-        if (empty($data['feature_image'])) {
-            $_SESSION['error'] = 'Vui lòng tải lên ảnh minh họa Dự án';
-            $this->redirect('/categories/edit/' . $id);
-            return;
-        }
+        // Không cần validate ảnh bắt buộc khi EDIT vì đã có ảnh cũ rồi
+        // User chỉ cần thay đổi các trường text, không bắt buộc phải upload lại ảnh
 
         if ($this->model->update((int)$id, $data)) {
             $_SESSION['success'] = 'Đã cập nhật dịch vụ thành công';
@@ -274,6 +255,7 @@ class CategoriesController extends BaseController
 
     /**
      * Build $data array từ $_POST (không bao gồm image fields — xử lý riêng).
+     * CHÚ Ý: KHÔNG khởi tạo image fields ở đây để tránh ghi đè giá trị cũ khi update
      */
     private function buildData(): array
     {
@@ -297,17 +279,12 @@ class CategoriesController extends BaseController
             'parent_id'           => !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null,
             'name'                => trim($_POST['name']                ?? ''),
             'slug'                => trim($_POST['slug']                ?? ''),
-            'image'               => '',  // sẽ được ghi đè bởi upload handler
+            // KHÔNG khởi tạo image fields ở đây - sẽ xử lý riêng trong store() và update()
             'description'         => trim($_POST['description']         ?? ''),
             'detail_description'  => trim($_POST['detail_description']  ?? ''),
-            'image_1'             => '',
-            'image_2'             => '',
-            'image_3'             => '',
-            'benefit_image'       => '',
             'benefit_title'       => trim($_POST['benefit_title']       ?? ''),
             'benefit_description' => trim($_POST['benefit_description'] ?? ''),
             'benefit_items'       => $benefitItems,
-            'feature_image'       => '',
             'feature_1_icon'      => trim($_POST['feature_1_icon']      ?? ''),
             'feature_1_title'     => trim($_POST['feature_1_title']     ?? ''),
             'feature_1_text'      => trim($_POST['feature_1_text']      ?? ''),

@@ -415,7 +415,7 @@ function removeGalleryItem(button) {
 function validateProjectForm() {
     const title = document.getElementById('title');
     const slug = document.getElementById('slug');
-    const category = document.getElementById('category');
+    const checkedServices = document.querySelectorAll('.service-checkbox:checked');
     
     let isValid = true;
     let errors = [];
@@ -430,8 +430,8 @@ function validateProjectForm() {
         isValid = false;
     }
     
-    if (!category.value) {
-        errors.push('Vui lòng chọn danh mục');
+    if (checkedServices.length === 0) {
+        errors.push('Vui lòng chọn ít nhất một danh mục');
         isValid = false;
     }
     

@@ -245,12 +245,13 @@ class CategoriesModel
             $stmt = $this->db->prepare(
                 "INSERT INTO `{$this->table}`
                  (parent_id, name, slug, image, description, detail_description,
+                  image_1, image_2, image_3,
                   benefit_image, benefit_title, benefit_description, benefit_items,
                   feature_image,
                   feature_1_icon, feature_1_title, feature_1_text,
                   feature_2_icon, feature_2_title, feature_2_text,
                   faq_items, status, sort_order, show_in_footer)
-                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             );
             $ok = $stmt->execute([
                 $data['parent_id']           ?? null,
@@ -259,6 +260,9 @@ class CategoriesModel
                 $data['image']               ?? '',
                 $data['description']         ?? '',
                 $data['detail_description']  ?? '',
+                $data['image_1']             ?? '',
+                $data['image_2']             ?? '',
+                $data['image_3']             ?? '',
                 $data['benefit_image']       ?? '',
                 $data['benefit_title']       ?? '',
                 $data['benefit_description'] ?? '',
@@ -291,6 +295,7 @@ class CategoriesModel
             $stmt = $this->db->prepare(
                 "UPDATE `{$this->table}` SET
                  parent_id = ?, name = ?, slug = ?, image = ?, description = ?, detail_description = ?,
+                 image_1 = ?, image_2 = ?, image_3 = ?,
                  benefit_image = ?, benefit_title = ?, benefit_description = ?, benefit_items = ?,
                  feature_image = ?,
                  feature_1_icon = ?, feature_1_title = ?, feature_1_text = ?,
@@ -305,6 +310,9 @@ class CategoriesModel
                 $data['image']               ?? '',
                 $data['description']         ?? '',
                 $data['detail_description']  ?? '',
+                $data['image_1']             ?? '',
+                $data['image_2']             ?? '',
+                $data['image_3']             ?? '',
                 $data['benefit_image']       ?? '',
                 $data['benefit_title']       ?? '',
                 $data['benefit_description'] ?? '',
