@@ -5,6 +5,30 @@ $previewBody = !empty($blog['full_content']) ? $blog['full_content'] : ($blog['c
 $h = static function ($v): string {
     return htmlspecialchars((string) ($v ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 };
+
+// Ensure all fields have default values to prevent undefined index errors
+if (!isset($blog['id'])) $blog['id'] = 0;
+if (!isset($blog['title'])) $blog['title'] = '';
+if (!isset($blog['slug'])) $blog['slug'] = '';
+if (!isset($blog['category_name'])) $blog['category_name'] = 'Chưa có';
+if (!isset($blog['author'])) $blog['author'] = 'Admin';
+if (!isset($blog['excerpt'])) $blog['excerpt'] = '';
+if (!isset($blog['image'])) $blog['image'] = '';
+if (!isset($blog['status'])) $blog['status'] = 0;
+if (!isset($blog['is_featured'])) $blog['is_featured'] = 0;
+if (!isset($blog['views'])) $blog['views'] = 0;
+if (!isset($blog['created_at'])) $blog['created_at'] = '';
+if (!isset($blog['updated_at'])) $blog['updated_at'] = '';
+if (!isset($blog['tags'])) $blog['tags'] = [];
+if (!isset($blog['meta_title'])) $blog['meta_title'] = '';
+if (!isset($blog['meta_description'])) $blog['meta_description'] = '';
+if (!isset($blog['meta_keywords'])) $blog['meta_keywords'] = '';
+if (!isset($blog['category_id'])) $blog['category_id'] = 0;
+if (!isset($blog['hiring_status'])) $blog['hiring_status'] = 0;
+if (!isset($blog['position'])) $blog['position'] = '';
+if (!isset($blog['expires_in_days'])) $blog['expires_in_days'] = '';
+if (!isset($blog['contact_email'])) $blog['contact_email'] = '';
+if (!isset($blog['contact_phone'])) $blog['contact_phone'] = '';
 ?>
 <div class="page-header">
     <h4><i class="bi bi-newspaper me-2"></i>Chi tiết tin tức</h4>

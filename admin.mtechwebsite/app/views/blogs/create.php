@@ -1,5 +1,7 @@
 ﻿<?php
 // $categories
+// Ensure categories exist
+$categories = $categories ?? [];
 ?>
 
 <div class="page-header">

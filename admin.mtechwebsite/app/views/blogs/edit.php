@@ -1,5 +1,30 @@
 ﻿<?php
 // $blog, $categories
+// Ensure all required variables exist
+$blog = $blog ?? [];
+$categories = $categories ?? [];
+
+// Set default values for all blog fields
+if (!isset($blog['id'])) $blog['id'] = 0;
+if (!isset($blog['title'])) $blog['title'] = '';
+if (!isset($blog['slug'])) $blog['slug'] = '';
+if (!isset($blog['category_id'])) $blog['category_id'] = '';
+if (!isset($blog['excerpt'])) $blog['excerpt'] = '';
+if (!isset($blog['content'])) $blog['content'] = '';
+if (!isset($blog['full_content'])) $blog['full_content'] = '';
+if (!isset($blog['image'])) $blog['image'] = '';
+if (!isset($blog['author'])) $blog['author'] = 'Admin';
+if (!isset($blog['status'])) $blog['status'] = 1;
+if (!isset($blog['tags'])) $blog['tags'] = [];
+if (!isset($blog['meta_title'])) $blog['meta_title'] = '';
+if (!isset($blog['meta_description'])) $blog['meta_description'] = '';
+if (!isset($blog['meta_keywords'])) $blog['meta_keywords'] = '';
+if (!isset($blog['hiring_status'])) $blog['hiring_status'] = 1;
+if (!isset($blog['position'])) $blog['position'] = '';
+if (!isset($blog['expires_in_days'])) $blog['expires_in_days'] = '';
+if (!isset($blog['contact_email'])) $blog['contact_email'] = '';
+if (!isset($blog['contact_phone'])) $blog['contact_phone'] = '';
+
 // Trang user dùng blog_details.full_content; blogs.content có thể cũ/rỗng — ưu tiên full_content khi sửa.
 $contentForEditor = !empty($blog['full_content']) ? $blog['full_content'] : ($blog['content'] ?? '');
 $contentForEditor = (string) $contentForEditor;

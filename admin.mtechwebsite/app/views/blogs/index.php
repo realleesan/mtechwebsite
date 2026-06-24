@@ -1,5 +1,13 @@
 <?php
 // $blogs, $categories, $total, $currentPage, $totalPages, $search, $catId
+// Set default values to prevent undefined index notices
+$blogs = $blogs ?? [];
+$categories = $categories ?? [];
+$total = $total ?? 0;
+$currentPage = $currentPage ?? 1;
+$totalPages = $totalPages ?? 1;
+$search = $search ?? '';
+$catId = $catId ?? 0;
 ?>
 
 <!-- Page Header -->

@@ -30,6 +30,7 @@ Tài liệu này cung cấp phương án kiến trúc và kế hoạch triển k
 Chúng ta sẽ chuẩn bị các file Migration SQL để thực hiện các thay đổi cấu trúc bảng dưới đây:
 
 ### Migration 1: Bổ sung cấu trúc đa cấp cho Danh mục Dịch vụ & Tin tức
+
 ```sql
 -- 1. Bổ sung cột parent_id cho bảng categories (Dịch vụ)
 ALTER TABLE `categories` 
@@ -43,6 +44,7 @@ ADD CONSTRAINT `fk_blog_categories_parent` FOREIGN KEY (`parent_id`) REFERENCES 
 ```
 
 ### Migration 2: Cập nhật quan hệ cha-con và nhiều-nhiều cho Dự án (Projects)
+
 ```sql
 -- 1. Tạo bảng danh mục dự án project_categories đa cấp
 CREATE TABLE IF NOT EXISTS `project_categories` (
@@ -68,6 +70,7 @@ ADD CONSTRAINT `fk_projects_category` FOREIGN KEY (`project_category_id`) REFERE
 ```
 
 ### Migration 3: Cập nhật quan hệ cha-con và nhiều-nhiều cho Tin tức (Blogs)
+
 ```sql
 -- 1. Bổ sung cột parent_id cho bảng blogs để hỗ trợ bài viết cha-con
 ALTER TABLE `blogs`
@@ -94,6 +97,7 @@ ALTER TABLE `blogs` DROP COLUMN `category_id`;
 ```
 
 ### Migration 4: Tạo bảng cấu hình bộ lọc Filter
+
 ```sql
 CREATE TABLE IF NOT EXISTS `filter_config` (
     `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -115,6 +119,7 @@ CREATE TABLE IF NOT EXISTS `filter_config` (
 ## 3. Logic Nghiệp vụ Core (Core Services & Algorithms)
 
 ### 3.1. Thuật toán Đệ quy dựng Cây (`buildTree`)
+
 Thuật toán đệ quy dưới đây hỗ trợ xử lý độ sâu vô hạn cho mọi cấu trúc phân cấp (Danh mục, Dự án, Tin tức):
 
 ```php
@@ -130,7 +135,7 @@ function buildTree(array $elements, $parentId = null): array {
     foreach ($elements as $element) {
         $elementParentId = empty($element['parent_id']) ? null : (int)$element['parent_id'];
         $checkParentId = empty($parentId) ? null : (int)$parentId;
-        
+      
         if ($elementParentId === $checkParentId) {
             $children = buildTree($elements, $element['id']);
             $element['children'] = $children ?: [];
@@ -198,12 +203,14 @@ Mega Menu sẽ sử dụng CSS Grid kết hợp các cột nhóm danh mục và 
 ## 5. Phân công Công việc Cập nhật (Task Division)
 
 ### 👤 Developer 1: Phụ trách Dịch vụ (Services Module)
+
 * **Nhiệm vụ:**
   1. Tạo và chạy SQL Migration cập nhật cột `parent_id` trong bảng `categories`.
   2. Cập nhật `CategoriesModel.php` và giao diện Admin (Create/Edit) để quản lý cấu trúc cha-con (dropdown chọn danh mục cha hỗ trợ n-cấp thụt lề).
   3. Cập nhật danh sách dịch vụ ngoài User Front-end để hiển thị theo cây phân cấp.
 
 ### 👤 Developer 2: Phụ trách Dự án (Projects Module)
+
 * **Nhiệm vụ:**
   1. Tạo file migration xây dựng bảng `project_categories` đa cấp và thêm cột `parent_id` cùng `project_category_id` vào bảng `projects`.
   2. Cập nhật `ProjectsModel.php` hỗ trợ quan hệ cha-con của dự án và quan hệ Nhiều-Nhiều với dịch vụ/danh mục thông qua bảng liên kết.
@@ -212,6 +219,7 @@ Mega Menu sẽ sử dụng CSS Grid kết hợp các cột nhóm danh mục và 
      - Sử dụng hộp chọn **Checkbox cây phân cấp** để tích chọn nhiều dịch vụ liên kết cho dự án.
 
 ### 👤 Developer 3: Phụ trách Tin tức (News/Blogs Module)
+
 * **Nhiệm vụ:**
   1. Tạo file migration thêm cột `parent_id` cho bảng `blog_categories` và `blogs`. Tạo bảng liên kết `blog_category_map`.
   2. Cập nhật `BlogsModel.php` hỗ trợ bài viết cha-con và liên kết Nhiều-Nhiều với danh mục tin tức.
@@ -220,6 +228,7 @@ Mega Menu sẽ sử dụng CSS Grid kết hợp các cột nhóm danh mục và 
      - Sử dụng giao diện checkbox cây danh mục phân cấp để chọn nhiều danh mục cho một bài viết.
 
 ### 👑 Lead Developer / Fullstack (Integration & Mega Menu)
+
 * **Nhiệm vụ:**
   1. Xây dựng dịch vụ cấu hình bộ lọc `FilterConfigService.php` và giao diện kéo thả Admin sử dụng **HTML5 Drag and Drop API (Vanilla JS)** — không phụ thuộc thư viện bên ngoài, nhất quán với tech stack hiện tại của dự án.
   2. Sửa file layout `header.php` và `header.css` để render Mega Menu động 4 mục lớn (Về chúng tôi, Dịch vụ, Dự án, Tin tức).

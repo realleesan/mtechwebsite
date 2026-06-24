@@ -40,27 +40,17 @@ class BlogsController extends BaseController
         $search   = trim($_GET['search'] ?? '');
         $catId    = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
 
-        $result = $this->blogsModel->getBlogs($page, $perPage, $catId, '', $search);
-        $blogs  = $result['blogs'];
-        $total  = $result['total'];
-
-        $totalPages = ceil($total / $perPage);
-        $categories = $this->blogsModel->getAllBlogCategories();
-
-        // Debug: Log the request parameters
-        error_log("BlogsController::index() - page: {$page}, search: '{$search}', catId: {$catId}");
-
+        // Get blogs and categories for admin
         $result = $this->blogsModel->getAdminBlogs($page, $perPage, $catId, $search);
         $blogs  = $result['blogs'];
         $total  = $result['total'];
 
-        // Debug: Log the results
-        error_log("BlogsController::index() - Found {$total} total blogs, " . count($blogs) . " on current page");
-
         $totalPages = ceil($total / $perPage);
         $categories = $this->blogsModel->getAdminBlogCategories();
 
-        // Debug: Log categories
+        // Debug: Log the request parameters
+        error_log("BlogsController::index() - page: {$page}, search: '{$search}', catId: {$catId}");
+        error_log("BlogsController::index() - Found {$total} total blogs, " . count($blogs) . " on current page");
         error_log("BlogsController::index() - Found " . count($categories) . " categories");
 
         $this->view('blogs/index', [
@@ -104,6 +94,10 @@ class BlogsController extends BaseController
             return;
         }
 
+        // Debug: Log incoming POST data
+        error_log("BlogsController::store() - POST data: " . json_encode($_POST));
+        error_log("BlogsController::store() - FILES data: " . json_encode(array_keys($_FILES)));
+
         // TODO: Implement store logic
         // - Validate input
         // - Upload image
@@ -115,6 +109,7 @@ class BlogsController extends BaseController
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
+                error_log("BlogsController::store() - Missing required field: {$field}");
                 $this->redirect('/blogs/create');
                 return;
             }
@@ -417,24 +412,30 @@ class BlogsController extends BaseController
 
     public function viewBlog($id)
     {
-        $blog = $this->blogsModel->getAdminBlogById($id);
+        try {
+            $blog = $this->blogsModel->getAdminBlogById($id);
 
-        if (!$blog) {
-            $_SESSION['error'] = 'Không tìm thấy tin tức';
+            if (!$blog) {
+                $_SESSION['error'] = 'Không tìm thấy tin tức';
+                $this->redirect('/blogs');
+                return;
+            }
+
+            // Get blog details
+            $blogDetails = $this->getBlogDetails($id);
+            $blog = $this->mergeBlogDetailsIntoBlog($blog, $blogDetails);
+
+            $this->view('blogs/view', [
+                'title' => 'Chi tiết tin tức - Admin MTech',
+                'page'  => 'blog.view',
+                'blog'  => $blog,
+                'admin' => AuthMiddleware::getAdmin(),
+            ]);
+        } catch (Throwable $e) {
+            $this->logAdminThrowable('BlogsController::viewBlog', $e);
+            $_SESSION['error'] = 'Hệ thống gặp lỗi khi tải chi tiết tin tức. Vui lòng thử lại.';
             $this->redirect('/blogs');
-            return;
         }
-
-        // Get blog details
-        $blogDetails = $this->getBlogDetails($id);
-        $blog = $this->mergeBlogDetailsIntoBlog($blog, $blogDetails);
-
-        $this->view('blogs/view', [
-            'title' => 'Chi tiết tin tức - Admin MTech',
-            'page'  => 'blog.view',
-            'blog'  => $blog,
-            'admin' => AuthMiddleware::getAdmin(),
-        ]);
     }
 
     // ----------------------------------------
@@ -694,10 +695,15 @@ class BlogsController extends BaseController
     {
         try {
             $db = getDBConnection();
-            $stmt = $db->prepare("SELECT * FROM blog_details WHERE blog_id = ?");
+            $stmt = $db->prepare("SELECT * FROM blog_details WHERE blog_id = ? LIMIT 1");
             $stmt->execute([$blogId]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ?: null;
         } catch (PDOException $e) {
+            error_log('BlogsController::getBlogDetails() - ' . $e->getMessage());
+            return null;
+        } catch (Throwable $e) {
+            error_log('BlogsController::getBlogDetails() - ' . $e->getMessage());
             return null;
         }
     }

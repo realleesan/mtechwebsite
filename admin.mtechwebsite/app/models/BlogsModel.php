@@ -517,17 +517,19 @@ class BlogsModel
             $db = $this->db;
 
             // Chuẩn bị dữ liệu
-            $title       = $data['title'] ?? '';
-            $slug        = $data['slug'] ?? '';
-            $categoryId  = $data['category_id'] ?? null;
-            $excerpt     = $data['excerpt'] ?? '';
-            $content     = $data['content'] ?? '';
-            $image       = $data['image'] ?? '';
-            $author      = $data['author'] ?? 'Admin';
-            $status      = $data['status'] ?? 1;
-            $views       = $data['views'] ?? 0;
+            $title         = $data['title'] ?? '';
+            $slug          = $data['slug'] ?? '';
+            $categoryId    = $data['category_id'] ?? null;
+            $excerpt       = $data['excerpt'] ?? '';
+            $content       = $data['content'] ?? '';
+            $image         = $data['image'] ?? '';
+            $author        = $data['author'] ?? 'Admin';
+            $status        = $data['status'] ?? 1;
+            $views         = $data['views'] ?? 0;
+            $showInMenu    = $data['show_in_menu'] ?? 0;
+            $isFeatured    = $data['is_featured'] ?? 0;
             
-            // Recruitment fields (chỉ có giá trị nếu category_id = 7)
+            // Recruitment fields
             $hiringStatus  = isset($data['hiring_status']) ? (int) $data['hiring_status'] : 1;
             $position      = $data['position'] ?? '';
             $expiresRaw    = $data['expires_in_days'] ?? null;
@@ -535,12 +537,12 @@ class BlogsModel
             $contactEmail  = $data['contact_email'] ?? null;
             $contactPhone  = $data['contact_phone'] ?? null;
 
-            // Khớp đúng với cấu trúc bảng thực tế (DESCRIBE blogs)
+            // Khớp với cấu trúc bảng thực tế (tất cả các cột)
             $sql = "INSERT INTO blogs (
                 title, slug, category_id, excerpt, content, image, author,
-                status, views, hiring_status, position,
+                status, show_in_menu, views, is_featured, hiring_status, position,
                 expires_in_days, contact_email, contact_phone
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $db->prepare($sql);
             $stmt->execute([
@@ -552,7 +554,9 @@ class BlogsModel
                 $image,
                 $author,
                 $status,
+                $showInMenu,
                 $views,
+                $isFeatured,
                 $hiringStatus,
                 $position,
                 $expiresInDays,
