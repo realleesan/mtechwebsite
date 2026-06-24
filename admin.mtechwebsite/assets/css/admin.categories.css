@@ -109,3 +109,86 @@
 .cat-change-btn:hover {
     background: rgba(0, 0, 0, 0.78);
 }
+
+/* ============================================
+   Category Tree - Hierarchical Display
+   ============================================ */
+
+/* Tree icon sizing */
+.tree-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+}
+
+/* Parent row (level 1) */
+.category-tree-row.parent-row {
+    background-color: #ffffff;
+}
+
+.category-tree-row.parent-row:hover {
+    background-color: #f8f9fa;
+}
+
+/* Child row (level 2+) */
+.category-tree-row.child-row {
+    background-color: #fafbfc;
+}
+
+.category-tree-row.child-row:hover {
+    background-color: #f0f2f5;
+}
+
+/* Child that also has its own children */
+.category-tree-row.sub-parent-row {
+    background-color: #f5f7fa;
+}
+
+.category-tree-row.sub-parent-row:hover {
+    background-color: #e9ecef;
+}
+
+/* Left border accent for child rows */
+.category-tree-row.child-row td:first-child,
+.category-tree-row.sub-parent-row td:first-child {
+    border-left: 3px solid #dee2e6;
+}
+
+.category-tree-row.sub-parent-row td:first-child {
+    border-left-color: #ffc107;
+}
+
+/* Indent guide line for children */
+.category-tree-row.child-row .tree-indent-guide,
+.category-tree-row.sub-parent-row .tree-indent-guide {
+    position: relative;
+}
+
+/* Subtle separator between parent group and next parent */
+.category-tree-row.parent-row + .child-row td {
+    border-top: 1px solid #e9ecef;
+}
+
+/* Last child of a parent group */
+.category-tree-row.child-row:last-child,
+.category-tree-row.sub-parent-row:last-child {
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Name text styling */
+.category-tree-row .fw-medium {
+    font-size: 0.95rem;
+}
+
+/* Level badge enhancements */
+.category-tree-row.parent-row .badge {
+    font-weight: 600;
+}
+
+/* Action buttons on child rows - slightly smaller */
+.category-tree-row.child-row .btn-sm,
+.category-tree-row.sub-parent-row .btn-sm {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+}

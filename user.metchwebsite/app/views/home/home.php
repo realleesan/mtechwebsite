@@ -27,42 +27,20 @@
 
         <!-- Slide 1 -->
         <div class="slider_item active" style="background-image: url('assets/images/home_slider/home_slider1.jpg');">
-            <div class="slider_overlay"></div>
-            <div class="slider_caption">
-                <p class="slider_line1">Hơn 15 Năm Kinh Nghiệm</p>
-                <p class="slider_line2">trong <span class="slider_highlight">Tư vấn Kỹ thuật & Quản lý</span></p>
-                <p class="slider_desc">Cung cấp các giải pháp thiết kế, giám sát và quản lý dự án chuyên nghiệp cho các công trình công nghiệp và dân dụng quy mô lớn trên toàn quốc.</p>
-                <a href="/dich-vu" class="slider_btn">Xem tất cả dịch vụ</a>
-            </div>
         </div>
 
         <!-- Slide 2 -->
         <div class="slider_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');">
-            <div class="slider_overlay"></div>
-            <div class="slider_caption">
-                <p class="slider_line1">Đối tác Chiến lược của</p>
-                <p class="slider_line2">Các Tập đoàn <span class="slider_highlight">Công nghiệp Lớn</span></p>
-                <p class="slider_desc">Tiên phong trong tư vấn lập quy hoạch, thiết kế cơ sở và giải pháp tối ưu hóa năng lượng cho ngành luyện kim và vật liệu xây dựng (xi măng, thép).</p>
-                <a href="/dich-vu" class="slider_btn">Xem tất cả dịch vụ</a>
-            </div>
         </div>
 
         <!-- Slide 3 -->
         <div class="slider_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');">
-            <div class="slider_overlay"></div>
-            <div class="slider_caption">
-                <p class="slider_line1">Giải pháp Toàn diện cho</p>
-                <p class="slider_line2">Nông nghiệp <span class="slider_highlight">Công nghệ cao</span></p>
-                <p class="slider_desc">Đồng hành cùng nhà đầu tư từ khâu khảo sát, lập dự án đến giám sát thi công các dự án chăn nuôi và chế biến nông sản hàng ngàn hecta.</p>
-                <a href="/dich-vu" class="slider_btn">Xem tất cả dịch vụ</a>
-            </div>
         </div>
 
         <!-- Prev / Next arrows -->
         <button class="slider_arrow slider_prev" aria-label="Previous slide">&#10094;</button>
         <button class="slider_arrow slider_next" aria-label="Next slide">&#10095;</button>
     </div>
-
 </section>
 
 <!-- ---- 1C: WELCOME INFO ---- -->

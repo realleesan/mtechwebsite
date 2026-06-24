@@ -1,20 +1,95 @@
 <?php
-$categoryLevels = [];
-if (!empty($categories)) {
-    $childrenByParent = [];
-    foreach ($categories as $categoryItem) {
-        $parentKey = empty($categoryItem['parent_id']) ? 0 : (int)$categoryItem['parent_id'];
-        $childrenByParent[$parentKey][] = (int)$categoryItem['id'];
-    }
+// Build tree structure for hierarchical display
+$childrenByParent = [];
+$categoryMap = [];
+foreach ($categories as $cat) {
+    $parentId = empty($cat['parent_id']) ? 0 : (int)$cat['parent_id'];
+    $childrenByParent[$parentId][] = $cat;
+    $categoryMap[(int)$cat['id']] = $cat;
+}
 
-    $assignCategoryLevel = function ($parentId, $level) use (&$assignCategoryLevel, &$childrenByParent, &$categoryLevels) {
-        foreach ($childrenByParent[(int)$parentId] ?? [] as $categoryId) {
-            $categoryLevels[$categoryId] = $level;
-            $assignCategoryLevel($categoryId, $level + 1);
+/**
+ * Recursively render category tree rows.
+ */
+function renderCategoryTree($parentId, $childrenByParent, $categoryMap, $level = 0)
+{
+    foreach ($childrenByParent[$parentId] ?? [] as $cat) {
+        $catId = (int)$cat['id'];
+        $hasChildren = !empty($childrenByParent[$catId]);
+        $indentPx = $level * 28;
+        $isParent = $level === 0;
+        $rowClass = $level > 0 ? 'child-row' : 'parent-row';
+        if ($hasChildren && $level > 0) {
+            $rowClass .= ' sub-parent-row';
         }
-    };
-
-    $assignCategoryLevel(0, 1);
+        ?>
+        <tr class="category-tree-row <?= $rowClass ?>">
+            <td class="text-muted small"><?= $cat['id'] ?></td>
+            <td>
+                <div class="d-flex align-items-center gap-2" style="padding-left: <?= $indentPx ?>px">
+                    <?php if ($hasChildren): ?>
+                        <i class="bi bi-folder2-open text-warning tree-icon"></i>
+                    <?php else: ?>
+                        <i class="bi bi-file-earmark text-muted tree-icon"></i>
+                    <?php endif; ?>
+                    <?php if (!empty($cat['image'])): ?>
+                        <img src="<?= htmlspecialchars($cat['image']) ?>"
+                             alt="" width="40" height="40"
+                             style="object-fit:cover; border-radius:6px; flex-shrink:0;"
+                             onerror="this.style.display='none'">
+                    <?php else: ?>
+                        <div class="bg-light d-flex align-items-center justify-content-center"
+                             style="width:40px; height:40px; border-radius:6px; flex-shrink:0;">
+                            <i class="bi bi-grid text-muted" style="font-size:0.85rem"></i>
+                        </div>
+                    <?php endif; ?>
+                    <div>
+                        <div class="fw-medium <?= $isParent ? 'text-dark' : 'text-secondary' ?>">
+                            <?= htmlspecialchars($cat['name'] ?? '') ?>
+                        </div>
+                        <small class="text-muted"><?= htmlspecialchars($cat['slug'] ?? '') ?></small>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <span class="badge <?= $level === 0 ? 'bg-primary' : 'bg-light text-dark border' ?>">
+                    Cấp <?= $level + 1 ?>
+                </span>
+            </td>
+            <td>
+                <?php if (($cat['status'] ?? 1) == 1): ?>
+                    <span class="badge bg-success">Hiển thị</span>
+                <?php else: ?>
+                    <span class="badge bg-secondary">Ẩn</span>
+                <?php endif; ?>
+                <?php if (!empty($cat['show_in_footer'])): ?>
+                    <span class="badge bg-info mt-1 d-block" style="width:fit-content">
+                        <i class="bi bi-layout-text-window-reverse me-1"></i>Footer
+                    </span>
+                <?php endif; ?>
+            </td>
+            <td class="text-muted small">
+                <?= !empty($cat['created_at']) ? date('d/m/Y', strtotime($cat['created_at'])) : '—' ?>
+            </td>
+            <td>
+                <div class="d-flex gap-1">
+                    <a href="/categories/edit/<?= $cat['id'] ?>"
+                       class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <form method="POST" action="/categories/delete/<?= $cat['id'] ?>">
+                        <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
+                                data-confirm="Xóa dịch vụ này?" title="Xóa">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <?php
+        // Render children recursively
+        renderCategoryTree($catId, $childrenByParent, $categoryMap, $level + 1);
+    }
 }
 ?>
 <div class="page-header">
@@ -30,9 +105,28 @@ if (!empty($categories)) {
 </div>
 
 <?php if (!empty($categories)): ?>
+<?php
+// Count parents and children for summary
+$parentCount = 0;
+$childCount = 0;
+foreach ($categories as $cat) {
+    if (empty($cat['parent_id'])) {
+        $parentCount++;
+    } else {
+        $childCount++;
+    }
+}
+?>
 <div class="admin-table">
-    <div class="p-3 border-bottom">
-        <span class="text-muted small">Tổng: <strong><?= count($categories) ?></strong> dịch vụ</span>
+    <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+        <span class="text-muted small">
+            Tổng: <strong><?= count($categories) ?></strong> dịch vụ
+            (<?= $parentCount ?> cha, <?= $childCount ?> con)
+        </span>
+        <small class="text-muted">
+            <i class="bi bi-folder2-open me-1"></i>Dịch vụ cha
+            <i class="bi bi-file-earmark ms-2 me-1"></i>Dịch vụ con
+        </small>
     </div>
     <div class="table-responsive">
         <table class="table table-hover mb-0 align-middle">
@@ -47,64 +141,7 @@ if (!empty($categories)) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($categories as $cat): ?>
-                <tr>
-                    <td class="text-muted small"><?= $cat['id'] ?></td>
-                    <td>
-                        <div class="d-flex align-items-center gap-2">
-                            <?php if (!empty($cat['image'])): ?>
-                                <img src="<?= htmlspecialchars($cat['image']) ?>"
-                                     alt="" width="50" height="50"
-                                     style="object-fit:cover; border-radius:6px; flex-shrink:0;"
-                                     onerror="this.style.display='none'">
-                            <?php else: ?>
-                                <div class="bg-light d-flex align-items-center justify-content-center"
-                                     style="width:50px; height:50px; border-radius:6px; flex-shrink:0;">
-                                    <i class="bi bi-grid text-muted"></i>
-                                </div>
-                            <?php endif; ?>
-                            <div>
-                                <div class="fw-medium"><?= htmlspecialchars($cat['name'] ?? '') ?></div>
-                                <small class="text-muted"><?= htmlspecialchars($cat['slug'] ?? '') ?></small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="badge bg-light text-dark border">
-                            Cấp <?= (int)($categoryLevels[(int)$cat['id']] ?? 1) ?>
-                        </span>
-                    </td>
-                    <td>
-                        <?php if (($cat['status'] ?? 1) == 1): ?>
-                            <span class="badge bg-success">Hiển thị</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">Ẩn</span>
-                        <?php endif; ?>
-                        <?php if (!empty($cat['show_in_footer'])): ?>
-                            <span class="badge bg-info mt-1 d-block" style="width:fit-content">
-                                <i class="bi bi-layout-text-window-reverse me-1"></i>Footer
-                            </span>
-                        <?php endif; ?>
-                    </td>
-                    <td class="text-muted small">
-                        <?= !empty($cat['created_at']) ? date('d/m/Y', strtotime($cat['created_at'])) : '—' ?>
-                    </td>
-                    <td>
-                        <div class="d-flex gap-1">
-                            <a href="/categories/edit/<?= $cat['id'] ?>"
-                               class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <form method="POST" action="/categories/delete/<?= $cat['id'] ?>">
-                                <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
-                                        data-confirm="Xóa dịch vụ này?" title="Xóa">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
+                <?php renderCategoryTree(0, $childrenByParent, $categoryMap, 0); ?>
             </tbody>
         </table>
     </div>
