@@ -24,22 +24,43 @@
 <!-- ---- 1A: HERO SLIDER ---- -->
 <section class="home_banner_area">
     <div class="home_slider" id="homeBannerSlider">
+        <div class="slider_track">
 
-        <!-- Slide 1 -->
-        <div class="slider_item active" style="background-image: url('assets/images/home_slider/home_slider1.jpg');">
+            <!-- Page 1: Images 1-3 -->
+            <div class="slider_page active">
+                <div class="slider_grid">
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
+                </div>
+            </div>
+
+            <!-- Page 2: Images 4-6 (repeat 1-3) -->
+            <div class="slider_page">
+                <div class="slider_grid">
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
+                </div>
+            </div>
+
+            <!-- Page 3: Images 7-9 (repeat 1-3) -->
+            <div class="slider_page">
+                <div class="slider_grid">
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Slide 2 -->
-        <div class="slider_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');">
+        <!-- Pagination Bullets -->
+        <div class="slider_pagination">
+            <button class="slider_bullet active" data-page="0"></button>
+            <button class="slider_bullet" data-page="1"></button>
+            <button class="slider_bullet" data-page="2"></button>
         </div>
-
-        <!-- Slide 3 -->
-        <div class="slider_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');">
-        </div>
-
-        <!-- Prev / Next arrows -->
-        <button class="slider_arrow slider_prev" aria-label="Previous slide">&#10094;</button>
-        <button class="slider_arrow slider_next" aria-label="Next slide">&#10095;</button>
     </div>
 </section>
 

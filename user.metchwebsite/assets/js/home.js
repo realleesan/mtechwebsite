@@ -17,59 +17,39 @@
         const slider = document.getElementById('homeBannerSlider');
         if (!slider) return;
 
-        const slides = slider.querySelectorAll('.slider_item');
-        const prevBtn = slider.querySelector('.slider_prev');
-        const nextBtn = slider.querySelector('.slider_next');
+        const pages = slider.querySelectorAll('.slider_page');
+        const bullets = slider.querySelectorAll('.slider_bullet');
         let current = 0;
         let isAnimating = false;
         let autoTimer = null;
 
-        // Khởi tạo: hiện caption slide đầu tiên ngay
-        const firstCaption = slides[0].querySelector('.slider_caption');
-        if (firstCaption) {
-            firstCaption.classList.add('caption-in');
-        }
+        // Drag/Swipe gesture variables
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+        const dragThreshold = 50;
 
         function goTo(index) {
             if (isAnimating) return;
-            const next = (index + slides.length) % slides.length;
+            const next = (index + pages.length) % pages.length;
             if (next === current) return;
             isAnimating = true;
 
-            const currentSlide = slides[current];
-            const nextSlide = slides[next];
-            const currentCaption = currentSlide.querySelector('.slider_caption');
-            const nextCaption = nextSlide.querySelector('.slider_caption');
+            pages[current].classList.remove('active');
+            pages[next].classList.add('active');
 
-            // 1. Caption hiện tại: trượt xuống và ẩn
-            if (currentCaption) {
-                currentCaption.classList.remove('caption-in');
-                currentCaption.classList.add('caption-out');
-            }
+            bullets[current].classList.remove('active');
+            bullets[next].classList.add('active');
 
-            // 2. Slide mới: đặt z-index cao hơn rồi fade in — tạo cross-blend với slide cũ
-            nextSlide.style.zIndex = 2;
-            nextSlide.classList.add('active'); // bắt đầu fade in (opacity 0 → 1)
+            current = next;
 
-            // 3. Sau 1s (cross-fade xong): dọn dẹp slide cũ
             setTimeout(() => {
-                currentSlide.classList.remove('active');
-                currentSlide.style.zIndex = '';
-                nextSlide.style.zIndex = '';
-                if (currentCaption) currentCaption.classList.remove('caption-out');
-                current = next;
-
-                // 4. Sau thêm 1s: hiện caption mới
-                setTimeout(() => {
-                    if (nextCaption) nextCaption.classList.add('caption-in');
-                    isAnimating = false;
-                }, 1000);
-
-            }, 1000);
+                isAnimating = false;
+            }, 800);
         }
 
         function startAuto() {
-            autoTimer = setInterval(() => goTo(current + 1), 6000);
+            autoTimer = setInterval(() => goTo(current + 1), 3000);
         }
 
         function resetAuto() {
@@ -77,12 +57,84 @@
             startAuto();
         }
 
-        if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
-        if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
-
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') { goTo(current - 1); resetAuto(); }
             if (e.key === 'ArrowRight') { goTo(current + 1); resetAuto(); }
+        });
+
+        // Pagination bullet clicks
+        bullets.forEach((bullet, index) => {
+            bullet.addEventListener('click', () => {
+                goTo(index);
+                resetAuto();
+            });
+        });
+
+        // Drag/Swipe gesture support
+        slider.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            currentX = e.clientX;
+            slider.classList.add('dragging');
+            resetAuto(); // Pause auto-slide when dragging
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX;
+        });
+
+        slider.addEventListener('mouseup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            slider.classList.remove('dragging');
+
+            const diff = currentX - startX;
+            if (Math.abs(diff) > dragThreshold) {
+                if (diff > 0) {
+                    goTo(current - 1); // Drag left -> go to previous
+                } else {
+                    goTo(current + 1); // Drag right -> go to next
+                }
+            }
+            resetAuto(); // Resume auto-slide
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            if (isDragging) {
+                isDragging = false;
+                slider.classList.remove('dragging');
+                resetAuto();
+            }
+        });
+
+        // Touch support for mobile
+        slider.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            currentX = e.touches[0].clientX;
+            resetAuto();
+        });
+
+        slider.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+        });
+
+        slider.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            const diff = currentX - startX;
+            if (Math.abs(diff) > dragThreshold) {
+                if (diff > 0) {
+                    goTo(current - 1);
+                } else {
+                    goTo(current + 1);
+                }
+            }
+            resetAuto();
         });
 
         startAuto();
