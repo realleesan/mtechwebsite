@@ -46,35 +46,36 @@ try {
 }
 
 /**
- * Hàm render đệ quy submenu đa cấp cho Mega Menu
- * 
+ * Hàm render đệ quy submenu đa cấp cho Dropdown Menu
+ *
  * @param array $items Mảng cây con
  * @param int $depth Cấp hiện tại (0 = dropdown cấp 1, 1 = sub-dropdown, ...)
  * @param string $urlPrefix Tiền tố URL
  */
-function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '/dich-vu-'): string
+function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix = '/dich-vu-'): string
 {
     if (empty($items)) return '';
-    
+
     $html = '';
     foreach ($items as $item) {
         $name     = htmlspecialchars($item['name']);
         $slug     = urlencode($item['slug']);
         $hasChild = !empty($item['children']);
-        
+
         if ($hasChild) {
-            // Mục cha có con → tạo submenu lồng nhau (với class khác biệt cho mega menu)
-            $html .= '<li class="megamenu-item-has-children">';
+            // Mục cha có con → tạo submenu lồng nhau với caret
+            $html .= '<li class="nav-item submenu">';
             $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
             $html .= strtoupper($name);
+            $html .= '<span class="dropdown-caret">›</span>';
             $html .= '</a>';
-            $html .= '<ul class="megamenu-sub-list">';
-            $html .= renderMegaMenuItems($item['children'], $depth + 1, $urlPrefix);
+            $html .= '<ul class="dropdown-menu">';
+            $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
             $html .= '</ul>';
             $html .= '</li>';
         } else {
             // Mục lá → link trực tiếp
-            $html .= '<li>';
+            $html .= '<li class="nav-item">';
             $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
             $html .= strtoupper($name);
             $html .= '</a>';
@@ -154,27 +155,15 @@ function renderMegaMenuItems(array $items, int $depth = 0, string $urlPrefix = '
                     </ul>
                 </li>
                 
-                <!-- Services (Mega Menu đa cấp) -->
-                <li class="nav-item has-megamenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/dich-vu" title="Lĩnh vực hoạt động">
+                <!-- Services (Dropdown Menu đa cấp) -->
+                <li class="nav-item submenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="#" title="Lĩnh vực hoạt động" onclick="return false;">
                         LĨNH VỰC HOẠT ĐỘNG
                         <span class="caret-drop"></span>
                     </a>
-                    <div class="megamenu-panel">
-                        <div class="megamenu-container">
-                            <div class="megamenu-grid megamenu-services-only">
-                                <div class="megamenu-col">
-                                    <ul class="megamenu-list megamenu-services-list">
-                                        <?php 
-                                        // Render các mục cấp 1 đầu tiên
-                                        $firstHalf = $servicesTree;
-                                        echo renderMegaMenuItems($firstHalf, 0, '/dich-vu-'); 
-                                        ?>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ul class="dropdown-menu" role="menu">
+                        <?php echo renderDropdownMenuItems($servicesTree, 0, '/dich-vu-'); ?>
+                    </ul>
                 </li>
                 
                 <!-- Projects -->

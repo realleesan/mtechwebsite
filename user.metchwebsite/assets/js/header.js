@@ -117,45 +117,36 @@ function slugifyVi(str) {
             });
         });
 
-        // ── Nested Dropdowns (danh mục cha có danh mục con) ────────
-        // Xử lý submenu bên trong dropdown menu
-        const nestedSubmenus = document.querySelectorAll('ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu');
+        // ── Nested Dropdown (multi-level) ───────────────────────────
+        const nestedSubmenus = document.querySelectorAll('.dropdown-submenu');
 
-        nestedSubmenus.forEach(function (nestedItem) {
-            let nestedHideTimer = null;
-            const nestedDropdown = nestedItem.querySelector('ul.dropdown-menu');
-            const nestedLink = nestedItem.querySelector(':scope > a.nav-link');
-            
+        nestedSubmenus.forEach(function (item) {
+            const nestedDropdown = item.querySelector('.dropdown-menu-nested');
             if (!nestedDropdown) return;
 
-            // Chặn navigate khi click
-            if (nestedLink) {
-                nestedLink.addEventListener('click', function (e) {
-                    if (window.innerWidth >= 992) {
+            // Nested dropdowns use CSS hover, but we need to handle mobile
+            const link = item.querySelector('a');
+            if (link) {
+                link.addEventListener('click', function (e) {
+                    if (window.innerWidth < 992) {
                         e.preventDefault();
+                        e.stopPropagation();
+
+                        const isOpen = nestedDropdown.style.display === 'block';
+
+                        // Đóng tất cả nested dropdowns cùng cấp
+                        const parentUl = item.closest('ul');
+                        if (parentUl) {
+                            parentUl.querySelectorAll('.dropdown-menu-nested').forEach(function (dd) {
+                                dd.style.display = 'none';
+                            });
+                        }
+
+                        // Toggle current
+                        nestedDropdown.style.display = isOpen ? 'none' : 'block';
                     }
                 });
             }
-
-            function showNestedDropdown() {
-                clearTimeout(nestedHideTimer);
-                if (window.innerWidth >= 992) {
-                    nestedDropdown.style.display = 'block';
-                }
-            }
-
-            function hideNestedDropdown() {
-                if (window.innerWidth >= 992) {
-                    nestedHideTimer = setTimeout(function () {
-                        nestedDropdown.style.display = 'none';
-                    }, HIDE_DELAY);
-                }
-            }
-
-            nestedItem.addEventListener('mouseenter', showNestedDropdown);
-            nestedItem.addEventListener('mouseleave', hideNestedDropdown);
-            nestedDropdown.addEventListener('mouseenter', showNestedDropdown);
-            nestedDropdown.addEventListener('mouseleave', hideNestedDropdown);
         });
 
         // ── Hamburger Menu (Mobile) ────────────────────────────────
