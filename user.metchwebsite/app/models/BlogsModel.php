@@ -26,6 +26,7 @@ class BlogsModel
 
     /**
      * Lấy danh sách blogs có phân trang, lọc theo category/tag/search.
+     * Hỗ trợ many-to-many relationship qua blog_category_map table.
      * Hỗ trợ hierarchy: nếu lọc theo category cha, sẽ lấy blogs của category cha + tất cả con
      *
      * @param int    $page       Trang hiện tại (bắt đầu từ 1)
@@ -41,8 +42,10 @@ class BlogsModel
             $offset = ($page - 1) * $perPage;
             $params = [];
 
+            // Base join: blogs with many-to-many relationship to categories
             $baseJoin = "FROM `blogs` b
-                         LEFT JOIN `blog_categories` bc ON b.category_id = bc.id";
+                         LEFT JOIN `blog_category_map` bcm ON b.id = bcm.blog_id
+                         LEFT JOIN `blog_categories` bc ON bcm.category_id = bc.id";
 
             // Add tag join if filtering by tag
             if (!empty($tagSlug)) {
@@ -58,14 +61,14 @@ class BlogsModel
                 $params[] = $tagSlug;
             }
 
-            // Add category filter - hỗ trợ hierarchy
+            // Add category filter - hỗ trợ hierarchy via blog_category_map
             if ($catId > 0) {
                 // Lấy tất cả child categories của category này
                 $childCatIds = $this->getChildCategoryIds($catId);
                 $childCatIds[] = $catId; // Thêm chính category này
                 
                 $placeholders = implode(',', array_fill(0, count($childCatIds), '?'));
-                $where .= " AND b.category_id IN ({$placeholders})";
+                $where .= " AND bcm.category_id IN ({$placeholders})";
                 $params = array_merge($params, $childCatIds);
             }
 
@@ -90,13 +93,13 @@ class BlogsModel
                 $params[] = $like;
             }
 
-            // Count total
+            // Count total (use DISTINCT to avoid duplicate rows from LEFT JOIN)
             $countSql = "SELECT COUNT(DISTINCT b.id) {$baseJoin} {$where}";
             $countStmt = $this->db->prepare($countSql);
             $countStmt->execute($params);
             $total = (int) $countStmt->fetchColumn();
 
-            // Fetch blogs
+            // Fetch blogs (use DISTINCT to avoid duplicate rows from LEFT JOIN)
             $sql = "SELECT DISTINCT b.id, b.title, b.slug, b.image, b.excerpt,
                            b.author, b.created_at, b.views, b.category_id,
                            b.position, b.expires_in_days, b.hiring_status,
@@ -114,6 +117,9 @@ class BlogsModel
             // Gắn tags cho từng blog
             foreach ($blogs as &$blog) {
                 $blog['tags'] = $this->getTagsByBlogId($blog['id']);
+                
+                // Gắn tất cả categories từ blog_category_map
+                $blog['categories'] = $this->getCategoriesByBlogId($blog['id']);
             }
 
             return ['blogs' => $blogs, 'total' => $total];
@@ -215,17 +221,19 @@ class BlogsModel
 
     /**
      * Lấy tất cả blog categories kèm số lượng bài viết.
+     * Dùng many-to-many relationship via blog_category_map table.
      */
     public function getAllBlogCategories()
     {
         try {
             $stmt = $this->db->prepare(
                 "SELECT bc.id, bc.name, bc.slug,
-                        COUNT(b.id) AS post_count
+                        COUNT(DISTINCT bcm.blog_id) AS post_count
                  FROM `blog_categories` bc
-                 LEFT JOIN `blogs` b ON b.category_id = bc.id AND b.status = 1 AND b.deleted_at IS NULL
+                 LEFT JOIN `blog_category_map` bcm ON bcm.category_id = bc.id
+                 LEFT JOIN `blogs` b ON b.id = bcm.blog_id AND b.status = 1 AND b.deleted_at IS NULL
                  WHERE bc.status = 1
-                 GROUP BY bc.id
+                 GROUP BY bc.id, bc.name, bc.slug
                  ORDER BY bc.sort_order ASC, bc.id ASC"
             );
             $stmt->execute();
@@ -281,6 +289,29 @@ class BlogsModel
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log('BlogsModel::getAllTags() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Lấy tất cả categories của một blog theo blog_id (many-to-many via blog_category_map).
+     * @param int $blogId Blog ID
+     * @return array Danh sách categories
+     */
+    public function getCategoriesByBlogId($blogId)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT bc.id, bc.name, bc.slug, bc.parent_id, bcm.sort_order
+                 FROM `blog_categories` bc
+                 INNER JOIN `blog_category_map` bcm ON bc.id = bcm.category_id
+                 WHERE bcm.blog_id = ?
+                 ORDER BY bcm.sort_order ASC, bc.sort_order ASC"
+            );
+            $stmt->execute([$blogId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getCategoriesByBlogId() - ' . $e->getMessage());
             return [];
         }
     }
