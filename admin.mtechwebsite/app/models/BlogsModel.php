@@ -623,6 +623,38 @@ class BlogsModel
     }
 
     /**
+     * Calculate category level by tracing parent chain to root
+     * Root = 1, Child of root = 2, Grandchild = 3, etc.
+     * 
+     * @param int|null $parentId Parent category ID
+     * @return int Calculated level
+     */
+    public function calculateCategoryLevel($parentId)
+    {
+        if (!$parentId || $parentId === null) {
+            return 1; // Root category
+        }
+
+        try {
+            // Get parent's parent_id
+            $stmt = $this->db->prepare("SELECT parent_id FROM blog_categories WHERE id = ?");
+            $stmt->execute([$parentId]);
+            $parent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$parent) {
+                return 1; // Parent not found, treat as root
+            }
+
+            // Recursively calculate parent's level, then add 1
+            $parentLevel = $this->calculateCategoryLevel($parent['parent_id']);
+            return $parentLevel + 1;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::calculateCategoryLevel() - ' . $e->getMessage());
+            return 1; // Default to root on error
+        }
+    }
+
+    /**
      * Lấy tất cả blog categories cho admin (không filter status)
      */
     public function getAdminBlogCategories()
@@ -639,12 +671,9 @@ class BlogsModel
             $stmt->execute();
             $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            // Automatically calculate level if not set
+            // Recalculate level based on parent chain (depth-based)
             foreach ($categories as &$cat) {
-                if (!isset($cat['level']) || $cat['level'] === null) {
-                    // Root = level 1, child = level 2, etc
-                    $cat['level'] = $cat['parent_id'] ? 2 : 1;
-                }
+                $cat['level'] = $this->calculateCategoryLevel($cat['parent_id']);
             }
             
             return $categories;

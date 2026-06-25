@@ -83,13 +83,16 @@ class BlogCategoriesController extends BaseController
                 return;
             }
 
+            $parentId = !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null;
+            
+            // Calculate level based on parent chain
+            $level = $this->blogsModel->calculateCategoryLevel($parentId);
+
             // Insert new category with parent_id support
             $stmt = $db->prepare("
-                INSERT INTO blog_categories (parent_id, name, slug, status, show_in_menu, sort_order, created_at) 
-                VALUES (?, ?, ?, ?, ?, ?, NOW())
+                INSERT INTO blog_categories (parent_id, name, slug, status, show_in_menu, sort_order, level, created_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
             ");
-            
-            $parentId = !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null;
             
             $stmt->execute([
                 $parentId,
@@ -97,7 +100,8 @@ class BlogCategoriesController extends BaseController
                 $_POST['slug'],
                 $_POST['status'] ?? 1,
                 isset($_POST['show_in_menu']) ? 1 : 0,
-                $_POST['sort_order'] ?? 0
+                $_POST['sort_order'] ?? 0,
+                $level
             ]);
 
             $_SESSION['success'] = 'Thêm danh mục thành công';
@@ -182,14 +186,17 @@ class BlogCategoriesController extends BaseController
                 return;
             }
 
+            $parentId = !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null;
+            
+            // Calculate level based on parent chain (will update if parent changed)
+            $level = $this->blogsModel->calculateCategoryLevel($parentId);
+
             // Update category with parent_id support
             $stmt = $db->prepare("
                 UPDATE blog_categories 
-                SET parent_id = ?, name = ?, slug = ?, status = ?, show_in_menu = ?, sort_order = ?, updated_at = NOW()
+                SET parent_id = ?, name = ?, slug = ?, status = ?, show_in_menu = ?, sort_order = ?, level = ?, updated_at = NOW()
                 WHERE id = ?
             ");
-            
-            $parentId = !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null;
             
             $stmt->execute([
                 $parentId,
@@ -198,6 +205,7 @@ class BlogCategoriesController extends BaseController
                 $_POST['status'] ?? 1,
                 isset($_POST['show_in_menu']) ? 1 : 0,
                 $_POST['sort_order'] ?? 0,
+                $level,
                 $id
             ]);
 

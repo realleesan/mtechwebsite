@@ -75,7 +75,11 @@ class BlogsController extends BaseController
         $blogsResult = $this->blogsModel->getBlogs($currentPage, $perPage, $filterCatId, $filterTag, $searchQuery);
         $blogs = $blogsResult['blogs'];
         $totalBlogs = $blogsResult['total'];
-        $blogCategories = $this->blogsModel->getAllBlogCategories();
+        
+        // Lấy categories dạng hierarchical
+        $blogCategoriesHierarchy = $this->blogsModel->getCategoriesHierarchy();
+        $blogCategories = $this->blogsModel->flattenCategoriesHierarchy($blogCategoriesHierarchy);
+        
         $recentBlogs = $this->blogsModel->getRecentBlogs(4);
         $allTags = $this->blogsModel->getAllTags();
         
@@ -145,7 +149,8 @@ class BlogsController extends BaseController
         $this->blogsModel->incrementViews($blogDetail['id']);
         
         // Lấy dữ liệu sidebar (giống trang blogs)
-        $blogCategories = $this->blogsModel->getAllBlogCategories();
+        $blogCategoriesHierarchy = $this->blogsModel->getCategoriesHierarchy();
+        $blogCategories = $this->blogsModel->flattenCategoriesHierarchy($blogCategoriesHierarchy);
         $recentBlogs = $this->blogsModel->getRecentBlogs(4);
         $allTags = $this->blogsModel->getAllTags();
         

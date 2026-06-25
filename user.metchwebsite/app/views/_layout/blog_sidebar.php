@@ -14,6 +14,69 @@
  *   $blogDetail      — array  — bài viết hiện tại (blog-details)
  */
 
+/**
+ * Render hierarchical category tree recursively
+ * @param array $categories Current level categories
+ * @param array $allCategories All categories (for finding children)
+ * @param int $activeCatId Active category ID
+ * @param int $depth Current depth level
+ * @return string HTML markup
+ */
+function renderCategoryTree($categories, $allCategories, $activeCatId, $depth = 0) {
+    $html = '';
+    
+    foreach ($categories as $cat) {
+        $catId = (int) $cat['id'];
+        $isActive = ($activeCatId === $catId);
+        
+        // Find children of this category
+        $children = array_filter($allCategories, fn($c) => (int) ($c['parent_id'] ?? 0) === $catId);
+        $hasChildren = !empty($children);
+        
+        // Calculate indent
+        $indent = $depth * 20;
+        $indentStyle = 'padding-left: ' . ($indent + 15) . 'px;';
+        
+        // Category item class
+        $itemClass = 'category-item category-depth-' . $depth;
+        if ($hasChildren) {
+            $itemClass .= ' category-has-children';
+        }
+        if ($isActive) {
+            $itemClass .= ' active';
+        }
+        
+        $html .= '<li class="' . $itemClass . '" style="' . $indentStyle . '" data-cat-id="' . $catId . '" data-parent-id="' . ($cat['parent_id'] ?? 0) . '">';
+        
+        // Category wrapper with toggle button
+        if ($hasChildren) {
+            $html .= '<div class="category-header">';
+            $html .= '<button class="category-toggle" type="button" aria-expanded="false" data-cat-id="' . $catId . '">';
+            $html .= '<span class="toggle-icon">▶</span>';
+            $html .= '</button>';
+            $html .= '<a href="/tin-tuc-' . urlencode($cat['slug']) . '" class="category-link">';
+            $html .= '<span class="cat-name">' . htmlspecialchars($cat['name']) . '</span>';
+            $html .= '</a>';
+            $html .= '</div>';
+        } else {
+            $html .= '<a href="/tin-tuc-' . urlencode($cat['slug']) . '" class="category-link">';
+            $html .= '<span class="cat-name">' . htmlspecialchars($cat['name']) . '</span>';
+            $html .= '</a>';
+        }
+        
+        // Render children (hidden by default)
+        if ($hasChildren) {
+            $html .= '<ul class="category-children" data-parent-id="' . $catId . '" style="display: none;">';
+            $html .= renderCategoryTree($children, $allCategories, $activeCatId, $depth + 1);
+            $html .= '</ul>';
+        }
+        
+        $html .= '</li>';
+    }
+    
+    return $html;
+}
+
 $blogCategories = $blogCategories ?? [];
 $recentBlogs    = $recentBlogs    ?? [];
 $allTags        = $allTags        ?? [];
@@ -85,18 +148,18 @@ $isSearchPage = ($currentPage === 'search');
                 <h3 class="f_600 title_color">Danh mục</h3>
                 <span class="title_br"></span>
             </div>
-            <ul>
+            <ul class="blog-categories-hierarchical" id="blog-categories-list">
                 <?php $allActive = ($activeCatId === 0 && empty($filterTag)); ?>
-                <li class="<?php echo $allActive ? 'active' : ''; ?>">
-                    <a href="/tin-tuc">Tất cả danh mục</a>
+                <li class="category-item category-all <?php echo $allActive ? 'active' : ''; ?>">
+                    <a href="/tin-tuc" class="category-link">Tất cả danh mục</a>
                 </li>
-                <?php foreach ($blogCategories as $cat): ?>
-                    <li class="<?php echo $activeCatId === (int) $cat['id'] ? 'active' : ''; ?>">
-                        <a href="/tin-tuc-<?php echo urlencode($cat['slug']); ?>">
-                            <?php echo htmlspecialchars($cat['name']); ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
+                
+                <!-- Render hierarchical categories -->
+                <?php 
+                // Build root categories (parent_id = null or 0)
+                $rootCategories = array_filter($blogCategories, fn($cat) => empty($cat['parent_id']));
+                echo renderCategoryTree($rootCategories, $blogCategories, $activeCatId);
+                ?>
             </ul>
         </aside>
     <?php endif; ?>

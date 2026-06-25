@@ -267,6 +267,111 @@ class BlogsModel
         }
     }
 
+    /**
+     * Lấy danh sách categories dạng hierarchical (phân cấp) với level info.
+     * Lọc theo show_in_menu = 1 (hiển thị trong menu)
+     * Dùng cho hiển thị dropdown/list categories có collapsible.
+     *
+     * @return array Mảng categories với level, parent_id, icon prefix
+     */
+    public function getCategoriesHierarchy()
+    {
+        try {
+            // Lấy tất cả categories active và show_in_menu=1, sắp xếp theo sort_order
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, parent_id, level, sort_order
+                 FROM `blog_categories`
+                 WHERE status = 1 AND show_in_menu = 1
+                 ORDER BY parent_id IS NULL DESC, parent_id ASC, sort_order ASC, id ASC"
+            );
+            $stmt->execute();
+            $allCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Build hierarchical array with visual hierarchy info
+            return $this->buildCategoryHierarchyWithLevel($allCategories);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getCategoriesHierarchy() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Build category hierarchy với level depth information.
+     * Thêm 'level' (depth) và 'icon' prefix cho mỗi category.
+     *
+     * @param array $allCategories Flat array của tất cả categories
+     * @return array Hierarchical array với visual level info
+     */
+    private function buildCategoryHierarchyWithLevel($allCategories)
+    {
+        $result = [];
+        $indexed = [];
+
+        // Index tất cả categories by id
+        foreach ($allCategories as $cat) {
+            $indexed[$cat['id']] = $cat;
+            $indexed[$cat['id']]['children'] = [];
+        }
+
+        // Build parent-child relationships
+        foreach ($indexed as $id => &$cat) {
+            if ($cat['parent_id'] && isset($indexed[$cat['parent_id']])) {
+                $indexed[$cat['parent_id']]['children'][] = &$cat;
+            } else {
+                // Root category
+                $result[] = &$cat;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Flatten hierarchical categories để render dễ hơn.
+     * Thêm 'depth' (level) và 'prefix' (visual icon) cho mỗi category.
+     *
+     * @param array $hierarchical Hierarchical categories array
+     * @param int $depth Depth level (bắt đầu từ 0)
+     * @return array Flat array với depth và prefix info
+     */
+    public function flattenCategoriesHierarchy($hierarchical, $depth = 0)
+    {
+        $flat = [];
+
+        foreach ($hierarchical as $cat) {
+            // Tính icon prefix dựa trên depth
+            $prefix = '';
+            if ($depth > 0) {
+                // Depth 1: "→ "
+                // Depth 2+: "└─ "
+                $prefix = ($depth === 1) ? '→ ' : '└─ ';
+            }
+
+            // Add indent info: (depth * 20px)
+            $indent = $depth * 20;
+
+            // Thêm category vào flat array với metadata
+            $flat[] = [
+                'id'       => $cat['id'],
+                'name'     => $cat['name'],
+                'slug'     => $cat['slug'],
+                'parent_id' => $cat['parent_id'] ?? null,
+                'depth'    => $depth,
+                'indent'   => $indent,
+                'prefix'   => $prefix,
+                'post_count' => $cat['post_count'] ?? 0
+            ];
+
+            // Recursively flatten children
+            if (!empty($cat['children'])) {
+                $childFlat = $this->flattenCategoriesHierarchy($cat['children'], $depth + 1);
+                $flat = array_merge($flat, $childFlat);
+            }
+        }
+
+        return $flat;
+    }
+
     // ----------------------------------------------------------------
     // TAGS
     // ----------------------------------------------------------------

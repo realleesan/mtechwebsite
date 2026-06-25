@@ -361,9 +361,11 @@ mb_http_output('UTF-8');
             break;
         case 'blogs':
             echo '<script src="assets/js/blogs.js"></script>';
+            echo '<script src="assets/js/blog-categories.js"></script>';
             break;
         case 'blog-details':
             echo '<script src="assets/js/blog.details.js"></script>';
+            echo '<script src="assets/js/blog-categories.js"></script>';
             break;
         case 'awards':
             echo '<script src="assets/js/awards.js"></script>';
