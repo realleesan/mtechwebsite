@@ -1,11 +1,43 @@
 <?php
-// $category
+// $category - danh mục hiện tại
+// $categories - danh sách danh mục (hierarchy format) từ controller
+
+// Hàm flatten hierarchy để loop dễ hơn
+function flattenCategoriesForEdit($categories, &$result = [], $prefix = '') {
+    foreach ($categories as $cat) {
+        $cat['display_name'] = $prefix . $cat['name'];
+        $result[] = $cat;
+        if (!empty($cat['children'])) {
+            flattenCategoriesForEdit($cat['children'], $result, $prefix . '— ');
+        }
+    }
+    return $result;
+}
+
+$flatCategories = flattenCategoriesForEdit($categories ?? []);
+$parentInfo = null;
+
+// Tìm danh mục cha từ danh sách
+if ($category['parent_id']) {
+    foreach ($flatCategories as $cat) {
+        if ($cat['id'] == $category['parent_id']) {
+            $parentInfo = $cat;
+            break;
+        }
+    }
+}
 ?>
 
 <div class="page-header">
     <h4><i class="bi bi-tags me-2"></i>Chỉnh sửa danh mục tin tức</h4>
     <a href="/blogs/categories" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
 </div>
+
+<?php if ($parentInfo): ?>
+<div class="alert alert-info" role="alert">
+    <i class="bi bi-info-circle me-2"></i><strong>Danh mục cha hiện tại:</strong> <code><?= htmlspecialchars($parentInfo['display_name']) ?></code>
+</div>
+<?php endif; ?>
 
 <form method="POST" action="/blogs/categories/update/<?= $category['id'] ?>" onsubmit="return validateCategoryForm()">
     <div class="admin-form-card">
@@ -15,11 +47,11 @@
                     <label for="parent_id" class="form-label">Danh mục cha (tùy chọn)</label>
                     <select class="form-select" id="parent_id" name="parent_id">
                         <option value="">-- Danh mục gốc --</option>
-                        <?php if (!empty($categories)): ?>
-                            <?php foreach ($categories as $cat): ?>
+                        <?php if (!empty($flatCategories)): ?>
+                            <?php foreach ($flatCategories as $cat): ?>
                                 <option value="<?= htmlspecialchars($cat['id']) ?>"
                                     <?= ($category['parent_id'] == $cat['id']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($cat['name']) ?>
+                                    <?= htmlspecialchars($cat['display_name']) ?> (Cấp <?= $cat['level'] ?? 1 ?>)
                                 </option>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -46,12 +78,6 @@
                         <option value="1" <?= ($category['status'] == 1) ? 'selected' : '' ?>>Kích hoạt</option>
                         <option value="0" <?= ($category['status'] == 0) ? 'selected' : '' ?>>Vô hiệu hóa</option>
                     </select>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="sort_order" class="form-label">Thứ tự hiển thị</label>
-                    <input type="number" class="form-control" id="sort_order" name="sort_order" value="<?= (int)($category['sort_order'] ?? 0) ?>" min="0">
-                    <div class="form-text">Số nhỏ hơn hiển thị trước (từ trái sang phải, từ trên xuống dưới)</div>
                 </div>
                 
                 <div class="mb-3">

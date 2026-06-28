@@ -103,6 +103,11 @@ class BlogCategoriesController extends BaseController
                 $_POST['sort_order'] ?? 0,
                 $level
             ]);
+            
+            $newCategoryId = $db->lastInsertId();
+            
+            // Update level recursively if has children (shouldn't happen for new category)
+            $this->blogsModel->updateCategoryLevelRecursive($newCategoryId);
 
             $_SESSION['success'] = 'Thêm danh mục thành công';
             $this->redirect('/blogs/categories');
@@ -134,9 +139,9 @@ class BlogCategoriesController extends BaseController
 
             // Get all categories for parent dropdown (exclude current and its descendants)
             $categories = $this->blogsModel->getCategoriesForMultiSelect();
-            $availableParents = array_filter($categories, function($cat) use ($id) {
-                return $cat['id'] != $id; // Exclude self (prevent circular reference)
-            });
+            
+            // Exclude current category and all its descendants recursively
+            $availableParents = $this->filterOutCategoryAndDescendants($categories, $id);
 
             $this->view('blog-categories/edit', [
                 'title'    => 'Chỉnh sửa danh mục - Admin MTech',
@@ -151,6 +156,28 @@ class BlogCategoriesController extends BaseController
             $_SESSION['error'] = 'Có lỗi xảy ra';
             $this->redirect('/blogs/categories');
         }
+    }
+    
+    /**
+     * Recursively filter out a category and all its descendants from hierarchy
+     */
+    private function filterOutCategoryAndDescendants(&$categories, $excludeId)
+    {
+        $result = [];
+        foreach ($categories as $cat) {
+            if ($cat['id'] == $excludeId) {
+                // Skip the excluded category
+                continue;
+            }
+            
+            // Recursively filter children
+            if (!empty($cat['children'])) {
+                $cat['children'] = $this->filterOutCategoryAndDescendants($cat['children'], $excludeId);
+            }
+            
+            $result[] = $cat;
+        }
+        return $result;
     }
 
     // ----------------------------------------
@@ -208,6 +235,9 @@ class BlogCategoriesController extends BaseController
                 $level,
                 $id
             ]);
+            
+            // Update level recursively for all children if parent_id changed
+            $this->blogsModel->updateCategoryLevelRecursive($id);
 
             $_SESSION['success'] = 'Cập nhật danh mục thành công';
             $this->redirect('/blogs/categories');

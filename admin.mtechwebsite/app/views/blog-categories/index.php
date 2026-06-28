@@ -1,9 +1,6 @@
 <?php
 // $categories
 
-/**
- * Build hierarchy from flat array
- */
 function buildCategoryHierarchy($categories) {
     $hierarchy = [];
     $indexed = [];
@@ -31,24 +28,36 @@ function buildCategoryHierarchy($categories) {
  */
 function renderCategoryRows($categories, $depth = 0) {
     foreach ($categories as $category) {
-        $indent = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth);
         $hasChildren = !empty($category['children']);
         $level = (int)($category['level'] ?? ($depth + 1));
         $levelLabel = $level == 1 ? 'Cấp 1' : "Cấp $level";
         $levelBadgeClass = $level == 1 ? 'bg-primary' : 'bg-info';
+        
+        // Tính indent dựa trên LEVEL từ database, không phải $depth
+        // Level 1 = 0px, Level 2 = 20px, Level 3 = 40px, etc.
+        $indentPixels = ($level - 1) * 20;
+        
+        // Determine row classes
+        $rowClass = 'category-row';
+        if ($level > 1) {
+            $rowClass .= ' child-row';
+        }
+        if ($hasChildren && $level > 1) {
+            $rowClass .= ' sub-parent-row';
+        }
         ?>
-        <tr data-category-id="<?= $category['id'] ?>" data-depth="<?= $depth ?>" data-level="<?= $level ?>" class="category-row">
+        <tr data-category-id="<?= $category['id'] ?>" data-depth="<?= $depth ?>" data-level="<?= $level ?>" class="<?= $rowClass ?>">
             <td class="text-muted small"><?= $category['id'] ?></td>
             <td>
-                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
                     <?php if ($hasChildren): ?>
-                        <button type="button" class="btn btn-sm btn-link text-secondary p-0 me-2 chevron-toggle" onclick="toggleChildren(<?= $category['id'] ?>)" title="Mở rộng/Thu gọn">
-                            <i class="bi bi-chevron-down" id="chevron-<?= $category['id'] ?>"></i>
+                        <button type="button" class="btn btn-sm btn-link text-secondary p-0 me-2 chevron-toggle" onclick="toggleBlogCategoryChildren(<?= $category['id'] ?>)" title="Mở rộng/Thu gọn">
+                            <i class="bi bi-plus" id="chevron-<?= $category['id'] ?>"></i>
                         </button>
                     <?php else: ?>
                         <span class="d-inline-block me-2" style="width: 18px;"></span>
                     <?php endif; ?>
-                    <div class="category-name-wrapper" style="margin-left: <?= ($depth * 20) ?>px;">
+                    <div class="category-name-wrapper" style="margin-left: <?= $indentPixels ?>px;">
                         <span class="fw-medium"><?= htmlspecialchars($category['name']) ?></span>
                     </div>
                 </div>
@@ -73,14 +82,17 @@ function renderCategoryRows($categories, $depth = 0) {
                     <span class="badge bg-light text-dark">Ẩn</span>
                 <?php endif; ?>
             </td>
-            <td class="text-center">
-                <span class="badge bg-light text-dark"><?= (int)($category['sort_order'] ?? 0) ?></span>
-            </td>
             <td class="text-muted small">
                 <?= isset($category['created_at']) ? date('d/m/Y H:i', strtotime($category['created_at'])) : '' ?>
             </td>
             <td>
                 <div class="d-flex gap-1">
+                    <?php if ($level >= 1): ?>
+                        <a href="/blogs/categories/create?parent_id=<?= $category['id'] ?>"
+                           class="btn btn-sm btn-outline-success" title="Thêm danh mục con">
+                            <i class="bi bi-plus-circle"></i>
+                        </a>
+                    <?php endif; ?>
                     <a href="/blogs/categories/edit/<?= $category['id'] ?>"
                        class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
                         <i class="bi bi-pencil"></i>
@@ -129,10 +141,10 @@ $categoryHierarchy = buildCategoryHierarchy($categories ?? []);
     <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
         <span class="text-muted small">Tổng: <strong><?= count($categories ?? []) ?></strong> danh mục</span>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="expandAllCategories()">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="expandAllBlogCategories()">
                 <i class="bi bi-arrows-expand me-1"></i>Mở rộng tất cả
             </button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="collapseAllCategories()">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="collapseAllBlogCategories()">
                 <i class="bi bi-arrows-collapse me-1"></i>Thu gọn tất cả
             </button>
         </div>
@@ -147,7 +159,6 @@ $categoryHierarchy = buildCategoryHierarchy($categories ?? []);
                     <th>Slug</th>
                     <th>Trạng thái</th>
                     <th>Hiển thị menu</th>
-                    <th style="width:100px">Thứ tự</th>
                     <th>Thời gian tạo</th>
                     <th style="width:120px">Thao tác</th>
                 </tr>

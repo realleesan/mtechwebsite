@@ -523,36 +523,42 @@
 .blog-categories-hierarchical .category-header {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0;
+    width: 100%;
 }
 
 /* Toggle button (expand/collapse) */
 .blog-categories-hierarchical .category-toggle {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 24px;
     height: 24px;
     padding: 0;
+    margin: 0 8px 0 0;
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 12px;
-    color: #1A3FBF;
-    transition: transform .2s ease;
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+    outline: none;
+    line-height: 1;
 }
 
 .blog-categories-hierarchical .category-toggle:hover {
-    transform: scale(1.1);
-}
-
-.blog-categories-hierarchical .category-toggle[aria-expanded="true"] .toggle-icon {
-    transform: rotate(90deg);
+    color: #1A3FBF;
 }
 
 .blog-categories-hierarchical .toggle-icon {
     display: inline-block;
-    transition: transform .2s ease;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: bold;
+    min-width: 16px;
+    text-align: center;
 }
 
 /* Category link styling */
@@ -564,8 +570,9 @@
     font-size: 17px;
     color: #555;
     text-decoration: none;
-    transition: color .2s;
+    transition: color 0.2s;
     flex: 1;
+    min-width: 0;
 }
 
 .blog-categories-hierarchical .category-link:hover,
@@ -576,6 +583,7 @@
 /* Category name */
 .blog-categories-hierarchical .cat-name {
     flex: 1;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -586,16 +594,44 @@
     font-weight: 600;
 }
 
+.blog-categories-hierarchical .category-depth-0 .category-link {
+    padding-left: 0;
+}
+
 .blog-categories-hierarchical .category-depth-1 {
     font-weight: 500;
 }
 
-.blog-categories-hierarchical .category-depth-2,
+.blog-categories-hierarchical .category-depth-1 .category-link {
+    padding-left: 12px;
+}
+
+.blog-categories-hierarchical .category-depth-2 {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.blog-categories-hierarchical .category-depth-2 .category-link {
+    padding-left: 24px;
+}
+
 .blog-categories-hierarchical .category-depth-3,
 .blog-categories-hierarchical .category-depth-4,
 .blog-categories-hierarchical .category-depth-5 {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 15px;
+}
+
+.blog-categories-hierarchical .category-depth-3 .category-link {
+    padding-left: 36px;
+}
+
+.blog-categories-hierarchical .category-depth-4 .category-link {
+    padding-left: 48px;
+}
+
+.blog-categories-hierarchical .category-depth-5 .category-link {
+    padding-left: 60px;
 }
 
 /* Category "All" item styling */
@@ -607,6 +643,7 @@
 .blog-categories-hierarchical .category-all a {
     color: #333;
     padding: 13px 0;
+    padding-left: 0;
 }
 
 .blog-categories-hierarchical .category-all a:hover,
@@ -614,16 +651,27 @@
     color: #1A3FBF;
 }
 
-/* Children wrapper */
+/* Children wrapper - smooth slide down animation */
 .blog-categories-hierarchical .category-children {
     list-style: none;
     padding: 0;
     margin: 0;
     display: none;
+    max-height: 0;
+    overflow: hidden;
+    background: transparent;
+    transition: max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                padding 0.45s ease;
 }
 
-.blog-categories-hierarchical .category-children.expanded {
-    display: block;
+.blog-categories-hierarchical .category-children--hidden {
+    display: none !important;
+}
+
+.blog-categories-hierarchical .category-children.show {
+    display: block !important;
+    max-height: 800px;
+    padding-top: 8px;
 }
 
 /* Has children indicator */
@@ -641,13 +689,17 @@
 .blog-categories-hierarchical .category-item > .category-header {
     display: flex;
     align-items: center;
-    padding: 13px 0;
+    width: 100%;
 }
 
-/* Fix for items without toggle button */
+/* Fix for items without toggle button - align with toggle space */
 .blog-categories-hierarchical .category-item:not(.category-has-children) > a {
-    padding-left: 32px;  /* Align with toggle button width + gap */
+    padding-left: 32px;  /* Match toggle button width + margin */
 }
+
+
+
+
 
 
 

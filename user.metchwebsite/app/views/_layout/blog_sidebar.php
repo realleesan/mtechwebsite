@@ -33,10 +33,6 @@ function renderCategoryTree($categories, $allCategories, $activeCatId, $depth = 
         $children = array_filter($allCategories, fn($c) => (int) ($c['parent_id'] ?? 0) === $catId);
         $hasChildren = !empty($children);
         
-        // Calculate indent
-        $indent = $depth * 20;
-        $indentStyle = 'padding-left: ' . ($indent + 15) . 'px;';
-        
         // Category item class
         $itemClass = 'category-item category-depth-' . $depth;
         if ($hasChildren) {
@@ -46,13 +42,13 @@ function renderCategoryTree($categories, $allCategories, $activeCatId, $depth = 
             $itemClass .= ' active';
         }
         
-        $html .= '<li class="' . $itemClass . '" style="' . $indentStyle . '" data-cat-id="' . $catId . '" data-parent-id="' . ($cat['parent_id'] ?? 0) . '">';
+        $html .= '<li class="' . $itemClass . '" data-cat-id="' . $catId . '" data-parent-id="' . ($cat['parent_id'] ?? 0) . '">';
         
         // Category wrapper with toggle button
         if ($hasChildren) {
             $html .= '<div class="category-header">';
             $html .= '<button class="category-toggle" type="button" aria-expanded="false" data-cat-id="' . $catId . '">';
-            $html .= '<span class="toggle-icon">▶</span>';
+            $html .= '<span class="toggle-icon">+</span>';
             $html .= '</button>';
             $html .= '<a href="/tin-tuc-' . urlencode($cat['slug']) . '" class="category-link">';
             $html .= '<span class="cat-name">' . htmlspecialchars($cat['name']) . '</span>';
@@ -66,7 +62,7 @@ function renderCategoryTree($categories, $allCategories, $activeCatId, $depth = 
         
         // Render children (hidden by default)
         if ($hasChildren) {
-            $html .= '<ul class="category-children" data-parent-id="' . $catId . '" style="display: none;">';
+            $html .= '<ul class="category-children category-children--hidden" data-parent-id="' . $catId . '">';
             $html .= renderCategoryTree($children, $allCategories, $activeCatId, $depth + 1);
             $html .= '</ul>';
         }
@@ -221,3 +217,5 @@ $isSearchPage = ($currentPage === 'search');
     <?php endif; ?>
 
 </div><!-- /.blog_sidebar_area -->
+
+

@@ -718,27 +718,15 @@ function expandAllCategories() {
     });
 }
 
-function collapseAllCategories() {
-    // Hide all depth > 0 rows
-    document.querySelectorAll('tr[data-category-id]').forEach(row => {
-        if (parseInt(row.dataset.depth) > 0) {
-            row.style.display = 'none';
-        }
-    });
-    // Set all chevrons to collapsed state
-    document.querySelectorAll('[id^="chevron-"]').forEach(chevron => {
-        chevron.className = 'bi bi-chevron-right';
-    });
-}
-
 // Initialize category management when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize category slug generation
     initCategorySlugGeneration();
     
-    // Initialize category hierarchy collapse (if on categories page)
+    
+// Initialize category hierarchy collapse (if on categories page)
     if (document.querySelector('tr[data-category-id]')) {
-        collapseAllCategories();
+        collapseAllBlogCategories();
     }
     
     // Initialize recruitment category checking (if on blog forms)
@@ -768,4 +756,159 @@ function syncRichEditorOnSubmit() {
     if (editorContent && contentInput) {
         contentInput.value = editorContent.innerHTML;
     }
+}
+
+// ============================================
+// Blog Categories Toggle with Smooth Animation
+// ============================================
+
+/**
+ * Toggle children categories visibility with smooth slide animation
+ * Only shows direct children (level + 1), not all descendants
+ * @param {number} categoryId - The category ID to toggle children for
+ */
+function toggleBlogCategoryChildren(categoryId) {
+    const button = document.querySelector(`.chevron-toggle[onclick*="toggleBlogCategoryChildren(${categoryId})"]`);
+    const currentRow = document.querySelector(`tr[data-category-id="${categoryId}"]`);
+    const iconElement = button ? button.querySelector('i') : null;
+    
+    if (!button || !currentRow || !iconElement) {
+        console.warn('Button, row, or icon not found for categoryId:', categoryId);
+        return;
+    }
+    
+    const currentLevel = parseInt(currentRow.getAttribute('data-level'));
+    const nextLevel = currentLevel + 1;
+    const isExpanded = button.classList.contains('expanded');
+    
+    // Get tbody
+    const tbody = currentRow.parentElement;
+    const allRows = Array.from(tbody.querySelectorAll('tr[data-category-id]'));
+    const currentIndex = allRows.indexOf(currentRow);
+    
+    if (currentIndex === -1) return;
+    
+    // Find only direct children (level = currentLevel + 1)
+    let directChildRows = [];
+    
+    for (let i = currentIndex + 1; i < allRows.length; i++) {
+        const row = allRows[i];
+        const rowLevel = parseInt(row.getAttribute('data-level'));
+        
+        if (rowLevel < nextLevel) {
+            // End of this parent's descendants
+            break;
+        } else if (rowLevel === nextLevel) {
+            // Direct child
+            directChildRows.push(row);
+        }
+        // Skip rows with level > nextLevel (they are grandchildren)
+    }
+    
+    // Toggle visibility and icon
+    if (!isExpanded) {
+        // Expand: show only direct child rows
+        directChildRows.forEach(row => {
+            row.classList.remove('collapsed');
+            row.style.display = '';
+        });
+        button.classList.add('expanded');
+        // Change plus icon to minus
+        iconElement.className = 'bi bi-dash';
+    } else {
+        // Collapse: hide direct child rows and recursively collapse their children
+        directChildRows.forEach(row => {
+            row.classList.add('collapsed');
+            row.style.display = 'none';
+            // Also collapse any expanded toggles in child rows
+            const childToggle = row.querySelector('.chevron-toggle');
+            if (childToggle && childToggle.classList.contains('expanded')) {
+                childToggle.classList.remove('expanded');
+                const childIcon = childToggle.querySelector('i');
+                if (childIcon) childIcon.className = 'bi bi-plus';
+            }
+            // Hide grandchildren too
+            hideGrandchildrenRecursive(row, allRows);
+        });
+        button.classList.remove('expanded');
+        // Change minus icon to plus
+        iconElement.className = 'bi bi-plus';
+    }
+}
+
+/**
+ * Helper function to recursively hide grandchildren when collapsing
+ */
+function hideGrandchildrenRecursive(parentRow, allRows) {
+    const parentLevel = parseInt(parentRow.getAttribute('data-level'));
+    const parentIndex = allRows.indexOf(parentRow);
+    
+    for (let i = parentIndex + 1; i < allRows.length; i++) {
+        const row = allRows[i];
+        const rowLevel = parseInt(row.getAttribute('data-level'));
+        
+        if (rowLevel <= parentLevel) {
+            break; // End of parent's descendants
+        }
+        
+        row.classList.add('collapsed');
+        row.style.display = 'none';
+        
+        // Reset toggle icon to plus if it's a toggle row
+        const toggle = row.querySelector('.chevron-toggle');
+        if (toggle && toggle.classList.contains('expanded')) {
+            toggle.classList.remove('expanded');
+            const icon = toggle.querySelector('i');
+            if (icon) icon.className = 'bi bi-plus';
+        }
+    }
+}
+
+/**
+ * Expand all blog categories - only shows level 2 (direct children of level 1)
+ */
+function expandAllBlogCategories() {
+    // Add expanded class to all level 1 toggles and change icon to minus
+    document.querySelectorAll('tr[data-level="1"] .chevron-toggle').forEach(btn => {
+        btn.classList.add('expanded');
+        const icon = btn.querySelector('i');
+        if (icon) icon.className = 'bi bi-dash';
+    });
+    
+    // Show only level 2 rows (direct children of level 1)
+    document.querySelectorAll('tr[data-level="2"]').forEach(row => {
+        row.classList.remove('collapsed');
+        row.style.display = '';
+    });
+    
+    // Hide all level 3+ rows
+    document.querySelectorAll('tr[data-level]:not([data-level="1"]):not([data-level="2"])').forEach(row => {
+        row.classList.add('collapsed');
+        row.style.display = 'none';
+    });
+    
+    // Reset all level 2+ toggles to plus icon
+    document.querySelectorAll('tr[data-level]:not([data-level="1"]) .chevron-toggle').forEach(btn => {
+        btn.classList.remove('expanded');
+        const icon = btn.querySelector('i');
+        if (icon) icon.className = 'bi bi-plus';
+    });
+}
+
+/**
+ * Collapse all blog categories - hides everything except level 1
+ */
+function collapseAllBlogCategories() {
+    // Remove expanded class from all toggles and change icon to plus
+    document.querySelectorAll('.chevron-toggle').forEach(btn => {
+        btn.classList.remove('expanded');
+        const icon = btn.querySelector('i');
+        if (icon) icon.className = 'bi bi-plus';
+    });
+    
+    // Hide all child rows (level 2+)
+    document.querySelectorAll('tr[data-level]:not([data-level="1"])').forEach(row => {
+        row.classList.add('collapsed');
+        row.style.display = 'none';
+    });
 }

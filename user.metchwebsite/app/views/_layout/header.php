@@ -186,13 +186,13 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                     </ul>
                 </li>
 
-                <!-- Blog -->
+                <!-- Blog with Hierarchical Categories -->
                 <?php
                 $isBlogActive = ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) || 
                                ($currentPage === 'blog-details');
                 
-                // Function to render blog category hierarchy
-                function renderBlogCategoryMenu($categories) {
+                // Function to render blog category hierarchy recursively
+                function renderBlogCategoryMenu($categories, $depth = 0) {
                     if (empty($categories)) return '';
                     
                     $html = '';
@@ -201,7 +201,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         $categoryUrl = '/tin-tuc-' . urlencode($category['slug']);
                         
                         if ($hasChildren) {
-                            // Category cha có con - thêm class submenu
+                            // Category có con - thêm class submenu
                             $html .= '<li class="nav-item submenu">';
                             $html .= '<a class="nav-link" href="' . $categoryUrl . '" title="' . htmlspecialchars($category['name']) . '">';
                             $html .= strtoupper(htmlspecialchars($category['name']));
@@ -209,41 +209,8 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                             $html .= '</a>';
                             $html .= '<ul class="dropdown-menu" role="menu">';
                             
-                            // Render các category con
-                            foreach ($category['children'] as $child) {
-                                $childUrl = '/tin-tuc-' . urlencode($child['slug']);
-                                $hasGrandchildren = !empty($child['children']);
-                                
-                                if ($hasGrandchildren) {
-                                    // Child có grandchildren - render như submenu lồng
-                                    $html .= '<li class="nav-item submenu">';
-                                    $html .= '<a class="nav-link" href="' . $childUrl . '" title="' . htmlspecialchars($child['name']) . '">';
-                                    $html .= strtoupper(htmlspecialchars($child['name']));
-                                    $html .= '<span class="caret-drop"></span>';
-                                    $html .= '</a>';
-                                    $html .= '<ul class="dropdown-menu" role="menu">';
-                                    
-                                    // Render grandchildren
-                                    foreach ($child['children'] as $grandchild) {
-                                        $grandchildUrl = '/tin-tuc-' . urlencode($grandchild['slug']);
-                                        $html .= '<li class="nav-item">';
-                                        $html .= '<a class="nav-link" href="' . $grandchildUrl . '" title="' . htmlspecialchars($grandchild['name']) . '">';
-                                        $html .= strtoupper(htmlspecialchars($grandchild['name']));
-                                        $html .= '</a>';
-                                        $html .= '</li>';
-                                    }
-                                    
-                                    $html .= '</ul>';
-                                    $html .= '</li>';
-                                } else {
-                                    // Child không có grandchildren - link thường
-                                    $html .= '<li class="nav-item">';
-                                    $html .= '<a class="nav-link" href="' . $childUrl . '" title="' . htmlspecialchars($child['name']) . '">';
-                                    $html .= strtoupper(htmlspecialchars($child['name']));
-                                    $html .= '</a>';
-                                    $html .= '</li>';
-                                }
-                            }
+                            // Render các category con recursively
+                            $html .= renderBlogCategoryMenu($category['children'], $depth + 1);
                             
                             $html .= '</ul>';
                             $html .= '</li>';

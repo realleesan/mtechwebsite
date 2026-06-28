@@ -636,21 +636,84 @@ class BlogsModel
         }
 
         try {
-            // Get parent's parent_id
-            $stmt = $this->db->prepare("SELECT parent_id FROM blog_categories WHERE id = ?");
+            // Get parent's current level (chứ không lấy parent_id)
+            $stmt = $this->db->prepare("SELECT level FROM blog_categories WHERE id = ?");
             $stmt->execute([$parentId]);
             $parent = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!$parent) {
-                return 1; // Parent not found, treat as root
+            if (!$parent || empty($parent['level'])) {
+                // If parent not found or level is empty, fallback to tracing parent chain
+                $stmt = $this->db->prepare("SELECT parent_id FROM blog_categories WHERE id = ?");
+                $stmt->execute([$parentId]);
+                $parentData = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if (!$parentData) {
+                    return 1; // Parent not found, treat as root
+                }
+                
+                // Recursively calculate parent's level, then add 1
+                $parentLevel = $this->calculateCategoryLevel($parentData['parent_id']);
+                return $parentLevel + 1;
             }
 
-            // Recursively calculate parent's level, then add 1
-            $parentLevel = $this->calculateCategoryLevel($parent['parent_id']);
-            return $parentLevel + 1;
+            // Parent level is stored, return parent_level + 1
+            return (int)$parent['level'] + 1;
         } catch (PDOException $e) {
             error_log('BlogsModel::calculateCategoryLevel() - ' . $e->getMessage());
             return 1; // Default to root on error
+        }
+    }
+
+    /**
+     * Cập nhật level của một danh mục và tất cả danh mục con (recursive update)
+     * Gọi khi parent_id thay đổi để đảm bảo level chính xác cho cả cây con
+     * 
+     * @param int $categoryId ID của danh mục cần cập nhật
+     * @return bool Kết quả cập nhật
+     */
+    public function updateCategoryLevelRecursive($categoryId)
+    {
+        try {
+            // Bước 1: Cập nhật level của danh mục hiện tại
+            $level = $this->calculateCategoryLevel(
+                $this->getParentIdOfCategory($categoryId)
+            );
+            
+            $stmt = $this->db->prepare("UPDATE blog_categories SET level = ? WHERE id = ?");
+            $stmt->execute([$level, $categoryId]);
+            
+            // Bước 2: Cập nhật level của tất cả danh mục con (recursive)
+            $stmt = $this->db->prepare("SELECT id FROM blog_categories WHERE parent_id = ?");
+            $stmt->execute([$categoryId]);
+            $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($children as $child) {
+                $this->updateCategoryLevelRecursive($child['id']);
+            }
+            
+            return true;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::updateCategoryLevelRecursive() - ' . $e->getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Helper: Lấy parent_id của một danh mục
+     * 
+     * @param int $categoryId ID của danh mục
+     * @return int|null parent_id hoặc null nếu không tìm thấy
+     */
+    private function getParentIdOfCategory($categoryId)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT parent_id FROM blog_categories WHERE id = ?");
+            $stmt->execute([$categoryId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result['parent_id'] : null;
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getParentIdOfCategory() - ' . $e->getMessage());
+            return null;
         }
     }
 
