@@ -2,7 +2,7 @@
 /**
  * FilterConfigService.php
  * 
- * Service quản lý cấu hình hiển thị và sắp xếp các mục trên Mega Menu (Dịch vụ, Dự án, Tin tức).
+ * Service quản lý cấu hình hiển thị và sắp xếp các mục trên Mega Menu (Lĩnh vực, Dự án, Tin tức).
  */
 
 class FilterConfigService

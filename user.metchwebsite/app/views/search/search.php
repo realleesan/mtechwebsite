@@ -21,7 +21,7 @@ function search_page_url($p, $q, $type) {
     $typeSuffix = [
         'blog'    => '-tin-tuc',
         'project' => '-du-an',
-        'service' => '-dich-vu',
+        'service' => '-linh-vuc',
         ''        => '',
     ];
     $suffix = $typeSuffix[$type] ?? '';
@@ -32,7 +32,7 @@ function search_page_url($p, $q, $type) {
 $typeLabels = [
     ''        => 'Tất cả',
     'blog'    => 'Tin tức',
-    'service' => 'Dịch vụ',
+    'service' => 'Lĩnh vực',
     'project' => 'Dự án',
 ];
 ?>

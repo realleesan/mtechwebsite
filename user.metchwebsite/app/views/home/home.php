@@ -75,7 +75,7 @@
                 <div class="welcome_text">
                     <h5 class="welcome_sub">Chào mừng đến với MTECH</h5>
                     <h1 class="welcome_title">Hơn 15 năm kiến tạo những công trình công nghiệp bền vững.</h1>
-                    <p class="welcome_desc">Được thành lập từ ngày 26/05/2011, Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH tự hào là đơn vị uy tín cung cấp chuỗi dịch vụ khép kín từ lập quy hoạch, khảo sát, thiết kế bản vẽ thi công, đến giám sát và quản lý dự án. Với đội ngũ chuyên gia tận tâm, chúng tôi luôn mang tới những giải pháp tối ưu nhất, đồng hành cùng nhà đầu tư kiến tạo nên các dự án luyện kim - năng lượng, vật liệu xây dựng và nông nghiệp công nghệ cao mang tầm vóc quốc tế.</p>
+                    <p class="welcome_desc">Được thành lập từ ngày 26/05/2011, Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH tự hào là đơn vị uy tín cung cấp chuỗi lĩnh vực khép kín từ lập quy hoạch, khảo sát, thiết kế bản vẽ thi công, đến giám sát và quản lý dự án. Với đội ngũ chuyên gia tận tâm, chúng tôi luôn mang tới những giải pháp tối ưu nhất, đồng hành cùng nhà đầu tư kiến tạo nên các dự án luyện kim - năng lượng, vật liệu xây dựng và nông nghiệp công nghệ cao mang tầm vóc quốc tế.</p>
                     <h6 class="welcome_ceo">Giám đốc : Nguyễn Tùng Giang</a></h6>
                 </div>
             </div>
@@ -95,7 +95,7 @@
 <section class="service_area sec_gap">
     <div class="container">
         <div class="section_title mb_55">
-            <h2 class="f_600 f_size_32 title_color">Dịch vụ của chúng tôi</h2>
+            <h2 class="f_600 f_size_32 title_color">Lĩnh vực của chúng tôi</h2>
             <span class="title_br"></span>
             <p class="mt_7">Cung cấp các giải pháp tư vấn kỹ thuật chuyên sâu cho các dự án đầu tư xây dựng quy mô lớn trên toàn quốc.</p>
         </div>
@@ -107,10 +107,10 @@
                             <div class="service_img">
                                 <img src="<?php echo htmlspecialchars($service['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($service['name']); ?>">
                                 <div class="hover_content">
-                                    <a href="/dich-vu-<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Xem thêm</a>
+                                    <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Xem thêm</a>
                                 </div>
                             </div>
-                            <a href="/dich-vu-<?php echo htmlspecialchars($service['slug']); ?>">
+                            <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>">
                                 <h3 class="f_size_20 title_color f_600"><?php echo htmlspecialchars($service['name']); ?></h3>
                             </a>
                             <span class="bottom_br"></span>

@@ -448,8 +448,8 @@ class ProjectsModel {
     // ============================================================
     
     /**
-     * Lấy tất cả dịch vụ (categories) kèm parent_id để build hierarchy
-     * @return array Danh sách dịch vụ phẳng
+     * Lấy tất cả lĩnh vực (categories) kèm parent_id để build hierarchy
+     * @return array Danh sách lĩnh vực phẳng
      */
     public function getServices() {
         try {
@@ -485,9 +485,9 @@ class ProjectsModel {
     }
     
     /**
-     * Lấy dịch vụ của một dự án
+     * Lấy lĩnh vực của một dự án
      * @param int $projectId ID dự án
-     * @return array Danh sách dịch vụ
+     * @return array Danh sách lĩnh vực
      */
     public function getProjectServices($projectId) {
         try {
@@ -507,9 +507,9 @@ class ProjectsModel {
     }
     
     /**
-     * Thêm dịch vụ cho dự án
+     * Thêm lĩnh vực cho dự án
      * @param int $projectId ID dự án
-     * @param array $serviceIds Array ID dịch vụ
+     * @param array $serviceIds Array ID lĩnh vực
      * @return bool Kết quả
      */
     public function addProjectServices($projectId, $serviceIds) {

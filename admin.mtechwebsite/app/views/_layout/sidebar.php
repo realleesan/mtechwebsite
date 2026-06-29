@@ -54,7 +54,7 @@ $headerSettings = $headerModel->getSettingsWithFallback();
             <li class="nav-item">
                 <a href="/categories" class="nav-link <?= $currentPage === 'categories' ? 'active' : '' ?>">
                     <i class="bi bi-grid"></i>
-                    <span>Dịch vụ</span>
+                    <span>Lĩnh vực</span>
                 </a>
             </li>
 

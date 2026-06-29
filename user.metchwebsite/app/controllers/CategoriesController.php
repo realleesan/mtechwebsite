@@ -1,6 +1,6 @@
 <?php
 /**
- * CategoriesController - Xử lý trang danh mục dịch vụ
+ * CategoriesController - Xử lý trang danh mục lĩnh vực
  * Chuyển logic từ index.php case 'categories' và 'categories-details'
  */
 
@@ -17,7 +17,7 @@ class CategoriesController extends BaseController
     }
     
     /**
-     * Hiển thị danh sách dịch vụ/categories
+     * Hiển thị danh sách lĩnh vực/categories
      */
     public function index()
     {
@@ -25,7 +25,7 @@ class CategoriesController extends BaseController
         $data = [
             // Layout variables
             'page' => 'categories',
-            'title' => 'Dịch vụ - MTECHJSC',
+            'title' => 'Lĩnh vực - MTECHJSC',
             'showPageHeader' => true,
             'showCTA' => false,
             'showBreadcrumb' => true
@@ -36,7 +36,7 @@ class CategoriesController extends BaseController
     }
     
     /**
-     * Hiển thị chi tiết danh mục dịch vụ
+     * Hiển thị chi tiết danh mục lĩnh vực
      * @param string $slug Category slug từ URL parameter
      */
     public function details($slug = null)
@@ -47,7 +47,7 @@ class CategoriesController extends BaseController
         }
         
         if (empty($slug)) {
-            $this->redirect('/dich-vu');
+            $this->redirect('/linh-vuc');
             return;
         }
         

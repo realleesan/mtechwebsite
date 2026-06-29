@@ -19,7 +19,7 @@ if (!empty($category['faq_items'])) {
 ?>
 
 <div class="page-header">
-    <h4><i class="bi bi-grid me-2"></i>Chỉnh sửa dịch vụ</h4>
+    <h4><i class="bi bi-grid me-2"></i>Chỉnh sửa lĩnh vực</h4>
     <a href="/categories" class="btn btn-outline-secondary btn-sm">
         <i class="bi bi-arrow-left me-1"></i>Quay lại
     </a>
@@ -41,7 +41,7 @@ if (!empty($category['faq_items'])) {
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="detail-tab" data-bs-toggle="tab"
                         data-bs-target="#detail" type="button" role="tab">
-                    <i class="bi bi-file-text me-2"></i>Chi tiết dịch vụ
+                    <i class="bi bi-file-text me-2"></i>Chi tiết lĩnh vực
                 </button>
             </li>
         </ul>
@@ -56,10 +56,10 @@ if (!empty($category['faq_items'])) {
                     <div class="col-md-8">
 
                         <div class="mb-3">
-                            <label for="name" class="form-label">Tên dịch vụ <span class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Tên lĩnh vực <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name"
                                    value="<?= htmlspecialchars($category['name'] ?? '') ?>"
-                                   placeholder="Nhập tên dịch vụ" required>
+                                   placeholder="Nhập tên lĩnh vực" required>
                         </div>
 
                         <div class="mb-3">
@@ -67,32 +67,32 @@ if (!empty($category['faq_items'])) {
                             <input type="text" class="form-control" id="slug" name="slug"
                                    value="<?= htmlspecialchars($category['slug'] ?? '') ?>"
                                    placeholder="url-than-thien" required>
-                            <div class="form-text">URL thân thiện, tự động tạo từ tên dịch vụ</div>
+                            <div class="form-text">URL thân thiện, tự động tạo từ tên lĩnh vực</div>
                         </div>
                         <div class="mb-3">
-                            <label for="parent_id" class="form-label">Dịch vụ cha (Không bắt buộc)</label>
+                            <label for="parent_id" class="form-label">Lĩnh vực cha (Không bắt buộc)</label>
                             <select class="form-select" id="parent_id" name="parent_id">
-                                <option value="">-- Là dịch vụ gốc --</option>
+                                <option value="">-- Là lĩnh vực gốc --</option>
                                 <?php if (!empty($categories) && is_array($categories)): ?>
                                     <?php foreach ($categories as $cat): ?>
                                         <option value="<?= $cat['id'] ?>" <?= ($category['parent_id'] ?? '') == $cat['id'] ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                            <div class="form-text">Chọn dịch vụ cấp trên của dịch vụ này nếu có</div>
+                            <div class="form-text">Chọn lĩnh vực cấp trên của lĩnh vực này nếu có</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Mô tả ngắn</label>
                             <textarea class="form-control" id="description" name="description" rows="3"
-                                      placeholder="Mô tả ngắn hiển thị trong danh sách dịch vụ..."><?= htmlspecialchars($category['description'] ?? '') ?></textarea>
+                                      placeholder="Mô tả ngắn hiển thị trong danh sách lĩnh vực..."><?= htmlspecialchars($category['description'] ?? '') ?></textarea>
                         </div>
 
                         <div class="mb-3">
-                            <label for="detail_description" class="form-label">Mô tả chi tiết dịch vụ</label>
+                            <label for="detail_description" class="form-label">Mô tả chi tiết lĩnh vực</label>
                             <textarea class="form-control" id="detail_description" name="detail_description" rows="5"
-                                      placeholder="Mô tả đầy đủ hiển thị trong trang chi tiết dịch vụ..."><?= htmlspecialchars($category['detail_description'] ?? '') ?></textarea>
-                            <div class="form-text">Hiển thị trong phần nội dung chính trang chi tiết dịch vụ</div>
+                                      placeholder="Mô tả đầy đủ hiển thị trong trang chi tiết lĩnh vực..."><?= htmlspecialchars($category['detail_description'] ?? '') ?></textarea>
+                            <div class="form-text">Hiển thị trong phần nội dung chính trang chi tiết lĩnh vực</div>
                         </div>
 
                         <div class="row">
@@ -124,7 +124,7 @@ if (!empty($category['faq_items'])) {
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-text">Dịch vụ sẽ xuất hiện trong cột dịch vụ ở footer trang web</div>
+                            <div class="form-text">Lĩnh vực sẽ xuất hiện trong cột lĩnh vực ở footer trang web</div>
                         </div>
 
                     </div>
@@ -132,7 +132,7 @@ if (!empty($category['faq_items'])) {
                     <!-- Right col: Ảnh đại diện -->
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label">Ảnh đại diện dịch vụ <span class="text-danger">*</span></label>
+                            <label class="form-label">Ảnh đại diện lĩnh vực <span class="text-danger">*</span></label>
                             <div class="cat-upload-area" id="mainUploadArea" data-target="image">
                                 <?php if (!empty($category['image'])): ?>
                                     <img id="mainPreview" src="<?= htmlspecialchars($category['image']) ?>"
@@ -157,7 +157,7 @@ if (!empty($category['faq_items'])) {
                                 <i class="bi bi-exclamation-circle me-1"></i>Vui lòng tải lên ảnh đại diện
                             </div>
                             <div class="form-text mt-1">
-                                <?= !empty($category['image']) ? 'Để trống nếu không muốn thay đổi ảnh' : 'Ảnh hiển thị trong danh sách dịch vụ' ?>
+                                <?= !empty($category['image']) ? 'Để trống nếu không muốn thay đổi ảnh' : 'Ảnh hiển thị trong danh sách lĩnh vực' ?>
                             </div>
                         </div>
                     </div>
@@ -219,14 +219,14 @@ if (!empty($category['faq_items'])) {
 
                 <!-- Benefit section -->
                 <h6 class="fw-semibold mb-3 border-bottom pb-2">
-                    <i class="bi bi-star me-2 text-warning"></i>Phần Lợi ích dịch vụ (Benefit)
+                    <i class="bi bi-star me-2 text-warning"></i>Phần Lợi ích lĩnh vực (Benefit)
                 </h6>
                 <div class="row mb-4">
                     <div class="col-md-6 mb-3">
                         <label for="benefit_title" class="form-label">Tiêu đề phần Benefit</label>
                         <input type="text" class="form-control" id="benefit_title" name="benefit_title"
                                value="<?= htmlspecialchars($category['benefit_title'] ?? '') ?>"
-                               placeholder="VD: Lợi ích dịch vụ">
+                               placeholder="VD: Lợi ích lĩnh vực">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="benefit_image" class="form-label">Ảnh minh họa Benefit <span class="text-danger">*</span></label>
@@ -377,7 +377,7 @@ if (!empty($category['faq_items'])) {
                 <i class="bi bi-x-lg me-2"></i>Hủy
             </a>
             <button type="submit" class="btn btn-primary">
-                <i class="bi bi-check-lg me-2"></i>Cập nhật dịch vụ
+                <i class="bi bi-check-lg me-2"></i>Cập nhật lĩnh vực
             </button>
         </div>
 

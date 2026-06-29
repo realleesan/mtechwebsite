@@ -52,7 +52,7 @@ try {
  * @param int $depth Cấp hiện tại (0 = dropdown cấp 1, 1 = sub-dropdown, ...)
  * @param string $urlPrefix Tiền tố URL
  */
-function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix = '/dich-vu-'): string
+function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix = '/linh-vuc-'): string
 {
     if (empty($items)) return '';
 
@@ -162,7 +162,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <?php echo renderDropdownMenuItems($servicesTree, 0, '/dich-vu-'); ?>
+                        <?php echo renderDropdownMenuItems($servicesTree, 0, '/linh-vuc-'); ?>
                     </ul>
                 </li>
                 

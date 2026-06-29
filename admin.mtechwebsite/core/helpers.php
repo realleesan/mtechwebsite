@@ -114,7 +114,7 @@ function get_blog_detail_url($slug, $categoryId = null) {
  * @return string URL
  */
 function get_category_url($slug) {
-    return '/chi-tiet-dich-vu-' . urlencode($slug);
+    return '/chi-tiet-linh-vuc-' . urlencode($slug);
 }
 
 /**

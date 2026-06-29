@@ -77,13 +77,13 @@ Options -Indexes
     # PHẢI ĐẶT TRƯỚC các rule chi-tiet-* để tránh conflict
     # /ket-qua-tim-kiem-{keyword}-tin-tuc  → index.php?page=search&q={keyword}&type=blog
     # /ket-qua-tim-kiem-{keyword}-du-an    → index.php?page=search&q={keyword}&type=project
-    # /ket-qua-tim-kiem-{keyword}-dich-vu  → index.php?page=search&q={keyword}&type=service
+    # /ket-qua-tim-kiem-{keyword}-linh-vuc  → index.php?page=search&q={keyword}&type=service
     # /ket-qua-tim-kiem-{keyword}          → index.php?page=search&q={keyword}
     # NE = No Escape: giữ nguyên ký tự Unicode, không re-encode
     # ------------------------------------------
     RewriteRule ^ket-qua-tim-kiem-(.+)-tin-tuc$  index.php?page=search&q=$1&type=blog    [L,QSA,NE]
     RewriteRule ^ket-qua-tim-kiem-(.+)-du-an$    index.php?page=search&q=$1&type=project [L,QSA,NE]
-    RewriteRule ^ket-qua-tim-kiem-(.+)-dich-vu$  index.php?page=search&q=$1&type=service [L,QSA,NE]
+    RewriteRule ^ket-qua-tim-kiem-(.+)-linh-vuc$  index.php?page=search&q=$1&type=service [L,QSA,NE]
     RewriteRule ^ket-qua-tim-kiem-(.+)$          index.php?page=search&q=$1              [L,QSA,NE]
     RewriteRule ^ket-qua-tim-kiem$               index.php?page=search                   [L,QSA]
     RewriteRule ^search$                         index.php?page=search                   [L,QSA]
@@ -135,17 +135,17 @@ Options -Indexes
     RewriteRule ^tin-tuc$ index.php?page=blogs [L,QSA]
 
     # ------------------------------------------
-    # Dịch vụ chi tiết - Làm đẹp URL (PHẢI ĐẶT TRƯỚC /dich-vu)
-    # /dich-vu-{slug} → index.php?page=categories-details&slug={slug}
-    # Ví dụ: /dich-vu-thiet-ke-xay-dung-chuyen-dung
+    # Lĩnh vực chi tiết - Làm đẹp URL (PHẢI ĐẶT TRƯỚC /linh-vuc)
+    # /linh-vuc-{slug} → index.php?page=categories-details&slug={slug}
+    # Ví dụ: /linh-vuc-thiet-ke-xay-dung-chuyen-dung
     # ------------------------------------------
-    RewriteRule ^dich-vu-(.+)$ index.php?page=categories-details&slug=$1 [L,QSA]
+    RewriteRule ^linh-vuc-(.+)$ index.php?page=categories-details&slug=$1 [L,QSA]
 
     # ------------------------------------------
-    # Dịch vụ - Làm đẹp URL
-    # /dich-vu → index.php?page=categories
+    # Lĩnh vực - Làm đẹp URL
+    # /linh-vuc → index.php?page=categories
     # ------------------------------------------
-    RewriteRule ^dich-vu$ index.php?page=categories [L]
+    RewriteRule ^linh-vuc$ index.php?page=categories [L]
 
     # ------------------------------------------
     # Fallback: mọi URL còn lại → Router PHP xử lý

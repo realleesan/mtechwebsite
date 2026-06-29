@@ -124,7 +124,7 @@ class SearchModel
                     return '/chi-tiet-' . urlencode($slug);
                 }
                 return '/chi-tiet-tin-tuc-' . urlencode($slug);
-            case 'service': return '/chi-tiet-dich-vu-' . urlencode($slug);
+            case 'service': return '/chi-tiet-linh-vuc-' . urlencode($slug);
             case 'project': return '/chi-tiet-du-an-'   . urlencode($slug);
             default:        return '#';
         }
@@ -137,7 +137,7 @@ class SearchModel
     {
         switch ($type) {
             case 'blog':    return 'Tin tức';
-            case 'service': return 'Dịch vụ';
+            case 'service': return 'Lĩnh vực';
             case 'project': return 'Dự án';
             default:        return '';
         }

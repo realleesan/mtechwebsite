@@ -32,7 +32,7 @@ class FilterConfigController extends BaseController
     {
         $db = getDBConnection();
 
-        // 1. Lấy danh sách Dịch vụ (Categories)
+        // 1. Lấy danh sách Lĩnh vực (Categories)
         $services = $this->categoriesModel->getAllCategories();
 
         // 2. Lấy danh sách Danh mục Dự án (Project Categories)

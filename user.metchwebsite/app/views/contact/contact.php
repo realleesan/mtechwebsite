@@ -13,7 +13,7 @@ $contactInfo = [
     'email' => 'mtechjsc2011.info@gmail.com',
     'email_alt' => 'mtechjsc.info@gmail.com',
     'website' => 'www.mtechjsc.com',
-    'description' => 'Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH (MTECH.JSC) là đơn vị chuyên nghiệp được thành lập từ năm 2011, chuyên cung cấp các dịch vụ tư vấn kỹ thuật chuyên sâu cho các dự án đầu tư xây dựng quy mô lớn.',
+    'description' => 'Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH (MTECH.JSC) là đơn vị chuyên nghiệp được thành lập từ năm 2011, chuyên cung cấp các lĩnh vực tư vấn kỹ thuật chuyên sâu cho các dự án đầu tư xây dựng quy mô lớn.',
     'map_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1770.29856830816!2d105.82591253855631!3d20.9965573951612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac8841f5e629%3A0x9e2493836c1f1359!2zMjI3IFAuIE5ndXnhu4VuIE5n4buNYyBO4bqhaSwgUGjGsMahbmcgTGnhu4d0LCBIw6AgTuG7mWkgMTAwMDAwLCBWaeG7h3QgTmFt!5e1!3m2!1svi!2s!4v1777798035503!5m2!1svi!2s',
     'map_label' => 'Tòa nhà 227 phố Nguyễn Ngọc Nại, Khương Mai, Thanh Xuân, Hà Nội'
 ];

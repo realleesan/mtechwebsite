@@ -1,6 +1,6 @@
 <?php
 /**
- * categories.php — View: Trang Dịch vụ của chúng tôi
+ * categories.php — View: Trang Lĩnh vực của chúng tôi
  * Structure theo docs/template/categories/code/categories.html
  */
 
@@ -31,7 +31,7 @@ $templateImages = [
 <section class="service_area sec_gap">
     <div class="container">
         <div class="section_title mb_55">
-            <h2 class="f_600 f_size_32 title_color">Dịch vụ của chúng tôi</h2>
+            <h2 class="f_600 f_size_32 title_color">Lĩnh vực của chúng tôi</h2>
             <span class="title_br"></span>
             <p class="mt_7">Cung cấp các giải pháp tư vấn kỹ thuật chuyên sâu cho các dự án đầu tư xây dựng quy mô lớn trên toàn quốc.</p>
         </div>
@@ -51,11 +51,11 @@ $templateImages = [
                             <img src="<?php echo htmlspecialchars($img, ENT_QUOTES, 'UTF-8'); ?>"
                                  alt="<?php echo $name; ?>">
                             <div class="hover_content">
-                                <a href="/dich-vu-<?php echo $slug; ?>"
+                                <a href="/linh-vuc-<?php echo $slug; ?>"
                                    class="read_more">Xem thêm</a>
                             </div>
                         </div>
-                        <a href="/dich-vu-<?php echo $slug; ?>">
+                        <a href="/linh-vuc-<?php echo $slug; ?>">
                             <h3 class="f_size_20 title_color f_600"><?php echo $name; ?></h3>
                         </a>
                         <span class="bottom_br"></span>
@@ -88,7 +88,7 @@ $templateImages = [
             <div class="lt_news_right d-flex align-items-center">
                 <div class="lt_news_inner service_inner">
                     <h4 class="f_600 title_color">Giải pháp kỹ thuật toàn diện cho sự phát triển bền vững</h4>
-                    <p>MTECH tự hào cung cấp đa dạng các dịch vụ chất lượng cao xuyên suốt vòng đời dự án, bao gồm: Lập quy hoạch, thiết kế chuyên dụng, giám sát thi công, kiểm định chất lượng, quản lý chi phí đấu thầu và đóng vai trò tổng thầu tư vấn.</p>
+                    <p>MTECH tự hào cung cấp đa dạng các lĩnh vực chất lượng cao xuyên suốt vòng đời dự án, bao gồm: Lập quy hoạch, thiết kế chuyên dụng, giám sát thi công, kiểm định chất lượng, quản lý chi phí đấu thầu và đóng vai trò tổng thầu tư vấn.</p>
                     <p>Với đội ngũ thạc sĩ, kiến trúc sư, kỹ sư chuyên môn cao cùng nhiều năm kinh nghiệm thực tiễn, chúng tôi tự tin mang đến các giải pháp tối ưu cho các dự án công nghiệp, vật liệu xây dựng, nông nghiệp và năng lượng, đáp ứng yêu cầu khắt khe nhất của các Tập đoàn lớn trong và ngoài nước.</p>
                 </div>
             </div>

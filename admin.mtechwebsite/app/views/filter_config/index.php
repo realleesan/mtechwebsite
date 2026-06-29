@@ -98,7 +98,7 @@ function renderFilterRows(array $items): void
         <ul class="nav nav-pills nav-fill bg-light p-2 rounded" id="filterTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active py-3" id="services-tab" data-bs-toggle="tab" data-bs-target="#tab-services" type="button" role="tab">
-                    <i class="bi bi-grid-3x3-gap me-2"></i>Dịch vụ
+                    <i class="bi bi-grid-3x3-gap me-2"></i>Lĩnh vực
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -111,7 +111,7 @@ function renderFilterRows(array $items): void
 </div>
 
 <div class="tab-content" id="filterTabContent">
-    <!-- === TAB 1: DỊCH VỤ === -->
+    <!-- === TAB 1: LĨNH VỰC === -->
     <div class="tab-pane fade show active" id="tab-services" role="tabpanel">
         <div class="row">
             <div class="col-md-12">
@@ -126,7 +126,7 @@ function renderFilterRows(array $items): void
             <div class="col-md-12">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-transparent border-0 py-3">
-                        <h6 class="card-title mb-0 fw-semibold">Danh sách sắp xếp Dịch vụ</h6>
+                        <h6 class="card-title mb-0 fw-semibold">Danh sách sắp xếp Lĩnh vực</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -135,7 +135,7 @@ function renderFilterRows(array $items): void
                                     <tr>
                                         <th style="width: 50px;"></th>
                                         <th style="width: 80px;">ID</th>
-                                        <th>Tên dịch vụ</th>
+                                        <th>Tên lĩnh vực</th>
                                         <th>Đường dẫn (Slug)</th>
                                         <th style="width: 150px;" class="text-center">Hiện Menu</th>
                                     </tr>

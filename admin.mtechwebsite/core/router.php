@@ -108,7 +108,7 @@ class AdminRouter
         $this->post('/projects/hard-delete/{id}','ProjectsController@hardDelete');
 
         // ----------------------------------------
-        // Categories (Dịch vụ)
+        // Categories (Lĩnh vực)
         // ----------------------------------------
         $this->get('/categories',                   'CategoriesController@index');
         $this->get('/categories/create',            'CategoriesController@create');

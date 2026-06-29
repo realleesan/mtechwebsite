@@ -1,6 +1,6 @@
 /**
  * Admin Categories - JavaScript
- * Dùng chung cho cả trang create và edit dịch vụ
+ * Dùng chung cho cả trang create và edit lĩnh vực
  */
 
 document.addEventListener('DOMContentLoaded', function () {

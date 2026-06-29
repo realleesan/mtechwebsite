@@ -25,7 +25,7 @@ class CategoriesController extends BaseController
     {
         $categories = $this->model->getAllCategories();
         $this->view('categories/index', [
-            'title'      => 'Quản lý Dịch vụ - Admin MTech',
+            'title'      => 'Quản lý Lĩnh vực - Admin MTech',
             'page'       => 'categories',
             'categories' => $categories,
             'admin'      => AuthMiddleware::getAdmin(),
@@ -37,7 +37,7 @@ class CategoriesController extends BaseController
         $allCategories = $this->model->getAllCategories();
         $categoryOptions = $this->model->getFormattedTreeOptions($allCategories);
         $this->view('categories/create', [
-            'title' => 'Thêm dịch vụ - Admin MTech',
+            'title' => 'Thêm lĩnh vực - Admin MTech',
             'page'  => 'category.create',
             'categories' => $categoryOptions,
             'admin' => AuthMiddleware::getAdmin(),
@@ -55,7 +55,7 @@ class CategoriesController extends BaseController
         $slug = trim($_POST['slug'] ?? '');
 
         if (empty($name) || empty($slug)) {
-            $_SESSION['error'] = 'Vui lòng nhập tên và slug dịch vụ';
+            $_SESSION['error'] = 'Vui lòng nhập tên và slug lĩnh vực';
             $this->redirect('/categories/create');
             return;
         }
@@ -63,7 +63,7 @@ class CategoriesController extends BaseController
         // Validate ảnh bắt buộc khi tạo mới (server-side)
         $requiredImages = ['image', 'image_1', 'image_2', 'image_3', 'benefit_image', 'feature_image'];
         $imageLabels = [
-            'image' => 'ảnh đại diện dịch vụ',
+            'image' => 'ảnh đại diện lĩnh vực',
             'image_1' => 'ảnh 1 trong gallery',
             'image_2' => 'ảnh 2 trong gallery',
             'image_3' => 'ảnh 3 trong gallery',
@@ -96,10 +96,10 @@ class CategoriesController extends BaseController
 
         $id = $this->model->create($data);
         if ($id) {
-            $_SESSION['success'] = 'Đã thêm dịch vụ thành công';
+            $_SESSION['success'] = 'Đã thêm lĩnh vực thành công';
             $this->redirect('/categories');
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi thêm dịch vụ';
+            $_SESSION['error'] = 'Có lỗi xảy ra khi thêm lĩnh vực';
             $this->redirect('/categories/create');
         }
     }
@@ -108,14 +108,14 @@ class CategoriesController extends BaseController
     {
         $category = $this->model->getCategoryById($id);
         if (!$category) {
-            $_SESSION['error'] = 'Không tìm thấy dịch vụ';
+            $_SESSION['error'] = 'Không tìm thấy lĩnh vực';
             $this->redirect('/categories');
             return;
         }
         $allCategories = $this->model->getAllCategories();
         $categoryOptions = $this->model->getFormattedTreeOptions($allCategories, $id);
         $this->view('categories/edit', [
-            'title'    => 'Chỉnh sửa dịch vụ - Admin MTech',
+            'title'    => 'Chỉnh sửa lĩnh vực - Admin MTech',
             'page'     => 'category.edit',
             'category' => $category,
             'categories' => $categoryOptions,
@@ -132,7 +132,7 @@ class CategoriesController extends BaseController
 
         $category = $this->model->getCategoryById($id);
         if (!$category) {
-            $_SESSION['error'] = 'Không tìm thấy dịch vụ';
+            $_SESSION['error'] = 'Không tìm thấy lĩnh vực';
             $this->redirect('/categories');
             return;
         }
@@ -141,7 +141,7 @@ class CategoriesController extends BaseController
         $slug = trim($_POST['slug'] ?? '');
 
         if (empty($name) || empty($slug)) {
-            $_SESSION['error'] = 'Vui lòng nhập tên và slug dịch vụ';
+            $_SESSION['error'] = 'Vui lòng nhập tên và slug lĩnh vực';
             $this->redirect('/categories/edit/' . $id);
             return;
         }
@@ -172,10 +172,10 @@ class CategoriesController extends BaseController
         // User chỉ cần thay đổi các trường text, không bắt buộc phải upload lại ảnh
 
         if ($this->model->update((int)$id, $data)) {
-            $_SESSION['success'] = 'Đã cập nhật dịch vụ thành công';
+            $_SESSION['success'] = 'Đã cập nhật lĩnh vực thành công';
             $this->redirect('/categories');
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi cập nhật dịch vụ';
+            $_SESSION['error'] = 'Có lỗi xảy ra khi cập nhật lĩnh vực';
             $this->redirect('/categories/edit/' . $id);
         }
     }
@@ -188,9 +188,9 @@ class CategoriesController extends BaseController
         }
 
         if ($this->model->delete((int)$id)) {
-            $_SESSION['success'] = 'Đã chuyển dịch vụ vào thùng rác';
+            $_SESSION['success'] = 'Đã chuyển lĩnh vực vào thùng rác';
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa dịch vụ';
+            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa lĩnh vực';
         }
 
         $this->redirect('/categories');
@@ -207,7 +207,7 @@ class CategoriesController extends BaseController
         $totalPages = (int)ceil($total / $perPage);
 
         $this->view('categories/trash', [
-            'title'       => 'Thùng rác - Dịch vụ - Admin MTech',
+            'title'       => 'Thùng rác - Lĩnh vực - Admin MTech',
             'page'        => 'categories',
             'categories'  => $categories,
             'total'       => $total,
@@ -225,9 +225,9 @@ class CategoriesController extends BaseController
         }
 
         if ($this->model->restore((int)$id)) {
-            $_SESSION['success'] = 'Đã khôi phục dịch vụ thành công';
+            $_SESSION['success'] = 'Đã khôi phục lĩnh vực thành công';
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi khôi phục dịch vụ';
+            $_SESSION['error'] = 'Có lỗi xảy ra khi khôi phục lĩnh vực';
         }
 
         $this->redirect('/categories/trash');
@@ -241,7 +241,7 @@ class CategoriesController extends BaseController
         }
 
         if ($this->model->hardDelete((int)$id)) {
-            $_SESSION['success'] = 'Đã xóa vĩnh viễn dịch vụ';
+            $_SESSION['success'] = 'Đã xóa vĩnh viễn lĩnh vực';
         } else {
             $_SESSION['error'] = 'Có lỗi xảy ra khi xóa vĩnh viễn';
         }

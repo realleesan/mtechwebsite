@@ -28,7 +28,7 @@ class SearchController extends BaseController
     /**
      * Hiển thị kết quả tìm kiếm với keyword từ URL path
      * Route: /ket-qua-tim-kiem-{keyword}
-     * Hỗ trợ suffix type: -tin-tuc, -du-an, -dich-vu
+     * Hỗ trợ suffix type: -tin-tuc, -du-an, -linh-vuc
      * Ví dụ: /ket-qua-tim-kiem-tuyen-dung-tin-tuc
      */
     public function indexWithKeyword($keyword = '')
@@ -37,7 +37,7 @@ class SearchController extends BaseController
         $typeSuffixes = [
             '-tin-tuc'  => 'blog',
             '-du-an'    => 'project',
-            '-dich-vu'  => 'service',
+            '-linh-vuc'  => 'service',
         ];
 
         $searchType = '';

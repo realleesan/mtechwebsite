@@ -17,7 +17,7 @@ Admin panel quản lý website MTech được xây dựng bằng PHP thuần, s�
 ### 🔄 Đang phát triển
 - **Quản lý Blogs**: CRUD cho tin tức/bài viết
 - **Quản lý Dự án**: CRUD cho portfolio projects  
-- **Quản lý Dịch vụ**: CRUD cho categories/services
+- **Quản lý Lĩnh vực**: CRUD cho categories/services
 - **Quản lý Giải thưởng**: CRUD cho awards & certificates
 - **Quản lý Logo đối tác**: CRUD cho client logos
 - **Cài đặt Header/Footer**: Chỉnh sửa nội dung
@@ -140,7 +140,7 @@ AuthMiddleware::requireLogin();
 - `teams`: Thành viên đội ngũ
 - `blogs`: Tin tức/bài viết
 - `projects`: Dự án portfolio
-- `categories`: Dịch vụ/danh mục
+- `categories`: Lĩnh vực/danh mục
 - `awards`: Giải thưởng/chứng chỉ
 - `client_logos`: Logo đối tác
 

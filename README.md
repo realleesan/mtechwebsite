@@ -25,8 +25,8 @@ mtechwebsite/
 
 ### 👥 User Frontend (user.metchwebsite)
 
-- **Trang chủ**: Giới thiệu công ty, dịch vụ
-- **Dịch vụ**: Chi tiết các dịch vụ tư vấn
+- **Trang chủ**: Giới thiệu công ty, lĩnh vực
+- **Lĩnh vực**: Chi tiết các lĩnh vực tư vấn
 - **Dự án**: Portfolio các dự án đã thực hiện
 - **Tin tức**: Blog/tin tức công ty
 - **Liên hệ**: Form liên hệ, thông tin công ty
@@ -37,7 +37,7 @@ mtechwebsite/
 - **Dashboard**: Thống kê tổng quan
 - **Quản lý Liên hệ**: Xem, trả lời liên hệ từ website
 - **Quản lý Đơn ứng tuyển**: Xem, duyệt CV ứng viên
-- **Quản lý Nội dung**: CRUD cho blogs, dự án, dịch vụ
+- **Quản lý Nội dung**: CRUD cho blogs, dự án, lĩnh vực
 - **Quản lý Đội ngũ**: Thông tin team members
 - **Cài đặt**: Cấu hình website
 
@@ -80,7 +80,7 @@ Tạo database MySQL
 - `job_applications`: Đơn ứng tuyển
 - `blogs`: Tin tức/bài viết
 - `projects`: Dự án portfolio
-- `categories`: Dịch vụ/danh mục
+- `categories`: Lĩnh vực/danh mục
 - `teams`: Thành viên đội ngũ
 - `awards`: Giải thưởng/chứng chỉ
 - `client_logos`: Logo đối tác

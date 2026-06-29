@@ -11,14 +11,14 @@ $currentPage = $currentPage ?? 1;
 
 <div class="admin-table">
     <div class="p-3 border-bottom">
-        <span class="text-muted small">Tổng: <strong><?= $total ?? 0 ?></strong> dịch vụ đã xóa</span>
+        <span class="text-muted small">Tổng: <strong><?= $total ?? 0 ?></strong> lĩnh vực đã xóa</span>
     </div>
     <div class="table-responsive">
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Tên dịch vụ</th>
+                    <th>Tên lĩnh vực</th>
                     <th>Ngày xóa</th>
                     <th style="width:180px">Thao tác</th>
                 </tr>
@@ -48,13 +48,13 @@ $currentPage = $currentPage ?? 1;
                         <div class="d-flex gap-1">
                             <form method="POST" action="/categories/restore/<?= $cat['id'] ?>">
                                 <button type="submit" class="btn btn-sm btn-outline-success"
-                                        data-confirm="Khôi phục dịch vụ này?">
+                                        data-confirm="Khôi phục lĩnh vực này?">
                                     <i class="bi bi-arrow-counterclockwise"></i> Khôi phục
                                 </button>
                             </form>
                             <form method="POST" action="/categories/hard-delete/<?= $cat['id'] ?>">
                                 <button type="submit" class="btn btn-sm btn-outline-danger"
-                                        data-confirm="XÓA VĨNH VIỄN dịch vụ này? Không thể khôi phục!">
+                                        data-confirm="XÓA VĨNH VIỄN lĩnh vực này? Không thể khôi phục!">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>

@@ -77,7 +77,7 @@ $companyInfo = [
                                     <?php if (empty($usefulLinks)): ?>
                                     <li><a href="./">Trang chủ</a></li>
                                     <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
-                                    <li><a href="/dich-vu">Lĩnh vực</a></li>
+                                    <li><a href="/linh-vuc">Lĩnh vực</a></li>
                                     <li><a href="/du-an">Dự án</a></li>
                                     <li><a href="/tin-tuc">Tin tức</a></li>
                                     <li><a href="/lien-he">Liên hệ</a></li>
@@ -99,7 +99,7 @@ $companyInfo = [
                                 <ul class="list-unstyled mb-0">
                                     <?php foreach ($services as $service): ?>
                                     <li>
-                                        <a href="/dich-vu-<?php echo htmlspecialchars($service['slug']); ?>">
+                                        <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>">
                                             <?php echo htmlspecialchars($service['name']); ?>
                                         </a>
                                     </li>

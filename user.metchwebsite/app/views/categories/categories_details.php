@@ -1,7 +1,7 @@
 <?php
 /**
  * categories_details.php
- * View: Trang chi tiết danh mục dịch vụ (Service Details)
+ * View: Trang chi tiết danh mục lĩnh vực (Service Details)
  *
  * Biến được truyền từ index.php:
  *   $categoryDetail  - array: dữ liệu chi tiết category hiện tại
@@ -33,29 +33,35 @@ $h = fn($v) => htmlspecialchars((string)($v ?? ''), ENT_QUOTES, 'UTF-8');
 $currentSlug = $categoryDetail['slug'] ?? '';
 ?>
 
-<!--================ Bắt đầu Khu vực Chi tiết Dịch vụ =================-->
+<!--================ Bắt đầu Khu vực Chi tiết Lĩnh vực =================-->
 <section class="service_details_area sec_gap">
     <div class="container">
         <div class="row">
 
             <!-- ================================================
-                 SIDEBAR TRÁI - Unified Sidebar Design
+                 SIDEBAR TRÁI
                  ================================================ -->
             <div class="col-lg-3">
-                <?php
-                // Chuẩn bị dữ liệu cho unified sidebar
-                $page = 'categories-details';
-                $categories = $allCategories ?? [];
-                $currentItem = $categoryDetail ?? [];
-                
-                // Lấy các dịch vụ gần đây (có thể lấy từ $allCategories)
-                $recentItems = array_slice($allCategories, 0, 3, true);
-                
-                // Tags có thể thêm sau nếu có
-                $tags = [];
-                
-                include __DIR__ . '/../_layout/unified_sidebar.php';
-                ?>
+                <div class="service_left_sidebar">
+
+                    <!-- Danh sách tất cả services -->
+                    <ul class="nav service_menu_tab mb_40">
+                        <?php foreach ($allCategories as $cat): 
+                            $isActive = (trim($currentSlug) === trim($cat['slug']));
+                        ?>
+                            <li class="nav-item <?php echo $isActive ? 'active' : ''; ?>">
+                                <a class="nav-link <?php echo $isActive ? 'active' : ''; ?>"
+                                    href="/linh-vuc-<?php echo $h($cat['slug']); ?>"
+                                   title="<?php echo $h($cat['name']); ?>">
+                                    <?php echo $h($cat['name']); ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                 
+
+                </div>
             </div><!-- /.col-lg-3 -->
 
             <!-- ================================================
@@ -119,7 +125,7 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                         <div class="benefit_service two">
                             <?php if (!empty($categoryDetail['benefit_image'])): ?>
                             <img src="<?php echo $h($categoryDetail['benefit_image']); ?>"
-                                 alt="<?php echo $h($categoryDetail['benefit_title'] ?? 'Lợi ích dịch vụ'); ?>">
+                                 alt="<?php echo $h($categoryDetail['benefit_title'] ?? 'Lợi ích lĩnh vực'); ?>">
                             <?php endif; ?>
                             <div class="media-body">
                                 <?php if (!empty($categoryDetail['benefit_title'])): ?>
@@ -242,4 +248,4 @@ $currentSlug = $categoryDetail['slug'] ?? '';
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section>
-<!--================ Kết thúc Khu vực Chi tiết Dịch vụ =================-->
+<!--================ Kết thúc Khu vực Chi tiết Lĩnh vực =================-->

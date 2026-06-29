@@ -385,9 +385,9 @@ class ProjectsModel {
     // NEW METHODS FOR SERVICES (CATEGORIES)
     // ============================================================
     
-    /**
-     * Lấy dự án theo dịch vụ (qua bảng project_services)
-     * @param int $serviceId ID dịch vụ (categories)
+     /**
+      * Lấy dự án theo lĩnh vực (qua bảng project_services)
+      * @param int $serviceId ID lĩnh vực (categories)
      * @param int $limit Số lượng
      * @return array Danh sách dự án
      */
@@ -409,9 +409,9 @@ class ProjectsModel {
         }
     }
     
-    /**
-     * Lấy tất cả dịch vụ (categories) có trong database
-     * @return array Danh sách dịch vụ
+     /**
+      * Lấy tất cả lĩnh vực (categories) có trong database
+      * @return array Danh sách lĩnh vực
      */
     public function getServices() {
         try {
@@ -427,10 +427,10 @@ class ProjectsModel {
         }
     }
     
-    /**
-     * Lấy dịch vụ của một dự án cụ thể
-     * @param int $projectId ID dự án
-     * @return array Danh sách dịch vụ của dự án
+     /**
+      * Lấy lĩnh vực của một dự án cụ thể
+      * @param int $projectId ID dự án
+      * @return array Danh sách lĩnh vực của dự án
      */
     public function getProjectServices($projectId) {
         try {
@@ -448,20 +448,20 @@ class ProjectsModel {
         }
     }
     
-    /**
-     * Thêm dịch vụ cho dự án
-     * @param int $projectId ID dự án
-     * @param array $serviceIds Mảng ID dịch vụ
+     /**
+      * Thêm lĩnh vực cho dự án
+      * @param int $projectId ID dự án
+      * @param array $serviceIds Mảng ID lĩnh vực
      * @return bool
      */
     public function addProjectServices($projectId, $serviceIds) {
         try {
-            // Xóa các dịch vụ cũ của dự án
+             // Xóa các lĩnh vực cũ của dự án
             $deleteSql = "DELETE FROM project_services WHERE project_id = ?";
             $deleteStmt = $this->db->prepare($deleteSql);
             $deleteStmt->execute([$projectId]);
             
-            // Thêm dịch vụ mới
+             // Thêm lĩnh vực mới
             $insertSql = "INSERT INTO project_services (project_id, category_id) VALUES (?, ?)";
             $insertStmt = $this->db->prepare($insertSql);
             
@@ -476,8 +476,8 @@ class ProjectsModel {
         }
     }
     
-    /**
-     * Lấy dự án liên quan (cùng dịch vụ, loại trừ dự án hiện tại)
+     /**
+      * Lấy dự án liên quan (cùng lĩnh vực, loại trừ dự án hiện tại)
      * @param int $projectId ID dự án hiện tại
      * @param int $limit Số lượng tối đa
      * @return array Danh sách dự án liên quan

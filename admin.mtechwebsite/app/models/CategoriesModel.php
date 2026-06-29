@@ -142,7 +142,7 @@ class CategoriesModel
                     'slug'                => 'lap-quy-hoach-xay-dung-va-tu-van-du-an-dau-tu',
                     'image'               => '', 'image_1' => '', 'image_2' => '', 'image_3' => '',
                     'description'         => '',
-                    'detail_description'  => "MTECH cung cấp dịch vụ toàn diện trong công tác chuẩn bị đầu tư. Chúng tôi đảm nhận lập quy hoạch xây dựng, lập hồ sơ báo cáo nghiên cứu khả thi, thiết kế cơ sở và lập dự án đầu tư xây dựng công trình.\nVới đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi đảm bảo đánh giá chính xác hiệu quả dự án đầu tư, giúp chủ đầu tư an tâm trong các quyết định chiến lược.",
+                     'detail_description'  => "MTECH cung cấp lĩnh vực toàn diện trong công tác chuẩn bị đầu tư. Chúng tôi đảm nhận lập quy hoạch xây dựng, lập hồ sơ báo cáo nghiên cứu khả thi, thiết kế cơ sở và lập dự án đầu tư xây dựng công trình.\nVới đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi đảm bảo đánh giá chính xác hiệu quả dự án đầu tư, giúp chủ đầu tư an tâm trong các quyết định chiến lược.",
                     'benefit_image'       => '', 'benefit_title' => '', 'benefit_description' => '', 'benefit_items' => [],
                     'feature_image'       => '',
                     'feature_1_icon'      => '', 'feature_1_title' => 'Quy hoạch & Nghiên cứu khả thi',
@@ -172,7 +172,7 @@ class CategoriesModel
                     'slug'                => 'quan-ly-du-an-giam-sat-thi-cong-kiem-dinh',
                     'image'               => '', 'image_1' => '', 'image_2' => '', 'image_3' => '',
                     'description'         => '',
-                    'detail_description'  => "MTECH đồng hành cùng chủ đầu tư trong suốt quá trình thi công. Chúng tôi cung cấp dịch vụ quản lý dự án, giám sát thi công xây dựng và hoàn thiện công trình dân dụng, công nghiệp.\nNgoài ra, dịch vụ kiểm định chất lượng công trình và giám sát lắp đặt thiết bị của MTECH giúp các nhà máy đi vào vận hành an toàn, đúng tiến độ.",
+                     'detail_description'  => "MTECH đồng hành cùng chủ đầu tư trong suốt quá trình thi công. Chúng tôi cung cấp lĩnh vực quản lý dự án, giám sát thi công xây dựng và hoàn thiện công trình dân dụng, công nghiệp.\nNgoài ra, lĩnh vực kiểm định chất lượng công trình và giám sát lắp đặt thiết bị của MTECH giúp các nhà máy đi vào vận hành an toàn, đúng tiến độ.",
                     'benefit_image'       => '', 'benefit_title' => '', 'benefit_description' => '', 'benefit_items' => [],
                     'feature_image'       => '',
                     'feature_1_icon'      => '', 'feature_1_title' => 'Giám sát thi công chuyên nghiệp',
@@ -187,7 +187,7 @@ class CategoriesModel
                     'slug'                => 'quan-ly-chi-phi-xay-dung-tu-van-dau-thau',
                     'image'               => '', 'image_1' => '', 'image_2' => '', 'image_3' => '',
                     'description'         => '',
-                    'detail_description'  => "Chúng tôi cung cấp giải pháp tài chính minh bạch và tối ưu cho dự án. MTECH thực hiện đo bóc khối lượng xây dựng, xác định giá gói thầu, lập và thẩm tra tổng mức đầu tư.\nĐồng thời, chúng tôi cung cấp dịch vụ tư vấn đấu thầu, kiểm soát chi phí, lập hồ sơ thanh toán và quyết toán vốn đầu tư chuyên nghiệp.",
+                     'detail_description'  => "Chúng tôi cung cấp giải pháp tài chính minh bạch và tối ưu cho dự án. MTECH thực hiện đo bóc khối lượng xây dựng, xác định giá gói thầu, lập và thẩm tra tổng mức đầu tư.\nĐồng thời, chúng tôi cung cấp lĩnh vực tư vấn đấu thầu, kiểm soát chi phí, lập hồ sơ thanh toán và quyết toán vốn đầu tư chuyên nghiệp.",
                     'benefit_image'       => '', 'benefit_title' => '', 'benefit_description' => '', 'benefit_items' => [],
                     'feature_image'       => '',
                     'feature_1_icon'      => '', 'feature_1_title' => 'Tư vấn đấu thầu',
@@ -353,7 +353,7 @@ class CategoriesModel
     }
 
     /**
-     * Lấy danh sách dịch vụ trong thùng rác.
+      * Lấy danh sách lĩnh vực trong thùng rác.
      */
     public function getTrashed(int $limit = 20, int $offset = 0): array
     {
@@ -374,7 +374,7 @@ class CategoriesModel
     }
 
     /**
-     * Đếm số dịch vụ trong thùng rác.
+      * Đếm số lĩnh vực trong thùng rác.
      */
     public function countTrashed(): int
     {
@@ -390,7 +390,7 @@ class CategoriesModel
     }
 
     /**
-     * Khôi phục dịch vụ từ thùng rác.
+      * Khôi phục lĩnh vực từ thùng rác.
      */
     public function restore(int $id): bool
     {
@@ -406,7 +406,7 @@ class CategoriesModel
     }
 
     /**
-     * Xóa vĩnh viễn dịch vụ.
+      * Xóa vĩnh viễn lĩnh vực.
      */
     public function hardDelete(int $id): bool
     {

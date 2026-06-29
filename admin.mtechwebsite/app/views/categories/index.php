@@ -79,7 +79,7 @@ function renderCategoryTree($parentId, $childrenByParent, $categoryMap, $level =
                     </a>
                     <form method="POST" action="/categories/delete/<?= $cat['id'] ?>">
                         <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
-                                data-confirm="Xóa dịch vụ này?" title="Xóa">
+                                 data-confirm="Xóa lĩnh vực này?" title="Xóa">
                             <i class="bi bi-trash"></i>
                         </button>
                     </form>
@@ -93,7 +93,7 @@ function renderCategoryTree($parentId, $childrenByParent, $categoryMap, $level =
 }
 ?>
 <div class="page-header">
-    <h4><i class="bi bi-grid me-2"></i>Quản lý Dịch vụ</h4>
+    <h4><i class="bi bi-grid me-2"></i>Quản lý Lĩnh vực</h4>
     <div class="d-flex gap-2">
         <a href="/categories/trash" class="btn btn-warning">
             <i class="bi bi-trash me-1"></i>Thùng rác
@@ -120,12 +120,12 @@ foreach ($categories as $cat) {
 <div class="admin-table">
     <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <span class="text-muted small">
-            Tổng: <strong><?= count($categories) ?></strong> dịch vụ
+            Tổng: <strong><?= count($categories) ?></strong> lĩnh vực
             (<?= $parentCount ?> cha, <?= $childCount ?> con)
         </span>
         <small class="text-muted">
-            <i class="bi bi-folder2-open me-1"></i>Dịch vụ cha
-            <i class="bi bi-file-earmark ms-2 me-1"></i>Dịch vụ con
+            <i class="bi bi-folder2-open me-1"></i>Lĩnh vực cha
+            <i class="bi bi-file-earmark ms-2 me-1"></i>Lĩnh vực con
         </small>
     </div>
     <div class="table-responsive">
@@ -133,7 +133,7 @@ foreach ($categories as $cat) {
             <thead>
                 <tr>
                     <th style="width:60px">#</th>
-                    <th>Tên dịch vụ</th>
+                    <th>Tên lĩnh vực</th>
                     <th style="width:90px">Cấp độ</th>
                     <th style="width:110px">Trạng thái</th>
                     <th style="width:120px">Ngày tạo</th>
@@ -150,9 +150,9 @@ foreach ($categories as $cat) {
 <?php else: ?>
 <div class="text-center text-muted py-5">
     <i class="bi bi-grid fs-1 d-block mb-3 opacity-50"></i>
-    <p class="mb-3">Chưa có dịch vụ nào</p>
+        <p class="mb-3">Chưa có lĩnh vực nào</p>
     <a href="/categories/create" class="btn btn-primary">
-        <i class="bi bi-plus-lg me-1"></i>Thêm dịch vụ đầu tiên
+        <i class="bi bi-plus-lg me-1"></i>Thêm lĩnh vực đầu tiên
     </a>
 </div>
 <?php endif; ?>

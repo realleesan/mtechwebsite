@@ -8,7 +8,7 @@ Tài liệu này cung cấp phương án kiến trúc và kế hoạch triển k
 
 1. **Danh mục đa cấp độ sâu vô hạn (Infinite Depth):**
    - Sử dụng mô hình **Adjacency List** (`parent_id`) cho:
-     - Dịch vụ (`categories`)
+     - Lĩnh vực (`categories`)
      - Dự án (tạo bảng danh mục riêng `project_categories`)
      - Tin tức (`blog_categories`)
    - Cho phép phân cấp đến cấp 3, cấp 4,... không giới hạn thông qua hàm đệ quy dựng cây.
@@ -16,7 +16,7 @@ Tài liệu này cung cấp phương án kiến trúc và kế hoạch triển k
    - Hỗ trợ dự án cha - dự án con (ví dụ: dự án lớn chứa các dự án thành phần).
    - Hỗ trợ bài viết tin tức cha - bài viết con (ví dụ: loạt bài viết nhiều kỳ).
 3. **Liên kết chéo nhiều-nhiều tự do:**
-   - Một dự án có thể thuộc nhiều danh mục dịch vụ. Dự án cha và dự án con có thể liên kết độc lập với các danh mục ở các cấp khác nhau (ví dụ: dự án cha thuộc danh mục con, dự án con thuộc danh mục cha).
+    - Một dự án có thể thuộc nhiều danh mục lĩnh vực. Dự án cha và dự án con có thể liên kết độc lập với các danh mục ở các cấp khác nhau (ví dụ: dự án cha thuộc danh mục con, dự án con thuộc danh mục cha).
    - Một bài viết tin tức có thể thuộc nhiều danh mục tin tức.
 4. **Cấu hình bộ lọc Admin (Filter Config):**
    - Lưu trữ thứ tự và trạng thái hiển thị của các danh mục trên Mega Menu thông qua bảng trung gian `filter_config`.
@@ -29,10 +29,10 @@ Tài liệu này cung cấp phương án kiến trúc và kế hoạch triển k
 
 Chúng ta sẽ chuẩn bị các file Migration SQL để thực hiện các thay đổi cấu trúc bảng dưới đây:
 
-### Migration 1: Bổ sung cấu trúc đa cấp cho Danh mục Dịch vụ & Tin tức
+### Migration 1: Bổ sung cấu trúc đa cấp cho Danh mục Lĩnh vực & Tin tức
 
 ```sql
--- 1. Bổ sung cột parent_id cho bảng categories (Dịch vụ)
+-- 1. Bổ sung cột parent_id cho bảng categories (Lĩnh vực)
 ALTER TABLE `categories` 
 ADD COLUMN `parent_id` INT(11) UNSIGNED DEFAULT NULL AFTER `id`,
 ADD CONSTRAINT `fk_categories_parent` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -202,21 +202,21 @@ Mega Menu sẽ sử dụng CSS Grid kết hợp các cột nhóm danh mục và 
 
 ## 5. Phân công Công việc Cập nhật (Task Division)
 
-### 👤 Developer 1: Phụ trách Dịch vụ (Services Module)
+### 👤 Developer 1: Phụ trách Lĩnh vực (Services Module)
 
 * **Nhiệm vụ:**
   1. Tạo và chạy SQL Migration cập nhật cột `parent_id` trong bảng `categories`.
   2. Cập nhật `CategoriesModel.php` và giao diện Admin (Create/Edit) để quản lý cấu trúc cha-con (dropdown chọn danh mục cha hỗ trợ n-cấp thụt lề).
-  3. Cập nhật danh sách dịch vụ ngoài User Front-end để hiển thị theo cây phân cấp.
+  3. Cập nhật danh sách lĩnh vực ngoài User Front-end để hiển thị theo cây phân cấp.
 
 ### 👤 Developer 2: Phụ trách Dự án (Projects Module)
 
 * **Nhiệm vụ:**
   1. Tạo file migration xây dựng bảng `project_categories` đa cấp và thêm cột `parent_id` cùng `project_category_id` vào bảng `projects`.
-  2. Cập nhật `ProjectsModel.php` hỗ trợ quan hệ cha-con của dự án và quan hệ Nhiều-Nhiều với dịch vụ/danh mục thông qua bảng liên kết.
+  2. Cập nhật `ProjectsModel.php` hỗ trợ quan hệ cha-con của dự án và quan hệ Nhiều-Nhiều với lĩnh vực/danh mục thông qua bảng liên kết.
   3. Cập nhật giao diện Admin quản lý Dự án:
      - Thêm dropdown chọn dự án cha.
-     - Sử dụng hộp chọn **Checkbox cây phân cấp** để tích chọn nhiều dịch vụ liên kết cho dự án.
+      - Sử dụng hộp chọn **Checkbox cây phân cấp** để tích chọn nhiều lĩnh vực liên kết cho dự án.
 
 ### 👤 Developer 3: Phụ trách Tin tức (News/Blogs Module)
 
@@ -230,6 +230,6 @@ Mega Menu sẽ sử dụng CSS Grid kết hợp các cột nhóm danh mục và 
 ### 👑 Lead Developer / Fullstack (Integration & Mega Menu)
 
 * **Nhiệm vụ:**
-  1. Xây dựng dịch vụ cấu hình bộ lọc `FilterConfigService.php` và giao diện kéo thả Admin sử dụng **HTML5 Drag and Drop API (Vanilla JS)** — không phụ thuộc thư viện bên ngoài, nhất quán với tech stack hiện tại của dự án.
-  2. Sửa file layout `header.php` và `header.css` để render Mega Menu động 4 mục lớn (Về chúng tôi, Dịch vụ, Dự án, Tin tức).
+  1. Xây dựng lĩnh vực cấu hình bộ lọc `FilterConfigService.php` và giao diện kéo thả Admin sử dụng **HTML5 Drag and Drop API (Vanilla JS)** — không phụ thuộc thư viện bên ngoài, nhất quán với tech stack hiện tại của dự án.
+  2. Sửa file layout `header.php` và `header.css` để render Mega Menu động 4 mục lớn (Về chúng tôi, Lĩnh vực, Dự án, Tin tức).
   3. Tích hợp khối "Spotlight Card" đẹp mắt cho mục "Về chúng tôi" và các mục khác để tăng tính thẩm mỹ.

@@ -97,13 +97,13 @@ class Router
         $this->get('/chi-tiet-du-an-{slug}', 'ProjectsController@details');
         $this->get('/du-an-{slug}', 'ProjectsController@details');
         
-        // Categories/Dịch vụ
+        // Categories/Lĩnh vực
         $this->get('/categories', 'CategoriesController@index');
-        $this->get('/dich-vu', 'CategoriesController@index');
+        $this->get('/linh-vuc', 'CategoriesController@index');
         $this->get('/categories-details', 'CategoriesController@details');
-        $this->get('/chi-tiet-dich-vu-{slug}', 'CategoriesController@details');
-        $this->get('/chi-tiet-dich-vu', 'CategoriesController@details');
-        $this->get('/dich-vu-{slug}', 'CategoriesController@details');
+        $this->get('/chi-tiet-linh-vuc-{slug}', 'CategoriesController@details');
+        $this->get('/chi-tiet-linh-vuc', 'CategoriesController@details');
+        $this->get('/linh-vuc-{slug}', 'CategoriesController@details');
         
         // Chi tiết chung - phải đặt sau các routes cụ thể hơn
         $this->get('/chi-tiet-{slug}', 'BlogsController@details');

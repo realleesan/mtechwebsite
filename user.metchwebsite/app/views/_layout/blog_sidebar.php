@@ -114,7 +114,7 @@ $isSearchPage = ($currentPage === 'search');
                 ''        => ['label' => 'Tất cả',  'suffix' => ''],
                 'blog'    => ['label' => 'Tin tức',  'suffix' => '-tin-tuc'],
                 'project' => ['label' => 'Dự án',    'suffix' => '-du-an'],
-                'service' => ['label' => 'Dịch vụ',  'suffix' => '-dich-vu'],
+                'service' => ['label' => 'Lĩnh vực',  'suffix' => '-linh-vuc'],
             ];
             // Slug không dấu của từ khóa tìm kiếm
             $searchSlug = !empty($searchQuery) ? slugify($searchQuery) : '';
