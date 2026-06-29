@@ -7,7 +7,7 @@
 // Tự động lấy tiêu đề nếu không được truyền vào
 if (!isset($pageTitle)) {
     $pageTitles = [
-        'about'              => 'Thư ngỏ',
+        'about'              => 'Về chúng tôi',
         'awards'             => 'Chứng chỉ năng lực',
         'services'           => 'Lĩnh vực hoạt động',
         'categories'         => 'Lĩnh vực hoạt động',

@@ -192,66 +192,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Recent Job Applications -->
-    <div class="col-12 col-lg-6">
-        <div class="admin-table">
-            <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
-                <h6 class="mb-0 fw-bold">
-                    <i class="bi bi-file-person me-2 text-info"></i>Đơn ứng tuyển mới nhất
-                </h6>
-                <a href="/job-applications" class="btn btn-sm btn-outline-secondary">Xem tất cả</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th>Họ tên</th>
-                            <th>Vị trí</th>
-                            <th>Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($recentJobApps)): ?>
-                            <?php foreach ($recentJobApps as $app): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($app['full_name'] ?? '') ?></td>
-                                    <td class="text-muted small"><?= htmlspecialchars($app['position'] ?? '') ?></td>
-                                    <td>
-                                        <?php
-                                        $status = $app['status'] ?? 'pending';
-                                        if ($status === 'pending') {
-                                            $badge = 'warning';
-                                            $label = 'Chờ duyệt';
-                                        } elseif ($status === 'approved') {
-                                            $badge = 'success';
-                                            $label = 'Đã duyệt';
-                                        } elseif ($status === 'rejected') {
-                                            $badge = 'danger';
-                                            $label = 'Từ chối';
-                                        } else {
-                                            $badge = 'secondary';
-                                            $label = $status;
-                                        }
-                                        ?>
-                                        <span class="badge bg-<?= $badge ?>"><?= $label ?></span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3" class="text-center text-muted py-3">Chưa có đơn ứng tuyển nào</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row g-3 mb-4">
-
     <!-- Recent News -->
     <div class="col-12 col-lg-6">
         <div class="admin-table">

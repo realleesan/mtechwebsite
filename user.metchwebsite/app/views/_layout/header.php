@@ -141,7 +141,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a class="nav-link" href="/ve-chung-toi" title="Thư ngỏ">THƯ NGỎ</a>
+                            <a class="nav-link" href="/ve-chung-toi" title="Thư ngỏ">VỀ CHÚNG TÔI</a>
                         </li>
                         <li>
                             <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">LỊCH SỬ HÌNH THÀNH & PHÁT TRIỂN</a>

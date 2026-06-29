@@ -448,12 +448,12 @@ class ProjectsModel {
     // ============================================================
     
     /**
-     * Lấy tất cả dịch vụ (categories)
-     * @return array Danh sách dịch vụ
+     * Lấy tất cả dịch vụ (categories) kèm parent_id để build hierarchy
+     * @return array Danh sách dịch vụ phẳng
      */
     public function getServices() {
         try {
-            $sql = "SELECT id, name, slug FROM categories 
+            $sql = "SELECT id, parent_id, name, slug FROM categories 
                     WHERE status = 1 
                     ORDER BY sort_order ASC, name ASC";
             $stmt = $this->db->query($sql);
@@ -462,6 +462,26 @@ class ProjectsModel {
             error_log("ProjectsModel::getServices Error: " . $e->getMessage());
             return [];
         }
+    }
+
+    /**
+     * Build cây phân cấp từ mảng phẳng
+     * @param array $items Mảng phẳng có parent_id
+     * @param int|null $parentId
+     * @return array
+     */
+    public function buildServicesTree(array $items, $parentId = null): array
+    {
+        $branch = [];
+        foreach ($items as $item) {
+            $itemParent = empty($item['parent_id']) ? null : (int)$item['parent_id'];
+            $checkParent = empty($parentId) ? null : (int)$parentId;
+            if ($itemParent === $checkParent) {
+                $item['children'] = $this->buildServicesTree($items, $item['id']);
+                $branch[] = $item;
+            }
+        }
+        return $branch;
     }
     
     /**

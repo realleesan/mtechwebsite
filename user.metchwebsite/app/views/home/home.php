@@ -238,19 +238,5 @@ include_once __DIR__ . '/../about/awards.php';
     </div>
 </section>
 
-<!-- ---- 3C: PROMO BANNER (2 columns, blue bg) ---- -->
-<section class="promo_area" style="background-image: url('https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/contact_bg.jpg');">
-    <div class="promo_overlay"></div>
-    <div class="container">
-        <div class="promo_info">
-            <div class="promo_col_left">
-                <h2>Chúng tôi tự hào đồng hành cùng các tập đoàn lớn, tạo ra những công trình công nghiệp bền vững và hiệu quả trên toàn quốc.</h2>
-            </div>
-            <div class="promo_divider_v"></div>
-            <div class="promo_col_right">
-                <p class="p_text">Với hơn 15 năm kinh nghiệm, MTECH cung cấp giải pháp tư vấn kỹ thuật toàn diện từ quy hoạch, thiết kế đến giám sát thi công, đảm bảo chất lượng và tiến độ cho mọi dự án.</p>
-            </div>
-        </div>
-    </div>
-</section>
+
 

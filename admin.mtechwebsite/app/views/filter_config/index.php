@@ -102,11 +102,6 @@ function renderFilterRows(array $items): void
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link py-3" id="projects-tab" data-bs-toggle="tab" data-bs-target="#tab-projects" type="button" role="tab">
-                    <i class="bi bi-briefcase me-2"></i>Danh mục Dự án
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
                 <button class="nav-link py-3" id="blogs-tab" data-bs-toggle="tab" data-bs-target="#tab-blogs" type="button" role="tab">
                     <i class="bi bi-journal-text me-2"></i>Danh mục Tin tức
                 </button>
@@ -157,49 +152,6 @@ function renderFilterRows(array $items): void
             </div>
         </div>
     </div>
-
-    <!-- === TAB 2: DANH MỤC DỰ ÁN === -->
-    <div class="tab-pane fade" id="tab-projects" role="tabpanel">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-info border-0 bg-light-info text-info d-flex align-items-center mb-4" role="alert">
-                    <i class="bi bi-info-circle-fill me-3 fs-4"></i>
-                    <div>
-                        <strong>Huong dan:</strong> Dung chevron de mo dung mot nhanh can sap xep. Neu khong mo nhanh nao, ban chi keo tha cac muc cap goc.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-transparent border-0 py-3">
-                        <h6 class="card-title mb-0 fw-semibold">Danh sách sắp xếp Danh mục Dự án</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th style="width: 50px;"></th>
-                                        <th style="width: 80px;">ID</th>
-                                        <th>Tên danh mục</th>
-                                        <th>Đường dẫn (Slug)</th>
-                                        <th style="width: 150px;" class="text-center">Hiện Menu</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="drag-container" data-type="project_categories">
-                                    <?php
-                                    renderFilterRows(prepareFilterItems($projectCategories, $projectCategoriesConfig));
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- === TAB 3: DANH MỤC TIN TỨC === -->
     <div class="tab-pane fade" id="tab-blogs" role="tabpanel">
         <div class="row">

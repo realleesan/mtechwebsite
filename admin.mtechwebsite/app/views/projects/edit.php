@@ -1,11 +1,39 @@
 ﻿<?php
 // Safety check - ensure project data is available
 if (!isset($project) || empty($project)) {
-    // Redirect or show error if no project data
     header('Location: /projects');
     exit;
 }
 
+/**
+ * Render service checkboxes với phân cấp cha-con
+ */
+function renderServiceCheckboxes($services, $selectedIds = [], $depth = 0) {
+    $html = '';
+    $selectedIds = array_map('intval', $selectedIds);
+    foreach ($services as $svc) {
+        $svcId  = (int)$svc['id'];
+        $checked = in_array($svcId, $selectedIds) ? 'checked' : '';
+        $indent  = $depth * 20; // px
+        $html .= '<div class="form-check" style="margin-left:' . $indent . 'px;">';
+        $html .= '<input class="form-check-input service-checkbox" type="checkbox"';
+        $html .= ' name="service_ids[]" value="' . $svcId . '"';
+        $html .= ' id="svc_' . $svcId . '" ' . $checked . '>';
+        $html .= '<label class="form-check-label" for="svc_' . $svcId . '">';
+        $html .= htmlspecialchars($svc['name']);
+        $html .= '</label></div>';
+        if (!empty($svc['children'])) {
+            $html .= renderServiceCheckboxes($svc['children'], $selectedIds, $depth + 1);
+        }
+    }
+    return $html;
+}
+
+// Build selected IDs từ projectServices
+$selectedServiceIds = [];
+foreach ($projectServices ?? [] as $ps) {
+    $selectedServiceIds[] = (int)$ps['id'];
+}
 ?>
 <div class="page-header">
     <h4><i class="bi bi-building me-2"></i>Chỉnh sửa dự án</h4>
@@ -59,26 +87,11 @@ if (!isset($project) || empty($project)) {
                         <div class="mb-3">
                             <label class="form-label">Danh mục <span class="text-danger">*</span></label>
                             <div class="category-checkbox-list border rounded p-3" style="max-height:220px; overflow-y:auto;">
-                                <?php foreach ($services ?? [] as $service): ?>
-                                    <?php
-                                    $checked = false;
-                                    if (!empty($projectServices)) {
-                                        foreach ($projectServices as $ps) {
-                                            if ($ps['id'] == $service['id']) { $checked = true; break; }
-                                        }
-                                    }
-                                    ?>
-                                    <div class="form-check">
-                                        <input class="form-check-input service-checkbox" type="checkbox"
-                                               name="service_ids[]"
-                                               value="<?= htmlspecialchars($service['id']) ?>"
-                                               id="svc_<?= $service['id'] ?>"
-                                               <?= $checked ? 'checked' : '' ?>>
-                                        <label class="form-check-label" for="svc_<?= $service['id'] ?>">
-                                            <?= htmlspecialchars($service['name']) ?>
-                                        </label>
-                                    </div>
-                                <?php endforeach; ?>
+                                <?php if (!empty($services)): ?>
+                                    <?= renderServiceCheckboxes($services, $selectedServiceIds) ?>
+                                <?php else: ?>
+                                    <div class="text-muted">Chưa có danh mục nào.</div>
+                                <?php endif; ?>
                             </div>
                             <div class="form-text">Chọn một hoặc nhiều danh mục</div>
                         </div>

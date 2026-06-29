@@ -40,7 +40,8 @@ function get_breadcrumbs(string $page, array $params = []): ?array
 
         // ── About ─────────────────────────────────────────────────
         'about' => [
-            ['title' => 'Thư ngỏ', 'url' => null],
+            ['title' => 'Thư ngỏ', 'url' => '/ve-chung-toi'],
+            ['title' => 'Về chúng tôi', 'url' => null],
         ],
 
         'company.history' => [

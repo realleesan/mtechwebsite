@@ -95,16 +95,6 @@ $headerSettings = $headerModel->getSettingsWithFallback();
                 </a>
             </li>
 
-            <!-- Job Applications -->
-            <li class="nav-item">
-                <a href="/job-applications" class="nav-link <?= in_array($currentPage, ['job-applications', 'job-application.view', 'job-application.edit', 'job-application.trash']) ? 'active' : '' ?>">
-                    <i class="bi bi-file-person"></i>
-                    <span>Đơn ứng tuyển</span>
-                    <?php if (!empty($newJobsCount) && $newJobsCount > 0): ?>
-                        <span class="badge bg-warning ms-auto"><?= $newJobsCount ?></span>
-                    <?php endif; ?>
-                </a>
-            </li>
 
             <li class="sidebar-divider"><small>CẤU HÌNH</small></li>
 

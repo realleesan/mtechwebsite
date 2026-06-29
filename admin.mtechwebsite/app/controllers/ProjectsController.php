@@ -64,15 +64,16 @@ class ProjectsController extends BaseController
 
     public function create()
     {
-        // Load services for dropdown
+        // Load services for dropdown - build hierarchy
         $projectsModel = new ProjectsModel();
-        $services = $projectsModel->getServices();
+        $servicesFlat = $projectsModel->getServices();
+        $servicesTree = $projectsModel->buildServicesTree($servicesFlat);
         
         $this->view('projects/create', [
             'title' => 'Thêm dự án - Admin MTech',
             'page'  => 'project-create',
             'admin' => AuthMiddleware::getAdmin(),
-            'services' => $services,
+            'services' => $servicesTree,
         ]);
     }
 
@@ -210,8 +211,9 @@ class ProjectsController extends BaseController
             return;
         }
         
-        // Load services for dropdown
-        $services = $this->model->getServices();
+        // Load services - build hierarchy
+        $servicesFlat = $this->model->getServices();
+        $servicesTree = $this->model->buildServicesTree($servicesFlat);
         $projectServices = $this->model->getProjectServices($id);
         
         $this->view('projects/edit', [
@@ -219,7 +221,7 @@ class ProjectsController extends BaseController
             'page'    => 'project-edit',
             'project' => $project,
             'admin'   => AuthMiddleware::getAdmin(),
-            'services' => $services,
+            'services' => $servicesTree,
             'projectServices' => $projectServices,
         ]);
     }
