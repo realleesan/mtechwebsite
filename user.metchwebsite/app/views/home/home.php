@@ -10,6 +10,7 @@
  * Dữ liệu động:
  * - $homeServices: Mảng 6 services từ bảng categories (show_on_home=1)
  * - $homeProjects: Mảng 5 projects từ bảng projects (show_on_home=1)
+ * - $homeSliders: Mảng hero slider từ bảng home_sliders (status=1)
  */
 
 // ==========================================
@@ -24,9 +25,31 @@
 <!-- ---- 1A: HERO SLIDER ---- -->
 <section class="home_banner_area">
     <div class="home_slider" id="homeBannerSlider">
+        <?php if (!empty($homeSliders)): ?>
         <div class="slider_track">
-
-            <!-- Page 1: Images 1-3 -->
+            <?php foreach ($homeSliders as $index => $slide): ?>
+            <div class="slider_page <?= $index === 0 ? 'active' : '' ?>">
+                <div class="slider_grid">
+                    <?php if (!empty($slide['image_1'])): ?>
+                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_1']); ?>');"></div>
+                    <?php endif; ?>
+                    <?php if (!empty($slide['image_2'])): ?>
+                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_2']); ?>');"></div>
+                    <?php endif; ?>
+                    <?php if (!empty($slide['image_3'])): ?>
+                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_3']); ?>');"></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="slider_pagination">
+            <?php foreach ($homeSliders as $index => $slide): ?>
+            <button class="slider_bullet <?= $index === 0 ? 'active' : '' ?>" data-page="<?= $index ?>"></button>
+            <?php endforeach; ?>
+        </div>
+        <?php else: ?>
+        <div class="slider_track">
             <div class="slider_page active">
                 <div class="slider_grid">
                     <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
@@ -34,8 +57,6 @@
                     <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
                 </div>
             </div>
-
-            <!-- Page 2: Images 4-6 (repeat 1-3) -->
             <div class="slider_page">
                 <div class="slider_grid">
                     <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
@@ -43,8 +64,6 @@
                     <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
                 </div>
             </div>
-
-            <!-- Page 3: Images 7-9 (repeat 1-3) -->
             <div class="slider_page">
                 <div class="slider_grid">
                     <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
@@ -52,15 +71,13 @@
                     <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
                 </div>
             </div>
-
         </div>
-
-        <!-- Pagination Bullets -->
         <div class="slider_pagination">
             <button class="slider_bullet active" data-page="0"></button>
             <button class="slider_bullet" data-page="1"></button>
             <button class="slider_bullet" data-page="2"></button>
         </div>
+        <?php endif; ?>
     </div>
 </section>
 

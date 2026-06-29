@@ -217,6 +217,19 @@ class AdminRouter
         $this->post('/footer/settings/update',      'FooterController@updateSettings');
 
         // ----------------------------------------
+        // Home Sliders (Hero Slider)
+        // ----------------------------------------
+        $this->get('/home-sliders',             'HomeSlidersController@index');
+        $this->get('/home-sliders/create',      'HomeSlidersController@create');
+        $this->post('/home-sliders/store',      'HomeSlidersController@store');
+        $this->get('/home-sliders/edit/{id}',   'HomeSlidersController@edit');
+        $this->post('/home-sliders/update/{id}', 'HomeSlidersController@update');
+        $this->post('/home-sliders/delete/{id}', 'HomeSlidersController@delete');
+        $this->get('/home-sliders/trash',       'HomeSlidersController@trash');
+        $this->post('/home-sliders/restore/{id}',  'HomeSlidersController@restore');
+        $this->post('/home-sliders/hard-delete/{id}', 'HomeSlidersController@hardDelete');
+
+        // ----------------------------------------
         // Filter Config (Mega Menu & Filters)
         // ----------------------------------------
         $this->get('/filter-config',        'FilterConfigController@index');

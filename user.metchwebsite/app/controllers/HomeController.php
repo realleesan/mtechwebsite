@@ -11,6 +11,7 @@ require_once __DIR__ . '/../models/CategoriesModel.php';
 require_once __DIR__ . '/../models/ProjectsModel.php';
 require_once __DIR__ . '/../models/ClientLogosModel.php';
 require_once __DIR__ . '/../models/BlogsModel.php';
+require_once __DIR__ . '/../models/HomeSliderModel.php';
 
 class HomeController extends BaseController
 {
@@ -25,11 +26,13 @@ class HomeController extends BaseController
         $projectsModel      = new ProjectsModel();
         $clientLogosModel   = new ClientLogosModel();
         $blogsModel         = new BlogsModel();
+        $homeSliderModel    = new HomeSliderModel();
 
         $homeServices       = $categoriesModel->getHomeServices(6);
         $homeProjects       = $projectsModel->getHomeProjects(5);
         $clientLogos        = $clientLogosModel->getAllActive();
         $homeBlogs          = $blogsModel->getHomeBlogs(3);
+        $homeSliders        = $homeSliderModel->getActiveSlides();
 
         // Set các biến cho layout
         $title          = 'Trang chủ - MTECH';
@@ -47,7 +50,8 @@ class HomeController extends BaseController
             'homeServices' => $homeServices,
             'homeProjects' => $homeProjects,
             'clientLogos' => $clientLogos,
-            'homeBlogs' => $homeBlogs
+            'homeBlogs' => $homeBlogs,
+            'homeSliders' => $homeSliders
         ]);
     }
     

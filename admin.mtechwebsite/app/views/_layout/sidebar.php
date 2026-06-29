@@ -106,6 +106,14 @@ $headerSettings = $headerModel->getSettingsWithFallback();
                 </a>
             </li>
 
+            <!-- Home Sliders / Hero Slider -->
+            <li class="nav-item">
+                <a href="/home-sliders" class="nav-link <?= $currentPage === 'home_sliders' ? 'active' : '' ?>">
+                    <i class="bi bi-sliders"></i>
+                    <span>Hero Slider</span>
+                </a>
+            </li>
+
             <!-- Filter Config / Mega Menu -->
             <li class="nav-item">
                 <a href="/filter-config" class="nav-link <?= $currentPage === 'filter_config' ? 'active' : '' ?>">
