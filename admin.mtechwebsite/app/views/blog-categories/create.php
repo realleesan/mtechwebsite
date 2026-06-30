@@ -1,31 +1,7 @@
 <?php
-// $categories - danh sách danh mục (hierarchy format)
-// $_GET['parent_id'] - parent_id từ URL (khi click "Thêm danh mục con")
-// Hàm flatten hierarchy để loop dễ hơn
-function flattenCategories($categories, &$result = [], $prefix = '') {
-    foreach ($categories as $cat) {
-        $cat['display_name'] = $prefix . $cat['name'];
-        $result[] = $cat;
-        if (!empty($cat['children'])) {
-            flattenCategories($cat['children'], $result, $prefix . '— ');
-        }
-    }
-    return $result;
-}
-
-$flatCategories = flattenCategories($categories);
-$parentId = isset($_GET['parent_id']) ? (int)$_GET['parent_id'] : null;
-$parentInfo = null;
-
-// Tìm parent từ danh sách
-if ($parentId) {
-    foreach ($flatCategories as $cat) {
-        if ($cat['id'] == $parentId) {
-            $parentInfo = $cat;
-            break;
-        }
-    }
-}
+// View chỉ có HTML, tất cả logic được xử lý trong controller
+// $categories - danh sách danh mục đã được flatten từ controller
+// $initialLevel - cấp độ ban đầu (mặc định 1, hoặc parent_level + 1 nếu có parent_id)
 ?>
 
 <div class="page-header">
@@ -33,69 +9,69 @@ if ($parentId) {
     <a href="/blogs/categories" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
 </div>
 
-<?php if ($parentInfo): ?>
-<div class="alert alert-info" role="alert">
-    <i class="bi bi-info-circle me-2"></i><strong>Tạo danh mục con của:</strong> <code><?= htmlspecialchars($parentInfo['display_name']) ?></code>
-</div>
-<?php endif; ?>
-
 <form method="POST" action="/blogs/categories/store" onsubmit="return validateCategoryForm()">
-    <input type="hidden" name="parent_id" value="<?= $parentId ?? '' ?>">
     <div class="admin-form-card">
         <div class="row">
             <div class="col-md-8">
-                <?php if ($parentInfo): ?>
-                <div class="mb-3">
-                    <label class="form-label">Danh mục cha</label>
-                    <div class="form-control" style="background-color: #f8f9fa;">
-                        <i class="bi bi-tag me-2"></i><strong><?= htmlspecialchars($parentInfo['display_name']) ?></strong>
-                        <small class="text-muted d-block">(Cấp <?= $parentInfo['level'] ?? 1 ?>)</small>
-                    </div>
-                    <div class="form-text">Danh mục con sẽ được tạo ở cấp <?= ($parentInfo['level'] ?? 1) + 1 ?></div>
-                </div>
-                <?php else: ?>
-                <div class="mb-3">
-                    <label for="parent_id" class="form-label">Danh mục cha (tùy chọn)</label>
-                    <select class="form-select" id="parent_id" name="parent_id">
-                        <option value="">-- Danh mục gốc (Cấp 1) --</option>
-                        <?php if (!empty($flatCategories)): ?>
-                            <?php foreach ($flatCategories as $cat): ?>
-                            <option value="<?= htmlspecialchars($cat['id']) ?>">
-                                <?= htmlspecialchars($cat['display_name']) ?> (Cấp <?= $cat['level'] ?? 1 ?>)
+                <div class="mb-4">
+                    <label for="parent_id" class="form-label fw-semibold">Danh mục cha <span class="text-muted">(tùy chọn)</span></label>
+                    <select class="form-select form-select-lg category-parent-select" id="parent_id" name="parent_id">
+                        <option value="" data-level="0" <?= empty($_GET['parent_id']) ? 'selected' : '' ?>>Danh mục gốc</option>
+                        <?php if (!empty($categories)): ?>
+                            <?php foreach ($categories as $cat): ?>
+                            <option value="<?= htmlspecialchars($cat['id']) ?>" 
+                                data-level="<?= htmlspecialchars($cat['level'] ?? 1) ?>"
+                                <?= (isset($_GET['parent_id']) && $_GET['parent_id'] == $cat['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat['display_name']) ?>
                             </option>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </select>
-                    <div class="form-text">Chọn danh mục cha nếu đây là danh mục con</div>
-                </div>
-                <?php endif; ?>
-
-                <div class="mb-3">
-                    <label for="name" class="form-label">Tên danh mục <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <div class="form-text">Chọn danh mục cha để tạo danh mục con</div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="slug" class="form-label">Slug <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="slug" name="slug" required>
-                    <div class="form-text">URL thân thiện, sẽ tự động tạo từ tên danh mục</div>
+                    <label for="name" class="form-label fw-semibold">Tên danh mục <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control form-control-lg" id="name" name="name" required placeholder="Nhập tên danh mục...">
+                </div>
+
+                <div class="mb-3">
+                    <label for="slug" class="form-label fw-semibold">Slug <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="slug" name="slug" required placeholder="slug-danh-muc">
+                    <div class="form-text"><i class="bi bi-info-circle me-1"></i>URL thân thiện, sẽ tự động tạo từ tên danh mục</div>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="status" class="form-label">Trạng thái</label>
-                    <select class="form-select" id="status" name="status">
-                        <option value="1">Kích hoạt</option>
-                        <option value="0">Vô hiệu hóa</option>
-                    </select>
+                <div class="card border-0 bg-light p-3 mb-3">
+                    <div class="card-body p-0">
+                        <h6 class="card-title text-muted mb-3">Cài đặt</h6>
+                        
+                        <div class="mb-3">
+                            <label for="status" class="form-label small">Trạng thái</label>
+                            <select class="form-select form-select-sm" id="status" name="status">
+                                <option value="1">✓ Kích hoạt</option>
+                                <option value="0">✗ Vô hiệu hóa</option>
+                            </select>
+                        </div>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="show_in_menu" name="show_in_menu" value="1" checked>
+                            <label class="form-check-label" for="show_in_menu">
+                                <small>Hiển thị trong menu</small>
+                            </label>
+                            <div class="form-text small"><i class="bi bi-info-circle me-1"></i>Hiển thị trong dropdown tin tức ở header</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="show_in_menu" name="show_in_menu" value="1">
-                        <label class="form-check-label" for="show_in_menu">Hiển thị trong menu</label>
-                        <div class="form-text">Hiển thị trong dropdown tin tức ở header</div>
+                <div class="card border-0 bg-warning bg-opacity-10 p-3 category-level-card">
+                    <div class="card-body p-0">
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle me-1"></i>
+                            <strong>Cấp độ hiện tại:</strong> 
+                            <span class="badge bg-warning text-dark" id="current-level-badge">Cấp <?= htmlspecialchars($initialLevel ?? 1) ?></span>
+                        </small>
                     </div>
                 </div>
             </div>
@@ -106,11 +82,9 @@ if ($parentId) {
             <a href="/blogs/categories" class="btn btn-outline-secondary">
                 <i class="bi bi-x-lg me-2"></i>Hủy
             </a>
-            <div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-check-lg me-2"></i>Lưu danh mục
-                </button>
-            </div>
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-check-lg me-2"></i>Lưu danh mục
+            </button>
         </div>
     </div>
 </form>

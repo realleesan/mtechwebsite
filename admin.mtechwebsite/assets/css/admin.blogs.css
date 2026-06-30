@@ -299,17 +299,51 @@
 }
 
 /* ============================================
-   Blog Categories Hierarchy Styles
+   Blog Categories Parent Selector Styling
    ============================================ */
 
-/* Blog Categories Hierarchy Checkboxes */
-.category-hierarchy-checkboxes {
-    max-height: 200px;
-    overflow-y: auto;
+/* Parent info alert card */
+.category-parent-alert {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
 }
 
-.category-checkbox {
-    margin-bottom: 8px;
+.category-parent-alert i {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #0d6efd;
+}
+
+.category-parent-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.category-parent-card:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Parent select dropdown */
+.category-parent-select {
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease;
+}
+
+.category-parent-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Category level info card */
+.category-level-card {
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.category-level-card:hover {
+    background-color: #fff3cd !important;
 }
 
 /* Blog Index - Multiple Category Badges */
@@ -523,4 +557,33 @@ tr[data-depth="3"] {
 .category-row.child-row td:first-child,
 .category-row.sub-parent-row td:first-child {
     border-left: 3px solid #dee2e6;
+}
+
+
+/* ============================================
+   Category Level Badge Animation
+   ============================================ */
+
+#current-level-badge {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+#current-level-badge.level-updated {
+    animation: levelPulse 0.3s ease;
+}
+
+@keyframes levelPulse {
+    0% {
+        transform: scale(1) rotate(0deg);
+        background-color: #ffc107;
+    }
+    50% {
+        transform: scale(1.15) rotate(5deg);
+        background-color: #ffb300;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        background-color: #ffc107;
+    }
 }

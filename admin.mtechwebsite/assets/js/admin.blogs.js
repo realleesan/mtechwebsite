@@ -526,6 +526,60 @@ function initCategorySlugGeneration() {
     }
 }
 
+// ============================================
+// Category Level Update for Create/Edit Pages
+// ============================================
+
+/**
+ * Initialize category level update when parent category changes
+ * Updates the "Cấp độ hiện tại" badge based on selected parent
+ * Handles both initial load (when parent_id query param exists) and user changes
+ */
+function initCategoryLevelUpdate() {
+    const parentSelect = document.querySelector('.category-parent-select');
+    const levelBadge = document.getElementById('current-level-badge');
+    
+    // Only run on create/edit pages with category parent select and level badge
+    if (!parentSelect || !levelBadge) return;
+    
+    // Update level on select change event
+    parentSelect.addEventListener('change', updateCurrentLevel);
+    
+    // Trigger update on page load to set initial level based on selected parent
+    // This handles the case when page loads with ?parent_id=X query parameter
+    updateCurrentLevel.call(parentSelect);
+}
+
+/**
+ * Update the level badge based on selected parent category
+ * Reads the data-level attribute from the currently selected option
+ * Calculates: if parent level is 0 (root), new level is 1; otherwise parent_level + 1
+ */
+function updateCurrentLevel() {
+    const parentSelect = this;
+    const levelBadge = document.getElementById('current-level-badge');
+    
+    if (!levelBadge) return;
+    
+    // Get the currently selected option and its level data attribute
+    const selectedOption = parentSelect.options[parentSelect.selectedIndex];
+    if (!selectedOption) return;
+    
+    const parentLevel = parseInt(selectedOption.getAttribute('data-level')) || 0;
+    
+    // Calculate new level: if parent is root (level 0), new level is 1; otherwise parent_level + 1
+    const newLevel = parentLevel === 0 ? 1 : parentLevel + 1;
+    
+    // Update badge text with new level
+    levelBadge.textContent = `Cấp ${newLevel}`;
+    
+    // Add visual feedback animation to show the change
+    levelBadge.classList.add('level-updated');
+    setTimeout(() => {
+        levelBadge.classList.remove('level-updated');
+    }, 300);
+}
+
 // Check if recruitment category is selected to show/hide recruitment tab
 function checkRecruitmentCategory() {
     const recruitmentCheckbox = document.querySelector('input[data-is-recruitment="1"]');
@@ -639,6 +693,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize category slug generation
     initCategorySlugGeneration();
     
+    // Initialize current level update for category parent select (create/edit pages)
+    initCategoryLevelUpdate();
     
 // Initialize category hierarchy collapse (if on categories page)
     if (document.querySelector('tr[data-category-id]')) {
@@ -828,3 +884,51 @@ function collapseAllBlogCategories() {
         row.style.display = 'none';
     });
 }
+
+
+// ============================================
+// Blog Categories Level Display Update
+// ============================================
+
+/**
+ * Update the "Cấp độ hiện tại" badge when parent category changes
+ * This is used on the create and edit pages for blog categories
+ * When parent_id is selected, the level badge updates to (parent_level + 1)
+ * When no parent selected, it shows Cấp 1
+ */
+function updateCategoryLevelDisplay() {
+    const parentSelect = document.getElementById('parent_id');
+    const levelBadge = document.getElementById('current-level-badge');
+    
+    if (!parentSelect || !levelBadge) return;
+    
+    // Get selected option
+    const selectedOption = parentSelect.options[parentSelect.selectedIndex];
+    const parentLevel = parseInt(selectedOption.getAttribute('data-level')) || 0;
+    
+    // Calculate child level
+    let childLevel = 1;
+    if (parentLevel > 0) {
+        childLevel = parentLevel + 1;
+    }
+    
+    // Update badge text
+    levelBadge.textContent = `Cấp ${childLevel}`;
+}
+
+// Initialize level display update on DOMContentLoaded for create/edit page
+document.addEventListener('DOMContentLoaded', function() {
+    const parentSelect = document.getElementById('parent_id');
+    const levelBadge = document.getElementById('current-level-badge');
+    
+    // Only run if on category create/edit page (has parent_id select and level badge)
+    if (parentSelect && levelBadge) {
+        // Set up event listener for parent_id select changes
+        parentSelect.addEventListener('change', updateCategoryLevelDisplay);
+        
+        // If parent_id has a value (e.g., from URL query string), update badge to correct level
+        if (parentSelect.value) {
+            updateCategoryLevelDisplay();
+        }
+    }
+});

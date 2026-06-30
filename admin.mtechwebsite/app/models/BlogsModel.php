@@ -400,9 +400,9 @@ class BlogsModel
     public function getCategoriesForMultiSelect()
     {
         try {
-            // Get all categories
+            // Get all categories including level
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, parent_id, status, sort_order
+                "SELECT id, name, slug, parent_id, level, status, sort_order
                  FROM `blog_categories`
                  ORDER BY parent_id IS NULL DESC, parent_id ASC, sort_order ASC"
             );
