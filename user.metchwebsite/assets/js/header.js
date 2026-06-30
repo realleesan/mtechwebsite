@@ -217,6 +217,38 @@ function slugifyVi(str) {
             });
         });
 
+        // ── Services Accordion (Desktop hover + Mobile toggle) ───────────────────
+        const accordionToggles = document.querySelectorAll('.services-dropdown .accordion-toggle');
+        
+        accordionToggles.forEach(function (toggle) {
+            toggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const parentItem = this.closest('.accordion-item');
+                parentItem.classList.toggle('show');
+            });
+        });
+
+        // Desktop hover for accordion submenu
+        const accordionItems = document.querySelectorAll('.services-dropdown .accordion-item');
+        
+        accordionItems.forEach(function (item) {
+            item.addEventListener('mouseenter', function () {
+                if (window.innerWidth >= 992) {
+                    const submenu = this.querySelector('.accordion-submenu');
+                    if (submenu) submenu.style.display = 'block';
+                }
+            });
+            
+            item.addEventListener('mouseleave', function () {
+                if (window.innerWidth >= 992) {
+                    const submenu = this.querySelector('.accordion-submenu');
+                    if (submenu) submenu.style.display = 'none';
+                }
+            });
+        });
+
         // ── Đóng mobile menu khi resize lên desktop ───────────────
         window.addEventListener('resize', function () {
             if (window.innerWidth >= 992) {

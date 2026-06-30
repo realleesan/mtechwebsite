@@ -49,7 +49,7 @@ try {
  * Hàm render đệ quy submenu đa cấp cho Dropdown Menu
  *
  * @param array $items Mảng cây con
- * @param int $depth Cấp hiện tại (0 = dropdown cấp 1, 1 = sub-dropdown, ...)
+ * @param int $depth Cấp hiện tại (0 = dropdown cấp 1, 1 = accordion level, ...)
  * @param string $urlPrefix Tiền tố URL
  */
 function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix = '/linh-vuc-'): string
@@ -62,14 +62,25 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
         $slug     = urlencode($item['slug']);
         $hasChild = !empty($item['children']);
 
-        if ($hasChild) {
-            // Mục cha có con → tạo submenu lồng nhau với caret
-            $html .= '<li class="nav-item submenu">';
+        if ($hasChild && $depth === 0) {
+            // Mục cha có con → tạo accordion với icon v và nút toggle
+            $html .= '<li class="nav-item accordion-item">';
+            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '" class="accordion-link">';
+            $html .= strtoupper($name);
+            $html .= '<span class="dropdown-caret accordion-icon">v</span>';
+            $html .= '</a>';
+            $html .= '<button class="accordion-toggle" aria-label="Toggle submenu">v</button>';
+            $html .= '<ul class="accordion-submenu">';
+            $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
+            $html .= '</ul>';
+            $html .= '</li>';
+        } elseif ($hasChild && $depth > 0) {
+            // Mức độ sâu hơn → vẫn accordion nhưng không có icon
+            $html .= '<li class="nav-item accordion-item nested">';
             $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
             $html .= strtoupper($name);
-            $html .= '<span class="dropdown-caret">›</span>';
             $html .= '</a>';
-            $html .= '<ul class="dropdown-menu">';
+            $html .= '<ul class="accordion-submenu">';
             $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
             $html .= '</ul>';
             $html .= '</li>';
@@ -156,12 +167,15 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 </li>
                 
                 <!-- Services (Dropdown Menu đa cấp) -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
+                <li class="nav-item submenu services-dropdown <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Lĩnh vực hoạt động" onclick="return false;">
                         LĨNH VỰC HOẠT ĐỘNG
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
+                        <li class="nav-item all-categories-item">
+                            <a class="nav-link" href="/linh-vuc" title="Tất cả lĩnh vực">TẤT CẢ LĨNH VỰC</a>
+                        </li>
                         <?php echo renderDropdownMenuItems($servicesTree, 0, '/linh-vuc-'); ?>
                     </ul>
                 </li>

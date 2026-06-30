@@ -31,13 +31,13 @@
             <div class="slider_page <?= $index === 0 ? 'active' : '' ?>">
                 <div class="slider_grid">
                     <?php if (!empty($slide['image_1'])): ?>
-                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_1']); ?>');"></div>
+                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_1']); ?>');" data-bg="<?php echo htmlspecialchars($slide['image_1']); ?>"></div>
                     <?php endif; ?>
                     <?php if (!empty($slide['image_2'])): ?>
-                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_2']); ?>');"></div>
+                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_2']); ?>');" data-bg="<?php echo htmlspecialchars($slide['image_2']); ?>"></div>
                     <?php endif; ?>
                     <?php if (!empty($slide['image_3'])): ?>
-                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_3']); ?>');"></div>
+                    <div class="slider_grid_item" style="background-image: url('<?php echo htmlspecialchars($slide['image_3']); ?>');" data-bg="<?php echo htmlspecialchars($slide['image_3']); ?>"></div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -52,23 +52,23 @@
         <div class="slider_track">
             <div class="slider_page active">
                 <div class="slider_grid">
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');"></div>
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');" data-bg="assets/images/home_slider/home_slider1.jpg"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');" data-bg="assets/images/home_slider/home_slider2.jpg"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');" data-bg="assets/images/home_slider/home_slider3.jpg"></div>
                 </div>
             </div>
             <div class="slider_page">
                 <div class="slider_grid">
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');"></div>
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');" data-bg="assets/images/home_slider/home_slider1.jpg"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');" data-bg="assets/images/home_slider/home_slider2.jpg"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');" data-bg="assets/images/home_slider/home_slider3.jpg"></div>
                 </div>
             </div>
             <div class="slider_page">
                 <div class="slider_grid">
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');"></div>
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');"></div>
-                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider1.jpg');" data-bg="assets/images/home_slider/home_slider1.jpg"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider2.jpg');" data-bg="assets/images/home_slider/home_slider2.jpg"></div>
+                    <div class="slider_grid_item" style="background-image: url('assets/images/home_slider/home_slider3.jpg');" data-bg="assets/images/home_slider/home_slider3.jpg"></div>
                 </div>
             </div>
         </div>

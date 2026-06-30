@@ -140,6 +140,61 @@
         startAuto();
     }
 
+    function initSliderLightbox() {
+        const items = document.querySelectorAll('.slider_grid_item');
+        if (items.length === 0) return;
+
+        let lightbox = document.querySelector('.slider-lightbox');
+        if (!lightbox) {
+            lightbox = document.createElement('div');
+            lightbox.className = 'slider-lightbox';
+            lightbox.setAttribute('role', 'dialog');
+            lightbox.setAttribute('aria-label', 'Image preview');
+            lightbox.innerHTML = '<button class="slider-lightbox-close" aria-label="Close">&times;</button><img src="" alt="Full size preview" />';
+            document.body.appendChild(lightbox);
+        }
+
+        const img = lightbox.querySelector('img');
+        const closeBtn = lightbox.querySelector('.slider-lightbox-close');
+
+        function openLightbox(src) {
+            if (!src) return;
+            img.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            closeBtn.focus();
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { img.src = ''; }, 300);
+        }
+
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                const bg = item.getAttribute('data-bg');
+                if (!bg) return;
+                openLightbox(bg);
+            });
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeLightbox();
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    }
+
 
     // ==========================================
     // SECTION 2: SERVICES & FEATURED PROJECTS
@@ -334,6 +389,7 @@
     // ==========================================
     function init() {
         initHomeBannerSlider();
+        initSliderLightbox();
         initServices();
         initFeaturedProjects();
         initQuoteSection();
