@@ -465,11 +465,10 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     padding-left: 47px !important;
 }
 
-/* Project item in accordion submenu - same level as child categories */
+/* Project item in accordion submenu - no separator */
 .services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .project-item {
     margin-top: 5px;
     padding-top: 5px;
-    border-top: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
 .services-dropdown > ul.dropdown-menu > li.accordion-item.has-project .accordion-submenu .project-item a.project-link {

@@ -51,7 +51,24 @@ class CategoriesModel
                  ORDER BY c.sort_order ASC, c.id ASC"
             );
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Chỉ lấy dự án được admin chọn (featured_project_id) - không lấy toàn bộ project_services
+            foreach ($categories as &$cat) {
+                if (!empty($cat['featured_project_id']) && !empty($cat['project_id'])) {
+                    $cat['projects'] = [
+                        [
+                            'id' => $cat['project_id'],
+                            'title' => $cat['project_title'],
+                            'slug' => $cat['project_slug'],
+                        ]
+                    ];
+                } else {
+                    $cat['projects'] = [];
+                }
+            }
+
+            return $categories;
         } catch (PDOException $e) {
             error_log('CategoriesModel::getAllCategories() - ' . $e->getMessage());
             return [];

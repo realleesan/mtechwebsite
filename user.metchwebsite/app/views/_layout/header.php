@@ -61,7 +61,8 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
         $name     = htmlspecialchars($item['name']);
         $slug     = urlencode($item['slug']);
         $hasChild = !empty($item['children']);
-        $hasProject = !empty($item['project_id']);
+        $projects = $item['projects'] ?? [];
+        $hasProject = !empty($projects);
 
         if ($hasChild && $depth === 0) {
             // Mục cha có con → tạo accordion với icon v
@@ -75,10 +76,23 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             // Render children (lĩnh vực con)
             $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
             
+            // Thêm dự án vào cuối accordion submenu (nếu có)
+            if ($hasProject) {
+                foreach ($projects as $project) {
+                    $projectTitle = htmlspecialchars($project['title']);
+                    $projectSlug = urlencode($project['slug']);
+                    $html .= '<li class="nav-item project-item">';
+                    $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
+                    $html .= strtoupper($projectTitle);
+                    $html .= '</a>';
+                    $html .= '</li>';
+                }
+            }
+            
             $html .= '</ul>';
             $html .= '</li>';
-        } elseif ($hasProject && $hasChild && $depth === 0) {
-            // Mục cha có cả con và dự án → render accordion với cả children và project
+        } elseif ($hasProject && !$hasChild && $depth === 0) {
+            // Mục cha không có con nhưng có dự án → render accordion chỉ chứa dự án
             $html .= '<li class="nav-item accordion-item has-project">';
             $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '" class="accordion-link">';
             $html .= strtoupper($name);
@@ -86,17 +100,15 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             $html .= '</a>';
             $html .= '<ul class="accordion-submenu">';
             
-            // Render children (lĩnh vực con)
-            $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
-            
-            // Thêm dự án vào cuối accordion submenu (cùng cấp với children)
-            $projectTitle = htmlspecialchars($item['project_title']);
-            $projectSlug = urlencode($item['project_slug']);
-            $html .= '<li class="nav-item project-item">';
-            $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
-            $html .= strtoupper($projectTitle);
-            $html .= '</a>';
-            $html .= '</li>';
+            foreach ($projects as $project) {
+                $projectTitle = htmlspecialchars($project['title']);
+                $projectSlug = urlencode($project['slug']);
+                $html .= '<li class="nav-item project-item">';
+                $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
+                $html .= strtoupper($projectTitle);
+                $html .= '</a>';
+                $html .= '</li>';
+            }
             
             $html .= '</ul>';
             $html .= '</li>';
@@ -108,6 +120,24 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             $html .= '</a>';
             $html .= '<ul class="accordion-submenu">';
             $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
+            $html .= '</ul>';
+            $html .= '</li>';
+        } elseif (!$hasChild && $hasProject) {
+            // Mục lá có dự án → link category rồi hiển thị dự án bên dưới
+            $html .= '<li class="nav-item">';
+            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
+            $html .= strtoupper($name);
+            $html .= '</a>';
+            $html .= '<ul class="accordion-submenu">';
+            foreach ($projects as $project) {
+                $projectTitle = htmlspecialchars($project['title']);
+                $projectSlug = urlencode($project['slug']);
+                $html .= '<li class="nav-item project-item">';
+                $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
+                $html .= strtoupper($projectTitle);
+                $html .= '</a>';
+                $html .= '</li>';
+            }
             $html .= '</ul>';
             $html .= '</li>';
         } else {
