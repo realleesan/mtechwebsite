@@ -465,6 +465,33 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     padding-left: 47px !important;
 }
 
+/* Project item in accordion submenu - same level as child categories */
+.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .project-item {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.services-dropdown > ul.dropdown-menu > li.accordion-item.has-project .accordion-submenu .project-item a.project-link {
+    display: block !important;
+    color: #1A3FBF !important;
+    font-family: "Object Sans", sans-serif !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    text-decoration: none !important;
+    padding: 9px 25px !important;
+    white-space: nowrap !important;
+    transition: color 0.25s ease, padding-left 0.25s ease;
+    background: transparent !important;
+}
+
+.services-dropdown > ul.dropdown-menu > li.accordion-item.has-project .accordion-submenu .project-item a.project-link:hover {
+    color: #FFFFFF !important;
+    background: rgba(26, 63, 191, 0.2) !important;
+}
+
 /* All Categories item highlight - no border */
 .services-dropdown > ul.dropdown-menu > li.all-categories-item {
     margin-bottom: 5px;

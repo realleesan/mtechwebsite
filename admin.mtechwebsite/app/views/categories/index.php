@@ -23,7 +23,7 @@ function renderCategoryTree($parentId, $childrenByParent, $categoryMap, $level =
             $rowClass .= ' sub-parent-row';
         }
         ?>
-        <tr class="category-tree-row <?= $rowClass ?>">
+<tr class="category-tree-row <?= $rowClass ?>">
             <td class="text-muted small"><?= $cat['id'] ?></td>
             <td>
                 <div class="d-flex align-items-center gap-2" style="padding-left: <?= $indentPx ?>px">
@@ -55,6 +55,15 @@ function renderCategoryTree($parentId, $childrenByParent, $categoryMap, $level =
                 <span class="badge <?= $level === 0 ? 'bg-primary' : 'bg-light text-dark border' ?>">
                     Cấp <?= $level + 1 ?>
                 </span>
+            </td>
+            <td>
+                <?php if (!empty($cat['featured_project_id']) && !empty($cat['featured_project_name'])): ?>
+                    <span class="badge bg-info" style="width:fit-content">
+                        <i class="bi bi-building me-1"></i><?= htmlspecialchars($cat['featured_project_name']) ?>
+                    </span>
+                <?php else: ?>
+                    <span class="text-muted small">—</span>
+                <?php endif; ?>
             </td>
             <td>
                 <?php if (($cat['status'] ?? 1) == 1): ?>
@@ -135,6 +144,7 @@ foreach ($categories as $cat) {
                     <th style="width:60px">#</th>
                     <th>Tên lĩnh vực</th>
                     <th style="width:90px">Cấp độ</th>
+                    <th style="width:180px">Dự án hiển thị</th>
                     <th style="width:110px">Trạng thái</th>
                     <th style="width:120px">Ngày tạo</th>
                     <th style="width:120px">Thao tác</th>

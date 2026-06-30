@@ -36,16 +36,19 @@ class CategoriesModel
      * Lấy tất cả categories đang hoạt động (status = 1),
      * sắp xếp theo sort_order tăng dần, sau đó theo id tăng dần.
      *
-     * @return array Mảng các category đang active
+     * @return array Mảng các category đang active kèm tên dự án được gán
      */
     public function getAllCategories()
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, parent_id, name, slug, image, description, status, sort_order, show_in_footer, created_at
-                 FROM `{$this->table}`
-                 WHERE deleted_at IS NULL
-                 ORDER BY sort_order ASC, id ASC"
+                "SELECT c.id, c.parent_id, c.name, c.slug, c.image, c.description, c.status, 
+                        c.sort_order, c.show_in_footer, c.created_at, c.featured_project_id,
+                        p.title as featured_project_name
+                 FROM `{$this->table}` c
+                 LEFT JOIN projects p ON c.featured_project_id = p.id
+                 WHERE c.deleted_at IS NULL
+                 ORDER BY c.sort_order ASC, c.id ASC"
             );
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -68,7 +71,7 @@ class CategoriesModel
                 "SELECT id, parent_id, name, slug, image, description, status, sort_order, show_in_footer, created_at,
                         image_1, image_2, image_3, detail_description, benefit_image, benefit_title, benefit_description,
                         benefit_items, feature_image, feature_1_icon, feature_1_title, feature_1_text, feature_2_icon,
-                        feature_2_title, feature_2_text, faq_items
+                        feature_2_title, feature_2_text, faq_items, featured_project_id
                  FROM `{$this->table}` WHERE id = ? LIMIT 1"
             );
             $stmt->execute([$id]);
@@ -236,9 +239,9 @@ class CategoriesModel
         }
     }
 
-    /**
-     * Tạo category mới.
-     */
+/**
+      * Tạo category mới.
+      */
     public function create(array $data): int|false
     {
         try {
@@ -250,8 +253,8 @@ class CategoriesModel
                   feature_image,
                   feature_1_icon, feature_1_title, feature_1_text,
                   feature_2_icon, feature_2_title, feature_2_text,
-                  faq_items, status, sort_order, show_in_footer)
-                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                  faq_items, status, sort_order, show_in_footer, featured_project_id)
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             );
             $ok = $stmt->execute([
                 $data['parent_id']           ?? null,
@@ -278,6 +281,7 @@ class CategoriesModel
                 $data['status']              ?? 1,
                 $data['sort_order']          ?? 0,
                 $data['show_in_footer']      ?? 0,
+                $data['featured_project_id'] ?? null,
             ]);
             return $ok ? (int)$this->db->lastInsertId() : false;
         } catch (PDOException $e) {
@@ -286,9 +290,9 @@ class CategoriesModel
         }
     }
 
-    /**
-     * Cập nhật category.
-     */
+/**
+      * Cập nhật category.
+      */
     public function update(int $id, array $data): bool
     {
         try {
@@ -300,7 +304,7 @@ class CategoriesModel
                  feature_image = ?,
                  feature_1_icon = ?, feature_1_title = ?, feature_1_text = ?,
                  feature_2_icon = ?, feature_2_title = ?, feature_2_text = ?,
-                 faq_items = ?, status = ?, sort_order = ?, show_in_footer = ?
+                 faq_items = ?, status = ?, sort_order = ?, show_in_footer = ?, featured_project_id = ?
                  WHERE id = ?"
             );
             return $stmt->execute([
@@ -328,6 +332,7 @@ class CategoriesModel
                 $data['status']              ?? 1,
                 $data['sort_order']          ?? 0,
                 $data['show_in_footer']      ?? 0,
+                $data['featured_project_id'] ?? null,
                 $id,
             ]);
         } catch (PDOException $e) {
@@ -575,5 +580,29 @@ class CategoriesModel
         
         $helper($elements);
         return $options;
+    }
+
+    /**
+      * Lấy dự án được gán cho category (featured_project).
+      * @param int $categoryId ID category
+      * @return array|null Thông tin dự án
+      */
+    public function getFeaturedProject(int $categoryId): ?array
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT p.id, p.title, p.slug 
+                 FROM `{$this->table}` c
+                 LEFT JOIN projects p ON c.featured_project_id = p.id
+                 WHERE c.id = ? AND p.status = 1
+                 LIMIT 1"
+            );
+            $stmt->execute([$categoryId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ?: null;
+        } catch (PDOException $e) {
+            error_log('CategoriesModel::getFeaturedProject() - ' . $e->getMessage());
+            return null;
+        }
     }
 }

@@ -61,6 +61,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
         $name     = htmlspecialchars($item['name']);
         $slug     = urlencode($item['slug']);
         $hasChild = !empty($item['children']);
+        $hasProject = !empty($item['project_id']);
 
         if ($hasChild && $depth === 0) {
             // Mục cha có con → tạo accordion với icon v
@@ -70,7 +71,33 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             $html .= '<span class="caret-drop accordion-caret"></span>';
             $html .= '</a>';
             $html .= '<ul class="accordion-submenu">';
+            
+            // Render children (lĩnh vực con)
             $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
+            
+            $html .= '</ul>';
+            $html .= '</li>';
+        } elseif ($hasProject && $hasChild && $depth === 0) {
+            // Mục cha có cả con và dự án → render accordion với cả children và project
+            $html .= '<li class="nav-item accordion-item has-project">';
+            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '" class="accordion-link">';
+            $html .= strtoupper($name);
+            $html .= '<span class="caret-drop accordion-caret"></span>';
+            $html .= '</a>';
+            $html .= '<ul class="accordion-submenu">';
+            
+            // Render children (lĩnh vực con)
+            $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
+            
+            // Thêm dự án vào cuối accordion submenu (cùng cấp với children)
+            $projectTitle = htmlspecialchars($item['project_title']);
+            $projectSlug = urlencode($item['project_slug']);
+            $html .= '<li class="nav-item project-item">';
+            $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
+            $html .= strtoupper($projectTitle);
+            $html .= '</a>';
+            $html .= '</li>';
+            
             $html .= '</ul>';
             $html .= '</li>';
         } elseif ($hasChild && $depth > 0) {

@@ -36,6 +36,7 @@ class CategoriesController extends BaseController
     {
         $allCategories = $this->model->getAllCategories();
         $categoryOptions = $this->model->getFormattedTreeOptions($allCategories);
+        
         $this->view('categories/create', [
             'title' => 'Thêm lĩnh vực - Admin MTech',
             'page'  => 'category.create',
@@ -114,11 +115,22 @@ class CategoriesController extends BaseController
         }
         $allCategories = $this->model->getAllCategories();
         $categoryOptions = $this->model->getFormattedTreeOptions($allCategories, $id);
+        
+        // Lấy danh sách dự án THUỘC lĩnh vực này (qua project_services)
+        require_once __DIR__ . '/../models/ProjectsModel.php';
+        $projectsModel = new ProjectsModel();
+        $categoryProjects = $projectsModel->getProjectsByCategory((int)$id);
+        
+        // Lấy dự án đã được gán làm featured (nếu có)
+        $featuredProject = $this->model->getFeaturedProject((int)$id);
+        
         $this->view('categories/edit', [
             'title'    => 'Chỉnh sửa lĩnh vực - Admin MTech',
             'page'     => 'category.edit',
             'category' => $category,
             'categories' => $categoryOptions,
+            'projects' => $categoryProjects,
+            'featured_project' => $featuredProject,
             'admin'    => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -279,7 +291,6 @@ class CategoriesController extends BaseController
             'parent_id'           => !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null,
             'name'                => trim($_POST['name']                ?? ''),
             'slug'                => trim($_POST['slug']                ?? ''),
-            // KHÔNG khởi tạo image fields ở đây - sẽ xử lý riêng trong store() và update()
             'description'         => trim($_POST['description']         ?? ''),
             'detail_description'  => trim($_POST['detail_description']  ?? ''),
             'benefit_title'       => trim($_POST['benefit_title']       ?? ''),
@@ -295,6 +306,7 @@ class CategoriesController extends BaseController
             'status'              => (int)($_POST['status']             ?? 1),
             'sort_order'          => (int)($_POST['sort_order']         ?? 0),
             'show_in_footer'      => isset($_POST['show_in_footer']) ? 1 : 0,
+            'featured_project_id' => !empty($_POST['featured_project_id']) ? (int)$_POST['featured_project_id'] : null,
         ];
     }
 

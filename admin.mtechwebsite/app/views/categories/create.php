@@ -45,18 +45,7 @@
                                    placeholder="url-than-thien" required>
                             <div class="form-text">URL thân thiện, tự động tạo từ tên lĩnh vực</div>
                         </div>
-                        <div class="mb-3">
-                            <label for="parent_id" class="form-label">Lĩnh vực cha (Không bắt buộc)</label>
-                            <select class="form-select" id="parent_id" name="parent_id">
-                                <option value="">-- Là lĩnh vực gốc --</option>
-                                <?php if (!empty($categories) && is_array($categories)): ?>
-                                    <?php foreach ($categories as $cat): ?>
-                                        <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </select>
-                            <div class="form-text">Chọn lĩnh vực cấp trên của lĩnh vực này nếu có</div>
-                        </div>
+
                         <div class="mb-3">
                             <label for="description" class="form-label">Mô tả ngắn</label>
                             <textarea class="form-control" id="description" name="description" rows="3"

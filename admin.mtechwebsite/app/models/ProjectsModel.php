@@ -485,26 +485,49 @@ class ProjectsModel {
     }
     
     /**
-     * Lấy lĩnh vực của một dự án
-     * @param int $projectId ID dự án
-     * @return array Danh sách lĩnh vực
-     */
-    public function getProjectServices($projectId) {
-        try {
-            $sql = "SELECT c.id, c.name, c.slug 
-                    FROM project_services ps
-                    INNER JOIN categories c ON ps.category_id = c.id
-                    WHERE ps.project_id = ? 
-                    AND c.status = 1
-                    ORDER BY c.sort_order ASC, c.name ASC";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([$projectId]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("ProjectsModel::getProjectServices Error: " . $e->getMessage());
-            return [];
-        }
-    }
+      * Lấy các dự án thuộc một lĩnh vực (qua bảng project_services).
+      * @param int $categoryId ID lĩnh vực
+      * @return array Danh sách dự án thuộc lĩnh vực
+      */
+     public function getProjectsByCategory($categoryId) {
+         try {
+             $sql = "SELECT p.id, p.title, p.slug, p.sort_order, p.status, p.image
+                     FROM projects p
+                     INNER JOIN project_services ps ON ps.project_id = p.id
+                     WHERE ps.category_id = ?
+                     AND p.deleted_at IS NULL
+                     AND p.status = 1
+                     ORDER BY p.sort_order ASC, p.created_at DESC";
+             $stmt = $this->db->prepare($sql);
+             $stmt->execute([$categoryId]);
+             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+         } catch (PDOException $e) {
+             error_log("ProjectsModel::getProjectsByCategory Error: " . $e->getMessage());
+             return [];
+         }
+     }
+     
+     /**
+      * Lấy lĩnh vực của một dự án
+      * @param int $projectId ID dự án
+      * @return array Danh sách lĩnh vực
+      */
+     public function getProjectServices($projectId) {
+         try {
+             $sql = "SELECT c.id, c.name, c.slug 
+                     FROM project_services ps
+                     INNER JOIN categories c ON ps.category_id = c.id
+                     WHERE ps.project_id = ? 
+                     AND c.status = 1
+                     ORDER BY c.sort_order ASC, c.name ASC";
+             $stmt = $this->db->prepare($sql);
+             $stmt->execute([$projectId]);
+             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+         } catch (PDOException $e) {
+             error_log("ProjectsModel::getProjectServices Error: " . $e->getMessage());
+             return [];
+         }
+     }
     
     /**
      * Thêm lĩnh vực cho dự án

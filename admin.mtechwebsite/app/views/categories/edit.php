@@ -83,6 +83,21 @@ if (!empty($category['faq_items'])) {
                         </div>
 
                         <div class="mb-3">
+                            <label for="featured_project_id" class="form-label">Dự án hiển thị (trong dropdown)</label>
+                            <select class="form-select" id="featured_project_id" name="featured_project_id">
+                                <option value="">-- Không chọn dự án --</option>
+                                <?php if (!empty($projects) && is_array($projects)): ?>
+                                    <?php foreach ($projects as $project): ?>
+                                        <option value="<?= $project['id'] ?>" <?= (!empty($featured_project) && $featured_project['id'] == $project['id']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($project['title'] ?? '') ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                            <div class="form-text">Dự án sẽ hiển thị trong accordion submenu của lĩnh vực hoạt động (nếu có con hoặc chọn dự án)</div>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="description" class="form-label">Mô tả ngắn</label>
                             <textarea class="form-control" id="description" name="description" rows="3"
                                       placeholder="Mô tả ngắn hiển thị trong danh sách lĩnh vực..."><?= htmlspecialchars($category['description'] ?? '') ?></textarea>

@@ -36,16 +36,19 @@ class CategoriesModel
      * Lấy tất cả categories đang hoạt động (status = 1),
      * sắp xếp theo sort_order tăng dần, sau đó theo id tăng dần.
      *
-     * @return array Mảng các category đang active
+     * @return array Mảng các category đang active kèm dự án được gán
      */
     public function getAllCategories()
     {
         try {
             $stmt = $this->db->prepare(
-                "SELECT id, name, slug, image, description, sort_order, parent_id
-                 FROM `{$this->table}`
-                 WHERE status = 1 AND deleted_at IS NULL
-                 ORDER BY sort_order ASC, id ASC"
+                "SELECT c.id, c.parent_id, c.name, c.slug, c.image, c.description, c.status, 
+                        c.sort_order, c.show_in_footer, c.featured_project_id,
+                        p.id as project_id, p.title as project_title, p.slug as project_slug
+                 FROM `{$this->table}` c
+                 LEFT JOIN projects p ON c.featured_project_id = p.id
+                 WHERE c.status = 1 AND c.deleted_at IS NULL
+                 ORDER BY c.sort_order ASC, c.id ASC"
             );
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
