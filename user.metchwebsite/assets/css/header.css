@@ -355,6 +355,22 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     position: relative;
 }
 
+.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 5px 0;
+    background: rgba(255, 255, 255, 0.02);
+    width: 100%;
+}
+
+/* Services dropdown - keep absolute position, limit height to prevent header stretch */
+.services-dropdown:hover > ul.dropdown-menu {
+    height: auto;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
 .services-dropdown > ul.dropdown-menu > li.accordion-item > a.accordion-link {
     display: flex !important;
     justify-content: space-between !important;
@@ -379,63 +395,28 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     background: rgba(26, 63, 191, 0.1) !important;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item a.accordion-link .accordion-icon {
-    font-size: 12px;
+.services-dropdown > ul.dropdown-menu > li.accordion-item > a.accordion-link .accordion-caret {
     margin-left: 15px;
     transition: transform 0.3s ease;
     flex-shrink: 0;
 }
 
-/* Accordion toggle button (for mobile) */
-.services-dropdown > ul.dropdown-menu > li.accordion-item > .accordion-toggle {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 12px;
-    cursor: pointer;
-    padding: 5px;
-    display: none;
-    transition: transform 0.3s ease;
-}
-
-.services-dropdown > ul.dropdown-menu > li.accordion-item.show > .accordion-toggle {
-    transform: translateY(-50%) rotate(180deg);
-}
-
-@media (max-width: 991px) {
-    .services-dropdown > ul.dropdown-menu > li.accordion-item > .accordion-toggle {
-        display: block;
-    }
-    
-    .services-dropdown > ul.dropdown-menu > li.accordion-item > a.accordion-link .accordion-icon {
-        display: none;
-    }
-}
-
-.services-dropdown > ul.dropdown-menu > li.accordion-item:hover a.accordion-link .accordion-icon {
+.services-dropdown > ul.dropdown-menu > li.accordion-item:hover a.accordion-link .accordion-caret,
+.services-dropdown > ul.dropdown-menu > li.accordion-item.show a.accordion-link .accordion-caret {
     transform: rotate(180deg);
 }
-
-/* Accordion submenu - appears BELOW parent item (pushing other items down) */
 .services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu {
     display: none;
     list-style: none;
     margin: 0;
     padding: 0 0 5px 0;
     background: rgba(255, 255, 255, 0.02);
+    position: static;
+    width: 100%;
 }
 
-/* Show accordion submenu on hover (desktop) */
+/* Show accordion submenu when parent is hovered or has .show class */
 .services-dropdown > ul.dropdown-menu > li.accordion-item:hover .accordion-submenu,
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu:hover {
-    display: block;
-}
-
-/* Show accordion submenu when parent has .show class (mobile) */
 .services-dropdown > ul.dropdown-menu > li.accordion-item.show .accordion-submenu {
     display: block;
 }
@@ -465,7 +446,17 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     padding-left: 42px !important;
 }
 
-/* Nested accordion levels */
+/* Nested accordion levels - also show below */
+.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested .accordion-submenu {
+    display: none;
+    width: 100%;
+}
+
+.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested:hover .accordion-submenu,
+.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested.show .accordion-submenu {
+    display: block;
+}
+
 .services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested a {
     padding-left: 40px !important;
 }
@@ -474,9 +465,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     padding-left: 47px !important;
 }
 
-/* All Categories item highlight */
+/* All Categories item highlight - no border */
 .services-dropdown > ul.dropdown-menu > li.all-categories-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     margin-bottom: 5px;
 }
 
@@ -910,16 +900,6 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > a.nav-l
 
     .services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .nav-item a:hover {
         padding-left: 47px !important;
-    }
-
-    /* All Categories item mobile */
-    .services-dropdown > ul.dropdown-menu > li.all-categories-item {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        margin-bottom: 5px;
-    }
-
-    .services-dropdown > ul.dropdown-menu > li.all-categories-item a.nav-link {
-        font-weight: 600 !important;
     }
 }
 

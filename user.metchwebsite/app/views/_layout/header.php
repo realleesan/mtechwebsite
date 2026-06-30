@@ -63,13 +63,12 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
         $hasChild = !empty($item['children']);
 
         if ($hasChild && $depth === 0) {
-            // Mục cha có con → tạo accordion với icon v và nút toggle
+            // Mục cha có con → tạo accordion với icon v
             $html .= '<li class="nav-item accordion-item">';
             $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '" class="accordion-link">';
             $html .= strtoupper($name);
-            $html .= '<span class="dropdown-caret accordion-icon">v</span>';
+            $html .= '<span class="caret-drop accordion-caret"></span>';
             $html .= '</a>';
-            $html .= '<button class="accordion-toggle" aria-label="Toggle submenu">v</button>';
             $html .= '<ul class="accordion-submenu">';
             $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
             $html .= '</ul>';
