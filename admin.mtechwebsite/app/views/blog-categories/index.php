@@ -49,13 +49,13 @@ function renderCategoryRows($categories, $depth = 0) {
         <tr data-category-id="<?= $category['id'] ?>" data-depth="<?= $depth ?>" data-level="<?= $level ?>" class="<?= $rowClass ?>">
             <td class="text-muted small"><?= $category['id'] ?></td>
             <td>
-                    <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
                     <?php if ($hasChildren): ?>
                         <button type="button" class="btn btn-sm btn-link text-secondary p-0 me-2 chevron-toggle" onclick="toggleBlogCategoryChildren(<?= $category['id'] ?>)" title="Mở rộng/Thu gọn">
                             <i class="bi bi-plus" id="chevron-<?= $category['id'] ?>"></i>
                         </button>
                     <?php else: ?>
-                        <span class="d-inline-block me-2" style="width: 18px;"></span>
+                        <span class="d-inline-block me-2" style="width: 24px;"></span>
                     <?php endif; ?>
                     <div class="category-name-wrapper" style="margin-left: <?= $indentPixels ?>px;">
                         <span class="fw-medium"><?= htmlspecialchars($category['name']) ?></span>
