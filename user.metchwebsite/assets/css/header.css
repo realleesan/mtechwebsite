@@ -323,7 +323,9 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
-    min-width: 210px;
+    width: auto;
+    min-width: 250px;
+    max-width: 500px;
     background: rgba(13, 27, 62, 0.97);
     border-top: 3px solid #1A3FBF;
     border-left: none;
@@ -339,7 +341,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
 
 /* Show dropdown on hover - top level */
 ul.menu > li.nav-item.submenu:hover > ul.dropdown-menu,
-ul.menu > li.nav-item.submenu > ul.dropdown-menu:hover {
+ul.menu > li.nav-item.submenu > ul.dropdown-menu:hover,
+ul.menu > li.nav-item.submenu.show > ul.dropdown-menu {
     display: block;
     pointer-events: auto;
 }
@@ -350,28 +353,75 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     pointer-events: auto;
 }
 
-/* Accordion submenu cho Lĩnh vực hoạt động - hiện xuống dưới thay vì bên phải */
-.services-dropdown > ul.dropdown-menu > li.accordion-item {
+/* Position nested submenu items - required for nested dropdown positioning */
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu {
     position: relative;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu {
-    display: none;
-    list-style: none;
-    margin: 0;
-    padding: 0 0 5px 0;
-    background: rgba(255, 255, 255, 0.02);
-    width: 100%;
-}
+/* ========================================
+   SERVICES DROPDOWN - Đồng bộ với Blog Categories
+   Support cấp n-levels với cấu trúc .nav-item.submenu
+   ======================================== */
 
-/* Services dropdown - keep absolute position, limit height to prevent header stretch */
+/* Services dropdown - keep absolute position, allow auto height */
 .services-dropdown:hover > ul.dropdown-menu {
     height: auto;
-    max-height: 400px;
-    overflow-y: auto;
+    overflow: visible;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item > a.accordion-link {
+/* All Categories item highlight - no border */
+.services-dropdown > ul.dropdown-menu > li.all-categories-item {
+    margin-bottom: 5px;
+}
+
+.services-dropdown > ul.dropdown-menu > li.all-categories-item > a.nav-link {
+    display: block !important;
+    color: #ffffff !important;
+    font-family: "Object Sans", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    text-decoration: none !important;
+    padding: 11px 25px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    background: transparent !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.services-dropdown > ul.dropdown-menu > li.all-categories-item > a.nav-link:hover {
+    color: #1A3FBF !important;
+    background: rgba(26, 63, 191, 0.15) !important;
+}
+
+/* Services dropdown - Leaf items (danh mục lá không có con) */
+.services-dropdown > ul.dropdown-menu > li:not(.nav-item.submenu):not(.all-categories-item) > a.nav-link {
+    display: block !important;
+    color: #ffffff !important;
+    font-family: "Object Sans", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    text-decoration: none !important;
+    padding: 11px 25px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    transition: color 0.25s ease, padding-left 0.25s ease;
+    background: transparent !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.services-dropdown > ul.dropdown-menu > li:not(.nav-item.submenu):not(.all-categories-item) > a.nav-link:hover {
+    color: #1A3FBF !important;
+    padding-left: 32px !important;
+}
+
+/* Services dropdown - Submenu items (danh mục cha có con) */
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -383,144 +433,99 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 25px !important;
-    white-space: nowrap !important;
+    white-space: normal !important;
+    word-wrap: break-word;
     transition: color 0.25s ease, background 0.2s ease;
     background: transparent !important;
-    width: 100%;
-    text-align: left;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item > a.accordion-link:hover {
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link:hover {
     color: #1A3FBF !important;
     background: rgba(26, 63, 191, 0.1) !important;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item > a.accordion-link .accordion-caret {
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
     margin-left: 15px;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
+    transform: rotate(-90deg);
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item:hover a.accordion-link .accordion-caret,
-.services-dropdown > ul.dropdown-menu > li.accordion-item.show a.accordion-link .accordion-caret {
-    transform: rotate(180deg);
-}
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu {
-    display: none;
-    list-style: none;
-    margin: 0;
-    padding: 0 0 5px 0;
-    background: rgba(255, 255, 255, 0.02);
-    position: static;
-    width: 100%;
+/* Services nested items positioning & hover bridge */
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu {
+    position: relative;
 }
 
-/* Show accordion submenu when parent is hovered or has .show class */
-.services-dropdown > ul.dropdown-menu > li.accordion-item:hover .accordion-submenu,
-.services-dropdown > ul.dropdown-menu > li.accordion-item.show .accordion-submenu {
-    display: block;
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -20px;
+    width: 20px;
+    height: 100%;
+    pointer-events: auto;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .nav-item {
-    margin: 0;
-    padding: 0;
-}
-
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .nav-item a {
+/* Services nested items (cấp 2+) - recursive styling */
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li:not(.nav-item.submenu) > a.nav-link {
     display: block !important;
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: #ffffff !important;
     font-family: "Object Sans", sans-serif !important;
     font-weight: 400 !important;
     font-style: normal !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
     text-decoration: none !important;
-    padding: 9px 35px !important;
-    white-space: nowrap !important;
+    padding: 9px 20px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: transparent !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .nav-item a:hover {
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li:not(.nav-item.submenu) > a.nav-link:hover {
     color: #1A3FBF !important;
-    padding-left: 42px !important;
+    padding-left: 27px !important;
 }
 
-/* Nested accordion levels - also show below */
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested .accordion-submenu {
-    display: none;
-    width: 100%;
-}
-
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested:hover .accordion-submenu,
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested.show .accordion-submenu {
-    display: block;
-}
-
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested a {
-    padding-left: 40px !important;
-}
-
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .accordion-item.nested a:hover {
-    padding-left: 47px !important;
-}
-
-/* Project item in accordion submenu - no separator */
-.services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .project-item {
-    margin-top: 5px;
-    padding-top: 5px;
-}
-
-.services-dropdown > ul.dropdown-menu > li.accordion-item.has-project .accordion-submenu .project-item a.project-link {
-    display: block !important;
-    color: #1A3FBF !important;
+/* Services nested submenu items (cấp 2+) */
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    color: #ffffff !important;
     font-family: "Object Sans", sans-serif !important;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     font-style: normal !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     line-height: 1.5 !important;
     text-decoration: none !important;
-    padding: 9px 25px !important;
-    white-space: nowrap !important;
-    transition: color 0.25s ease, padding-left 0.25s ease;
+    padding: 11px 25px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    transition: color 0.25s ease, background 0.2s ease;
     background: transparent !important;
 }
 
-.services-dropdown > ul.dropdown-menu > li.accordion-item.has-project .accordion-submenu .project-item a.project-link:hover {
-    color: #FFFFFF !important;
-    background: rgba(26, 63, 191, 0.2) !important;
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link:hover {
+    color: #1A3FBF !important;
+    background: rgba(26, 63, 191, 0.1) !important;
 }
 
-/* All Categories item highlight - no border */
-.services-dropdown > ul.dropdown-menu > li.all-categories-item {
-    margin-bottom: 5px;
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
+    margin-left: 15px;
+    transform: rotate(-90deg);
 }
 
-.services-dropdown > ul.dropdown-menu > li.all-categories-item a.nav-link {
-    font-weight: 600 !important;
-}
-
-.services-dropdown > ul.dropdown-menu > li.all-categories-item a.nav-link:hover {
-    background: rgba(26, 63, 191, 0.15) !important;
-}
-
-/* Override nested dropdown positioning - remove right-side dropdowns for services */
-.services-dropdown > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu {
-    display: none !important;
-}
-
-/* Remove hover bridge for accordion items */
-.services-dropdown > ul.dropdown-menu > li.accordion-item::after {
-    display: none;
-}
-
-/* Keep existing nested dropdown styles for other menus (About, Projects, Blog) */
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu {
+/* Services nested dropdown - show on hover & click */
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu {
     display: none;
     position: absolute;
     top: 0;
     left: calc(100% + 5px);
-    min-width: 210px;
+    width: auto;
+    min-width: 250px;
+    max-width: 500px;
     background: rgba(13, 27, 62, 0.97);
     border-top: 3px solid #1A3FBF;
     border-left: none;
@@ -538,21 +543,99 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.na
     transition: all 0.25s ease;
 }
 
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu:hover > ul.dropdown-menu {
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu:hover > ul.dropdown-menu {
     display: block;
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
 }
 
-/* Style nested dropdown items - for non-services dropdowns only */
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li {
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > ul.dropdown-menu {
+    display: block !important;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Rotate caret on open */
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
+    transform: rotate(0deg) !important;
+}
+
+/* Project items styling - special blue color */
+.services-dropdown > ul.dropdown-menu li.project-item a.project-link {
+    display: block !important;
+    color: #ffffff !important;
+    font-family: "Object Sans", sans-serif !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    text-decoration: none !important;
+    padding: 11px 25px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    transition: color 0.25s ease, background 0.2s ease;
+    background: transparent !important;
+}
+
+.services-dropdown > ul.dropdown-menu li.project-item a.project-link:hover {
+    color: #1A3FBF !important;
+    background: rgba(26, 63, 191, 0.2) !important;
+}
+
+/* Remove hover bridge for accordion items */
+.services-dropdown > ul.dropdown-menu > li.accordion-item::after {
+    display: none;
+}
+
+/* ========================================
+   NESTED DROPDOWN SUPPORT - N-LEVELS (Blog categories, Projects, About)
+   Support cấp 2, 3, 4, n... không giới hạn
+   ======================================== */
+
+/* Generic nested dropdown styling - áp dụng cho TẤT CẢ mức nested */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 5px);
+    width: auto;
+    min-width: 250px;
+    max-width: 500px;
+    background: rgba(13, 27, 62, 0.97);
+    border-top: 3px solid #1A3FBF;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 10001;
+    list-style: none;
+    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: all 0.25s ease;
+}
+
+/* Show nested dropdown on hover - áp dụng cho TẤT CẢ nested submenu items */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu:hover > ul.dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Style nested dropdown items - generic cho TẤT CẢ nested levels */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdown-menu li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdown-menu li > a {
     display: block !important;
     color: #ffffff !important;
     font-family: "Object Sans", sans-serif !important;
@@ -561,45 +644,29 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.na
     font-size: 14px !important;
     line-height: 1.5 !important;
     text-decoration: none !important;
-    padding: 9px 20px !important;
-    white-space: nowrap !important;
+    padding: 11px 20px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: transparent !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
 
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdown-menu li > a:hover {
     color: #1A3FBF !important;
     padding-left: 27px !important;
 }
 
-/* -- Dropdown items -- */
+/* -- Dropdown items (ALL levels - leaf & submenu) -- */
 ul.menu > li.nav-item.submenu > ul.dropdown-menu > li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-/* Nested submenu item - position relative để nested dropdown absolute vào đó - for non-services only */
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu {
-    position: relative;
-    margin: 0;
-    padding: 0;
-}
-
-/* Add hover area bridge - only for non-services dropdowns */
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -20px;
-    width: 20px;
-    height: 100%;
-    pointer-events: auto;
-}
-
-ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
+/* Dropdown item links - TẤT CẢ items (leaf items không có submenu) */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li:not(.nav-item.submenu) > a.nav-link {
     display: block !important;
     color: #ffffff !important;
     font-family: "Object Sans", sans-serif !important;
@@ -609,20 +676,63 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 25px !important;
-    white-space: nowrap !important;
+    white-space: normal !important;
+    word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: transparent !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
 
-ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
+ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li:not(.nav-item.submenu) > a.nav-link:hover {
     color: #1A3FBF !important;
     padding-left: 32px !important;
 }
 
-/* Style nested dropdown links - for non-services dropdowns only */
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu > a.nav-link {
+/* Nested leaf items in any level - danh mục lá ở bất kỳ cấp nào */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li:not(.nav-item.submenu) > a.nav-link {
+    display: block !important;
+    color: #ffffff !important;
+    font-family: "Object Sans", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    text-decoration: none !important;
+    padding: 11px 20px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    transition: color 0.25s ease, padding-left 0.25s ease;
+    background: transparent !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li:not(.nav-item.submenu) > a.nav-link:hover {
+    color: #1A3FBF !important;
+    padding-left: 27px !important;
+}
+
+/* Nested submenu item - position relative cho tất cả submenu nested levels */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+/* Add hover area bridge - only for non-services dropdowns */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -20px;
+    width: 20px;
+    height: 100%;
+    pointer-events: auto;
+}
+
+/* Style nested dropdown links - cho TẤT CẢ nested submenu levels */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -639,28 +749,33 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.na
     background: transparent !important;
 }
 
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu > a.nav-link:hover {
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link:hover {
     color: #1A3FBF !important;
     background: rgba(26, 63, 191, 0.1) !important;
 }
 
-ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
+ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
     margin-left: 15px;
     transform: rotate(-90deg);
     margin: 0;
     padding: 0;
 }
 
-ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > a.nav-link:hover {
-    color: #1A3FBF !important;
-    background: rgba(26, 63, 191, 0.1) !important;
+/* ========================================
+   MOBILE SHOW STATE - Nested Dropdown n-levels
+   ======================================== */
+
+/* Show nested dropdown menu on mobile when .show class is added */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show > ul.dropdown-menu {
+    display: block !important;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
 }
 
-ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
-    margin-left: 15px;
-    transform: rotate(-90deg);
-    margin: 0;
-    padding: 0;
+/* Rotate caret icon when nested dropdown is open */
+ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show > a.nav-link .caret-drop {
+    transform: rotate(0deg) !important;
 }
 
 /* -- Phone number -- */

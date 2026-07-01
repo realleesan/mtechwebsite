@@ -46,10 +46,11 @@ try {
 }
 
 /**
- * Hàm render đệ quy submenu đa cấp cho Dropdown Menu
+ * Hàm render đệ quy submenu đa cấp cho Services Dropdown - Đồng bộ với Blog Categories
+ * Support cấp n (không giới hạn) - Tương tự như Blog Categories
  *
  * @param array $items Mảng cây con
- * @param int $depth Cấp hiện tại (0 = dropdown cấp 1, 1 = accordion level, ...)
+ * @param int $depth Cấp hiện tại (0 = dropdown cấp 1, 1+ = nested levels)
  * @param string $urlPrefix Tiền tố URL
  */
 function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix = '/linh-vuc-'): string
@@ -62,22 +63,22 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
         $slug     = urlencode($item['slug']);
         $hasChild = !empty($item['children']);
         $projects = $item['projects'] ?? [];
-        $hasProject = !empty($projects);
 
-        if ($hasChild && $depth === 0) {
-            // Mục cha có con → tạo accordion với icon v
-            $html .= '<li class="nav-item accordion-item">';
-            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '" class="accordion-link">';
+        if ($hasChild) {
+            // Category có con - thêm class submenu + caret-drop cho TẤT CẢ cấp
+            // Đồng bộ với Blog Categories
+            $html .= '<li class="nav-item submenu" data-depth="' . $depth . '">';
+            $html .= '<a class="nav-link" href="' . $urlPrefix . $slug . '" title="' . $name . '">';
             $html .= strtoupper($name);
-            $html .= '<span class="caret-drop accordion-caret"></span>';
+            $html .= '<span class="caret-drop"></span>';
             $html .= '</a>';
-            $html .= '<ul class="accordion-submenu">';
+            $html .= '<ul class="dropdown-menu" role="menu">';
             
-            // Render children (lĩnh vực con)
+            // Render các category con recursively - không giới hạn cấp
             $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
             
-            // Thêm dự án vào cuối accordion submenu (nếu có)
-            if ($hasProject) {
+            // Thêm dự án vào cuối submenu (nếu có)
+            if (!empty($projects)) {
                 foreach ($projects as $project) {
                     $projectTitle = htmlspecialchars($project['title']);
                     $projectSlug = urlencode($project['slug']);
@@ -91,44 +92,14 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             
             $html .= '</ul>';
             $html .= '</li>';
-        } elseif ($hasProject && !$hasChild && $depth === 0) {
-            // Mục cha không có con nhưng có dự án → render accordion chỉ chứa dự án
-            $html .= '<li class="nav-item accordion-item has-project">';
-            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '" class="accordion-link">';
+        } elseif (!empty($projects)) {
+            // Mục lá có dự án - render như submenu item
+            $html .= '<li class="nav-item submenu">';
+            $html .= '<a class="nav-link" href="' . $urlPrefix . $slug . '" title="' . $name . '">';
             $html .= strtoupper($name);
-            $html .= '<span class="caret-drop accordion-caret"></span>';
+            $html .= '<span class="caret-drop"></span>';
             $html .= '</a>';
-            $html .= '<ul class="accordion-submenu">';
-            
-            foreach ($projects as $project) {
-                $projectTitle = htmlspecialchars($project['title']);
-                $projectSlug = urlencode($project['slug']);
-                $html .= '<li class="nav-item project-item">';
-                $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
-                $html .= strtoupper($projectTitle);
-                $html .= '</a>';
-                $html .= '</li>';
-            }
-            
-            $html .= '</ul>';
-            $html .= '</li>';
-        } elseif ($hasChild && $depth > 0) {
-            // Mức độ sâu hơn → vẫn accordion nhưng không có icon
-            $html .= '<li class="nav-item accordion-item nested">';
-            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
-            $html .= strtoupper($name);
-            $html .= '</a>';
-            $html .= '<ul class="accordion-submenu">';
-            $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
-            $html .= '</ul>';
-            $html .= '</li>';
-        } elseif (!$hasChild && $hasProject) {
-            // Mục lá có dự án → link category rồi hiển thị dự án bên dưới
-            $html .= '<li class="nav-item">';
-            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
-            $html .= strtoupper($name);
-            $html .= '</a>';
-            $html .= '<ul class="accordion-submenu">';
+            $html .= '<ul class="dropdown-menu" role="menu">';
             foreach ($projects as $project) {
                 $projectTitle = htmlspecialchars($project['title']);
                 $projectSlug = urlencode($project['slug']);
@@ -141,9 +112,9 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             $html .= '</ul>';
             $html .= '</li>';
         } else {
-            // Mục lá → link trực tiếp
+            // Mục lá (không có con, không có dự án) - link trực tiếp
             $html .= '<li class="nav-item">';
-            $html .= '<a href="' . $urlPrefix . $slug . '" title="' . $name . '">';
+            $html .= '<a class="nav-link" href="' . $urlPrefix . $slug . '" title="' . $name . '">';
             $html .= strtoupper($name);
             $html .= '</a>';
             $html .= '</li>';
@@ -261,7 +232,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 $isBlogActive = ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) || 
                                ($currentPage === 'blog-details');
                 
-                // Function to render blog category hierarchy recursively
+                // Function to render blog category hierarchy recursively (supports n-levels)
                 function renderBlogCategoryMenu($categories, $depth = 0) {
                     if (empty($categories)) return '';
                     
@@ -271,15 +242,16 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         $categoryUrl = '/tin-tuc-' . urlencode($category['slug']);
                         
                         if ($hasChildren) {
-                            // Category có con - thêm class submenu
-                            $html .= '<li class="nav-item submenu">';
+                            // Category có con - thêm class submenu + caret-drop cho TẤT CẢ cấp
+                            // data-depth cho debugging/styling nếu cần
+                            $html .= '<li class="nav-item submenu" data-depth="' . $depth . '">';
                             $html .= '<a class="nav-link" href="' . $categoryUrl . '" title="' . htmlspecialchars($category['name']) . '">';
                             $html .= strtoupper(htmlspecialchars($category['name']));
                             $html .= '<span class="caret-drop"></span>';
                             $html .= '</a>';
                             $html .= '<ul class="dropdown-menu" role="menu">';
                             
-                            // Render các category con recursively
+                            // Render các category con recursively - không giới hạn cấp
                             $html .= renderBlogCategoryMenu($category['children'], $depth + 1);
                             
                             $html .= '</ul>';

@@ -72,7 +72,7 @@ function slugifyVi(str) {
 
         // ── Desktop Dropdown với delay ─────────────────────────────
         // Mỗi submenu item có timer riêng để tránh đóng ngay
-        const HIDE_DELAY = 45; // ms — thời gian trễ trước khi đóng
+        const HIDE_DELAY = 180; // ms — thời gian trễ trước khi đóng (180ms cho chuột di chuyển)
 
         const submenus = document.querySelectorAll('ul.menu > li.nav-item.submenu');
 
@@ -92,14 +92,14 @@ function slugifyVi(str) {
             function showDropdown() {
                 clearTimeout(hideTimer);
                 if (window.innerWidth >= 992) {
-                    dropdown.style.display = 'block';
+                    item.classList.add('show');
                 }
             }
 
             function hideDropdown() {
                 if (window.innerWidth >= 992) {
                     hideTimer = setTimeout(function () {
-                        dropdown.style.display = 'none';
+                        item.classList.remove('show');
                     }, HIDE_DELAY);
                 }
             }
@@ -217,20 +217,53 @@ function slugifyVi(str) {
             });
         });
 
-// ── Services Accordion (Mobile click only) ────────────────────────
-         const accordionLinks = document.querySelectorAll('.services-dropdown .accordion-link');
+        // ── Nested Dropdown Items Click (Mobile support for n-levels) ──────
+        // Support cấp 2, 3, 4, n... - recursive click handlers
+        const allNestedSubmenus = document.querySelectorAll('ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu > a.nav-link');
+
+        allNestedSubmenus.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                if (window.innerWidth < 992) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const parent = this.closest('li.nav-item.submenu');
+                    const childMenu = parent.querySelector(':scope > ul.dropdown-menu');
+                    const isOpen = parent.classList.contains('show');
+
+                    // Đóng tất cả sibling nested menus
+                    const parentUl = parent.closest('ul.dropdown-menu');
+                    if (parentUl) {
+                        parentUl.querySelectorAll(':scope > li.nav-item.submenu').forEach(function (el) {
+                            el.classList.remove('show');
+                        });
+                    }
+
+                    // Toggle current nested menu
+                    if (childMenu && !isOpen) {
+                        parent.classList.add('show');
+                    } else if (isOpen) {
+                        parent.classList.remove('show');
+                    }
+                }
+            });
+        });
+
+        // ── Services Accordion (Mobile click only) ────────────────────────
+        // Sử dụng cấu trúc .nav-item.submenu (đồng bộ với Blog)
+        const servicesAccordionLinks = document.querySelectorAll('.services-dropdown .nav-item.submenu > a.nav-link');
          
-         accordionLinks.forEach(function (link) {
-             link.addEventListener('click', function (e) {
-                 const parentItem = this.closest('.accordion-item');
-                 const submenu = parentItem.querySelector('.accordion-submenu');
-                 
-                 if (window.innerWidth < 992 && submenu) {
-                     e.preventDefault();
-                     parentItem.classList.toggle('show');
-                 }
-             });
-         });
+        servicesAccordionLinks.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                const parentItem = this.closest('.nav-item.submenu');
+                const submenu = parentItem.querySelector(':scope > ul.dropdown-menu');
+                
+                if (window.innerWidth < 992 && submenu) {
+                    e.preventDefault();
+                    parentItem.classList.toggle('show');
+                }
+            });
+        });
 
         // ── Đóng mobile menu khi resize lên desktop ───────────────
         window.addEventListener('resize', function () {
