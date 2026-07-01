@@ -46,7 +46,7 @@ function renderCategoryRows($categories, $depth = 0) {
             $rowClass .= ' sub-parent-row';
         }
         ?>
-        <tr data-category-id="<?= $category['id'] ?>" data-depth="<?= $depth ?>" data-level="<?= $level ?>" class="<?= $rowClass ?>">
+        <tr data-category-id="<?= $category['id'] ?>" data-parent-id="<?= $category['parent_id'] ?? 'null' ?>" data-depth="<?= $depth ?>" data-level="<?= $level ?>" class="<?= $rowClass ?>">
             <td class="text-muted small"><?= $category['id'] ?></td>
             <td>
                 <div class="d-flex align-items-center">
@@ -57,7 +57,7 @@ function renderCategoryRows($categories, $depth = 0) {
                     <?php else: ?>
                         <span class="d-inline-block me-2" style="width: 24px;"></span>
                     <?php endif; ?>
-                    <div class="category-name-wrapper" style="margin-left: <?= $indentPixels ?>px;">
+                    <div class="category-name-wrapper" data-indent-level="<?= $level ?>">
                         <span class="fw-medium"><?= htmlspecialchars($category['name']) ?></span>
                     </div>
                 </div>
@@ -98,9 +98,9 @@ function renderCategoryRows($categories, $depth = 0) {
                         <i class="bi bi-pencil"></i>
                     </a>
                     <?php if (empty($category['children'])): ?>
-                        <form method="POST" action="/blogs/categories/delete/<?= $category['id'] ?>" class="d-inline">
-                            <button type="submit" class="btn btn-sm btn-outline-danger btn-delete"
-                                    data-confirm="Xóa danh mục này?" title="Xóa">
+                        <form method="POST" action="/api/blogs/categories/delete/<?= $category['id'] ?>" class="d-inline" data-category-id="<?= $category['id'] ?>">
+                            <button type="submit" class="btn btn-sm btn-outline-danger btn-delete-ajax"
+                                    title="Xóa">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>

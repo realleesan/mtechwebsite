@@ -62,6 +62,7 @@
         case 'blog.category.edit':
             echo '<link rel="stylesheet" href="/assets/css/admin.blogs.css">';
             echo '<link rel="stylesheet" href="/assets/css/image-editor.css">';
+            echo '<link rel="stylesheet" href="/assets/css/blog.categories.ajax.css">';
             break;
 
         case 'awards':
@@ -243,6 +244,10 @@ switch($currentPage) {
     case 'blog.category.edit':
         echo '<script src="/assets/js/admin.blogs.js"></script>';
         echo '<script src="/assets/js/image-editor.js"></script>';
+        // Load AJAX module only for blog-categories index page
+        if ($currentPage === 'blog-categories') {
+            echo '<script src="/assets/js/blog.categories.ajax.js"></script>';
+        }
         break;
 
     case 'awards':

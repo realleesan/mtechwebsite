@@ -66,6 +66,12 @@ class AdminRouter
         $this->get('/blogs/categories/edit/{id}',   'BlogCategoriesController@edit');
         $this->post('/blogs/categories/update/{id}','BlogCategoriesController@update');
         $this->post('/blogs/categories/delete/{id}','BlogCategoriesController@delete');
+        
+        // AJAX API endpoints for categories
+        $this->get('/api/blogs/categories',         'BlogCategoriesController@getCategories');
+        $this->post('/api/blogs/categories/store',  'BlogCategoriesController@storeAjax');
+        $this->post('/api/blogs/categories/update/{id}','BlogCategoriesController@updateAjax');
+        $this->post('/api/blogs/categories/delete/{id}','BlogCategoriesController@deleteAjax');
 
         // ----------------------------------------
 

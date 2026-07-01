@@ -402,6 +402,44 @@ tr[data-depth="3"] {
     color: #495057;
 }
 
+/* Category name wrapper - indentation based on level */
+.category-name-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.category-name-wrapper[data-indent-level="1"] {
+    margin-left: 0;
+}
+
+.category-name-wrapper[data-indent-level="2"] {
+    margin-left: 20px;
+}
+
+.category-name-wrapper[data-indent-level="3"] {
+    margin-left: 40px;
+}
+
+.category-name-wrapper[data-indent-level="4"] {
+    margin-left: 60px;
+}
+
+.category-name-wrapper[data-indent-level="5"] {
+    margin-left: 80px;
+}
+
+.category-name-wrapper[data-indent-level="6"] {
+    margin-left: 100px;
+}
+
+.category-name-wrapper[data-indent-level="7"] {
+    margin-left: 120px;
+}
+
+.category-name-wrapper[data-indent-level="8"] {
+    margin-left: 140px;
+}
+
 /* Parent category indication */
 .parent-category-info {
     font-size: 0.8rem;
