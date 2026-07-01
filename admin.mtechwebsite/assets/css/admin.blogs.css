@@ -10,24 +10,11 @@
     vertical-align: middle;
 }
 
-/* Rich Editor Placeholder Styles */
-.rich-editor-content[data-placeholder]:empty:before {
-    content: attr(data-placeholder);
-    color: var(--text-muted);
-    font-style: italic;
-    pointer-events: none;
-}
-
-.rich-editor-content[data-placeholder]:focus:before {
-    content: none;
-}
-
 /* Rich Editor Container */
 .rich-editor-container {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     overflow: hidden;
-    transition: border-color 0.3s ease;
 }
 
 .rich-editor-container:focus-within {
@@ -51,31 +38,35 @@
     line-height: 1.6;
 }
 
-/* Blogs Table Specific Styles */
+.rich-editor-content[data-placeholder]:empty:before {
+    content: attr(data-placeholder);
+    color: var(--text-muted);
+    font-style: italic;
+    pointer-events: none;
+}
+
+.rich-editor-content[data-placeholder]:focus:before {
+    content: none;
+}
+
+/* Blogs Table */
 .blogs-table .blog-thumbnail {
     width: 50px;
     height: 50px;
     object-fit: cover;
     border-radius: 6px;
-    transition: transform 0.2s;
-}
-
-.blogs-table .blog-thumbnail:hover {
-    transform: scale(1.1);
 }
 
 .blogs-table .blog-title {
     font-weight: 600;
     color: var(--body-color);
     margin-bottom: 2px;
-    transition: color 0.3s ease;
 }
 
 .blogs-table .blog-slug {
     font-size: 0.8rem;
     color: var(--text-muted);
     font-family: 'Courier New', monospace;
-    transition: color 0.3s ease;
 }
 
 /* Blog Status Badges */
@@ -87,12 +78,10 @@
     background-color: var(--text-muted);
 }
 
-
 /* Blog Form Tabs */
 .blog-form-tabs .nav-tabs {
     border-bottom: 2px solid var(--border-color);
     margin-bottom: 30px;
-    transition: border-color 0.3s ease;
 }
 
 .blog-form-tabs .nav-tabs .nav-link {
@@ -101,7 +90,6 @@
     color: var(--text-muted);
     font-weight: 500;
     padding: 12px 20px;
-    transition: all 0.2s;
 }
 
 .blog-form-tabs .nav-tabs .nav-link:hover {
@@ -115,7 +103,6 @@
     background: none;
 }
 
-/* Tab Content Spacing */
 .blog-form-tabs .tab-content {
     padding-top: 20px;
 }
@@ -124,7 +111,6 @@
     padding: 0;
 }
 
-/* Add proper spacing to form groups within tabs */
 .blog-form-tabs .tab-pane .mb-3 {
     margin-bottom: 1.5rem !important;
 }
@@ -136,7 +122,6 @@
     padding: 30px 20px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
     background: var(--light);
 }
 
@@ -189,13 +174,7 @@
     justify-content: center;
 }
 
-/* Recruitment Tab Styles */
-.recruitment-info {
-    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-    border-left: 4px solid var(--primary);
-}
-
-/* Category Management Styles */
+/* Category Management */
 .category-form-card {
     background: white;
     border-radius: 8px;
@@ -217,7 +196,7 @@
     border-radius: 3px;
 }
 
-/* Status and Menu Display Badges */
+/* Status Badges */
 .status-badge-active {
     background-color: #28a745;
 }
@@ -235,7 +214,7 @@
     color: #6c757d;
 }
 
-/* Form Switch Enhancements */
+/* Form Check Input */
 .form-check-input:checked {
     background-color: var(--primary);
     border-color: var(--primary);
@@ -262,366 +241,60 @@
     }
 }
 
-/* Animation for status changes */
-.badge {
-    transition: all 0.3s ease;
-}
-
-.badge:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* Loading states */
-.btn.loading {
-    position: relative;
-    color: transparent;
-}
-
-.btn.loading::after {
-    content: "";
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    top: 50%;
-    left: 50%;
-    margin-left: -8px;
-    margin-top: -8px;
-    border: 2px solid transparent;
-    border-top-color: currentColor;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 /* ============================================
-   Blog Categories Parent Selector Styling
-   ============================================ */
-
-/* Parent info alert card */
-.category-parent-alert {
-    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-}
-
-.category-parent-alert i {
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    margin-top: 2px;
-    color: #0d6efd;
-}
-
-.category-parent-card {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
-}
-
-.category-parent-card:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Parent select dropdown */
-.category-parent-select {
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #dee2e6;
-    transition: all 0.2s ease;
-}
-
-.category-parent-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-}
-
-/* Category level info card */
-.category-level-card {
-    border-radius: 8px;
-    transition: all 0.2s ease;
-}
-
-.category-level-card:hover {
-    background-color: #fff3cd !important;
-}
-
-/* Blog Index - Multiple Category Badges */
-.badge.bg-secondary {
-    background-color: #6c757d !important;
-}
-
-.badge.bg-light {
-    color: #6c757d !important;
-    border: 1px solid #dee2e6;
-}
-
-/* Blog Categories Management Hierarchy */
-.category-child {
-    transition: all 0.3s ease;
-}
-
-.category-child.hidden {
-    display: none;
-}
-
-/* Hierarchy depth visual indicators */
-tr[data-depth="1"] {
-    background-color: rgba(0, 123, 255, 0.05);
-}
-
-tr[data-depth="2"] {
-    background-color: rgba(40, 167, 69, 0.05);
-}
-
-tr[data-depth="3"] {
-    background-color: rgba(255, 193, 7, 0.05);
-}
-
-/* Chevron expand/collapse animation */
-[id^="chevron-"] {
-    transition: transform 0.2s ease;
-}
-
-.btn-link:hover [id^="chevron-"] {
-    transform: scale(1.1);
-}
-
-/* Category hierarchy indentation */
-.category-hierarchy-name {
-    display: flex;
-    align-items: center;
-}
-
-.category-hierarchy-name .chevron-toggle {
-    margin-right: 8px;
-    color: #6c757d;
-}
-
-.category-hierarchy-name .chevron-toggle:hover {
-    color: #495057;
-}
-
-/* Category name wrapper - indentation based on level */
-.category-name-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.category-name-wrapper[data-indent-level="1"] {
-    margin-left: 0;
-}
-
-.category-name-wrapper[data-indent-level="2"] {
-    margin-left: 20px;
-}
-
-.category-name-wrapper[data-indent-level="3"] {
-    margin-left: 40px;
-}
-
-.category-name-wrapper[data-indent-level="4"] {
-    margin-left: 60px;
-}
-
-.category-name-wrapper[data-indent-level="5"] {
-    margin-left: 80px;
-}
-
-.category-name-wrapper[data-indent-level="6"] {
-    margin-left: 100px;
-}
-
-.category-name-wrapper[data-indent-level="7"] {
-    margin-left: 120px;
-}
-
-.category-name-wrapper[data-indent-level="8"] {
-    margin-left: 140px;
-}
-
-/* Parent category indication */
-.parent-category-info {
-    font-size: 0.8rem;
-    color: #6c757d;
-    font-style: italic;
-}
-
-/* Disabled delete button for parents */
-.btn-outline-secondary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* Category management controls */
-.category-controls {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.expand-collapse-controls {
-    display: flex;
-    gap: 8px;
-}
-
-.expand-collapse-controls .btn-sm {
-    padding: 4px 8px;
-    font-size: 0.75rem;
-}
-
-/* Responsive category table */
-@media (max-width: 768px) {
-    .category-hierarchy-name {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .parent-category-info {
-        margin-top: 4px;
-    }
-    
-    .expand-collapse-controls {
-        flex-direction: column;
-        gap: 4px;
-    }
-}
-
-/* ============================================
-   Blog Edit Form Styles (from edit.php)
+   Blog Category Hierarchy Checkboxes
    ============================================ */
 
 .category-hierarchy-checkboxes {
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
+    overflow-x: auto;
+    padding: 15px 15px 15px 30px;
 }
 
 .category-checkbox {
-    margin-bottom: 8px;
-}
-
-/* ============================================
-   Blog Categories Management - Level Display
-   ============================================ */
-
-.category-row {
-    transition: all 0.2s ease;
-}
-
-.category-row.hidden {
-    display: none;
-}
-
-.category-name-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    padding-left: 0;
+    margin-left: 0 !important;
+    min-width: max-content;
+    width: fit-content;
 }
 
-.category-row[data-level="1"] {
-    font-weight: 600;
-    background-color: rgba(0, 123, 255, 0.03);
-}
+.category-checkbox[data-depth="0"] { padding-left: 0; }
+.category-checkbox[data-depth="1"] { padding-left: 20px; }
+.category-checkbox[data-depth="2"] { padding-left: 40px; }
+.category-checkbox[data-depth="3"] { padding-left: 60px; }
+.category-checkbox[data-depth="4"] { padding-left: 80px; }
+.category-checkbox[data-depth="5"] { padding-left: 100px; }
 
-.category-row[data-level="2"] {
-    background-color: rgba(0, 123, 255, 0.02);
-}
-
-.category-row[data-level="3"] {
-    background-color: rgba(40, 167, 69, 0.02);
-}
-
-.chevron-toggle {
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-/* ============================================
-   Blog Categories Toggle & Collapse Animation
-   ============================================ */
-
-/* Chevron toggle button - Plus/Minus icon animation */
-.chevron-toggle {
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 24px !important;
-    height: 24px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    background: none !important;
-    border: none !important;
-    cursor: pointer;
-    color: #6c757d !important;
-    transition: color 0.2s ease !important;
+.category-checkbox .form-check-input {
+    margin-top: 2px;
+    margin-right: 6px;
+    margin-left: 0 !important;
     flex-shrink: 0;
-    outline: none;
-    text-decoration: none !important;
+    min-width: 18px;
+    width: 18px;
+    height: 18px;
 }
 
-.chevron-toggle:hover {
-    color: #495057 !important;
-    text-decoration: none !important;
+.category-checkbox .form-check-label {
+    cursor: pointer;
+    margin-bottom: 0;
+    flex: 0 1 auto;
+    white-space: nowrap;
 }
 
-.chevron-toggle i {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    line-height: 1;
-    transition: none;
-}
-
-/* Child row (level 2+) */
-.category-row.child-row {
-    background-color: #fafbfc;
-}
-
-.category-row.child-row:hover {
-    background-color: #f0f2f5;
-}
-
-/* Child that also has its own children */
-.category-row.sub-parent-row {
-    background-color: #f5f7fa;
-}
-
-.category-row.sub-parent-row:hover {
-    background-color: #e9ecef;
-}
-
-/* Left border accent for child rows */
-.category-row.child-row td:first-child,
-.category-row.sub-parent-row td:first-child {
-    border-left: 3px solid #dee2e6;
-}
-
-
-/* ============================================
-   Category Level Badge Animation
-   ============================================ */
-
-#current-level-badge {
-    display: inline-block;
-    transition: all 0.3s ease;
-}
-
-#current-level-badge.level-updated {
-    animation: levelPulse 0.3s ease;
-}
-
-@keyframes levelPulse {
-    0% {
-        transform: scale(1) rotate(0deg);
-        background-color: #ffc107;
+@media (max-width: 576px) {
+    .category-hierarchy-checkboxes {
+        padding: 15px 15px 15px 20px;
     }
-    50% {
-        transform: scale(1.15) rotate(5deg);
-        background-color: #ffb300;
-    }
-    100% {
-        transform: scale(1) rotate(0deg);
-        background-color: #ffc107;
-    }
+    
+    .category-checkbox[data-depth="0"] { padding-left: 0; }
+    .category-checkbox[data-depth="1"] { padding-left: 12px; }
+    .category-checkbox[data-depth="2"] { padding-left: 24px; }
+    .category-checkbox[data-depth="3"] { padding-left: 36px; }
+    .category-checkbox[data-depth="4"] { padding-left: 48px; }
+    .category-checkbox[data-depth="5"] { padding-left: 60px; }
 }

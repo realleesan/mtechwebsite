@@ -5,16 +5,17 @@
 function renderCategoryCheckboxes($categories, $selectedIds = [], $depth = 0) {
     $html = '';
     foreach ($categories as $category) {
-        $indent = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth);
         $checked = in_array($category['id'], $selectedIds) ? 'checked' : '';
         $isRecruitment = $category['id'] == 7 ? 'data-is-recruitment="1"' : '';
+        $parentId = isset($category['parent_id']) ? htmlspecialchars($category['parent_id']) : '0';
         
-        $html .= '<div class="form-check category-checkbox" style="margin-left: ' . ($depth * 20) . 'px;">';
+        $html .= '<div class="form-check category-checkbox" data-category-id="' . htmlspecialchars($category['id']) . '" data-depth="' . $depth . '">';
         $html .= '<input class="form-check-input category-checkbox-input" type="checkbox" name="category_ids[]" ';
         $html .= 'value="' . htmlspecialchars($category['id']) . '" id="cat_' . htmlspecialchars($category['id']) . '" ';
+        $html .= 'data-parent="' . $parentId . '" ';
         $html .= $checked . ' ' . $isRecruitment . ' onchange="checkRecruitmentCategory()">';
         $html .= '<label class="form-check-label" for="cat_' . htmlspecialchars($category['id']) . '">';
-        $html .= $indent . htmlspecialchars($category['name']);
+        $html .= htmlspecialchars($category['name']);
         $html .= '</label></div>';
         
         if (!empty($category['children'])) {
@@ -80,7 +81,10 @@ $categoriesHierarchy = $categoriesHierarchy ?? [];
                         <div class="mb-3">
                             <label class="form-label">Danh mục tin tức <span class="text-danger">*</span></label>
                             <div class="category-hierarchy-checkboxes border rounded p-3">
-                                <div class="form-text mb-2">Chọn một hoặc nhiều danh mục (có thể chọn nhiều):</div>
+                                <div class="form-text mb-2">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Chọn danh mục con → danh mục cha tự động được chọn
+                                </div>
                                 <?php if (!empty($categoriesHierarchy)): ?>
                                     <?= renderCategoryCheckboxes($categoriesHierarchy) ?>
                                 <?php else: ?>

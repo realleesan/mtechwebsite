@@ -697,6 +697,45 @@ class BlogsModel
             return false;
         }
     }
+
+    /**
+     * Lấy danh mục theo ID
+     * @param int $id Category ID
+     * @return array|null Danh mục hoặc null
+     */
+    public function getCategoryById($id)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT id, name, parent_id FROM blog_categories WHERE id = ? LIMIT 1");
+            $stmt->execute([$id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getCategoryById() - ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Lấy chuỗi danh mục cha từ 1 danh mục (đến root)
+     * Kết quả: [categoryId, parentId, grandparentId, ..., rootId]
+     * 
+     * @param int $categoryId ID của danh mục
+     * @return array Danh sách các category IDs từ category đó đến root
+     */
+    public function getParentChain($categoryId)
+    {
+        $chain = [(int)$categoryId];
+        $current = $categoryId;
+        
+        while ($current) {
+            $cat = $this->getCategoryById($current);
+            if (!$cat || !$cat['parent_id']) break;
+            $current = (int)$cat['parent_id'];
+            $chain[] = $current;
+        }
+        
+        return $chain;
+    }
     
     /**
      * Helper: Lấy parent_id của một danh mục

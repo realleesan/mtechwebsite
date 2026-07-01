@@ -67,6 +67,7 @@ function initBlogForm() {
     const categoryCheckboxes = document.querySelectorAll('input[name="category_ids[]"]');
     categoryCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', checkRecruitmentCategory);
+        checkbox.addEventListener('change', handleCategoryHierarchyChange);
     });
 }
 
@@ -596,6 +597,77 @@ function checkRecruitmentCategory() {
             if (basicTab) basicTab.click();
         }
     }
+}
+
+/**
+ * Handle category hierarchy changes: auto-select/deselect parents/children
+ * 
+ * Rule 1: Nếu user check danh mục con → auto check tất cả danh mục cha đến root
+ * Rule 2: Nếu user uncheck danh mục cha → auto uncheck tất cả danh mục con
+ */
+function handleCategoryHierarchyChange(event) {
+    const checkbox = event.target;
+    const categoryId = checkbox.value;
+    const isChecked = checkbox.checked;
+    
+    if (isChecked) {
+        // Rule 1: Nếu check con → auto check tất cả cha
+        checkAllParents(categoryId);
+    } else {
+        // Rule 2: Nếu uncheck cha → auto uncheck tất cả con
+        uncheckAllChildren(categoryId);
+    }
+}
+
+/**
+ * Recursively check all parent categories of given category
+ * @param {string|number} categoryId - The category ID to check parents for
+ */
+function checkAllParents(categoryId) {
+    // Lấy checkbox của category hiện tại
+    const checkbox = document.querySelector(`input[name="category_ids[]"][value="${categoryId}"]`);
+    if (!checkbox) return;
+    
+    // Lấy parent ID từ data-parent attribute
+    const parentId = checkbox.getAttribute('data-parent');
+    
+    // Nếu không có parent (root) → dừng
+    if (!parentId || parentId === '0') return;
+    
+    // Lấy checkbox parent
+    const parentCheckbox = document.querySelector(`input[name="category_ids[]"][value="${parentId}"]`);
+    if (!parentCheckbox) return;
+    
+    // Check parent nếu chưa check
+    if (!parentCheckbox.checked) {
+        parentCheckbox.checked = true;
+        // Trigger change event để update visual (nếu có CSS effect)
+        parentCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    
+    // Recursively check grandparent
+    checkAllParents(parentId);
+}
+
+/**
+ * Recursively uncheck all children categories of given category
+ * @param {string|number} categoryId - The category ID to uncheck children for
+ */
+function uncheckAllChildren(categoryId) {
+    // Lấy tất cả checkboxes
+    const allCheckboxes = document.querySelectorAll('input[name="category_ids[]"]');
+    
+    allCheckboxes.forEach(checkbox => {
+        // Nếu parent của checkbox này là categoryId → uncheck
+        const parentId = checkbox.getAttribute('data-parent');
+        if (parentId === String(categoryId)) {
+            if (checkbox.checked) {
+                checkbox.checked = false;
+                // Trigger change event để recursive uncheck grandchildren
+                checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+    });
 }
 
 // Enhanced form validation for multiple categories

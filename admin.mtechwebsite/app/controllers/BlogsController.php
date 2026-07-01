@@ -192,6 +192,10 @@ class BlogsController extends BaseController
                     ? $this->clampUtf8($_POST['contact_phone'], 50) : null;
             }
 
+            // Sanitize category IDs: thêm danh mục cha nếu chọn danh mục con
+            $categoryIds = $this->sanitizeCategoryIds($categoryIds);
+            error_log("BlogsController::store() - Original categoryIds: " . json_encode($_POST['category_ids']) . " → Sanitized: " . json_encode($categoryIds));
+
             // Một transaction: nếu tags/blog_details lỗi thì rollback cả bài — tránh 500 nhưng slug đã lưu
             $db->beginTransaction();
 
@@ -376,6 +380,10 @@ class BlogsController extends BaseController
             }
             // Không có gì → giữ ảnh cũ
 
+            // Sanitize category IDs: thêm danh mục cha nếu chọn danh mục con
+            $categoryIds = $this->sanitizeCategoryIds($categoryIds);
+            error_log("BlogsController::update() - Original categoryIds: " . json_encode($_POST['category_ids']) . " → Sanitized: " . json_encode($categoryIds));
+
             $db->beginTransaction();
 
             $this->blogsModel->updateBlog($id, $blogData);
@@ -477,6 +485,38 @@ class BlogsController extends BaseController
     // ----------------------------------------
     // Helper Methods
     // ----------------------------------------
+
+    /**
+     * Lấy chuỗi danh mục cha từ 1 danh mục (đến root)
+     * Kết quả: [categoryId, parentId, grandparentId, ..., rootId]
+     * 
+     * @param int $categoryId ID của danh mục
+     * @return array Danh sách các category IDs từ category đó đến root
+     */
+    private function getParentChain($categoryId)
+    {
+        return $this->blogsModel->getParentChain($categoryId);
+    }
+
+    /**
+     * Sanitize category IDs: thêm cha nếu chọn con
+     * Khi user chọn danh mục con, hệ thống tự động thêm tất cả danh mục cha
+     * 
+     * @param array $categoryIds Danh sách category IDs được chọn
+     * @return array Danh sách category IDs sanitized (với cha được thêm)
+     */
+    private function sanitizeCategoryIds($categoryIds)
+    {
+        if (!is_array($categoryIds) || empty($categoryIds)) return [];
+        
+        $allIds = [];
+        foreach ($categoryIds as $catId) {
+            $chain = $this->getParentChain((int)$catId);
+            $allIds = array_merge($allIds, $chain);
+        }
+        
+        return array_unique($allIds);
+    }
 
     private function handleImageUpload($file)
     {
