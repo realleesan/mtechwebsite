@@ -28,21 +28,63 @@ $allServices     = $categoriesModel->getAllCategories();
 // Lấy blog categories cho menu
 require_once __DIR__ . '/../../models/BlogsModel.php';
 $blogsModel         = new BlogsModel();
-$menuBlogCategories = $blogsModel->getMenuBlogCategories(50);
+$menuBlogCategoriesHierarchy = $blogsModel->getMenuBlogCategories(50);
+
+// Flatten blog categories để dùng với FilterConfigService (vì getMenuBlogCategories trả tree structure)
+$menuBlogCategories = [];
+function flattenBlogCategories($categories) {
+    global $menuBlogCategories;
+    foreach ($categories as $cat) {
+        $menuBlogCategories[] = [
+            'id' => $cat['id'],
+            'name' => $cat['name'],
+            'slug' => $cat['slug'],
+            'parent_id' => empty($cat['parent_id']) ? null : (int)$cat['parent_id'],
+            'sort_order' => (int)($cat['sort_order'] ?? 0),
+            'level' => $cat['level'] ?? 0,  // ✅ THÊM level field
+        ];
+        if (!empty($cat['children'])) {
+            flattenBlogCategories($cat['children']);
+        }
+    }
+}
+flattenBlogCategories($menuBlogCategoriesHierarchy);
 
 // --- Mega Menu: Dựng cây phân cấp ---
 // Thử dùng FilterConfigService nếu có cấu hình
 $servicesTree = [];
+$blogCategoriesTree = [];
 try {
     require_once __DIR__ . '/../../services/FilterConfigService.php';
     $filterService = new FilterConfigService();
-    $filteredTree  = $filterService->getFilteredMenuTree('services', $allServices);
     
-    // Nếu có cấu hình → dùng cây đã lọc; nếu không → dùng cây gốc
-    $servicesTree = !empty($filteredTree) ? $filteredTree : $categoriesModel->buildTree($allServices);
+    // Services tree: dùng FilterConfigService nếu có cấu hình
+    $servicesConfig = $filterService->getConfig('services');
+    if (!empty($servicesConfig)) {
+        // Có config → dùng filtered tree (áp dụng drag-drop parent_id changes)
+        $servicesTree = $filterService->getFilteredMenuTree('services', $allServices);
+    } else {
+        // Không có config → dùng tree gốc
+        $servicesTree = $categoriesModel->buildTree($allServices);
+    }
+    
+    // Blog Categories tree: dùng FilterConfigService nếu có cấu hình
+    // ✅ CRITICAL: Pass flattened array (NOT tree) để FilterConfigService rebuild tree từ config
+    $blogCategoriesConfig = $filterService->getConfig('blog_categories');
+    if (!empty($blogCategoriesConfig)) {
+        // Có config → rebuild tree từ flattened data + config parent_id changes
+        $filteredBlogTree = $filterService->getFilteredMenuTree('blog_categories', $menuBlogCategories);
+        // ✅ FIX: Check nếu filtered tree empty → fallback to original
+        $blogCategoriesTree = !empty($filteredBlogTree) ? $filteredBlogTree : $menuBlogCategoriesHierarchy;
+    } else {
+        // Không có config → dùng tree gốc
+        $blogCategoriesTree = $menuBlogCategoriesHierarchy;
+    }
 } catch (Exception $e) {
     // Fallback: dùng cây gốc nếu FilterConfigService chưa sẵn sàng
+    error_log('Header FilterConfigService error: ' . $e->getMessage());
     $servicesTree = $categoriesModel->buildTree($allServices);
+    $blogCategoriesTree = $menuBlogCategoriesHierarchy;
 }
 
 /**
@@ -277,7 +319,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         <li class="nav-item">
                             <a class="nav-link" href="/tin-tuc" title="Tất cả tin tức">TẤT CẢ TIN TỨC</a>
                         </li>
-                        <?php echo renderBlogCategoryMenu($menuBlogCategories); ?>
+                        <?php echo renderBlogCategoryMenu($blogCategoriesTree); ?>
                     </ul>
                 </li>
                 

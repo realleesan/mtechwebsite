@@ -118,20 +118,33 @@ class FilterConfigService
             $originalMap[(int)$item['id']] = $item;
         }
 
+        // BƯỚC 1: Xác định tất cả disabled items (bao gồm cả children của disabled parents)
+        $disabledIds = [];
+        
+        // Đầu tiên, collect tất cả items có is_enabled = 0
+        foreach ($configMap as $itemId => $c) {
+            if ((int)$c['is_enabled'] === 0) {
+                $disabledIds[(int)$itemId] = true;
+            }
+        }
+        
+        // Sau đó, recursively disable children của disabled parents
+        $this->disableDescendants($originalItems, $disabledIds);
+
+        // BƯỚC 2: Process items - áp dụng config, skip disabled
         $processedItems = [];
 
         foreach ($originalItems as $item) {
             $itemId = (int)$item['id'];
             
-            // Nếu có cấu hình, ghi đè parent_id, sort_order, is_enabled
+            // Skip nếu item bị disable (hoặc parent disabled)
+            if (isset($disabledIds[$itemId])) {
+                continue;
+            }
+            
+            // Nếu có cấu hình, ghi đè parent_id, sort_order
             if (isset($configMap[$itemId])) {
                 $c = $configMap[$itemId];
-                
-                // Nếu bị ẩn, bỏ qua không hiển thị trong menu
-                if ((int)$c['is_enabled'] === 0) {
-                    continue;
-                }
-                
                 $item['parent_id'] = $c['parent_id'] !== null ? (int)$c['parent_id'] : null;
                 $item['sort_order'] = (int)$c['sort_order'];
             } else {
@@ -155,15 +168,52 @@ class FilterConfigService
     }
 
     /**
+     * Recursively mark all descendants as disabled
+     * Nếu parent disable, tất cả con của nó cũng disable
+     */
+    private function disableDescendants(array $allItems, &$disabledIds)
+    {
+        // Tạo map: parent_id => [child_ids]
+        $childrenMap = [];
+        foreach ($allItems as $item) {
+            // ✅ FIX: Xử lý NULL hoặc 0 cho root items
+            $parentId = empty($item['parent_id']) ? 0 : (int)$item['parent_id'];
+            if (!isset($childrenMap[$parentId])) {
+                $childrenMap[$parentId] = [];
+            }
+            $childrenMap[$parentId][] = (int)$item['id'];
+        }
+
+        // Recursively disable children của disabled items
+        $toProcess = array_keys($disabledIds);
+        while (!empty($toProcess)) {
+            $itemId = array_shift($toProcess);
+            
+            // Tìm tất cả children của item này
+            if (isset($childrenMap[$itemId])) {
+                foreach ($childrenMap[$itemId] as $childId) {
+                    if (!isset($disabledIds[$childId])) {
+                        $disabledIds[$childId] = true;
+                        $toProcess[] = $childId;  // Xử lý grandchildren
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Hàm dựng cây đệ quy
+     * ✅ Handle strictly: NULL = root, 0+ = parent ID
      */
     private function buildTree(array $elements, $parentId = null, $maxDepth = 10, $currentDepth = 0, $visitedIds = []): array
     {
         if ($currentDepth >= $maxDepth) return [];
         $branch = [];
         foreach ($elements as $element) {
-            $elementParentId = empty($element['parent_id']) ? null : (int)$element['parent_id'];
-            $checkParentId = empty($parentId) ? null : (int)$parentId;
+            // ✅ FIX: Use strict comparison for NULL
+            // If parent_id is null/empty/0 → root item (parent_id = null)
+            $elementParentId = $element['parent_id'] === null ? null : (int)$element['parent_id'];
+            $checkParentId = $parentId === null ? null : (int)$parentId;
             
             if ($elementParentId === $checkParentId) {
                 if (in_array($element['id'], $visitedIds)) {

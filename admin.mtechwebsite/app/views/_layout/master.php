@@ -115,6 +115,9 @@
         case 'job-application.trash':
             echo '<link rel="stylesheet" href="' . $baseUrl . '/assets/css/admin.job-applications.css?v=1.1">';
             break;
+        case 'filter_config':
+            echo '<link rel="stylesheet" href="/assets/css/admin.filter.config.css">';
+            break;
         case 'login':
         case 'forgot-password':
         case 'reset-password':
@@ -299,6 +302,9 @@ switch($currentPage) {
     case 'job-application.edit':
     case 'job-application.trash':
         echo '<script src="/assets/js/admin.job-applications.js"></script>';
+        break;
+    case 'filter_config':
+        echo '<script src="/assets/js/admin.filter.config.js"></script>';
         break;
     // Auth pages không cần JS riêng
     case 'login':
