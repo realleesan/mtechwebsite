@@ -28,27 +28,10 @@ $allServices     = $categoriesModel->getAllCategories();
 // Lấy blog categories cho menu
 require_once __DIR__ . '/../../models/BlogsModel.php';
 $blogsModel         = new BlogsModel();
+// ✅ NEW: Gọi method flat thay vì tree - tương tự như services (CategoriesModel::getAllCategories)
+$menuBlogCategories = $blogsModel->getAllBlogCategoriesFlat(50);
+// ✅ Giữ lại tree version để dùng làm fallback nếu FilterConfig không có data
 $menuBlogCategoriesHierarchy = $blogsModel->getMenuBlogCategories(50);
-
-// Flatten blog categories để dùng với FilterConfigService (vì getMenuBlogCategories trả tree structure)
-$menuBlogCategories = [];
-function flattenBlogCategories($categories) {
-    global $menuBlogCategories;
-    foreach ($categories as $cat) {
-        $menuBlogCategories[] = [
-            'id' => $cat['id'],
-            'name' => $cat['name'],
-            'slug' => $cat['slug'],
-            'parent_id' => empty($cat['parent_id']) ? null : (int)$cat['parent_id'],
-            'sort_order' => (int)($cat['sort_order'] ?? 0),
-            'level' => $cat['level'] ?? 0,  // ✅ THÊM level field
-        ];
-        if (!empty($cat['children'])) {
-            flattenBlogCategories($cat['children']);
-        }
-    }
-}
-flattenBlogCategories($menuBlogCategoriesHierarchy);
 
 // --- Mega Menu: Dựng cây phân cấp ---
 // Thử dùng FilterConfigService nếu có cấu hình

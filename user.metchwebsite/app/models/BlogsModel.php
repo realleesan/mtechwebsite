@@ -587,6 +587,32 @@ class BlogsModel
     }
 
     /**
+     * ✅ NEW: Lấy blog categories dạng FLAT ARRAY cho FilterConfigService
+     * Trả về mảng phẳng (không phải tree) - tương tự CategoriesModel::getAllCategories()
+     * Dùng để đảm bảo cách xử lý giống như module "Lĩnh vực"
+     * 
+     * @param int $limit Số lượng tối đa (mặc định 50)
+     * @return array Mảng flat blog categories
+     */
+    public function getAllBlogCategoriesFlat($limit = 50)
+    {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT id, name, slug, parent_id, level, sort_order, status, show_in_menu
+                 FROM `blog_categories`
+                 WHERE status = 1 AND show_in_menu = 1
+                 ORDER BY sort_order ASC, id ASC
+                 LIMIT ?"
+            );
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('BlogsModel::getAllBlogCategoriesFlat() - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Build category hierarchy from flat array
      */
     private function buildCategoryHierarchy($categories)
