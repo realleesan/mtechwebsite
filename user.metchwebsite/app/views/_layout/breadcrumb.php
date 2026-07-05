@@ -50,8 +50,8 @@ function get_breadcrumbs(string $page, array $params = []): ?array
         ],
 
         'teams' => [
-            ['title' => 'Thư ngỏ',    'url' => '/ve-chung-toi'],
-            ['title' => 'Đội ngũ', 'url' => null],
+            ['title' => 'Thư ngỏ',          'url' => '/ve-chung-toi'],
+            ['title' => 'Cơ cấu tổ chức',   'url' => null],
         ],
 
         'awards' => [

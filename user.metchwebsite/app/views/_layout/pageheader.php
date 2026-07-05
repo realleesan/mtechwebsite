@@ -18,7 +18,7 @@ if (!isset($pageTitle)) {
         'blog-details'       => 'Chi tiết tin tức',
         'contact'            => 'Liên hệ',
         'company.history'    => 'Lịch sử hình thành & phát triển',
-        'teams'              => 'Đội ngũ',
+        'teams'              => 'Cơ cấu tổ chức',
         'search'             => 'Kết quả tìm kiếm',
     ];
     $currentPage = $page ?? $_GET['page'] ?? 'home';

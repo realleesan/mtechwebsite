@@ -24,7 +24,7 @@ class TeamsController extends BaseController
         $this->view('about/teams.php', [
             'teams'          => $teams,
             'page'           => 'teams',
-            'title'          => 'Đội ngũ - MTECHJSC',
+            'title'          => 'Cơ cấu tổ chức - MTECHJSC',
             'showPageHeader' => true,
             'showCTA'        => false,
             'showBreadcrumb' => true,

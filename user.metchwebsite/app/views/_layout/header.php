@@ -210,7 +210,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                             <a class="nav-link" href="/lich-su-hinh-thanh-phat-trien" title="Lịch sử hình thành & phát triển">LỊCH SỬ HÌNH THÀNH & PHÁT TRIỂN</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/doi-ngu" title="Teams">ĐỘI NGŨ</a>
+                            <a class="nav-link" href="/co-cau-to-chuc" title="Cơ cấu tổ chức">CƠ CẤU TỔ CHỨC</a>
                         </li>
                         <li>
                             <a class="nav-link" href="/chung-chi-nang-luc" title="Chứng chỉ năng lực">CHỨNG CHỈ NĂNG LỰC</a>
@@ -329,7 +329,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 <!-- Language Switcher (Elfsight) - Moved from topbar -->
                 <li class="nav-item nav-lang-item">
                     <div class="nav_lang">
-                        <div class="elfsight-app-0f1ebd7d-aee6-4ddc-b2ba-1eba802b9ca5" data-elfsight-app-lazy></div>
+                        <div class="elfsight-app-c8ccbe90-5ee0-4fcc-a0ab-0bd32c144dd7" data-elfsight-app-lazy></div>
                     </div>
                 </li>
                 

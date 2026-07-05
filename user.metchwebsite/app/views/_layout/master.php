@@ -13,7 +13,7 @@ mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -59,8 +59,8 @@ mb_http_output('UTF-8');
     $currentPage = isset($page) ? $page : (isset($_GET['page']) ? $_GET['page'] : 'home');
     ?>
     
-    <!-- Elfsight Platform Script -->
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+    <!-- Elfsight Website Translator | Untitled Website Translator -->
+    <script src="https://elfsightcdn.com/platform.js" async></script>
     <!-- Ẩn Information Panel (chỉ hiện khi đăng nhập Elfsight) khỏi làm vỡ layout -->
     <style>.eapps-widget-toolbar { display: none !important; }</style>
 

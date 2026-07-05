@@ -75,7 +75,7 @@ class Router
         $this->get('/about', 'AboutController@index');
         $this->get('/gioi-thieu', 'AboutController@index');
         $this->get('/teams', 'TeamsController@index');
-        $this->get('/doi-ngu', 'TeamsController@index');
+        $this->get('/co-cau-to-chuc', 'TeamsController@index');
         $this->get('/company.history', 'AboutController@companyHistory');
         $this->get('/lich-su-cong-ty', 'AboutController@companyHistory');
         $this->get('/ve-chung-toi', 'AboutController@index');
@@ -128,7 +128,7 @@ class Router
         
         // AJAX routes - form submissions
         $this->post('/home/contact-submit', 'HomeController@contactSubmit');
-        $this->post('/doi-ngu/submit-question', 'TeamsController@submitQuestion');
+        $this->post('/co-cau-to-chuc/submit-question', 'TeamsController@submitQuestion');
         $this->post('/newsletter/subscribe', 'NewsletterController@subscribe');
         
         // Job application
