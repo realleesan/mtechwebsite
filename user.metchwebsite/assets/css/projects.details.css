@@ -35,7 +35,7 @@
 .project_info {
     background-color: #f8f9fa;
     padding: 35px 40px;
-    border-left: 3px solid #1A3FBF;
+    border-left: 3px solid #3363DD;
 }
 
 .project_info ul {
@@ -183,7 +183,7 @@
     top: 8px;
     width: 8px;
     height: 8px;
-    background-color: #1A3FBF;
+    background-color: #3363DD;
     border-radius: 50%;
 }
 
@@ -402,7 +402,7 @@
 .project-details-loading i {
     font-size: 50px;
     margin-bottom: 20px;
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Error State */
@@ -432,7 +432,7 @@
     display: inline-block;
     margin-top: 30px;
     padding: 12px 30px;
-    background-color: #1A3FBF;
+    background-color: #3363DD;
     color: #fff;
     text-decoration: none;
     border-radius: 0;

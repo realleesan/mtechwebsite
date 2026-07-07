@@ -96,7 +96,7 @@ body {
 
 .lang_dropdown li a:hover,
 .lang_dropdown li.active a {
-    background: #1A3FBF;
+    background: #3363DD;
     color: #fff;
 }
 
@@ -287,7 +287,7 @@ ul.menu > li.nav-item > a.nav-link::after {
     left: 15px;
     right: 15px;
     height: 3px;
-    background: #1a3fbf;
+    background: #3363DD;
     border-radius: 2px;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -395,8 +395,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu > li.all-categories-item > a.nav-link:hover {
-    color: #1A3FBF !important;
-    background: rgba(26, 63, 191, 0.15) !important;
+    color: #ffffff !important;
+    background: rgba(51, 99, 221, 0.15) !important;
 }
 
 /* Services dropdown - Leaf items (danh mục lá không có con) */
@@ -419,7 +419,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu > li:not(.nav-item.submenu):not(.all-categories-item) > a.nav-link:hover {
-    color: #1A3FBF !important;
+    color: #ffffff !important;
     padding-left: 32px !important;
 }
 
@@ -443,8 +443,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link:hover {
-    color: #1A3FBF !important;
-    background: rgba(26, 63, 191, 0.1) !important;
+    color: #ffffff !important;
+    background: rgba(51, 99, 221, 0.1) !important;
 }
 
 .services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
@@ -487,7 +487,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li:not(.nav-item.submenu) > a.nav-link:hover {
-    color: #1A3FBF !important;
+    color: #ffffff !important;
     padding-left: 27px !important;
 }
 
@@ -511,8 +511,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link:hover {
-    color: #1A3FBF !important;
-    background: rgba(26, 63, 191, 0.1) !important;
+    color: #ffffff !important;
+    background: rgba(51, 99, 221, 0.1) !important;
 }
 
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
@@ -530,7 +530,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     min-width: 250px;
     max-width: 500px;
     background: rgba(13, 27, 62, 0.97);
-    border-top: 3px solid #1A3FBF;
+    border-top: 3px solid #3363DD;
     border-left: none;
     border-right: none;
     border-bottom: none;
@@ -583,8 +583,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu li.project-item a.project-link:hover {
-    color: #1A3FBF !important;
-    background: rgba(26, 63, 191, 0.2) !important;
+    color: #ffffff !important;
+    background: rgba(51, 99, 221, 0.2) !important;
 }
 
 /* Remove hover bridge for accordion items */
@@ -606,8 +606,8 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdo
     width: auto;
     min-width: 250px;
     max-width: 500px;
-    background: rgba(13, 27, 62, 0.97);
-    border-top: 3px solid #1A3FBF;
+    background: rgba(51, 99, 221, 0.97);
+    border-top: 3px solid #ffffff;
     border-left: none;
     border-right: none;
     border-bottom: none;
@@ -657,7 +657,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdo
 }
 
 ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdown-menu li > a:hover {
-    color: #1A3FBF !important;
+    color: #ffffff !important;
     padding-left: 27px !important;
 }
 
@@ -688,7 +688,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li:no
 }
 
 ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li:not(.nav-item.submenu) > a.nav-link:hover {
-    color: #1A3FBF !important;
+    color: #ffffff !important;
     padding-left: 32px !important;
 }
 
@@ -712,7 +712,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li:not(.n
 }
 
 ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li:not(.nav-item.submenu) > a.nav-link:hover {
-    color: #1A3FBF !important;
+    color: #ffffff !important;
     padding-left: 27px !important;
 }
 
@@ -753,8 +753,8 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-it
 }
 
 ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link:hover {
-    color: #1A3FBF !important;
-    background: rgba(26, 63, 191, 0.1) !important;
+    color: #ffffff !important;
+    background: rgba(51, 99, 221, 0.1) !important;
 }
 
 ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
@@ -798,7 +798,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .header-phone:hover {
-    color: #1A3FBF !important;
+    color: #3363DD !important;
 }
 
 /* -- Hamburger toggler -- */
@@ -945,7 +945,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
     .nav-close-btn:hover,
     .nav-close-btn:active {
-        color: #1A3FBF;
+        color: #3363DD;
     }
 
     .nav-close-arrow {
@@ -959,7 +959,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     .nav-close-btn:hover .nav-close-arrow,
     .nav-close-btn:active .nav-close-arrow {
         transform: translateX(-5px);
-        color: #1A3FBF;
+        color: #3363DD;
     }
 
     .nav-close-text {
@@ -1073,7 +1073,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .search_toggle:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* -- Language Switcher in Navbar -- */
@@ -1142,11 +1142,11 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .search_overlay_close:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 .search_overlay_label {
-    color: #fff;
+    color: #3363DD;
     font-family: "Object Sans", sans-serif;
     font-size: 16px;
     font-weight: 700;
@@ -1191,7 +1191,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .search_overlay_submit:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* ========================================
@@ -1204,6 +1204,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .megamenu-panel {
+.megapanel {
     display: block;
     position: absolute;
     top: calc(100% + 15px);
@@ -1213,7 +1214,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     max-width: 1200px;
     background: rgba(13, 27, 62, 0.98);
     backdrop-filter: blur(10px);
-    border-top: 3px solid #1A3FBF;
+    border-top: 3px solid #3363DD;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.45);
     padding: 40px 0;
     z-index: 10000;
@@ -1222,6 +1223,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     transform: translateY(15px);
     transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     margin: 0 45px;
+}
 }
 
 .nav-item.has-megamenu:hover .megamenu-panel {
@@ -1277,7 +1279,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     font-family: "Object Sans", sans-serif;
     font-size: 14px;
     font-weight: 750;
-    color: #1A3FBF;
+    color: #3363DD;
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1316,7 +1318,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .megamenu-list > li > a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
     transform: translateX(5px);
 }
 
@@ -1344,7 +1346,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .megamenu-sub-list li a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Spotlight Card */
@@ -1399,7 +1401,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .spotlight-link {
-    color: #1A3FBF;
+    color: #3363DD;
     font-size: 14px;
     font-weight: 700;
     text-decoration: none;
@@ -1475,7 +1477,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .blog-categories-list a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
     padding-left: 32px;
 }
 

@@ -52,7 +52,7 @@
 }
 
 .commingsoon_section .f_play {
-    color: #1A3FBF;
+    color: #3363DD;
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-weight: 400;
@@ -76,7 +76,7 @@
 .timer__section {
     width: 140px;
     height: 140px;
-    border: 1px solid #1A3FBF;
+    border: 1px solid #3363DD;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -91,7 +91,7 @@
 .timer__number {
     font-size: 48px;
     font-weight: 700;
-    color: #1A3FBF;
+    color: #3363DD;
     line-height: 1;
     margin-bottom: 5px;
     font-family: 'Poppins', sans-serif;
@@ -100,7 +100,7 @@
 .timer__label {
     font-size: 14px;
     text-transform: uppercase;
-    color: #1A3FBF;
+    color: #3363DD;
     font-weight: 500;
     letter-spacing: 1px;
     font-family: 'Poppins', sans-serif;
@@ -142,7 +142,7 @@
 }
 
 .subscrib_form .btn {
-    background: #1A3FBF;
+    background: #3363DD;
     color: #ffffff;
     border: none;
     padding: 18px 50px;

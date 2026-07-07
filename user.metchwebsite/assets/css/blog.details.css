@@ -54,7 +54,7 @@
 /* ---- Links trong content bài viết ---- */
 .blog-text a,
 .s_main_text a {
-    color: #1A3FBF;
+    color: #3363DD;
     text-decoration: none;
     transition: color 0.2s ease;
 }
@@ -118,7 +118,7 @@
     display: inline-block;
     width: 34px;
     height: 3px;
-    background: #1A3FBF;
+    background: #3363DD;
     margin-left: 10px;
     vertical-align: middle;
     border-radius: 2px;
@@ -220,7 +220,7 @@
 
 .widget_categories ul li a:hover,
 .widget_categories ul li.active a {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* ---- Recent News widget ---- */
@@ -272,7 +272,7 @@
 }
 
 .recent_item .media-body a:hover h4 {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Ngày tạo recent news — Poppins */
@@ -309,9 +309,9 @@
 
 .tagcloud .wp-tag-cloud li a:hover,
 .tagcloud .wp-tag-cloud li a.active {
-    background: #1A3FBF;
+    background: #3363DD;
     color: #fff;
-    border-color: #1A3FBF;
+    border-color: #3363DD;
 }
 
 /* ============================================================
@@ -370,7 +370,7 @@
 }
 
 .job-form-wrapper h3 i {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 .job-application-form .form-group {
@@ -402,8 +402,8 @@
 }
 
 .job-application-form .form-control:focus {
-    border-color: #1A3FBF;
-    box-shadow: 0 0 0 3px rgba(26, 63, 191, 0.1);
+    border-color: #3363DD;
+    box-shadow: 0 0 0 3px rgba(51, 99, 221, 0.1);
     outline: none;
 }
 
@@ -441,7 +441,7 @@
 }
 
 .job-application-form .cv-file-wrapper:hover {
-    border-color: #1A3FBF;
+    border-color: #3363DD;
     background: #f5f7ff;
 }
 
@@ -493,7 +493,7 @@
 
 .job-application-form .cv-file-btn {
     padding: 0 20px;
-    background: #1A3FBF;
+    background: #3363DD;
     color: #fff;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
@@ -548,7 +548,7 @@
 
 /* Submit Button */
 .job-application-form .btn-submit {
-    background: #1A3FBF;
+    background: #3363DD;
     color: #fff;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;

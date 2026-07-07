@@ -69,9 +69,9 @@
     color: #FFFFFF;
 }
 
-/* "Oops" - thay vàng #ffb600 → xanh dương #1A3FBF */
+/* "Oops" - thay vàng #ffb600 → xanh dương #3363DD */
 .error_content h2 span {
-    color: #1A3FBF;
+    color: #3363DD;
     font-size: 80px;
 }
 
@@ -86,7 +86,7 @@
 
 /* ==========================================
    BUTTON - Go to home page
-   Thay nền vàng → xanh dương #1A3FBF
+   Thay nền vàng → xanh dương #3363DD
    ========================================== */
 .btn_error {
     display: inline-block;
@@ -94,7 +94,7 @@
     font-size: 22px;
     font-weight: 600;
     color: #FFFFFF;
-    background: #1A3FBF;
+    background: #3363DD;
     min-width: 330px;
     text-align: center;
     padding: 20px 0;

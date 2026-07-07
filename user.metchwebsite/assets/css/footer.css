@@ -124,13 +124,13 @@
 }
 
 .about_widget > a {
-    color: #1A3FBF;
+    color: #3363DD;
     text-decoration: none;
     font-size: 14px;
 }
 
 .about_widget > a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
     text-decoration: none;
 }
 
@@ -176,7 +176,7 @@
 }
 
 .link_widget ul li a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Newsletter Widget */
@@ -211,13 +211,13 @@
 
 .subscrib_form .form-control:focus {
     outline: none;
-    border-color: #1A3FBF;
+    border-color: #3363DD;
 }
 
 .submit_btn_b {
     width: 50px;
     height: 50px;
-    background-color: #1A3FBF;
+    background-color: #3363DD;
     border: none;
     color: #ffffff;
     cursor: pointer;
@@ -280,9 +280,9 @@
 }
 
 .social_icon li a:hover {
-    background-color: #1A3FBF;
-    border-color: #1A3FBF;
-    color: #ffffff;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    color: #3363DD;
 }
 
 /* Footer Copyright */
@@ -302,13 +302,13 @@
 
 .pull-left a,
 .pull-right a {
-    color: #1A3FBF;
+    color: #3363DD;
     text-decoration: none;
 }
 
 .pull-left a:hover,
 .pull-right a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 @media (max-width: 767px) {

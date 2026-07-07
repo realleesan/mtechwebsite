@@ -34,7 +34,7 @@
     display: block;
     width: 60px;
     height: 3px;
-    background-color: #1A3FBF;
+    background-color: #3363DD;
     margin-bottom: 20px;
 }
 
@@ -232,7 +232,7 @@
 
 .teams_lightbox_position {
     font-size: 14px;
-    color: #1A3FBF;
+    color: #3363DD;
     margin: 0 0 12px;
     font-weight: 500;
 }
@@ -250,7 +250,7 @@
 
 .question_area {
     position: relative;
-    background-color: #1A3FBF;
+    background-color: #3363DD;
     background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80');
     background-size: cover;
     background-position: center center;

@@ -5,10 +5,10 @@
 /* ── Variables ─────────────────────────────────────────────── */
 :root {
     --title-color:   #2c3e50;
-    --accent-color:  #1A3FBF;
+    --accent-color:  #3363DD;
     --text-color:    #797979;
     --border-color:  #e8e8e8;
-    --active-bg:     #1A3FBF;
+    --active-bg:     #3363DD;
     --active-text:   #fff;
     --dl-bg:         #3363DD;
 }

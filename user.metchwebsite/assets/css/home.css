@@ -107,7 +107,7 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid #1A3FBF;
+    border: 2px solid #3363DD;
     background: transparent;
     cursor: pointer;
     padding: 0;
@@ -115,7 +115,7 @@
 }
 
 .slider_bullet.active {
-    background: #1A3FBF;
+    background: #3363DD;
 }
 
 .slider_bullet:hover {
@@ -174,7 +174,7 @@
 
 /* Box vàng */
 .box_one {
-    background: #1A3FBF;
+    background: #3363DD;
     color: #FFFFFF;
 }
 
@@ -429,7 +429,7 @@
     display: block;
     width: 60px;
     height: 3px;
-    background: #1A3FBF;
+    background: #3363DD;
     margin: 20px 0;
 }
 
@@ -587,7 +587,7 @@
 }
 
 .service_item h3:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 .service_item a {
@@ -786,7 +786,7 @@
    QUOTE/CTA SECTION
    ========================================== */
 .quote_area {
-    background: #1A3FBF;
+    background: #3363DD;
     padding: 80px 0;
 }
 
@@ -950,7 +950,7 @@
 .q_icon {
     display: block;
     font-size: 36px;
-    color: #1A3FBF;
+    color: #3363DD;
     line-height: 1;
     margin-top: auto;
 }
@@ -959,7 +959,7 @@
     content: '\201C\201C';
     font-family: Georgia, serif;
     font-size: 40px;
-    color: #1A3FBF;
+    color: #3363DD;
     font-style: normal;
 }
 
@@ -1037,7 +1037,7 @@
     display: block;
     width: 50px;
     height: 3px;
-    background: #1A3FBF;
+    background: #3363DD;
     margin: 18px 0 24px;
 }
 
@@ -1056,7 +1056,7 @@
 .btn_blue {
     display: inline-block;
     padding: 12px 36px;
-    background: #1A3FBF;
+    background: #3363DD;
     color: #fff;
     font-family: 'Object Sans', sans-serif;
     font-size: 14px;
@@ -1160,7 +1160,7 @@
 }
 
 .lt_news_item .media-body h4 a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 .lt_news_item .media-body p {
@@ -1191,7 +1191,7 @@
 }
 
 .blog-meta a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Responsive */
@@ -1236,7 +1236,7 @@
 /* ---- 3C: PROMO BANNER ---- */
 .promo_area {
     position: relative;
-    background-color: #1A3FBF;
+    background-color: #3363DD;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1380,7 +1380,7 @@
 .contact_info_box .icon {
     width: 46px;
     height: 46px;
-    border: 2px solid #1A3FBF;
+    border: 2px solid #3363DD;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1407,7 +1407,7 @@
 }
 
 .contact_info_body a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 .contact_info_body p {
@@ -1447,7 +1447,7 @@
 }
 
 .contact_us_form .form-control:focus {
-    border-color: #1A3FBF;
+    border-color: #3363DD;
     background: #fff;
     box-shadow: none;
     outline: none;

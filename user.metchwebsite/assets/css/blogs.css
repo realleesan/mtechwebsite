@@ -71,7 +71,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    background: #1A3FBF;
+    background: #3363DD;
     color: #ffffff;
     font-family: 'Poppins', sans-serif;
     font-size: 19px;
@@ -97,7 +97,7 @@
 }
 
 .blog-expiry-badge.active {
-    background: #1a3fbf;
+    background: #3363DD;
     color: #ffffff;
 }
 
@@ -130,7 +130,7 @@
 
 /* Author hover → vàng */
 .blog_author_area a:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 .blog_author_area .sep {
@@ -147,7 +147,7 @@
 }
 
 .blog_author_area .tag-link:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* ---- Blog text body — +20% ---- */
@@ -172,7 +172,7 @@
 }
 
 .blog-text a:hover h4.title_color {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Tóm tắt — Open Sans, màu #333333 */
@@ -199,9 +199,9 @@
 }
 
 .read_btn_two:hover {
-    background: #1A3FBF;
+    background: #3363DD;
     color: #fff !important;
-    border-color: #1A3FBF;
+    border-color: #3363DD;
     text-decoration: none !important;
 }
 
@@ -255,14 +255,14 @@
 }
 
 .blog_pagination .page-item.active .page-link {
-    background: #1A3FBF;
-    border-color: #1A3FBF;
+    background: #3363DD;
+    border-color: #3363DD;
     color: #fff;
 }
 
 .blog_pagination .page-link:hover {
-    background: #1A3FBF;
-    border-color: #1A3FBF;
+    background: #3363DD;
+    border-color: #3363DD;
     color: #fff;
 }
 
@@ -302,7 +302,7 @@
     display: inline-block;
     width: 34px;
     height: 3px;
-    background: #1A3FBF;
+    background: #3363DD;
     margin-left: 10px;
     vertical-align: middle;
     border-radius: 2px;
@@ -353,7 +353,7 @@
 }
 
 .search_widget .btn:hover {
-    background: #1A3FBF;
+    background: #3363DD;
 }
 
 .search_widget .btn svg {
@@ -393,7 +393,7 @@
 
 .widget_categories ul li a:hover,
 .widget_categories ul li.active a {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* ---- Recent News widget ---- */
@@ -441,7 +441,7 @@
 }
 
 .recent_item .media-body a:hover h4 {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Ngày tạo recent news — Poppins */
@@ -478,9 +478,9 @@
 
 .tagcloud .wp-tag-cloud li a:hover,
 .tagcloud .wp-tag-cloud li a.active {
-    background: #1A3FBF;
+    background: #3363DD;
     color: #fff;
-    border-color: #1A3FBF;
+    border-color: #3363DD;
 }
 
 /* ============================================================
@@ -549,7 +549,7 @@
 }
 
 .blog-categories-hierarchical .category-toggle:hover {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 .blog-categories-hierarchical .toggle-icon {
@@ -577,7 +577,7 @@
 
 .blog-categories-hierarchical .category-link:hover,
 .blog-categories-hierarchical .category-item.active .category-link {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Category name */
@@ -648,7 +648,7 @@
 
 .blog-categories-hierarchical .category-all a:hover,
 .blog-categories-hierarchical .category-all.active a {
-    color: #1A3FBF;
+    color: #3363DD;
 }
 
 /* Children wrapper - smooth slide down animation */
