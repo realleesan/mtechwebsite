@@ -126,7 +126,7 @@
     padding: 18px 25px;
     font-size: 14px;
     background: #ffffff;
-    color: #0D1B3E;
+    color: #3363DD;
     height: 55px;
     flex: 1;
     max-width: 350px;
@@ -156,7 +156,7 @@
 }
 
 .subscrib_form .btn:hover {
-    background: #0D1B3E;
+    background: #3363DD;
     color: #ffffff;
 }
 

@@ -58,14 +58,14 @@
 
 .project_info ul li span {
     font-weight: 600;
-    color: #0D1B3E;
+    color: #3363DD;
     display: inline-block;
     min-width: 120px;
     font-family: "Poppins", sans-serif;
 }
 
 .project_info ul li a {
-    color: #1A3FBF;
+    color: #3363DD;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -123,7 +123,7 @@
 }
 
 .title_color {
-    color: #0D1B3E;
+    color: #3363DD;
 }
 
 .mb_20 {
@@ -190,7 +190,7 @@
 .pr_item h5 {
     font-size: 18px;
     font-weight: 600;
-    color: #0D1B3E;
+    color: #3363DD;
     margin-bottom: 10px;
     font-family: "Poppins", sans-serif;
     line-height: 1.4;
@@ -419,7 +419,7 @@
 
 .project-not-found h2 {
     font-size: 28px;
-    color: #0D1B3E;
+    color: #3363DD;
     margin-bottom: 15px;
 }
 

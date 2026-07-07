@@ -421,7 +421,7 @@
     font-size: 32px;
     font-weight: 700;
     font-style: normal;
-    color: #1E3070;
+    color: #3363DD;
     margin-bottom: 15px;
 }
 
@@ -466,7 +466,7 @@
 }
 
 .title_color {
-    color: #1E3070;
+    color: #3363DD;
 }
 
 .color_w {
@@ -598,7 +598,7 @@
     display: block;
     width: 40px;
     height: 2px;
-    background: #1A3FBF;
+    background: #3363DD;
     margin-top: 15px;
     transition: all 0.3s ease;
 }
@@ -611,7 +611,7 @@
    FEATURED PROJECTS SECTION
    ========================================== */
 .featured_area {
-    background: #0D1B3E;
+    background: #3363DD;
     padding: 100px 0 70px;
 }
 
@@ -820,7 +820,7 @@
 
 .quote_btn {
     background: #FFFFFF;
-    color: #0D1B3E;
+    color: #3363DD;
     padding: 15px 35px;
     font-size: 14px;
     border-radius: 25px;
@@ -834,7 +834,7 @@
 }
 
 .quote_btn:hover {
-    background: #0D1B3E;
+    background: #3363DD;
     color: #fff;
 }
 
@@ -1148,13 +1148,13 @@
     font-size: 16px;
     font-weight: 700;
     font-style: normal;
-    color: #1E3070;
+    color: #3363DD;
     margin: 0 0 6px;
     line-height: 1.4;
 }
 
 .lt_news_item .media-body h4 a {
-    color: #1E3070;
+    color: #3363DD;
     text-decoration: none;
     transition: color 0.2s;
 }
@@ -1329,7 +1329,7 @@
    - Mẫu: 3 phần đè xanh / 7 phần đè trắng → margin-top = -(padding-bottom - gap_trên)
 */
 .contact_inner.m_top {
-    background: #0D1B3E;
+    background: #3363DD;
     border-radius: 6px;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
     padding: 50px 40px;

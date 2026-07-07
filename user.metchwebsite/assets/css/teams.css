@@ -11,7 +11,7 @@
 .f_600          { font-weight: 600; }
 .f_size_32      { font-size: 32px; }
 .f_size_20      { font-size: 20px; }
-.title_color    { color: #0D1B3E; }
+.title_color    { color: #3363DD; }
 .mt_7           { margin-top: 7px; }
 .mb_55          { margin-bottom: 55px; }
 .mb_30          { margin-bottom: 30px; }
@@ -25,7 +25,7 @@
 .section_title h2 {
     font-size: 32px;
     font-weight: 600;
-    color: #0D1B3E;
+    color: #3363DD;
     margin-bottom: 12px;
     line-height: 1.3;
 }
@@ -38,7 +38,7 @@
     margin-bottom: 20px;
 }
 
-.section_title .title_br.dark { background-color: #0D1B3E; }
+.section_title .title_br.dark { background-color: #3363DD; }
 
 .section_title p {
     font-size: 15px;
@@ -146,7 +146,7 @@
 .teams_name {
     font-size: 15px;
     font-weight: 600;
-    color: #0D1B3E;
+    color: #3363DD;
     margin: 0 0 4px;
     line-height: 1.4;
 }
@@ -203,7 +203,7 @@
     transition: color 0.2s;
 }
 
-.teams_lightbox_close:hover { color: #0D1B3E; }
+.teams_lightbox_close:hover { color: #3363DD; }
 
 .teams_lightbox_content {
     display: flex;
@@ -226,7 +226,7 @@
 .teams_lightbox_name {
     font-size: 20px;
     font-weight: 600;
-    color: #0D1B3E;
+    color: #3363DD;
     margin: 0 0 6px;
 }
 
@@ -313,7 +313,7 @@
     display: inline-block;
     padding: 14px 40px;
     background-color: #ffffff;
-    color: #0D1B3E;
+    color: #3363DD;
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;

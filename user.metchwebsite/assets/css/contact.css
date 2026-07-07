@@ -28,13 +28,13 @@
 .section_title h2 {
     font-size: 36px;
     font-weight: 500;
-    color: #0D1B3E;
+    color: #3363DD;
     margin-bottom: 15px;
     font-family: 'Poppins', sans-serif;
 }
 
 .title_color {
-    color: #0D1B3E;
+    color: #3363DD;
 }
 
 .title_br {
@@ -115,7 +115,7 @@
 .contact_info h4 {
     font-size: 24px;
     font-weight: 500;
-    color: #0D1B3E;
+    color: #3363DD;
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
 }
@@ -166,7 +166,7 @@
 .contact_info_item h6 {
     font-size: 18px;
     font-weight: 500;
-    color: #0D1B3E;
+    color: #3363DD;
     margin-bottom: 8px;
     font-family: 'Poppins', sans-serif;
 }

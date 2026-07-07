@@ -5,7 +5,7 @@
 
 /* Footer Area */
 .footer_area {
-    background-image: linear-gradient(rgba(13, 27, 62, 0.94), rgba(13, 27, 62, 0.94)), url('../images/header_banner.png');
+    background-image: linear-gradient(rgb(76 118 222 / 94%), rgb(0 23 80 / 94%)), url('../images/header_banner.png');
     background-size: cover, cover;
     background-position: center, top;
     background-repeat: no-repeat, no-repeat;
@@ -199,7 +199,7 @@
     height: 50px;
     padding: 10px 20px;
     border: 1px solid #1E3070;
-    background-color: #0D1B3E;
+    background-color: #3363DD;
     color: #ffffff;
     font-size: 14px;
     border-radius: 0;

@@ -81,7 +81,7 @@
     justify-content: center;
     width: 60px;
     height: 60px;
-    background-color: #0D1B3E;
+    background-color: #3363DD;
     color: #fff;
     border-radius: 50%;
     text-decoration: none;
@@ -119,7 +119,7 @@
 .lt_project_item .project-title {
     font-size: 18px;
     font-weight: 600;
-    color: #0D1B3E;
+    color: #3363DD;
     margin: 25px 20px 10px;
     line-height: 1.4;
     transition: color 0.3s ease;
@@ -127,7 +127,7 @@
 }
 
 .lt_project_item > a {
-    color: #0D1B3E;
+    color: #3363DD;
     text-decoration: none;
     display: inline-block;
     transition: color 0.3s ease;
