@@ -17,7 +17,7 @@
     justify-content: center;
     text-align: center;
     padding: 60px 20px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .commingsoon_section .container {
@@ -40,7 +40,7 @@
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 40px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .commingsoon_section p {
@@ -48,12 +48,12 @@
     color: #ffffff;
     line-height: 1.8;
     margin-bottom: 30px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .commingsoon_section .f_play {
     color: #3363DD;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-style: italic;
     font-weight: 400;
 }
@@ -94,7 +94,7 @@
     color: #3363DD;
     line-height: 1;
     margin-bottom: 5px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .timer__label {
@@ -103,7 +103,7 @@
     color: #3363DD;
     font-weight: 500;
     letter-spacing: 1px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 /* ==========================================
@@ -152,7 +152,7 @@
     transition: all 0.3s ease;
     white-space: nowrap;
     height: 55px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .subscrib_form .btn:hover {

@@ -11,7 +11,7 @@
     margin: 10px 0;
     border-radius: 6px;
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     position: relative;
     animation: slideDown 0.3s ease-out;
 }
@@ -126,7 +126,7 @@
     margin-top: 16px;
     border-radius: 6px;
     font-size: 15px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     position: relative;
     animation: slideDown 0.3s ease-out;
     display: block;
@@ -175,7 +175,7 @@
     margin-top: 10px;
     border-radius: 6px;
     font-size: 13px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     position: relative;
     animation: slideDown 0.3s ease-out;
     display: block;

@@ -1,9 +1,10 @@
 /**
  * typography.css
- * 
+ *
  * Định nghĩa font chữ cho toàn site
- * - Tiêu đề, chữ lớn, highlight: Object Sans Bold
- * - Nội dung, tiêu đề nhỏ: Object Sans Regular
+ * - Tiêu đề, chữ lớn, highlight: Noto Sans Bold
+ * - Nội dung, tiêu đề nhỏ: Noto Sans Regular
+ * - Hỗ trợ 3 ngôn ngữ: Việt, Anh, Trung
  * - Bỏ tất cả hiệu ứng nghiêng (italic)
  */
 
@@ -12,8 +13,8 @@
 /* ========================================== */
 
 :root {
-    --font-primary: 'Object Sans', sans-serif;
-    --font-secondary: 'Object Sans', sans-serif;
+    --font-primary: 'Noto Sans', 'Noto Sans SC', sans-serif;
+    --font-secondary: 'Noto Sans', 'Noto Sans SC', sans-serif;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;

@@ -39,8 +39,11 @@ mb_http_output('UTF-8');
     <!-- NOTE: Google Fonts/External Fonts - Thêm fonts tại đây -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Object Sans - Font chính cho site -->
-    <link href="https://fonts.googleapis.com/css2?family=Object+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Noto Sans - Font chính cho site (hỗ trợ Việt, Anh, Trung) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Noto Sans SC - Font hỗ trợ tiếng Trung (Simplified Chinese) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Các font phụ khác -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">

@@ -18,7 +18,7 @@
 /* Tiêu đề trang */
 .banner_content .page_title {
     color: #ffffff;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     font-size: 42px;
     font-weight: 600;
     margin: 0 0 15px 0;
@@ -34,7 +34,7 @@
 }
 
 .banner_content .breadcrumb-item {
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #ffffff;

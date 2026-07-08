@@ -49,7 +49,7 @@
     color: #797979;
     line-height: 26px;
     margin-bottom: 15px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .project_info ul li:last-child {
@@ -61,7 +61,7 @@
     color: #3363DD;
     display: inline-block;
     min-width: 120px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .project_info ul li a {
@@ -85,7 +85,7 @@
     font-weight: 600;
     color: #0D1B3E;
     margin-bottom: 20px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     line-height: 1.3;
 }
 
@@ -94,7 +94,7 @@
     line-height: 26px;
     color: #797979;
     margin-bottom: 20px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .project_description p:last-child {
@@ -155,7 +155,7 @@
     font-weight: 600;
     color: #0D1B3E;
     margin-bottom: 20px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .pr_content > p {
@@ -163,7 +163,7 @@
     line-height: 26px;
     color: #797979;
     margin-bottom: 30px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 /* Project Item with Dot */
@@ -192,7 +192,7 @@
     font-weight: 600;
     color: #3363DD;
     margin-bottom: 10px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     line-height: 1.4;
 }
 
@@ -201,7 +201,7 @@
     line-height: 26px;
     color: #797979;
     margin-bottom: 0;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 /* What We Did Image */
@@ -231,7 +231,7 @@
     font-weight: 600;
     color: #0D1B3E;
     margin-bottom: 20px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .result_content > p {
@@ -239,7 +239,7 @@
     line-height: 26px;
     color: #797979;
     margin-bottom: 20px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 /* Result Items Grid */
@@ -306,7 +306,7 @@
     text-decoration: none;
     font-weight: 600;
     font-size: 15px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     border-radius: 4px;
     transition: background-color 0.3s ease;
     letter-spacing: 0.3px;
@@ -352,14 +352,14 @@
     line-height: 1.8;
     color: #555;
     margin-bottom: 16px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .project-content h1,
 .project-content h2,
 .project-content h3,
 .project-content h4 {
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     color: #0D1B3E;
     margin-top: 24px;
     margin-bottom: 12px;

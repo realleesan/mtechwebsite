@@ -2,7 +2,7 @@
    blogs.css — Trang danh sách bài viết Blog
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap');
+/* Fonts loaded via master.php - Noto Sans and Noto Sans SC */
 
 /* ---- Section wrapper ---- */
 .blog_area {
@@ -73,7 +73,7 @@
     left: 0;
     background: #3363DD;
     color: #ffffff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 19px;
     font-weight: 700;
     padding: 12px 26px;
@@ -87,7 +87,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 19px;
     font-weight: 700;
     padding: 12px 26px;
@@ -114,14 +114,14 @@
 }
 
 .blog_author_area {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 19px;
     color: #B8B8B8;
     line-height: 1.6;
 }
 
 .blog_author_area a {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     color: #B8B8B8;
     font-weight: 600;
     text-decoration: none;
@@ -140,7 +140,7 @@
 
 /* Tags dưới bài viết — Poppins */
 .blog_author_area .tag-link {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     color: #B8B8B8;
     text-decoration: none;
     transition: color .2s;
@@ -157,7 +157,7 @@
 
 /* Tiêu đề bài viết — Poppins, hover vàng, không gạch dưới */
 .blog-text h4.title_color {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 26px;
     font-weight: 600;
     color: #2c2c2c;
@@ -177,7 +177,7 @@
 
 /* Tóm tắt — Open Sans, màu #333333 */
 .blog-text p {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 17px;
     color: #0F1A40;
     line-height: 1.85;
@@ -187,7 +187,7 @@
 /* ---- Read More — outlined button, hover vàng, không gạch dưới ---- */
 .read_btn_two {
     display: inline-block;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: #555;
@@ -207,7 +207,7 @@
 
 /* ---- View Count Styling ---- */
 .blog-views {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: #555;
@@ -224,7 +224,7 @@
 }
 
 .blog-views-detail {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     color: #555;
     font-weight: 600;
@@ -245,7 +245,7 @@
 }
 
 .blog_pagination .page-link {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     color: #555;
     border: 1px solid #ddd;
     border-radius: 2px !important;
@@ -290,7 +290,7 @@
 }
 
 .r_widget_title h3.title_color {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 26px;
     font-weight: 700;
     color: #2c2c2c;
@@ -318,7 +318,7 @@
 
 .search_widget .form-control {
     border: none;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 13px;
     padding: 14px 12px;
     box-shadow: none;
@@ -384,7 +384,7 @@
 .widget_categories ul li a {
     display: block;
     padding: 13px 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 17px;
     color: #555;
     text-decoration: none;
@@ -427,7 +427,7 @@
 
 /* Tiêu đề recent news — Open Sans, hover vàng */
 .recent_item .media-body h4 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: #333;
@@ -446,7 +446,7 @@
 
 /* Ngày tạo recent news — Poppins */
 .recent_item .media-body h5 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 15px;
     color: #aaa;
     margin: 0;
@@ -465,7 +465,7 @@
 
 .tagcloud .wp-tag-cloud li a {
     display: inline-block;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 15px !important;
     color: #555;
     background: #fff;
@@ -566,7 +566,7 @@
     display: flex;
     align-items: center;
     padding: 13px 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 17px;
     color: #555;
     text-decoration: none;

@@ -30,7 +30,7 @@
     font-weight: 500;
     color: #3363DD;
     margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .title_color {
@@ -60,7 +60,7 @@
     background: #fafafa;
     transition: all 0.3s ease;
     width: 100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .contact_form .form-control:focus {
@@ -117,7 +117,7 @@
     font-weight: 500;
     color: #3363DD;
     margin-bottom: 20px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .contact_info > p {
@@ -125,7 +125,7 @@
     font-size: 15px;
     line-height: 1.8;
     margin-bottom: 30px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 /* Contact Info Items */
@@ -168,7 +168,7 @@
     font-weight: 500;
     color: #3363DD;
     margin-bottom: 8px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .contact_info_item p,
@@ -178,7 +178,7 @@
     text-decoration: none;
     transition: color 0.3s ease;
     margin: 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .contact_info_item a:hover {
@@ -194,7 +194,7 @@
 }
 
 .f_p {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 /* Google Maps Section */

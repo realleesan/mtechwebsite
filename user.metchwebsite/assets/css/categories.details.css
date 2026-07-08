@@ -23,7 +23,7 @@
    ============================================================ */
 .service_content h3.title_color,
 .service_content .f_size_28 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 28px;
     font-weight: 600;
     color: var(--title-color);
@@ -34,7 +34,7 @@
 .service_content .benefit_list li,
 .service_content .servie_item p,
 .faq-accordion .card-body.panel-body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     line-height: 28px;
     color: var(--text-color);
@@ -80,11 +80,11 @@
     z-index: 2;
 }
 
-/* Link: nền #f1f1f1, Poppins 500 17px, color #0D1B3E */
+/* Link: nền #f1f1f1, Noto Sans 500 17px, color #0D1B3E */
 .service_menu_tab .nav-item .nav-link {
     display: block;
     width: 100%;
-    font: 500 17px / 25px 'Poppins', sans-serif;
+    font: 500 17px / 25px 'Noto Sans', 'Noto Sans SC', sans-serif;
     color: #3363DD;
     border: 0;
     padding: 15px 25px;
@@ -148,13 +148,13 @@
     border-radius: 4px;
     margin-bottom: 30px;
     color: #7A7A7A;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 700;
 }
 
 .sidebar_contact_info h3.title_color {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     color: #3363DD;
     font-size: 18px;
     font-weight: 700;
@@ -192,7 +192,7 @@
     text-align: center;
 }
 
-/* Download buttons — nền #0D1B3E, chữ trắng, icon vàng, font Poppins 18px */
+/* Download buttons — nền #0D1B3E, chữ trắng, icon vàng, font Noto Sans 18px */
 .download_info {
     display: flex;
     flex-direction: column;
@@ -207,7 +207,7 @@
     margin-bottom: 10px;
     background: var(--dl-bg);
     color: #ffffff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 18px;
     font-weight: 600;
     text-decoration: none;
@@ -336,7 +336,7 @@
 }
 
 .benefit_service .s_title {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 20px;
     font-weight: 600;
     color: var(--title-color);
@@ -344,7 +344,7 @@
 }
 
 .benefit_service .media-body p {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     line-height: 28px;
     color: var(--text-color);
@@ -359,7 +359,7 @@
 }
 
 .benefit_list li {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     color: var(--text-color);
     padding: 5px 0;
@@ -436,7 +436,7 @@
 }
 
 .servie_item .servie_text h4 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: var(--title-color);
@@ -444,7 +444,7 @@
 }
 
 .servie_item .servie_text p {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 15px;
     line-height: 24px;
     color: var(--text-color);
@@ -460,7 +460,7 @@
 
 /* Tiêu đề More information */
 .faq-accordion .s_title {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 24px;
     font-weight: 600;
     color: #3363DD;
@@ -491,7 +491,7 @@
     width: 100%;
     text-align: left;
     padding: 18px 22px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 17px;
     font-weight: 600;
     color: #000000;
@@ -562,7 +562,7 @@
 
 .faq-accordion .card-body.panel-body {
     padding: 0 22px 20px 56px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     color: var(--text-color);
     line-height: 26px;

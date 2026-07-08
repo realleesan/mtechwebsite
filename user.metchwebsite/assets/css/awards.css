@@ -106,7 +106,7 @@
 }
 
 .awards_img_placeholder span {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 12px;
     font-weight: 500;
     color: #8a9bbf;
@@ -122,7 +122,7 @@
 }
 
 .awards_name {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 13px;
     font-weight: 600;
     color: #3363DD;
@@ -131,7 +131,7 @@
 }
 
 .awards_cert {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 11px;
     font-weight: 400;
     color: #8a9bbf;
@@ -305,7 +305,7 @@
 }
 
 .awards_lightbox_name {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 20px;
     font-weight: 600;
     color: #FFFFFF;
@@ -314,7 +314,7 @@
 }
 
 .awards_lightbox_cert {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: rgba(255, 255, 255, 0.75);

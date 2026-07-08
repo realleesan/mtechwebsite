@@ -94,7 +94,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             // Đồng bộ với Blog Categories
             $html .= '<li class="nav-item submenu" data-depth="' . $depth . '">';
             $html .= '<a class="nav-link" href="' . $urlPrefix . $slug . '" title="' . $name . '">';
-            $html .= strtoupper($name);
+            $html .= mb_strtoupper($name, 'UTF-8');
             $html .= '<span class="caret-drop"></span>';
             $html .= '</a>';
             $html .= '<ul class="dropdown-menu" role="menu">';
@@ -109,7 +109,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                     $projectSlug = urlencode($project['slug']);
                     $html .= '<li class="nav-item project-item">';
                     $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
-                    $html .= strtoupper($projectTitle);
+                    $html .= mb_strtoupper($projectTitle, 'UTF-8');
                     $html .= '</a>';
                     $html .= '</li>';
                 }
@@ -121,7 +121,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             // Mục lá có dự án - render như submenu item
             $html .= '<li class="nav-item submenu">';
             $html .= '<a class="nav-link" href="' . $urlPrefix . $slug . '" title="' . $name . '">';
-            $html .= strtoupper($name);
+            $html .= mb_strtoupper($name, 'UTF-8');
             $html .= '<span class="caret-drop"></span>';
             $html .= '</a>';
             $html .= '<ul class="dropdown-menu" role="menu">';
@@ -130,7 +130,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 $projectSlug = urlencode($project['slug']);
                 $html .= '<li class="nav-item project-item">';
                 $html .= '<a href="/chi-tiet-du-an-' . $projectSlug . '" title="' . $projectTitle . '" class="project-link">';
-                $html .= strtoupper($projectTitle);
+                $html .= mb_strtoupper($projectTitle, 'UTF-8');
                 $html .= '</a>';
                 $html .= '</li>';
             }
@@ -140,7 +140,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             // Mục lá (không có con, không có dự án) - link trực tiếp
             $html .= '<li class="nav-item">';
             $html .= '<a class="nav-link" href="' . $urlPrefix . $slug . '" title="' . $name . '">';
-            $html .= strtoupper($name);
+            $html .= mb_strtoupper($name, 'UTF-8');
             $html .= '</a>';
             $html .= '</li>';
         }
@@ -245,7 +245,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         <?php foreach ($menuProjects as $project): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/chi-tiet-du-an-<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
-                                <?php echo strtoupper(htmlspecialchars($project['title'])); ?>
+                                <?php echo mb_strtoupper(htmlspecialchars($project['title']), 'UTF-8'); ?>
                             </a>
                         </li>
                         <?php endforeach; ?>
@@ -271,7 +271,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                             // data-depth cho debugging/styling nếu cần
                             $html .= '<li class="nav-item submenu" data-depth="' . $depth . '">';
                             $html .= '<a class="nav-link" href="' . $categoryUrl . '" title="' . htmlspecialchars($category['name']) . '">';
-                            $html .= strtoupper(htmlspecialchars($category['name']));
+                            $html .= mb_strtoupper(htmlspecialchars($category['name']), 'UTF-8');
                             $html .= '<span class="caret-drop"></span>';
                             $html .= '</a>';
                             $html .= '<ul class="dropdown-menu" role="menu">';
@@ -285,7 +285,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                             // Category lá (không có con) - link trực tiếp
                             $html .= '<li class="nav-item">';
                             $html .= '<a class="nav-link" href="' . $categoryUrl . '" title="' . htmlspecialchars($category['name']) . '">';
-                            $html .= strtoupper(htmlspecialchars($category['name']));
+                            $html .= mb_strtoupper(htmlspecialchars($category['name']), 'UTF-8');
                             $html .= '</a>';
                             $html .= '</li>';
                         }

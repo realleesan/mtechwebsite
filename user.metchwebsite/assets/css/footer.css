@@ -10,7 +10,7 @@
     background-position: center, top;
     background-repeat: no-repeat, no-repeat;
     color: #A8B8D8;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-style: normal;
     padding-top: 90px;
 }
@@ -267,7 +267,7 @@
 }
 
 .footer_logo_text {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-weight: 700;
     font-style: normal;
     font-size: 22px;
@@ -280,7 +280,7 @@
 
 /* About Widget */
 .about_widget p {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 14px;
     font-weight: 400;
     font-style: normal;
@@ -307,7 +307,7 @@
     margin-bottom: 25px;
     font-weight: 700;
     font-style: normal;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
 }
 
 .f_size_20 {

@@ -42,7 +42,7 @@
     font-weight: 600;
     color: #3363DD;
     margin-bottom: 15px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .about_history .title_br {
@@ -59,7 +59,7 @@
     color: #3363DD;
     line-height: 1.6;
     margin-bottom: 20px;
-    font-family: "Lora", serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     font-style: italic;
 }
 
@@ -68,7 +68,7 @@
     line-height: 1.8;
     color: #0F1A40;
     margin-bottom: 15px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 /* History Timeline - Style với hình tròn màu #1A3FBF */
@@ -140,7 +140,7 @@
     font-weight: 600;
     color: #3363DD;
     margin-bottom: 15px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .history_item p {
@@ -148,7 +148,7 @@
     line-height: 1.8;
     color: #0F1A40;
     margin-bottom: 0;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 /* History Images */
@@ -186,15 +186,15 @@
 
 /* Font family utility classes */
 .f_p {
-    font-family: "Poppins", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .f_l {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .f_lora {
-    font-family: "Lora", serif;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
 }
 
 .d-inline-block {

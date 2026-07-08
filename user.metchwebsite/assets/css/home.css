@@ -155,7 +155,7 @@
 }
 
 .promo_box_body h3 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 22px;
     font-weight: 700;
     font-style: normal;
@@ -164,7 +164,7 @@
 }
 
 .promo_box_body p {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 15px;
     font-weight: 400;
     font-style: normal;
@@ -247,7 +247,7 @@
 }
 
 .welcome_sub {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 400;
     font-style: normal;
@@ -256,7 +256,7 @@
 }
 
 .welcome_title {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 40px;
     font-weight: 700;
     font-style: normal;
@@ -266,7 +266,7 @@
 }
 
 .welcome_desc {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 400;
     font-style: normal;
@@ -276,7 +276,7 @@
 }
 
 .welcome_ceo {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 700;
     font-style: normal;
@@ -417,7 +417,7 @@
 }
 
 .section_title h2 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 32px;
     font-weight: 700;
     font-style: normal;
@@ -434,7 +434,7 @@
 }
 
 .section_title p {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 400;
     font-style: normal;
@@ -474,7 +474,7 @@
 }
 
 .f_play {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-weight: 700;
     font-style: normal;
 }
@@ -559,7 +559,7 @@
     background: #1a1a1a;
     color: #fff;
     text-decoration: none;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 14px;
     font-weight: 700;
     font-style: normal;
@@ -576,7 +576,7 @@
 }
 
 .service_item h3 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 20px;
     font-weight: 700;
     font-style: normal;
@@ -688,7 +688,7 @@
     left: 0;
     right: 0;
     color: #fff;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 700;
     font-style: normal;
@@ -797,7 +797,7 @@
 }
 
 .quote_area h2 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 28px;
     font-weight: 700;
     font-style: normal;
@@ -808,7 +808,7 @@
 
 .quote_area h2 span {
     color: #A8C8FF;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-style: normal;
     font-weight: 700;
 }
@@ -910,7 +910,7 @@
 
 /* Tên — đen đậm */
 .testimonial_item h6 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 700;
     font-style: normal;
@@ -921,7 +921,7 @@
 
 /* Địa điểm — nghiêng, nhạt */
 .country_name {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 14px;
     font-weight: 400;
     font-style: normal;
@@ -936,7 +936,7 @@
 
 /* Nội dung — chừa chỗ dưới cho q_icon */
 .testimonial_item p {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 15px;
     font-weight: 400;
     font-style: normal;
@@ -1022,7 +1022,7 @@
 
 /* Tiêu đề "Latest News" */
 .lt_news_content h2 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 32px;
     font-weight: 700;
     font-style: normal;
@@ -1043,7 +1043,7 @@
 
 /* Đoạn văn mô tả */
 .lt_news_content p {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 15px;
     font-weight: 400;
     font-style: normal;
@@ -1058,7 +1058,7 @@
     padding: 12px 36px;
     background: #3363DD;
     color: #fff;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 14px;
     font-weight: 700;
     font-style: normal;
@@ -1144,7 +1144,7 @@
 }
 
 .lt_news_item .media-body h4 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 700;
     font-style: normal;
@@ -1164,7 +1164,7 @@
 }
 
 .lt_news_item .media-body p {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 14px;
     font-weight: 400;
     font-style: normal;
@@ -1181,7 +1181,7 @@
 }
 
 .blog-meta a {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 13px;
     font-weight: 400;
     font-style: normal;
@@ -1275,7 +1275,7 @@
 }
 
 .promo_col_left h2 {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 22px;
     font-weight: 700;
     font-style: normal;
@@ -1307,7 +1307,7 @@
 }
 
 .promo_col_right .p_text {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 15px;
     font-weight: 400;
     font-style: normal;
@@ -1353,7 +1353,7 @@
 }
 
 .c_logo_text {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 22px;
     font-weight: 700;
     font-style: normal;
@@ -1395,7 +1395,7 @@
 }
 
 .contact_info_body a {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 16px;
     font-weight: 700;
     font-style: normal;
@@ -1411,7 +1411,7 @@
 }
 
 .contact_info_body p {
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 14px;
     font-weight: 400;
     font-style: normal;
@@ -1442,7 +1442,7 @@
     color: #333;
     background: #fafafa;
     transition: border-color 0.25s;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-style: normal;
 }
 
@@ -1465,7 +1465,7 @@
     font-weight: 700;
     font-style: normal;
     border-radius: 30px;
-    font-family: 'Object Sans', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     text-transform: capitalize;
     letter-spacing: 0.3px;
 }

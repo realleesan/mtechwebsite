@@ -46,7 +46,7 @@
    ========================================== */
 .error_content {
     color: #fff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     margin-top: -55px;
     text-align: center;
 }
@@ -90,7 +90,7 @@
    ========================================== */
 .btn_error {
     display: inline-block;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-size: 22px;
     font-weight: 600;
     color: #FFFFFF;
