@@ -379,3 +379,72 @@
     color: #991b1b;
     border: 1px solid #fca5a5;
 }
+
+/* ========================================
+   Org Chart — Lightbox
+   ======================================== */
+
+/* Nền tối phủ toàn màn hình */
+.org_lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    cursor: zoom-out;
+}
+
+.org_lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ảnh trong lightbox — fit vừa màn hình */
+.org_lightbox_img {
+    max-width: 92vw;
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    cursor: default;
+    /* Hiệu ứng scale khi mở */
+    transform: scale(0.95);
+    transition: transform 0.25s ease;
+}
+
+.org_lightbox.active .org_lightbox_img {
+    transform: scale(1);
+}
+
+/* Nút đóng × */
+.org_lightbox_close {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    font-size: 26px;
+    line-height: 1;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    z-index: 100000;
+}
+
+.org_lightbox_close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: #ffffff;
+}

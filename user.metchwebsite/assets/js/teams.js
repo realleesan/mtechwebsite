@@ -236,10 +236,67 @@
         });
     }
 
+    // ── ORG CHART LIGHTBOX ──────────────────────────────────────────
+    // Lightbox cho ảnh sơ đồ tổ chức (full-screen overlay)
+    function initOrgLightbox() {
+        var lightbox = document.getElementById('orgLightbox');
+        var lbImg    = document.getElementById('orgLightboxImg');
+        var btnClose = document.getElementById('orgLightboxClose');
+        var imgs     = document.querySelectorAll('.org_img');
+
+        if (!lightbox || !lbImg || !btnClose || imgs.length === 0) return;
+
+        function openLightbox(src, alt) {
+            lbImg.src = src;
+            lbImg.alt = alt || '';
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            // Delay nhỏ để transition chạy xong rồi mới xoá src
+            setTimeout(function () {
+                if (!lightbox.classList.contains('active')) {
+                    lbImg.src = '';
+                }
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        // Gắn click cho từng ảnh sơ đồ — dùng addEventListener thay vì onclick
+        imgs.forEach(function (img) {
+            img.style.cursor = 'zoom-in';
+            img.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                openLightbox(img.src, img.alt);
+            });
+        });
+
+        btnClose.addEventListener('click', function (e) {
+            e.stopPropagation();
+            closeLightbox();
+        });
+
+        // Click nền tối để đóng
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // Phím Escape để đóng
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    }
+
     // ── Boot ─────────────────────────────────────────────────────────
     function init() {
         initCarousel();
         initLightbox();
+        initOrgLightbox();
         initQuestionForm();
     }
 

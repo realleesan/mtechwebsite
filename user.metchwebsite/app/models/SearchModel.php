@@ -59,6 +59,7 @@ class SearchModel
                                    NULL AS category_id, NULL AS expires_in_days, NULL AS hiring_status
                             FROM `categories` c
                             WHERE c.status = 1
+                              AND c.deleted_at IS NULL
                               AND (c.name LIKE ? OR c.description LIKE ?)";
                 $params[]      = $like;
                 $params[]      = $like;

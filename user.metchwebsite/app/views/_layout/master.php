@@ -241,10 +241,14 @@ mb_http_output('UTF-8');
 
         <?php if ($showBlogSidebar): ?>
         <!-- Blog 2-column layout: content (col-9) + sidebar (col-3) -->
+        <!-- Mobile: sidebar (bộ lọc) hiển thị trước, content sau — dùng order classes -->
         <section class="<?php echo $blogSectionClass; ?>">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-9">
+                    <div class="col-lg-3 order-1 order-lg-2">
+                        <?php include __DIR__ . '/blog_sidebar.php'; ?>
+                    </div><!-- /.col-lg-3 -->
+                    <div class="col-lg-9 order-2 order-lg-1">
         <?php endif; ?>
 
         <?php
@@ -269,9 +273,6 @@ mb_http_output('UTF-8');
 
         <?php if ($showBlogSidebar): ?>
                     </div><!-- /.col-lg-9 -->
-                    <div class="col-lg-3">
-                        <?php include __DIR__ . '/blog_sidebar.php'; ?>
-                    </div><!-- /.col-lg-3 -->
                 </div><!-- /.row -->
             </div><!-- /.container -->
         </section>
