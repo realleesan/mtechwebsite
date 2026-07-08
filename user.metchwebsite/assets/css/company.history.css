@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Company History Page Styles
  * Template: docs/template/about/code/company.history.html
  * Màu chủ đạo: #1A3FBF (vàng cam)
@@ -282,32 +282,68 @@
         font-size: 16px;
     }
 
+    .history_info {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        padding-bottom: 30px;
+        touch-action: pan-y;
+        cursor: grab;
+    }
+
+    .history_info.dragging {
+        cursor: grabbing;
+    }
+
     .history_info::before {
-        left: 40px;
+        display: none !important;
     }
 
     .history_item:last-child::before {
-        left: 40px;
-        top: 40px;
+        display: none !important;
+    }
+
+    .history_items_wrapper {
+        display: flex;
+        width: 100%;
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
     }
 
     .history_item {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+        display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 0 !important;
+        box-sizing: border-box;
+        padding: 0 15px;
+        user-select: none;
     }
 
     .history_date {
-        width: 80px;
-        height: 80px;
-        min-width: 80px;
-        font-size: 18px;
+        width: 120px;
+        height: 120px;
+        min-width: 120px;
+        font-size: 16px;
         margin-right: 0;
         margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 5px;
+        box-sizing: border-box;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(51, 99, 221, 0.15);
     }
 
     .history_item .media-body {
         padding: 15px;
         width: 100%;
+        text-align: center;
     }
 
     .history_item h3 {
@@ -322,6 +358,36 @@
 
     .sec_gap {
         padding: 40px 0;
+    }
+
+    /* Slider pagination styling */
+    .history_slider_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .history_bullet {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #3363DD;
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .history_bullet.active {
+        background: #3363DD;
+    }
+
+    .history_bullet:hover {
+        background: rgba(26, 63, 191, 0.5);
     }
 }
 
