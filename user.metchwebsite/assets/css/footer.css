@@ -117,6 +117,8 @@
     .footer_area .col-lg-3:not(:first-child) {
         flex: 0 0 50%;
         max-width: 50%;
+        padding: 0 10px;
+        box-sizing: border-box;
     }
 
     /* ── Cột newsletter: full width ── */
@@ -133,7 +135,6 @@
         flex-wrap: wrap;
         padding: 0 15px;
         border-top: 1px solid rgba(255,255,255,0.08);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
         margin: 0 0 8px 0;
     }
 
@@ -144,10 +145,11 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0;
-        padding: 14px 0;
+        padding: 14px 40px 14px 0;
         font-size: 15px;
+        -webkit-user-select: none;
         user-select: none;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
+        position: relative;
     }
 
     .f_widget .f_title::after {
@@ -157,6 +159,8 @@
         color: rgba(255,255,255,0.5);
         transition: transform 0.25s ease;
         line-height: 1;
+        position: absolute;
+        right: 15px;
     }
 
     .f_widget.is-open .f_title::after {
@@ -226,6 +230,7 @@
     .news_widget h5 {
         font-size: 13px;
         margin-bottom: 12px;
+        margin-top: 15px;
     }
 
     /* ── Copyright ── */
