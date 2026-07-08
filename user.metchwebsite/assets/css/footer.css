@@ -69,7 +69,32 @@
     }
 }
 
+/* Desktop: footer_links_row transparent wrapper — không ảnh hưởng layout desktop */
+.footer_links_row {
+    display: contents;
+}
+
+/* Footer Widgets */
+.f_widget {
+    margin-bottom: 30px;
+}
+
 @media (max-width: 767px) {
+    /* ── Cấu trúc chung footer trên mobile ── */
+    .footer_area {
+        padding-top: 36px;
+    }
+
+    .footer_top {
+        padding-bottom: 10px;
+    }
+
+    /* Fix margin âm của .row */
+    .footer_area .row {
+        margin: 0;
+    }
+
+    /* ── Cột thông tin công ty: full width, ít khoảng cách hơn ── */
     .footer_area .col-lg-3,
     .footer_area .col-lg-2,
     .footer_area .col-lg-4,
@@ -77,14 +102,150 @@
     .footer_area .col-sm-6 {
         flex: 0 0 100%;
         max-width: 100%;
-        margin-bottom: 30px;
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    /* Cột thông tin công ty có padding bottom */
+    .footer_area .col-lg-3:first-child {
+        padding: 0 15px;
+        margin-bottom: 8px;
+    }
+
+    /* ── Hai cột giữa (Liên kết + Lĩnh vực) layout 2 cột ngang ── */
+    .footer_area .col-lg-2,
+    .footer_area .col-lg-3:not(:first-child) {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    /* ── Cột newsletter: full width ── */
+    .footer_area .col-lg-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding: 0 15px;
+        margin-top: 4px;
+    }
+
+    /* ── Wrapper hai cột link nằm ngang ── */
+    .footer_links_row {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 15px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        margin: 0 0 8px 0;
+    }
+
+    /* ── Accordion: tiêu đề mỗi widget có thể bấm mở/đóng ── */
+    .f_widget .f_title {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0;
+        padding: 14px 0;
+        font-size: 15px;
+        user-select: none;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .f_widget .f_title::after {
+        content: '+';
+        font-size: 20px;
+        font-weight: 300;
+        color: rgba(255,255,255,0.5);
+        transition: transform 0.25s ease;
+        line-height: 1;
+    }
+
+    .f_widget.is-open .f_title::after {
+        content: '−';
+    }
+
+    /* Nội dung widget ẩn mặc định, mở khi có class is-open */
+    .f_widget .f_widget_body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .f_widget.is-open .f_widget_body {
+        max-height: 400px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    /* ── About widget (cột 1): không cần accordion ── */
+    .about_widget .f_widget_body {
+        max-height: none !important;
+        overflow: visible !important;
+        padding-top: 0 !important;
+    }
+
+    .about_widget .f_title {
+        cursor: default;
+        pointer-events: none;
+        display: block;
+        border-bottom: none;
+        padding: 0;
+        margin-bottom: 12px;
+    }
+
+    .about_widget .f_title::after {
+        display: none;
+    }
+
+    /* ── f_widget margin ── */
+    .f_widget {
+        margin-bottom: 0;
+    }
+
+    /* ── About widget: giảm spacing ── */
+    .about_widget p {
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 8px;
+    }
+
+    .f_logo {
+        margin-bottom: 12px;
+    }
+
+    /* ── Link widget: li spacing ── */
+    .link_widget ul li {
+        margin-bottom: 6px;
+    }
+
+    .link_widget ul li a {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    /* ── News widget ── */
+    .news_widget h5 {
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+
+    /* ── Copyright ── */
+    .bottom_info {
+        flex-direction: column;
+        text-align: center;
+        gap: 4px;
+        font-size: 13px;
+    }
+
+    .footer_copyright {
+        padding: 16px 0;
+    }
+
+    .pull-left,
+    .pull-right {
+        margin-bottom: 0;
     }
 }
 
-/* Footer Widgets */
-.f_widget {
-    margin-bottom: 30px;
-}
 
 /* Footer Logo */
 .f_logo {

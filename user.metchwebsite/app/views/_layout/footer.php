@@ -45,67 +45,76 @@ $companyInfo = [
                             <img src="assets/images/logo.png" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>">
                             <span class="footer_logo_text"><?php echo htmlspecialchars($companyInfo['short_name']); ?></span>
                         </a>
-                        <div id="custom_html-4">
-                            <div class="textwidget custom-html-widget">
-                                <p><?php echo htmlspecialchars($companyInfo['description']); ?></p>
-                                <p style="margin-top: 15px; font-size: 13px;">
-                                    <i class="fa fa-map-marker"></i> <?php echo htmlspecialchars($companyInfo['address']); ?><br>
-                                    <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?><br>
-                                    <i class="fa fa-envelope"></i> <?php echo htmlspecialchars($companyInfo['email']); ?>
-                                </p>
+                        <div class="f_widget_body">
+                            <div id="custom_html-4">
+                                <div class="textwidget custom-html-widget">
+                                    <p><?php echo htmlspecialchars($companyInfo['description']); ?></p>
+                                    <p style="margin-top: 10px; font-size: 13px;">
+                                        <i class="fa fa-map-marker"></i> <?php echo htmlspecialchars($companyInfo['address']); ?><br>
+                                        <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?><br>
+                                        <i class="fa fa-envelope"></i> <?php echo htmlspecialchars($companyInfo['email']); ?>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </aside>
                 </div>
 
-                <!-- Cột 2: Liên kết -->
-                <div class="col-lg-2 col-md-6 col-sm-6">
-                    <div id="custom_html-5">
-                        <div class="textwidget custom-html-widget">
-                            <aside class="f_widget link_widget">
-                                <h4 class="f_title f_size_20 f_500 color_w">
-                                    <?php echo htmlspecialchars($footerSettings['useful_links_title'] ?? 'Liên kết'); ?>
-                                </h4>
-                                <ul class="list-unstyled mb-0">
-                                    <?php foreach ($usefulLinks as $link): ?>
-                                    <li>
-                                        <a href="<?php echo htmlspecialchars($link['url']); ?>">
-                                            <?php echo htmlspecialchars($link['title']); ?>
-                                        </a>
-                                    </li>
-                                    <?php endforeach; ?>
-                                    <?php if (empty($usefulLinks)): ?>
-                                    <li><a href="./">Trang chủ</a></li>
-                                    <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
-                                    <li><a href="/linh-vuc">Lĩnh vực</a></li>
-                                    <li><a href="/du-an">Dự án</a></li>
-                                    <li><a href="/tin-tuc">Tin tức</a></li>
-                                    <li><a href="/lien-he">Liên hệ</a></li>
-                                    <?php endif; ?>
-                                </ul>
-                            </aside>
+                <!-- Hai cột link: Liên kết + Lĩnh vực — bọc trong footer_links_row trên mobile -->
+                <div class="footer_links_row col-lg-5-wrap">
+                    <!-- Cột 2: Liên kết -->
+                    <div class="col-lg-2 col-md-6 col-sm-6">
+                        <div id="custom_html-5">
+                            <div class="textwidget custom-html-widget">
+                                <aside class="f_widget link_widget">
+                                    <h4 class="f_title f_size_20 f_500 color_w footer_accordion_toggle">
+                                        <?php echo htmlspecialchars($footerSettings['useful_links_title'] ?? 'Liên kết'); ?>
+                                    </h4>
+                                    <div class="f_widget_body">
+                                        <ul class="list-unstyled mb-0">
+                                            <?php foreach ($usefulLinks as $link): ?>
+                                            <li>
+                                                <a href="<?php echo htmlspecialchars($link['url']); ?>">
+                                                    <?php echo htmlspecialchars($link['title']); ?>
+                                                </a>
+                                            </li>
+                                            <?php endforeach; ?>
+                                            <?php if (empty($usefulLinks)): ?>
+                                            <li><a href="./">Trang chủ</a></li>
+                                            <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
+                                            <li><a href="/linh-vuc">Lĩnh vực</a></li>
+                                            <li><a href="/du-an">Dự án</a></li>
+                                            <li><a href="/tin-tuc">Tin tức</a></li>
+                                            <li><a href="/lien-he">Liên hệ</a></li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </div>
+                                </aside>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Cột 3: Lĩnh vực (Dynamic) -->
-                <div class="col-lg-3 col-sm-6">
-                    <div id="custom_html-6">
-                        <div class="textwidget custom-html-widget">
-                            <aside class="f_widget link_widget">
-                                <h4 class="f_title f_size_20 f_500 color_w">
-                                    Lĩnh vực hoạt động
-                                </h4>
-                                <ul class="list-unstyled mb-0">
-                                    <?php foreach ($services as $service): ?>
-                                    <li>
-                                        <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>">
-                                            <?php echo htmlspecialchars($service['name']); ?>
-                                        </a>
-                                    </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </aside>
+                    <!-- Cột 3: Lĩnh vực (Dynamic) -->
+                    <div class="col-lg-3 col-sm-6">
+                        <div id="custom_html-6">
+                            <div class="textwidget custom-html-widget">
+                                <aside class="f_widget link_widget">
+                                    <h4 class="f_title f_size_20 f_500 color_w footer_accordion_toggle">
+                                        Lĩnh vực hoạt động
+                                    </h4>
+                                    <div class="f_widget_body">
+                                        <ul class="list-unstyled mb-0">
+                                            <?php foreach ($services as $service): ?>
+                                            <li>
+                                                <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>">
+                                                    <?php echo htmlspecialchars($service['name']); ?>
+                                                </a>
+                                            </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </aside>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,41 +124,43 @@ $companyInfo = [
                     <div id="text-2">
                         <div class="textwidget">
                             <aside class="f_widget news_widget">
-                                <h4 class="f_title f_size_20 f_500 color_w">
+                                <h4 class="f_title f_size_20 f_500 color_w footer_accordion_toggle">
                                     Đăng ký nhận tin
                                 </h4>
-                                <h5 class="mb_0">Nhận thông tin cập nhật và ưu đãi mới nhất.</h5>
-                                <div role="form" class="wpcf7" id="wpcf7-f228-o2" lang="vi" dir="ltr">
-                                    <div class="screen-reader-response"></div>
-                                    <form action="/newsletter/subscribe" method="post" class="wpcf7-form" id="newsletterForm" novalidate="novalidate">
-                                        <div class="mailchimp" method="post">
-                                            <div class="input-group subscrib_form">
-                                                <input type="email" name="email" value="" class="form-control memail" aria-invalid="false" placeholder="Nhập email của bạn" required>
-                                                <button type="submit" class="submit_btn_b">
-                                                    <img src="assets/icons/paper-plane.svg" alt="Đăng ký">
-                                                </button>
+                                <div class="f_widget_body">
+                                    <h5 class="mb_0">Nhận thông tin cập nhật và ưu đãi mới nhất.</h5>
+                                    <div role="form" class="wpcf7" id="wpcf7-f228-o2" lang="vi" dir="ltr">
+                                        <div class="screen-reader-response"></div>
+                                        <form action="/newsletter/subscribe" method="post" class="wpcf7-form" id="newsletterForm" novalidate="novalidate">
+                                            <div class="mailchimp" method="post">
+                                                <div class="input-group subscrib_form">
+                                                    <input type="email" name="email" value="" class="form-control memail" aria-invalid="false" placeholder="Nhập email của bạn" required>
+                                                    <button type="submit" class="submit_btn_b">
+                                                        <img src="assets/icons/paper-plane.svg" alt="Đăng ký">
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="wpcf7-response-output wpcf7-display-none"></div>
-                                    </form>
+                                            <div class="wpcf7-response-output wpcf7-display-none"></div>
+                                        </form>
+                                    </div>
+                                    <ul class="nav social_icon">
+                                        <?php if (isset($socialLinks['facebook'])): ?>
+                                        <li><a href="<?php echo htmlspecialchars($socialLinks['facebook']); ?>" target="_blank" <?php echo $socialLinks['facebook'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-facebook"></i></a></li>
+                                        <?php endif; ?>
+                                        <?php if (isset($socialLinks['linkedin'])): ?>
+                                        <li><a href="<?php echo htmlspecialchars($socialLinks['linkedin']); ?>" target="_blank" <?php echo $socialLinks['linkedin'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-linkedin"></i></a></li>
+                                        <?php endif; ?>
+                                        <?php if (isset($socialLinks['twitter'])): ?>
+                                        <li><a href="<?php echo htmlspecialchars($socialLinks['twitter']); ?>" target="_blank" <?php echo $socialLinks['twitter'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-twitter"></i></a></li>
+                                        <?php endif; ?>
+                                        <?php if (isset($socialLinks['google'])): ?>
+                                        <li><a href="<?php echo htmlspecialchars($socialLinks['google']); ?>" target="_blank" <?php echo $socialLinks['google'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-google"></i></a></li>
+                                        <?php endif; ?>
+                                        <?php if (isset($socialLinks['youtube'])): ?>
+                                        <li><a href="<?php echo htmlspecialchars($socialLinks['youtube']); ?>" target="_blank" <?php echo $socialLinks['youtube'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-youtube"></i></a></li>
+                                        <?php endif; ?>
+                                    </ul>
                                 </div>
-                                <ul class="nav social_icon">
-                                    <?php if (isset($socialLinks['facebook'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['facebook']); ?>" target="_blank" <?php echo $socialLinks['facebook'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-facebook"></i></a></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($socialLinks['linkedin'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['linkedin']); ?>" target="_blank" <?php echo $socialLinks['linkedin'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-linkedin"></i></a></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($socialLinks['twitter'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['twitter']); ?>" target="_blank" <?php echo $socialLinks['twitter'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-twitter"></i></a></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($socialLinks['google'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['google']); ?>" target="_blank" <?php echo $socialLinks['google'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-google"></i></a></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($socialLinks['youtube'])): ?>
-                                    <li><a href="<?php echo htmlspecialchars($socialLinks['youtube']); ?>" target="_blank" <?php echo $socialLinks['youtube'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-youtube"></i></a></li>
-                                    <?php endif; ?>
-                                </ul>
                             </aside>
                         </div>
                     </div>
@@ -170,3 +181,32 @@ $companyInfo = [
         </div>
     </div>
 </footer>
+
+<script>
+(function() {
+    function initFooterAccordion() {
+        if (window.innerWidth > 767) return;
+
+        var toggles = document.querySelectorAll('.footer_accordion_toggle');
+        toggles.forEach(function(toggle) {
+            var widget = toggle.closest('.f_widget');
+            if (!widget || widget.classList.contains('about_widget')) return;
+
+            toggle.addEventListener('click', function() {
+                widget.classList.toggle('is-open');
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initFooterAccordion);
+    window.addEventListener('resize', function() {
+        // Reset khi resize về desktop
+        if (window.innerWidth > 767) {
+            document.querySelectorAll('.f_widget.is-open').forEach(function(w) {
+                w.classList.remove('is-open');
+            });
+        }
+    });
+})();
+</script>
+
