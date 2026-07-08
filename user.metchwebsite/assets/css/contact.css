@@ -1,4 +1,4 @@
-﻿/* ============================================
+/* ============================================
    Contact Page Styles
    ============================================ */
 
@@ -335,7 +335,12 @@
     }
     
     .contact_info {
-        padding: 30px 20px;
+        padding: 24px 20px;
+        margin-top: 40px;
+        background: #fafafa;
+        border: 1px solid #eaeaea;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
     }
     
     .section_title h2 {
@@ -343,18 +348,55 @@
     }
     
     .contact_info_item {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed #eaeaea;
+    }
+    
+    .contact_info_item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
     
     .contact_info_item .icon {
-        margin-right: 0;
-        margin-bottom: 15px;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        background: rgba(51, 99, 221, 0.05);
+        border: none;
+        border-radius: 8px;
+        margin-right: 15px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .contact_info_item .icon .svg-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .contact_info_item h6 {
+        font-size: 16px;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    .contact_info_item p,
+    .contact_info_item a {
+        font-size: 14px;
+        line-height: 1.5;
     }
     
     .btn_yellow {
         width: 100%;
         text-align: center;
+        border-radius: 6px;
     }
 }
 
