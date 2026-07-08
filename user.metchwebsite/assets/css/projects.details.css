@@ -1,4 +1,4 @@
-﻿/* ==========================================
+/* ==========================================
    Projects Details Page Styles
    ========================================== */
 
@@ -292,7 +292,81 @@
     padding: 0 15px;
 }
 
-/* Responsive Styles */
+/* project-content wrapper column */
+.project-content-col {
+    margin-top: 30px;
+}
+
+/* Back to projects button */
+.btn-back-projects {
+    display: inline-block;
+    padding: 13px 36px;
+    background-color: #1A3FBF;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    font-family: "Poppins", sans-serif;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    letter-spacing: 0.3px;
+}
+
+.btn-back-projects:hover {
+    background-color: #132d8e;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-back-projects i {
+    margin-right: 8px;
+}
+
+
+/* ── project-content (HTML từ CMS) ── */
+.project-content {
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.project-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 16px auto;
+}
+
+.project-content table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+.project-content iframe {
+    max-width: 100%;
+}
+
+.project-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 16px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.project-content h1,
+.project-content h2,
+.project-content h3,
+.project-content h4 {
+    font-family: "Poppins", sans-serif;
+    color: #0D1B3E;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    line-height: 1.35;
+}
+
+/* ── Responsive: tablet (≤991px) ── */
 @media (max-width: 991px) {
     .project_details_area,
     .project_list_area,
@@ -305,14 +379,28 @@
         padding-bottom: 70px;
     }
     
+    /* Fix negative-margin row overflow on tablet */
+    .project_details_area .row,
+    .project_list_area .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
     .col-lg-8,
     .col-lg-4 {
         flex: 0 0 100%;
         max-width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
     }
     
     .pr_image {
         margin-bottom: 30px;
+    }
+    
+    .pr_image img,
+    .pr_image .img-fluid {
+        height: 350px !important;
     }
     
     .project_info {
@@ -335,45 +423,121 @@
     }
 }
 
+/* ── Responsive: mobile (≤767px) ── */
 @media (max-width: 767px) {
     .project_details_area,
     .project_list_area,
     .results_area {
-        padding: 50px 0;
+        padding: 40px 0;
     }
     
     .sec_gap {
-        padding-top: 50px;
-        padding-bottom: 50px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    /* ── FIX KEY: loại bỏ margin âm của .row gây sát lề ── */
+    .project_details_area .row,
+    .project_list_area .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Đảm bảo col có padding cân đối */
+    .project_details_area .col-lg-8,
+    .project_details_area .col-lg-4,
+    .project_list_area .col-lg-8,
+    .project_list_area .col-lg-4 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* ── Ảnh chính ── */
+    .pr_image img,
+    .pr_image .img-fluid {
+        height: 240px !important;
+        border-radius: 4px;
     }
     
+    .pr_image {
+        margin-bottom: 24px;
+        padding: 0;
+    }
+
+    /* ── Info box ── */
     .project_info {
-        padding: 25px 20px;
+        padding: 20px 18px;
+        border-left-width: 4px;
+        margin-bottom: 28px;
+        border-radius: 0 6px 6px 0;
     }
     
     .project_info ul li {
         font-size: 14px;
+        margin-bottom: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        line-height: 1.6;
     }
-    
+
     .project_info ul li span {
-        min-width: 100px;
+        min-width: unset;
+        width: 100%;
+        font-size: 13px;
+        margin-bottom: 2px;
     }
-    
+
+    /* ── Tiêu đề nội dung ── */
     .project_description h2,
     .pr_content h2,
     .result_content h2 {
-        font-size: 24px;
+        font-size: 22px;
     }
-    
+
+    /* ── project-content trên mobile ── */
+    .project-content {
+        font-size: 15px;
+        line-height: 1.75;
+    }
+
+    .project-content p {
+        font-size: 15px;
+        margin-bottom: 14px;
+    }
+
+    .project-content h2 { font-size: 20px; }
+    .project-content h3 { font-size: 18px; }
+    .project-content h4 { font-size: 16px; }
+
+    /* ── Result items ── */
     .pr_item h5 {
-        font-size: 16px;
+        font-size: 15px;
     }
     
     .pr_item_info {
         grid-template-columns: 1fr;
         gap: 15px;
     }
+
+    /* ── What-we-did image ── */
+    .project_list .col-lg-4 img,
+    .project_list .col-lg-4 img.img-fluid {
+        height: 220px !important;
+        border-radius: 4px;
+    }
+
+    /* ── Nút quay lại ── */
+    .btn-back-projects {
+        width: 100%;
+        display: block;
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 15px;
+        border-radius: 6px;
+    }
 }
+
 
 /* Elementor-like Classes (for compatibility) */
 .elementor-section {

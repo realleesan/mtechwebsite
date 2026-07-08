@@ -144,17 +144,20 @@ if (!$projectDetail) {
             <!-- Project Description -->
 
             <?php if (!empty($projectDetail['content'])): ?>
-                <div class="project-content">
-                    <?php echo $projectDetail['content']; ?>
+                <div class="col-lg-12 project-content-col">
+                    <div class="project-content">
+                        <?php echo $projectDetail['content']; ?>
+                    </div>
                 </div>
             <?php elseif (!empty($projectDetail['description'])): ?>
-                <p class="mb_30">
-                    <?php echo htmlspecialchars($projectDetail['description']); ?>
-                </p>
+                <div class="col-lg-12 project-content-col">
+                    <p class="mb_30">
+                        <?php echo htmlspecialchars($projectDetail['description']); ?>
+                    </p>
+                </div>
             <?php endif; ?>
         </div>
     </div>
-</div>
 
 </section>
 
@@ -222,15 +225,7 @@ if (!$projectDetail) {
 <section class="back-to-projects sec_gap" style="padding-top: 0;">
     <div class="container">
         <div class="text-center">
-            <a href="/du-an" class="btn-back" style="
-                display: inline-block;
-                padding: 12px 30px;
-                background-color: #1A3FBF;
-                color: #fff;
-                text-decoration: none;
-                font-weight: 600;
-                transition: background-color 0.3s ease;
-            ">
+            <a href="/du-an" class="btn-back-projects">
                 <i class="fa fa-arrow-left"></i> Xem tất cả dự án
             </a>
         </div>
