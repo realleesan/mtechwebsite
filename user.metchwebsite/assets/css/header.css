@@ -130,9 +130,9 @@ body {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 45px;
+    padding: 0 30px;
     min-height: 70px;
-    gap: 20px;
+    gap: 15px;
 }
 
 /* -- Navbar Logo + MTECH - Moved from Topbar -- */
@@ -258,7 +258,7 @@ ul.menu {
 ul.menu > li.nav-item {
     position: relative;
     margin: 0;
-    padding: 0 12px;
+    padding: 0 8px;
 }
 
 /* -- Nav link (top level) -- */
@@ -324,8 +324,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     display: none;
     position: absolute;
     top: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: auto;
     width: auto;
     min-width: 250px;
     max-width: 500px;
@@ -481,7 +481,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     white-space: normal !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
-    background: transparent !important;
+    background: rgba(51, 99, 221, 0.97);
     visibility: visible !important;
     opacity: 1 !important;
 }
@@ -529,8 +529,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     width: auto;
     min-width: 250px;
     max-width: 500px;
-    background: rgba(13, 27, 62, 0.97);
-    border-top: 3px solid #3363DD;
+    background: rgba(51, 99, 221, 0.97);
+    border-top: 3px solid #ffffff;
     border-left: none;
     border-right: none;
     border-bottom: none;
@@ -706,7 +706,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li:not(.n
     white-space: normal !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
-    background: transparent !important;
+    background: rgba(51, 99, 221, 0.97) !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
@@ -890,41 +890,39 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     /* Hide navbar brand text on mobile */
     .navbar_brand_text { display: none; }
 
-    /* Slide-in sidebar */
+    /* Full-width dropdown below navbar (like TechCamp) */
     .navbar-collapse {
         position: fixed;
-        top: 0;
-        right: -320px;
-        width: 300px;
-        height: 100vh;
+        top: 70px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        max-height: calc(100vh - 70px);
         background: #3363DD;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         justify-content: flex-start;
-        padding: 0 0 30px;
+        padding: 0;
         overflow-y: auto;
         overflow-x: hidden;
-        transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 9998;
-        box-shadow: -4px 0 20px rgba(0,0,0,0.4);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
-    .navbar-collapse.show { right: 0; }
+    .navbar-collapse.show { 
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
 
     /* Overlay */
     .navbar-collapse::after {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0);
-        z-index: -1;
-        pointer-events: none;
-        transition: background 0.35s ease;
-    }
-
-    .navbar-collapse.show::after {
-        background: rgba(0,0,0,0.5);
-        pointer-events: auto;
+        display: none;
     }
 
     /* -- Close Button -- */
@@ -1051,8 +1049,54 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     .navbar { padding: 0 10px; }
     .navbar-brand img { height: 45px; }
     .logo-text { font-size: 22px; }
-    .navbar-collapse { width: 260px; }
+    .navbar-collapse { width: 100%; max-height: calc(100vh - 70px); }
     .menu_absolute { padding: 12px 0; }
+}
+
+/* Mobile: nested dropdown support (for dropdown-menu inside dropdown-menu) */
+@media (max-width: 991px) {
+    /* Nested dropdowns (cấp 2, 3, n...) - full-width in mobile */
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu {
+        position: static !important;
+        display: none;
+        top: auto !important;
+        left: auto !important;
+        width: 100%;
+        max-width: none;
+        background: rgba(255,255,255,0.02);
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+    
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu.show > ul.dropdown-menu {
+        display: block;
+        max-height: 500px;
+    }
+
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > a.nav-link {
+        padding: 12px 35px !important;
+    }
+
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu.show > a.nav-link .caret-drop {
+        transform: rotate(180deg);
+    }
+
+    /* Nested items in mobile */
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
+        padding: 10px 50px !important;
+        font-size: 13px !important;
+    }
+
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
+        padding-left: 57px !important;
+    }
 }
 
 /* -- Search Icon Button -- */

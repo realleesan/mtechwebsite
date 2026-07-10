@@ -199,7 +199,6 @@ function slugifyVi(str) {
             link.addEventListener('click', function (e) {
                 if (window.innerWidth < 992) {
                     e.preventDefault();
-                    e.stopPropagation();
 
                     const parent = this.closest('li.nav-item.submenu');
                     const isOpen = parent.classList.contains('show');
@@ -225,7 +224,6 @@ function slugifyVi(str) {
             link.addEventListener('click', function (e) {
                 if (window.innerWidth < 992) {
                     e.preventDefault();
-                    e.stopPropagation();
 
                     const parent = this.closest('li.nav-item.submenu');
                     const childMenu = parent.querySelector(':scope > ul.dropdown-menu');
