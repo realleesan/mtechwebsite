@@ -86,11 +86,6 @@ $typeLabels = [
                     <?php if ($dateStr): ?>
                         <span class="blog-date-badge"><?php echo $dateStr; ?></span>
                     <?php endif; ?>
-                    <?php if ($isHiring): ?>
-                        <span class="blog-expiry-badge <?php echo $hiringClosed ? 'expired' : 'active'; ?>">
-                            <?php echo $hiringClosed ? 'Hết hạn' : 'Hết hạn sau ' . $daysRemaining . ' ngày'; ?>
-                        </span>
-                    <?php endif; ?>
                 </a>
 
                 <!-- Meta -->

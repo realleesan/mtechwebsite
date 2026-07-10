@@ -67,19 +67,24 @@ function create_excerpt($content, $length = 220) {
  * Chuyển từ blogs.php để tái sử dụng
  * 
  * @param int $page Số trang
- * @param string $category Category slug (optional)
+ * @param int $categoryId Category ID (optional)
+ * @param string $tag Tag slug (optional)
  * @param string $search Search term (optional)
  * @return string URL
  */
-function blogs_page_url($page, $category = '', $search = '') {
+function blogs_page_url($page, $categoryId = 0, $tag = '', $search = '') {
     $params = [];
     
     if ($page > 1) {
-        $params['page'] = $page;
+        $params['p'] = $page;
     }
     
-    if (!empty($category)) {
-        $params['category'] = $category;
+    if (!empty($categoryId) && $categoryId > 0) {
+        $params['cat'] = $categoryId;
+    }
+    
+    if (!empty($tag)) {
+        $params['tag'] = $tag;
     }
     
     if (!empty($search)) {

@@ -79,11 +79,6 @@ $totalPages = $perPage > 0 ? (int) ceil($totalBlogs / $perPage) : 1;
                     <img src="<?php echo htmlspecialchars($imgSrc); ?>"
                          alt="<?php echo htmlspecialchars($blog['title']); ?>">
                     <span class="blog-date-badge"><?php echo $dateStr; ?></span>
-                    <?php if ($isHiring): ?>
-                        <span class="blog-expiry-badge <?php echo $hiringClosed ? 'expired' : 'active'; ?>">
-                            <?php echo $hiringClosed ? 'Hết hạn' : 'Hết hạn sau ' . $daysRemaining . ' ngày'; ?>
-                        </span>
-                    <?php endif; ?>
                 </a>
 
                 <!-- Meta: By admin / tags -->

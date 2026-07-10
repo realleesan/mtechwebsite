@@ -230,6 +230,11 @@
     gap: 22px;
 }
 
+/* Add margin after recent widget to separate from blog post */
+.widget_news {
+    margin-bottom: 30px;
+}
+
 .recent_item {
     display: flex;
     gap: 14px;
@@ -343,6 +348,13 @@
 @media (max-width: 991px) {
     .blog_details_area {
         padding: 50px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    /* ---- Mobile: Hide tags widget ---- */
+    .blog_sidebar_area .widget_tag_cloud {
+        display: none !important;
     }
 }
 

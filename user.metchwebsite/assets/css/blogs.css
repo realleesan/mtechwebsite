@@ -403,6 +403,11 @@
     gap: 22px;
 }
 
+/* Add margin after recent widget to separate from first blog post */
+.widget_news {
+    margin-bottom: 30px;
+}
+
 .recent_item {
     display: flex;
     gap: 14px;
@@ -492,6 +497,13 @@
     .blog_sidebar_area { margin-top: 50px; }
     .blog-text h4.title_color { font-size: 22px; }
     .r_widget_title h3.title_color { font-size: 22px; }
+}
+
+@media (max-width: 767px) {
+    /* ---- Mobile: Hide tags widget ---- */
+    .blog_sidebar_area .widget_tag_cloud {
+        display: none !important;
+    }
 }
 
 @media (max-width: 575px) {

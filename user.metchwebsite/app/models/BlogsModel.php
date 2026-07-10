@@ -42,22 +42,16 @@ class BlogsModel
             $offset = ($page - 1) * $perPage;
             $params = [];
 
-            // Base join: blogs with many-to-many relationship to categories
-            $baseJoin = "FROM `blogs` b
-                         LEFT JOIN `blog_category_map` bcm ON b.id = bcm.blog_id
-                         LEFT JOIN `blog_categories` bc ON bcm.category_id = bc.id";
-
-            // Add tag join if filtering by tag
-            if (!empty($tagSlug)) {
-                $baseJoin .= " INNER JOIN `blog_tag_map` btm ON btm.blog_id = b.id
-                               INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id";
-            }
-
-            $where = "WHERE b.status = 1 AND b.deleted_at IS NULL";
+            // Build WHERE conditions for filtering
+            $where = "b.status = 1 AND b.deleted_at IS NULL";
 
             // Add tag filter
             if (!empty($tagSlug)) {
-                $where .= " AND bt.slug = ?";
+                $where .= " AND EXISTS (
+                    SELECT 1 FROM `blog_tag_map` btm
+                    INNER JOIN `blog_tags` bt ON bt.id = btm.tag_id
+                    WHERE btm.blog_id = b.id AND bt.slug = ?
+                )";
                 $params[] = $tagSlug;
             }
 
@@ -68,17 +62,23 @@ class BlogsModel
                 $childCatIds[] = $catId; // Thêm chính category này
                 
                 $placeholders = implode(',', array_fill(0, count($childCatIds), '?'));
-                $where .= " AND bcm.category_id IN ({$placeholders})";
+                $where .= " AND EXISTS (
+                    SELECT 1 FROM `blog_category_map` bcm
+                    WHERE bcm.blog_id = b.id AND bcm.category_id IN ({$placeholders})
+                )";
                 $params = array_merge($params, $childCatIds);
             }
 
             // Add search filter
             if (!empty($search)) {
-                // Tìm theo title, excerpt, category name, và tag name
                 $where .= " AND (
                     b.title    LIKE ? OR
                     b.excerpt  LIKE ? OR
-                    bc.name    LIKE ? OR
+                    EXISTS (
+                        SELECT 1 FROM `blog_category_map` bcm
+                        INNER JOIN `blog_categories` bc ON bc.id = bcm.category_id
+                        WHERE bcm.blog_id = b.id AND bc.name LIKE ?
+                    ) OR
                     EXISTS (
                         SELECT 1 FROM `blog_tag_map` stm
                         INNER JOIN `blog_tags` st ON st.id = stm.tag_id
@@ -93,19 +93,20 @@ class BlogsModel
                 $params[] = $like;
             }
 
-            // Count total (use DISTINCT to avoid duplicate rows from LEFT JOIN)
-            $countSql = "SELECT COUNT(DISTINCT b.id) {$baseJoin} {$where}";
+            // Count total blogs (without JOIN duplicates)
+            $countSql = "SELECT COUNT(*) FROM `blogs` b WHERE {$where}";
             $countStmt = $this->db->prepare($countSql);
             $countStmt->execute($params);
             $total = (int) $countStmt->fetchColumn();
 
-            // Fetch blogs (use DISTINCT to avoid duplicate rows from LEFT JOIN)
-            $sql = "SELECT DISTINCT b.id, b.title, b.slug, b.image, b.excerpt,
+            // Fetch blogs without duplicates - use subquery for pagination
+            $sql = "SELECT b.id, b.title, b.slug, b.image, b.excerpt,
                            b.author, b.created_at, b.views, b.category_id,
                            b.position, b.expires_in_days, b.hiring_status,
                            bc.name AS category_name, bc.slug AS category_slug
-                    {$baseJoin}
-                    {$where}
+                    FROM `blogs` b
+                    LEFT JOIN `blog_categories` bc ON b.category_id = bc.id
+                    WHERE {$where}
                     ORDER BY b.created_at DESC
                     LIMIT ? OFFSET ?";
 
