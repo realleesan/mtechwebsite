@@ -264,18 +264,78 @@ function slugifyVi(str) {
         });
 
         // ── Đóng mobile menu khi resize lên desktop ───────────────
+        let resizeTimeout;
         window.addEventListener('resize', function () {
-            if (window.innerWidth >= 992) {
-                if (collapse) closeMenu();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function () {
+                if (window.innerWidth >= 992) {
+                    if (collapse) closeMenu();
 
-                // Reset tất cả dropdown về trạng thái ban đầu
-                submenus.forEach(function (item) {
-                    const dd = item.querySelector('ul.dropdown-menu');
-                    if (dd) dd.style.display = 'none';
-                    item.classList.remove('show');
-                });
-            }
+                    // Reset tất cả dropdown về trạng thái ban đầu
+                    submenus.forEach(function (item) {
+                        const dd = item.querySelector('ul.dropdown-menu');
+                        if (dd) dd.style.display = 'none';
+                        item.classList.remove('show');
+                    });
+
+                    // Re-bind hover listeners for desktop after resize
+                    rebindDesktopDropdowns();
+                }
+            }, 250);
         });
+
+        /**
+         * Rebind desktop dropdown hover listeners
+         * Called after resize to desktop breakpoint
+         */
+        function rebindDesktopDropdowns() {
+            const submenus = document.querySelectorAll('ul.menu > li.nav-item.submenu');
+            const HIDE_DELAY = 180;
+
+            submenus.forEach(function (item) {
+                // Clone and replace to remove all old listeners
+                const newItem = item.cloneNode(true);
+                item.parentNode.replaceChild(newItem, item);
+
+                let hideTimer = null;
+                const dropdown = newItem.querySelector('ul.dropdown-menu');
+                const topLink = newItem.querySelector(':scope > a.nav-link');
+                if (!dropdown) return;
+
+                if (topLink) {
+                    topLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                    });
+                }
+
+                function showDropdown() {
+                    clearTimeout(hideTimer);
+                    if (window.innerWidth >= 992) {
+                        newItem.classList.add('show');
+                    }
+                }
+
+                function hideDropdown() {
+                    if (window.innerWidth >= 992) {
+                        hideTimer = setTimeout(function () {
+                            newItem.classList.remove('show');
+                        }, HIDE_DELAY);
+                    }
+                }
+
+                newItem.addEventListener('mouseenter', showDropdown);
+                newItem.addEventListener('mouseleave', hideDropdown);
+                dropdown.addEventListener('mouseenter', showDropdown);
+                dropdown.addEventListener('mouseleave', hideDropdown);
+
+                const dropdownLinks = dropdown.querySelectorAll('a');
+                dropdownLinks.forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        clearTimeout(hideTimer);
+                    });
+                });
+            });
+        }
 
         // ── ESC để đóng mobile menu ────────────────────────────────
         document.addEventListener('keydown', function (e) {

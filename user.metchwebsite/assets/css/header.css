@@ -324,7 +324,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     display: none;
     position: absolute;
     top: calc(100% + 10px);
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     right: auto;
     width: auto;
     min-width: 250px;
@@ -428,6 +429,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
+    flex-direction: row-reverse !important;
     color: #ffffff !important;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif !important;
     font-weight: 400 !important;
@@ -448,8 +450,9 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
-    margin-left: 15px;
-    transform: rotate(-90deg);
+    margin-left: 0;
+    margin-right: 15px;
+    transform: rotate(90deg);
 }
 
 /* Services nested items positioning & hover bridge */
@@ -496,6 +499,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
+    flex-direction: row-reverse !important;
     color: #ffffff !important;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif !important;
     font-weight: 400 !important;
@@ -516,8 +520,9 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 }
 
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
-    margin-left: 15px;
-    transform: rotate(-90deg);
+    margin-left: 0;
+    margin-right: 15px;
+    transform: rotate(90deg);
 }
 
 /* Services nested dropdown - show on hover & click */
@@ -525,7 +530,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     display: none;
     position: absolute;
     top: 0;
-    left: calc(100% + 5px);
+    left: auto;
+    right: calc(100% + 5px);
     width: auto;
     min-width: 250px;
     max-width: 500px;
@@ -542,7 +548,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     pointer-events: auto;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-10px);
+    transform: translateX(10px);
     transition: all 0.25s ease;
 }
 
@@ -562,7 +568,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 
 /* Rotate caret on open */
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
-    transform: rotate(0deg) !important;
+    transform: rotate(180deg) !important;
 }
 
 /* Project items styling - special blue color */
@@ -758,9 +764,10 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-it
 }
 
 ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
-    margin-left: 15px;
-    transform: rotate(-90deg);
-    margin: 0;
+    margin-left: 0;
+    margin-right: 15px;
+    transform: rotate(90deg);
+    margin: 0 15px 0 0;
     padding: 0;
 }
 
@@ -778,7 +785,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
 /* Rotate caret icon when nested dropdown is open */
 ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show > a.nav-link .caret-drop {
-    transform: rotate(0deg) !important;
+    transform: rotate(270deg) !important;
 }
 
 /* -- Phone number -- */
