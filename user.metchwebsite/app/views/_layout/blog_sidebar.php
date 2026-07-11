@@ -17,20 +17,19 @@
 /**
  * Render hierarchical category tree recursively
  * @param array $categories Current level categories
- * @param array $allCategories All categories (for finding children)
  * @param int $activeCatId Active category ID
  * @param int $depth Current depth level
  * @return string HTML markup
  */
-function renderCategoryTree($categories, $allCategories, $activeCatId, $depth = 0) {
+function renderCategoryTree($categories, $activeCatId, $depth = 0) {
     $html = '';
     
     foreach ($categories as $cat) {
         $catId = (int) $cat['id'];
         $isActive = ($activeCatId === $catId);
         
-        // Find children of this category
-        $children = array_filter($allCategories, fn($c) => (int) ($c['parent_id'] ?? 0) === $catId);
+        // Get children from hierarchical structure
+        $children = $cat['children'] ?? [];
         $hasChildren = !empty($children);
         
         // Category item class
@@ -47,9 +46,6 @@ function renderCategoryTree($categories, $allCategories, $activeCatId, $depth = 
         // Category wrapper with toggle button
         if ($hasChildren) {
             $html .= '<div class="category-header">';
-            $html .= '<button class="category-toggle" type="button" aria-expanded="false" data-cat-id="' . $catId . '">';
-            $html .= '<span class="toggle-icon">+</span>';
-            $html .= '</button>';
             $html .= '<a href="/tin-tuc-' . urlencode($cat['slug']) . '" class="category-link">';
             $html .= '<span class="cat-name">' . htmlspecialchars($cat['name']) . '</span>';
             $html .= '</a>';
@@ -62,8 +58,8 @@ function renderCategoryTree($categories, $allCategories, $activeCatId, $depth = 
         
         // Render children (hidden by default)
         if ($hasChildren) {
-            $html .= '<ul class="category-children category-children--hidden" data-parent-id="' . $catId . '">';
-            $html .= renderCategoryTree($children, $allCategories, $activeCatId, $depth + 1);
+            $html .= '<ul class="category-children" data-parent-id="' . $catId . '">';
+            $html .= renderCategoryTree($children, $activeCatId, $depth + 1);
             $html .= '</ul>';
         }
         
@@ -152,9 +148,7 @@ $isSearchPage = ($currentPage === 'search');
                 
                 <!-- Render hierarchical categories -->
                 <?php 
-                // Build root categories (parent_id = null or 0)
-                $rootCategories = array_filter($blogCategories, fn($cat) => empty($cat['parent_id']));
-                echo renderCategoryTree($rootCategories, $blogCategories, $activeCatId);
+                echo renderCategoryTree($blogCategories, $activeCatId);
                 ?>
             </ul>
         </aside>

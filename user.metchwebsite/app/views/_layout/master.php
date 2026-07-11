@@ -62,7 +62,8 @@ mb_http_output('UTF-8');
     $currentPage = isset($page) ? $page : (isset($_GET['page']) ? $_GET['page'] : 'home');
     ?>
     
-    <!-- Elfsight Website Translator | Untitled Website Translator -->
+    <!-- DEBUG: currentPage=<?php echo $currentPage; ?> page=<?php echo $page ?? 'null'; ?> -->
+    <?php if ($currentPage === 'blogs') { echo '<!-- CSS SECTION: currentPage is blogs -->'; } ?>
     <script src="https://elfsightcdn.com/platform.js" async></script>
     <!-- Ẩn Information Panel (chỉ hiện khi đăng nhập Elfsight) khỏi làm vỡ layout -->
     <style>.eapps-widget-toolbar { display: none !important; }</style>

@@ -14,7 +14,7 @@ require_once __DIR__ . '/../../../core/helpers.php';
 
 $blogs       = $blogs       ?? [];
 $totalBlogs  = $totalBlogs  ?? 0;
-$currentPage = (int) ($currentPage ?? 1);
+$paginationPage = (int) ($paginationPage ?? 1);
 $perPage     = $perPage     ?? 6;
 $filterCatId = $filterCatId ?? 0;
 $filterTag   = $filterTag   ?? '';
@@ -123,16 +123,16 @@ $totalPages = $perPage > 0 ? (int) ceil($totalBlogs / $perPage) : 1;
     <div class="blog_pagination mt-4">
         <nav aria-label="Blog pagination">
             <ul class="pagination">
-                <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="<?php echo blogs_page_url($currentPage - 1, $filterCatId, $filterTag, $searchQuery); ?>">&laquo;</a>
+                <li class="page-item <?php echo $paginationPage <= 1 ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="<?php echo blogs_page_url($paginationPage - 1, $filterCatId, $filterTag, $searchQuery); ?>">&laquo;</a>
                 </li>
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
+                    <li class="page-item <?php echo $i === $paginationPage ? 'active' : ''; ?>">
                         <a class="page-link" href="<?php echo blogs_page_url($i, $filterCatId, $filterTag, $searchQuery); ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
-                <li class="page-item <?php echo $currentPage >= $totalPages ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="<?php echo blogs_page_url($currentPage + 1, $filterCatId, $filterTag, $searchQuery); ?>">&raquo;</a>
+                <li class="page-item <?php echo $paginationPage >= $totalPages ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="<?php echo blogs_page_url($paginationPage + 1, $filterCatId, $filterTag, $searchQuery); ?>">&raquo;</a>
                 </li>
             </ul>
         </nav>

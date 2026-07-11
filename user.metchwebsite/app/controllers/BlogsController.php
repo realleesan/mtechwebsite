@@ -63,7 +63,7 @@ class BlogsController extends BaseController
         
         $filterTag = isset($_GET['tag']) ? trim($_GET['tag']) : '';
         $searchQuery = isset($_GET['search']) ? trim(urldecode($_GET['search'])) : '';
-        $currentPage = isset($_GET['p']) ? max(1, (int) $_GET['p']) : 1;
+        $paginationPage = isset($_GET['p']) ? max(1, (int) $_GET['p']) : 1;
         $perPage = 5;
         
         // DEBUG: Check if tag parameter is received
@@ -78,7 +78,7 @@ class BlogsController extends BaseController
         
         // Lấy categories dạng hierarchical
         $blogCategoriesHierarchy = $this->blogsModel->getCategoriesHierarchy();
-        $blogCategories = $this->blogsModel->flattenCategoriesHierarchy($blogCategoriesHierarchy);
+        $blogCategories = $blogCategoriesHierarchy; // Keep hierarchical structure for sidebar
         
         $recentBlogs = $this->blogsModel->getRecentBlogs(4);
         $allTags = $this->blogsModel->getAllTags();
@@ -95,7 +95,7 @@ class BlogsController extends BaseController
             'categorySlug' => $categorySlug,
             'filterTag' => $filterTag,
             'searchQuery' => $searchQuery,
-            'currentPage' => $currentPage,
+            'paginationPage' => $paginationPage,
             'perPage' => $perPage,
             
             // Layout variables
@@ -150,7 +150,7 @@ class BlogsController extends BaseController
         
         // Lấy dữ liệu sidebar (giống trang blogs)
         $blogCategoriesHierarchy = $this->blogsModel->getCategoriesHierarchy();
-        $blogCategories = $this->blogsModel->flattenCategoriesHierarchy($blogCategoriesHierarchy);
+        $blogCategories = $blogCategoriesHierarchy; // Keep hierarchical structure for sidebar
         $recentBlogs = $this->blogsModel->getRecentBlogs(4);
         $allTags = $this->blogsModel->getAllTags();
         

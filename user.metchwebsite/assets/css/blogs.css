@@ -396,6 +396,15 @@
     color: #3363DD;
 }
 
+/* Special handling for category-children lists - override parent styles */
+.blog-categories-hierarchical .category-children {
+    border-bottom: none !important;
+}
+
+.blog-categories-hierarchical .category-children li {
+    border-bottom: 1px solid #f0f0f0;
+}
+
 /* ---- Recent News widget ---- */
 .recent_inner {
     display: flex;
@@ -539,38 +548,13 @@
     width: 100%;
 }
 
-/* Toggle button (expand/collapse) */
+/* Toggle button (expand/collapse) - HIDDEN since using hover mode */
 .blog-categories-hierarchical .category-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    margin: 0 8px 0 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #6c757d;
-    font-size: 16px;
-    font-weight: bold;
-    transition: color 0.2s ease;
-    flex-shrink: 0;
-    outline: none;
-    line-height: 1;
-}
-
-.blog-categories-hierarchical .category-toggle:hover {
-    color: #3363DD;
+    display: none;
 }
 
 .blog-categories-hierarchical .toggle-icon {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 1;
-    font-weight: bold;
-    min-width: 16px;
-    text-align: center;
+    display: none;
 }
 
 /* Category link styling */
@@ -669,21 +653,22 @@
     padding: 0;
     margin: 0;
     display: none;
-    max-height: 0;
-    overflow: hidden;
     background: transparent;
-    transition: max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                padding 0.45s ease;
-}
-
-.blog-categories-hierarchical .category-children--hidden {
-    display: none !important;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: static;
+    visibility: visible;
+    max-height: 0;
+    overflow: visible;
 }
 
 .blog-categories-hierarchical .category-children.show {
     display: block !important;
-    max-height: 800px;
     padding-top: 8px;
+    opacity: 1;
+    visibility: visible;
+    max-height: 5000px;
+    overflow: visible;
 }
 
 /* Has children indicator */
@@ -704,9 +689,9 @@
     width: 100%;
 }
 
-/* Fix for items without toggle button - align with toggle space */
+/* No left padding for items without toggle button since toggle is hidden */
 .blog-categories-hierarchical .category-item:not(.category-has-children) > a {
-    padding-left: 32px;  /* Match toggle button width + margin */
+    padding-left: 0;
 }
 
 
