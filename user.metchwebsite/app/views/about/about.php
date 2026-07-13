@@ -14,7 +14,7 @@
             </div>
             <div class="about_text scroll-reveal reveal-right">
                 <h2 class="f_600 f_size_32 title_color mb_20">Về MTECH.JSC</h2>
-                <p class="mb_30">Công ty A Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH (thành lập từ năm 2011) là một trong những đơn vị uy tín hàng đầu tại Việt Nam, chuyên cung cấp các lĩnh vực khép kín từ lập quy hoạch, khảo sát, thiết kế bản vẽ thi công, đến giám sát và quản lý dự án cho các công trình công nghiệp, dân dụng và hạ tầng kỹ thuật.</p>
+                <p class="mb_30">Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH (thành lập từ năm 2011) là một trong những đơn vị uy tín hàng đầu tại Việt Nam, chuyên cung cấp các lĩnh vực khép kín từ lập quy hoạch, khảo sát, thiết kế bản vẽ thi công, đến giám sát và quản lý dự án cho các công trình công nghiệp, dân dụng và hạ tầng kỹ thuật.</p>
                 <a href="/lich-su-hinh-thanh-phat-trien" class="read_more btn_yellow">Tìm hiểu thêm</a>
             </div>
         </div>
