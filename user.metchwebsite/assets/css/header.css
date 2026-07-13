@@ -6,8 +6,15 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     margin: 0;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 /* -- Layout topbar - REMOVED -- */
@@ -327,9 +334,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     left: 50%;
     transform: translateX(-50%);
     right: auto;
-    width: auto;
-    min-width: 250px;
-    max-width: 500px;
+    width: max-content;
+    max-width: 90vw;
     background: rgba(51, 99, 221, 0.97);
     border-top: 3px solid #ffffff;
     border-left: none;
@@ -388,7 +394,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 25px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     background: transparent !important;
     visibility: visible !important;
@@ -411,7 +417,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 25px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: transparent !important;
@@ -429,7 +435,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     color: #ffffff !important;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif !important;
     font-weight: 400 !important;
@@ -438,7 +444,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 25px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, background 0.2s ease;
     background: transparent !important;
@@ -481,7 +487,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 9px 20px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: rgba(51, 99, 221, 0.97);
@@ -499,7 +505,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     color: #ffffff !important;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif !important;
     font-weight: 400 !important;
@@ -508,7 +514,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 25px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, background 0.2s ease;
     background: transparent !important;
@@ -532,9 +538,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     top: 0;
     left: auto;
     right: calc(100% + 5px);
-    width: auto;
-    min-width: 250px;
-    max-width: 500px;
+    width: max-content;
+    max-width: 90vw;
     background: rgba(51, 99, 221, 0.97);
     border-top: 3px solid #ffffff;
     border-left: none;
@@ -609,9 +614,8 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdo
     position: absolute;
     top: 0;
     left: calc(100% + 5px);
-    width: auto;
-    min-width: 250px;
-    max-width: 500px;
+    width: max-content;
+    max-width: 90vw;
     background: rgba(51, 99, 221, 0.97);
     border-top: 3px solid #ffffff;
     border-left: none;
@@ -654,7 +658,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdo
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 20px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: transparent !important;
@@ -685,7 +689,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) > ul.dropdown-menu > li:no
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 25px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: transparent !important;
@@ -709,7 +713,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li:not(.n
     line-height: 1.5 !important;
     text-decoration: none !important;
     padding: 11px 20px !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
     background: rgba(51, 99, 221, 0.97) !important;
@@ -883,7 +887,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     .topbar_inner { padding: 0 20px; }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
     .navbar { padding: 0 15px; }
 
     .header_top_five { display: none; }
@@ -984,6 +988,36 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
         border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
+    ul.menu > li.nav-item:last-child,
+    ul.menu > li.nav-item.nav-search-btn,
+    ul.menu > li.nav-item.nav-profile-btn,
+    ul.menu > li.nav-item.nav-lang-item {
+        border-bottom: none !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+
+    .search_toggle {
+        padding: 12px 20px !important;
+    }
+
+    .search_toggle svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .btn_profile_download_nav {
+        font-size: 16px !important;
+        padding: 10px 16px !important;
+    }
+
+    .btn_profile_download_nav svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
     ul.menu > li.nav-item > a.nav-link {
         padding: 14px 20px;
         line-height: 1.5;
@@ -995,60 +1029,139 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
         position: static;
         display: block;
         max-height: 0;
-        overflow: hidden;
-        background: rgba(255,255,255,0.04);
+        overflow: hidden !important;
+        background: transparent !important;
         border: none;
         box-shadow: none;
         padding: 0;
         min-width: unset;
         width: 100%;
         transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: none !important;
+        left: 0 !important;
+        right: auto !important;
     }
 
     ul.menu > li.nav-item.submenu.show > ul.dropdown-menu {
-        max-height: 400px;
+        max-height: 2500px !important;
     }
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
         padding: 12px 35px !important;
         font-size: 14px !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: transparent !important;
+        text-align: left !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
     }
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
-        padding-left: 42px !important;
+        padding: 12px 35px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
     }
 
     /* Caret rotate khi mo */
     ul.menu > li.nav-item.submenu .caret-drop {
         transition: transform 0.3s ease;
+        margin-left: 8px !important;
+        margin-right: 0 !important;
+        transform: rotate(0deg) !important;
     }
 
     ul.menu > li.nav-item.submenu.show .caret-drop {
-        transform: rotate(180deg);
+        transform: rotate(180deg) !important;
     }
 
-    /* Mobile accordion submenu styles for services */
-    .services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu {
-        display: none;
+    /* Caret cho danh mục con - chỉ phải mặc định, chỉ xuống khi show */
+    ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
+        transform: rotate(-90deg) !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
+        transform: rotate(0deg) !important;
+    }
+
+    /* ========================================
+       KIRO FIX: MOBILE RESPONSIVE CHO SERVICES DROPDOWN & MENU CON
+       Fix specificity issues và dropdown overflow
+       ======================================== */
+
+    /* 1. Nới lỏng max-height cho menu cha để không cắt đứt menu con */
+    ul.menu > li.nav-item.submenu.show > ul.dropdown-menu {
+        max-height: 2500px !important;
+    }
+
+    /* 2. Reset flex-direction để nội dung không bị lộn ngược (text bên trái, icon bên phải) */
+    .services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link,
+    .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+
+    /* 3. Reset hướng mũi tên (caret) cho đúng chiều */
+    .services-dropdown > ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
+        margin-left: 8px !important;
+        margin-right: 0 !important;
+        transform: rotate(0deg) !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    .services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
+        transform: rotate(180deg) !important;
+    }
+
+    /* 4. Fix triệt để lỗi menu con tràn ra ngoài màn hình và tạo style Accordion mượt mà */
+    .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu {
+        position: static !important;
+        display: block !important;
+        width: 100% !important;
         max-height: 0;
-        overflow: hidden;
-        background: rgba(255,255,255,0.03);
-        border-left: 2px solid rgba(26, 63, 191, 0.4);
-        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
-    .services-dropdown > ul.dropdown-menu > li.accordion-item.show .accordion-submenu {
-        display: block;
-        max-height: 600px;
+    /* 5. Cho phép menu con bung ra khi có class .show */
+    .services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > ul.dropdown-menu {
+        max-height: 1500px !important;
     }
 
-    .services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .nav-item a {
-        padding-left: 40px !important;
+    /* 6. Thụt lề (padding) phân cấp cho các menu con */
+    .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li > a.nav-link {
+        padding: 10px 20px !important;
         font-size: 13px !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: transparent !important;
+        text-align: left !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
     }
 
-    .services-dropdown > ul.dropdown-menu > li.accordion-item .accordion-submenu .nav-item a:hover {
-        padding-left: 47px !important;
+    .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li > a.nav-link:hover {
+        padding: 10px 20px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
     }
 }
 
@@ -1061,24 +1174,24 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 /* Mobile: nested dropdown support (for dropdown-menu inside dropdown-menu) */
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
     /* Nested dropdowns (cấp 2, 3, n...) - full-width in mobile */
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu {
         position: static !important;
         display: none;
         top: auto !important;
         left: auto !important;
+        right: auto !important;
         width: 100%;
         max-width: none;
-        background: rgba(255,255,255,0.02);
+        background: transparent !important;
         border: none;
-        border-top: 1px solid rgba(255,255,255,0.05);
         box-shadow: none;
         opacity: 1;
         visibility: visible;
-        transform: none;
+        transform: none !important;
         max-height: 0;
-        overflow: hidden;
+        overflow: hidden !important;
         transition: max-height 0.35s ease;
     }
     
@@ -1089,6 +1202,12 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > a.nav-link {
         padding: 12px 35px !important;
+        text-align: left !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
     }
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu.show > a.nav-link .caret-drop {
@@ -1097,12 +1216,23 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
     /* Nested items in mobile */
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
-        padding: 10px 50px !important;
+        padding: 10px 20px !important;
         font-size: 13px !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: transparent !important;
+        text-align: left !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
     }
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
-        padding-left: 57px !important;
+        padding: 10px 20px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
     }
 }
 
@@ -1161,7 +1291,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .search_overlay_box {
-    background: #122050;
+    background: #3363DD;
     width: 100%;
     max-width: 560px;
     padding: 36px 40px 40px;
@@ -1491,12 +1621,12 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Default rotate 90° */
+/* Default rotate 0° (pointing right) */
 .category-toggle .toggle-icon {
-    transform: rotate(90deg);
+    transform: rotate(0deg);
 }
 
-/* Rotate khi open (180°) */
+/* Rotate khi open (180° pointing down) */
 .category-toggle.expanded .toggle-icon {
     transform: rotate(180deg);
 }
@@ -1580,7 +1710,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 /* Responsive cho Mega Menu */
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
     .nav-item.has-megamenu {
         position: relative !important;
     }
@@ -1629,4 +1759,36 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     .spotlight-col {
         display: none; /* Ẩn spotlight trên mobile để tiết kiệm không gian */
     }
+}
+
+/* ========================================
+   KIRO FIX: DESKTOP DROPDOWN & ARROW POSITION
+   Fix lỗi mũi tên bị lộn ngược và menu bung sang trái
+   ======================================== */
+
+/* 1. Trả lại thứ tự text và mũi tên (từ trái sang phải) */
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link,
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link {
+    flex-direction: row !important;
+}
+
+/* 2. Đẩy mũi tên về bên phải và xoay hướng chỉ sang phải */
+.services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop,
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    transform: rotate(-90deg) !important;
+}
+
+/* 3. Ép menu con (cấp 2, 3...) hiển thị ở bên PHẢI của menu cha */
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu {
+    left: calc(100% + 5px) !important;
+    right: auto !important;
+    transform: translateX(-10px) !important; /* Đảo ngược hiệu ứng animation */
+}
+
+/* Hiệu ứng trượt ra mượt mà */
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu:hover > ul.dropdown-menu,
+.services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > ul.dropdown-menu {
+    transform: translateX(0) !important;
 }

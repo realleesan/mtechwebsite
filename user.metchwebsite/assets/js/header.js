@@ -91,13 +91,13 @@ function slugifyVi(str) {
 
             function showDropdown() {
                 clearTimeout(hideTimer);
-                if (window.innerWidth >= 992) {
+                if (window.innerWidth >= 1200) {
                     item.classList.add('show');
                 }
             }
 
             function hideDropdown() {
-                if (window.innerWidth >= 992) {
+                if (window.innerWidth >= 1200) {
                     hideTimer = setTimeout(function () {
                         item.classList.remove('show');
                     }, HIDE_DELAY);
@@ -128,7 +128,7 @@ function slugifyVi(str) {
             const link = item.querySelector('a');
             if (link) {
                 link.addEventListener('click', function (e) {
-                    if (window.innerWidth < 992) {
+                    if (window.innerWidth < 1200) {
                         e.preventDefault();
                         e.stopPropagation();
 
@@ -197,7 +197,7 @@ function slugifyVi(str) {
 
         mobileSubmenus.forEach(function (link) {
             link.addEventListener('click', function (e) {
-                if (window.innerWidth < 992) {
+                if (window.innerWidth < 1200) {
                     e.preventDefault();
 
                     const parent = this.closest('li.nav-item.submenu');
@@ -222,7 +222,7 @@ function slugifyVi(str) {
 
         allNestedSubmenus.forEach(function (link) {
             link.addEventListener('click', function (e) {
-                if (window.innerWidth < 992) {
+                if (window.innerWidth < 1200) {
                     e.preventDefault();
 
                     const parent = this.closest('li.nav-item.submenu');
@@ -256,7 +256,7 @@ function slugifyVi(str) {
                 const parentItem = this.closest('.nav-item.submenu');
                 const submenu = parentItem.querySelector(':scope > ul.dropdown-menu');
                 
-                if (window.innerWidth < 992 && submenu) {
+                if (window.innerWidth < 1200 && submenu) {
                     e.preventDefault();
                     parentItem.classList.toggle('show');
                 }
@@ -268,7 +268,7 @@ function slugifyVi(str) {
         window.addEventListener('resize', function () {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(function () {
-                if (window.innerWidth >= 992) {
+                if (window.innerWidth >= 1200) {
                     if (collapse) closeMenu();
 
                     // Reset tất cả dropdown về trạng thái ban đầu
@@ -310,13 +310,13 @@ function slugifyVi(str) {
 
                 function showDropdown() {
                     clearTimeout(hideTimer);
-                    if (window.innerWidth >= 992) {
+                    if (window.innerWidth >= 1200) {
                         newItem.classList.add('show');
                     }
                 }
 
                 function hideDropdown() {
-                    if (window.innerWidth >= 992) {
+                    if (window.innerWidth >= 1200) {
                         hideTimer = setTimeout(function () {
                             newItem.classList.remove('show');
                         }, HIDE_DELAY);
