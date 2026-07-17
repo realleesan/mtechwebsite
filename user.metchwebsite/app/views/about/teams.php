@@ -18,14 +18,14 @@
 
     <!-- Sơ đồ tổ chức công ty -->
     <div class="container">
-        <img src="/app/views/about/so do phan cap.png"
+        <img src="assets/images/about/so-do-phan-cap.png"
              alt="Sơ đồ tổ chức công ty MTECH"
              class="org_img"
              style="width:100%; height:auto; display:block; cursor:pointer;">
 
         <hr style="border:none; border-top:1px solid #e0e0e0; margin:40px 0;">
 
-        <img src="/app/views/about/so do phan cap tanh.jpg"
+        <img src="assets/images/about/so-do-phan-cap-tanh.jpg"
              alt="Sơ đồ phân cấp tổ chức MTECH"
              class="org_img"
              style="width:100%; height:auto; display:block; cursor:pointer;">

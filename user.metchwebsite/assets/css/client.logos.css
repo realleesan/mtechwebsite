@@ -71,7 +71,7 @@
     height: auto;
     object-fit: contain;
     display: block;
-    filter: grayscale(100%) brightness(1.1);
+    filter: grayscale(0%) brightness(1);
     transition: filter 0.4s ease, transform 0.3s ease;
 }
 
@@ -82,7 +82,7 @@
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #aaaaaa;
+    color: #444444;
     text-align: center;
     white-space: nowrap;
     transition: color 0.4s ease;
@@ -93,28 +93,16 @@
     justify-content: center;
 }
 
-/* Desktop: hover → màu nguyên bản + tên đậm hơn */
+/* Desktop: hover → scale nhẹ */
 @media (min-width: 992px) {
     .client_logo_slide:hover .client_logo_img {
-        filter: grayscale(0%) brightness(1);
+        filter: grayscale(0%) brightness(1.05);
         transform: scale(1.05);
     }
 
     .client_logo_slide:hover .client_logo_name {
-        color: #444444;
+        color: #222222;
     }
-}
-
-/* Mobile: tự động chuyển màu khi scroll vào viewport */
-@media (max-width: 991px) {
-    .clients_logo_area.in-viewport .client_logo_img {
-        animation: mobileColorReveal 0.8s ease forwards 1s;
-    }
-}
-
-@keyframes mobileColorReveal {
-    0%   { filter: grayscale(100%) brightness(1.1); }
-    100% { filter: grayscale(0%) brightness(1); }
 }
 
 /* ============================================

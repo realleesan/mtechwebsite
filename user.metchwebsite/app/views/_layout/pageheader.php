@@ -4,11 +4,17 @@
  * Theo cấu trúc Wokrate template
  */
 
+// Load breadcrumb config nếu hàm chưa được định nghĩa (khi dùng Router class)
+if (!function_exists('get_breadcrumbs')) {
+    require_once __DIR__ . '/breadcrumb.php';
+}
+
 // Tự động lấy tiêu đề nếu không được truyền vào
 if (!isset($pageTitle)) {
     $pageTitles = [
         'about'              => 'Về chúng tôi',
         'awards'             => 'Chứng chỉ năng lực',
+        'clients'            => 'Danh sách khách hàng',
         'services'           => 'Lĩnh vực hoạt động',
         'categories'         => 'Lĩnh vực hoạt động',
         'categories-details' => 'Chi tiết lĩnh vực hoạt động',

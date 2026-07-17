@@ -194,7 +194,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 
                 <!-- About -->
                 <?php
-                $aboutPages = ['about', 'company.history', 'teams', 'awards'];
+                $aboutPages = ['about', 'company.history', 'teams', 'awards', 'clients'];
                 $isAboutActive = in_array($currentPage, $aboutPages);
                 ?>
                 <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
@@ -214,6 +214,9 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         </li>
                         <li>
                             <a class="nav-link" href="/chung-chi-nang-luc" title="Chứng chỉ năng lực">CHỨNG CHỈ NĂNG LỰC</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/danh-sach-khach-hang" title="Danh sách khách hàng">DANH SÁCH KHÁCH HÀNG</a>
                         </li>
                     </ul>
                 </li>

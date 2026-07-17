@@ -1,0 +1,213 @@
+/* ============================================================
+   clients.css — Trang danh sách khách hàng
+   Nền giống teams_area (#f5f6f8)
+   ============================================================ */
+
+/* ── Section wrapper ─────────────────────────────────────── */
+.clients_page_area {
+    background: #f5f6f8;
+    padding: 90px 0 80px;
+    min-height: 60vh;
+}
+
+/* ── Section title ───────────────────────────────────────── */
+.clients_page_area .section_title { text-align: left; }
+
+.clients_page_area .section_title h2 {
+    font-size: 30px;
+    font-weight: 600;
+    color: #3363DD;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.clients_page_area .section_title .title_br {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #3363DD;
+    margin-bottom: 20px;
+}
+
+.clients_page_area .section_title p {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.75;
+    margin: 0;
+}
+
+/* ── Đếm tổng ────────────────────────────────────────────── */
+.cp_total_count {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 24px;
+}
+
+.cp_total_count strong {
+    color: #3363DD;
+    font-weight: 600;
+}
+
+/* ── Grid 3 cột ──────────────────────────────────────────── */.clients_page_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 52px;
+}
+
+/* ── Card item ───────────────────────────────────────────── */
+.cp_item a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    background: #ffffff;
+    border: 1px solid #e4e8f2;
+    border-radius: 12px;
+    padding: 40px 28px 28px;
+    height: 100%;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+
+.cp_item a:hover {
+    box-shadow: 0 10px 32px rgba(51, 99, 221, 0.13);
+    transform: translateY(-5px);
+    border-color: #b8c8f0;
+    text-decoration: none;
+}
+
+/* Khung ảnh cố định chiều cao — căn giữa logo */
+.cp_img_wrap {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.cp_img {
+    max-width: 170px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.cp_item a:hover .cp_img {
+    transform: scale(1.07);
+}
+
+/* Tên khách hàng */
+.cp_name {
+    font-family: 'Montserrat', 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #999;
+    text-align: center;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.cp_item a:hover .cp_name {
+    color: #3363DD;
+}
+
+/* ── Pagination ──────────────────────────────────────────── */
+.cp_pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 8px;
+}
+
+.cp_pag_btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #d8dff0;
+    background: #ffffff;
+    color: #3363DD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+}
+
+.cp_pag_btn:hover:not(:disabled) {
+    background: #3363DD;
+    border-color: #3363DD;
+    color: #ffffff;
+}
+
+.cp_pag_btn:hover:not(:disabled) svg { stroke: #ffffff; }
+
+.cp_pag_btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.cp_pag_pages {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cp_pag_page {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #d8dff0;
+    background: #ffffff;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.cp_pag_page:hover {
+    border-color: #3363DD;
+    color: #3363DD;
+}
+
+.cp_pag_page.active {
+    background: #3363DD;
+    border-color: #3363DD;
+    color: #ffffff;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 991px) {
+    .clients_page_area { padding: 70px 0 60px; }
+    .clients_page_grid { gap: 20px; }
+    .cp_img_wrap { height: 100px; }
+    .cp_img { max-width: 140px; max-height: 82px; }
+    .cp_item a { padding: 30px 20px 22px; }
+}
+
+@media (max-width: 767px) {
+    .clients_page_area { padding: 55px 0 50px; }
+    .clients_page_grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .clients_page_grid { gap: 12px; }
+    .cp_img_wrap { height: 80px; }
+    .cp_img { max-width: 110px; max-height: 65px; }
+    .cp_item a { padding: 22px 14px 18px; border-radius: 8px; }
+    .cp_name { font-size: 10px; }
+    .cp_pag_btn,
+    .cp_pag_page { width: 36px; height: 36px; font-size: 13px; }
+}

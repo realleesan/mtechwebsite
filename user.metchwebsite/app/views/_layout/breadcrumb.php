@@ -59,6 +59,11 @@ function get_breadcrumbs(string $page, array $params = []): ?array
             ['title' => 'Chứng chỉ năng lực',   'url' => null],
         ],
 
+        'clients' => [
+            ['title' => 'Thư ngỏ',          'url' => '/ve-chung-toi'],
+            ['title' => 'Danh sách khách hàng',        'url' => null],
+        ],
+
         // ── Services ──────────────────────────────────────────────
         'services' => [
             ['title' => 'Services', 'url' => null],

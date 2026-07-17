@@ -111,6 +111,9 @@ mb_http_output('UTF-8');
         case 'teams':
             echo '<link rel="stylesheet" href="assets/css/teams.css">';
             break;
+        case 'clients':
+            echo '<link rel="stylesheet" href="assets/css/clients.css">';
+            break;
         case 'projects':
             echo '<link rel="stylesheet" href="assets/css/projects.css">';
             break;

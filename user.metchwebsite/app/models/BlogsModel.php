@@ -378,17 +378,23 @@ class BlogsModel
     // ----------------------------------------------------------------
 
     /**
-     * Lấy tất cả tags kèm số lượng bài viết.
+     * Lấy tất cả tags kèm số lượng bài viết còn active (chưa xóa).
+     * Tags của bài đã xóa/soft-delete sẽ không được đếm.
+     * Tags có post_count = 0 (toàn bộ bài đã xóa) sẽ bị ẩn.
      */
     public function getAllTags()
     {
         try {
             $stmt = $this->db->prepare(
                 "SELECT bt.id, bt.name, bt.slug,
-                        COUNT(btm.blog_id) AS post_count
+                        COUNT(b.id) AS post_count
                  FROM `blog_tags` bt
-                 LEFT JOIN `blog_tag_map` btm ON btm.tag_id = bt.id
-                 GROUP BY bt.id
+                 INNER JOIN `blog_tag_map` btm ON btm.tag_id = bt.id
+                 INNER JOIN `blogs` b ON b.id = btm.blog_id
+                                      AND b.status = 1
+                                      AND b.deleted_at IS NULL
+                 GROUP BY bt.id, bt.name, bt.slug
+                 HAVING post_count > 0
                  ORDER BY post_count DESC, bt.name ASC"
             );
             $stmt->execute();

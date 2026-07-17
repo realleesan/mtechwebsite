@@ -122,6 +122,11 @@ class Router
         $this->get('/giai-thuong', 'AwardsController@index');
         $this->get('/chung-chi-nang-luc', 'AwardsController@index');
         
+        // Clients
+        $this->get('/danh-sach-khach-hang', 'ClientsController@index');
+        $this->get('/khach-hang', 'ClientsController@index');
+        $this->get('/clients', 'ClientsController@index');
+        
         // Coming Soon
         $this->get('/comingsoon', 'ComingSoonController@index');
         $this->post('/comingsoon/subscribe', 'ComingSoonController@subscribe');
