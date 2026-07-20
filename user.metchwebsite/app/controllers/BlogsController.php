@@ -72,7 +72,7 @@ class BlogsController extends BaseController
         }
         
         // Lấy dữ liệu từ model
-        $blogsResult = $this->blogsModel->getBlogs($currentPage, $perPage, $filterCatId, $filterTag, $searchQuery);
+        $blogsResult = $this->blogsModel->getBlogs($paginationPage, $perPage, $filterCatId, $filterTag, $searchQuery);
         $blogs = $blogsResult['blogs'];
         $totalBlogs = $blogsResult['total'];
         

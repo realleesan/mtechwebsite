@@ -5,7 +5,7 @@
  * được master.php quản lý khi $showBlogSidebar = true.
  *
  * Biến nhận từ BlogsController:
- *   $blogs, $totalBlogs, $currentPage, $perPage
+ *   $blogs, $totalBlogs, $paginationPage, $perPage
  *   $filterCatId, $filterTag, $searchQuery
  */
 

@@ -313,17 +313,23 @@ ul.menu > li.nav-item.active > a.nav-link::after {
     border-radius: 2px;
 }
 
-/* -- Caret arrow -- */
+/* -- Caret arrow - STANDARDIZED --
+ * Thiết kế: Mũi tên nét mảnh (không tam giác đặc)
+ * Hình dạng: Vẽ bằng border-bottom + border-right + transform rotate
+ * Mặc định: Hướng phải (rotate(0deg) = ►)
+ */
 .caret-drop {
     display: inline-block;
-    width: 0;
-    height: 0;
-    border-top: 4px solid currentColor;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
+    width: 6px;
+    height: 6px;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    padding: 0;
     margin-left: 3px;
     vertical-align: middle;
     flex-shrink: 0;
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease;
 }
 
 /* -- Dropdown menu -- */
@@ -458,7 +464,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 .services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
     margin-left: 0;
     margin-right: 15px;
-    transform: rotate(90deg);
+    transform: rotate(-45deg);
 }
 
 /* Services nested items positioning & hover bridge */
@@ -528,7 +534,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
     margin-left: 0;
     margin-right: 15px;
-    transform: rotate(90deg);
+    transform: rotate(-45deg);
 }
 
 /* Services nested dropdown - show on hover & click */
@@ -571,9 +577,9 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     transform: translateX(0);
 }
 
-/* Rotate caret on open */
+/* ✅ NO ROTATE on desktop - mũi tên luôn hướng phải */
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
-    transform: rotate(180deg) !important;
+    transform: rotate(-45deg) !important;
 }
 
 /* Project items styling - special blue color */
@@ -770,7 +776,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-it
 ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
     margin-left: 0;
     margin-right: 15px;
-    transform: rotate(90deg);
+    transform: rotate(-45deg);
     margin: 0 15px 0 0;
     padding: 0;
 }
@@ -787,9 +793,9 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     transform: translateX(0);
 }
 
-/* Rotate caret icon when nested dropdown is open */
+/* ✅ NO ROTATE on desktop - mũi tên luôn hướng phải */
 ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show > a.nav-link .caret-drop {
-    transform: rotate(270deg) !important;
+    transform: rotate(-45deg) !important;
 }
 
 /* -- Phone number -- */
@@ -1071,21 +1077,23 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
         transition: transform 0.3s ease;
         margin-left: 8px !important;
         margin-right: 0 !important;
-        transform: rotate(0deg) !important;
+        transform: rotate(45deg) !important;
     }
 
     ul.menu > li.nav-item.submenu.show .caret-drop {
-        transform: rotate(180deg) !important;
+        transform: rotate(-135deg) !important;
     }
 
     /* Caret cho danh mục con - chỉ phải mặc định, chỉ xuống khi show */
-    ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
-        transform: rotate(-90deg) !important;
+    /* ✅ FIX: Mobile - mũi tên mặc định hướng xuống */
+    ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
+        transform: rotate(45deg) !important;
         transition: transform 0.3s ease !important;
     }
 
-    ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
-        transform: rotate(0deg) !important;
+    /* ✅ FIX: Mobile - khi click mở, hướng lên */
+    ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
+        transform: rotate(-135deg) !important;
     }
 
     /* ========================================
@@ -1109,12 +1117,12 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     .services-dropdown > ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
         margin-left: 8px !important;
         margin-right: 0 !important;
-        transform: rotate(0deg) !important;
+        transform: rotate(45deg) !important;
         transition: transform 0.3s ease !important;
     }
 
     .services-dropdown > ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
-        transform: rotate(180deg) !important;
+        transform: rotate(-135deg) !important;
     }
 
     /* 4. Fix triệt để lỗi menu con tràn ra ngoài màn hình và tạo style Accordion mượt mà */
@@ -1211,7 +1219,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     }
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu.show > a.nav-link .caret-drop {
-        transform: rotate(180deg);
+        transform: rotate(-135deg);
     }
 
     /* Nested items in mobile */
@@ -1772,12 +1780,12 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     flex-direction: row !important;
 }
 
-/* 2. Đẩy mũi tên về bên phải và xoay hướng chỉ sang phải */
+/* 2. Đẩy mũi tên về bên phải - NO ROTATE, mũi tên luôn hướng phải */
 .services-dropdown > ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop,
 .services-dropdown > ul.dropdown-menu li.nav-item.submenu ul.dropdown-menu > li.nav-item.submenu > a.nav-link .caret-drop {
     margin-left: auto !important;
     margin-right: 0 !important;
-    transform: rotate(-90deg) !important;
+    transform: rotate(-45deg) !important;
 }
 
 /* 3. Ép menu con (cấp 2, 3...) hiển thị ở bên PHẢI của menu cha */
