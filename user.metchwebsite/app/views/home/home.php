@@ -86,7 +86,7 @@
     <div class="container">
         <div class="row welcome_info">
             <!-- Ảnh overlay trong suốt -->
-            <img class="wel_bg" src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/welcome_img.png" alt="">
+            <img class="wel_bg" src="https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww" alt="">
 
             <div class="col-lg-7">
                 <div class="welcome_text">
@@ -194,7 +194,7 @@ include_once __DIR__ . '/../about/awards.php';
 
             <!-- Left: Latest News intro + overlay image -->
             <div class="lt_news_left">
-                <img class="bg_img" src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/news_bg.jpg" alt="News Background">
+                <img class="bg_img" src="https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww" alt="News Background">
                 <div class="lt_news_content">
                     <h2 class="f_600 color_w">Tin tức mới nhất</h2>
                     <span class="title_br"></span>
@@ -210,9 +210,9 @@ include_once __DIR__ . '/../about/awards.php';
                     $homeBlogs = $homeBlogs ?? [];
                     // Fallback static nếu không có dữ liệu
                     $staticBlogs = [
-                        ['slug'=>'#','image'=>'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/news-1.jpg','title'=>'Capitalize on low hanging fruit to identify','excerpt'=>'Podcasting operational change management inside of workflows to establish a framework. Taking seamless key...','created_at'=>'2019-12-12','author'=>'admin'],
-                        ['slug'=>'#','image'=>'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/news-2.jpg','title'=>'Capitalize on low hanging fruit to identify','excerpt'=>'Podcasting operational change management inside of workflows to establish a framework. Taking seamless key...','created_at'=>'2019-12-12','author'=>'admin'],
-                        ['slug'=>'#','image'=>'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/news-3.jpg','title'=>'Capitalize on low hanging fruit to identify','excerpt'=>'Podcasting operational change management inside of workflows to establish a framework. Taking seamless key...','created_at'=>'2019-12-12','author'=>'admin'],
+                        ['slug'=>'#','image'=>'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww','title'=>'Capitalize on low hanging fruit to identify','excerpt'=>'Podcasting operational change management inside of workflows to establish a framework. Taking seamless key...','created_at'=>'2019-12-12','author'=>'admin'],
+                        ['slug'=>'#','image'=>'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww','title'=>'Capitalize on low hanging fruit to identify','excerpt'=>'Podcasting operational change management inside of workflows to establish a framework. Taking seamless key...','created_at'=>'2019-12-12','author'=>'admin'],
+                        ['slug'=>'#','image'=>'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww','title'=>'Capitalize on low hanging fruit to identify','excerpt'=>'Podcasting operational change management inside of workflows to establish a framework. Taking seamless key...','created_at'=>'2019-12-12','author'=>'admin'],
                     ];
                     $displayBlogs = !empty($homeBlogs) ? $homeBlogs : $staticBlogs;
                     foreach ($displayBlogs as $blog):
@@ -225,7 +225,7 @@ include_once __DIR__ . '/../about/awards.php';
                         } else {
                             $blogUrl = '/tin-tuc';
                         }
-                        $imgSrc   = !empty($blog['image']) ? $blog['image'] : 'https://shtheme.info/demosd/wokrate/wp-content/uploads/2019/12/news-1.jpg';
+                        $imgSrc   = !empty($blog['image']) ? $blog['image'] : 'https://images.unsplash.com/photo-1623002891503-fd1274ea9800?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww';
                         $dateStr  = !empty($blog['created_at']) ? format_date_vietnamese(date('d F, Y', strtotime($blog['created_at']))) : '';
                         $author   = htmlspecialchars($blog['author'] ?? 'admin');
                         $title    = htmlspecialchars($blog['title'] ?? '');

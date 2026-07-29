@@ -7,7 +7,7 @@
 <section class="company_history_area sec_gap">
     <div class="container">
         <div class="media about_history">
-            <img src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/about_img-1.jpg" alt="about-img">
+            <img src="https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww" alt="about-img">
             <div class="media-body">
                 <h2 class="f_600 f_size_32 title_color d-inline-block">Lịch sử hình thành & phát triển</h2>
                 <span class="title_br"></span>

@@ -13,12 +13,12 @@ if (!isset($services)) {
 }
 
 $templateImages = [
-    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img1.jpg',
-    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img2.jpg',
-    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img3.jpg',
-    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img4.jpg',
-    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img5.jpg',
-    'https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/service_img6.jpg',
+    'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww',
+    'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww',
+    'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww',
+    'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww',
+    'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww',
+    'https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww',
 ];
 ?>
 
@@ -76,7 +76,7 @@ $templateImages = [
         <div class="row m-0">
             <div class="lt_news_left">
                 <img class="bg_img"
-                     src="https://shtheme.com/demosd/wokrate/wp-content/uploads/2019/12/news_bg-1.jpg"
+                     src="https://plus.unsplash.com/premium_photo-1725898343952-48d1a3cc4070?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZHVzdHJ5JTIwd29ya2VyfGVufDB8fDB8fHww"
                      alt="Quality Service background">
                 <div class="lt_news_content">
                     <h2 class="f_600 f_size_32 color_w">Dự án chất lượng</h2>
