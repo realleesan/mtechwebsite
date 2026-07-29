@@ -244,6 +244,8 @@
 .welcome_text {
     position: relative;
     z-index: 1;
+    max-width: 100%;
+    padding-right: 30px;
 }
 
 .welcome_sub {
@@ -273,6 +275,9 @@
     color: #333333;
     line-height: 1.8;
     margin: 0 0 25px 0;
+    text-align: justify;
+    word-spacing: 0.05em;
+    hyphens: auto;
 }
 
 .welcome_ceo {
@@ -394,6 +399,15 @@
 
     .welcome_title {
         font-size: 26px;
+    }
+
+    .welcome_text {
+        padding-right: 15px;
+    }
+
+    .welcome_desc {
+        font-size: 14px;
+        text-align: justify;
     }
 
     .promo_box_item {
