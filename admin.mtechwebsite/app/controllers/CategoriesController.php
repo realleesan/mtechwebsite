@@ -7,7 +7,7 @@ class CategoriesController extends BaseController
 {
     private $model;
 
-    private const ADMIN_BASE_URL = 'https://admin.truongvinalogistics.com.vn';
+    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
     private const UPLOAD_DIR     = '/assets/uploads/categories/';
     private const MAX_FILE_SIZE  = 5 * 1024 * 1024; // 5MB
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];

@@ -26,7 +26,7 @@ $admin = $admin ?? \AuthMiddleware::getAdmin();
         </div>
 
         <!-- View website -->
-        <a href="https://truongvinalogistics.com.vn" target="_blank"
+        <a href="https://mtechjsc.gt.tc" target="_blank"
            class="btn btn-sm btn-outline-primary d-none d-md-inline-flex align-items-center gap-1">
             <i class="bi bi-box-arrow-up-right"></i>
             <span> Truy cập website</span>

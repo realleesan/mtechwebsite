@@ -13,7 +13,7 @@ class HomeSliderModel
     /** @var string Tên bảng */
     private $table = 'home_sliders';
 
-    private $adminBaseUrl = 'https://admin.truongvinalogistics.com.vn';
+    private $adminBaseUrl = 'https://adminmtechjsc.gt.tc';
     private $uploadDir    = '/assets/uploads/home-sliders/';
     private $maxFileSize  = 5 * 1024 * 1024; // 5MB
     private $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];

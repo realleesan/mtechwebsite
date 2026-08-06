@@ -83,7 +83,7 @@ class JobApplicationModel
                 $phone,
                 $position,
                 $cvFile,   // tên file: cv_xxx.pdf
-                $cvPath,   // absolute URL: https://truongvinalogistics.com.vn/uploads/cvs/cv_xxx.pdf
+                $cvPath,   // absolute URL: https://mtechjsc.gt.tc/uploads/cvs/cv_xxx.pdf
                 $message
             ]);
 
@@ -181,7 +181,7 @@ class JobApplicationModel
         // Lưu vào DB dạng absolute URL của user site
         // để admin site có thể download qua HTTP bất kể cấu trúc server
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $host     = $_SERVER['HTTP_HOST'] ?? 'truongvinalogistics.com.vn';
+        $host     = $_SERVER['HTTP_HOST'] ?? 'mtechjsc.gt.tc';
         $webPath  = $protocol . '://' . $host . '/uploads/cvs/' . $fileName;
 
         // Di chuyển file

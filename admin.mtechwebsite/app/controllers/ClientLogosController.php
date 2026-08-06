@@ -9,7 +9,7 @@ class ClientLogosController extends BaseController
 
     /** Upload directory — lưu trong admin site, DB lưu URL tuyệt đối */
     private const UPLOAD_DIR     = '/assets/uploads/client-logos/';
-    private const ADMIN_BASE_URL = 'https://admin.truongvinalogistics.com.vn';
+    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
     private const MAX_FILE_SIZE  = 2 * 1024 * 1024; // 2MB
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
 

@@ -13,7 +13,7 @@ class BlogsController extends BaseController
     
     // Upload constants
     private const UPLOAD_DIR     = '/assets/uploads/blogs/';
-    private const ADMIN_BASE_URL = 'https://admin.truongvinalogistics.com.vn';
+    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
     private const MAX_FILE_SIZE  = 5 * 1024 * 1024; // 5MB
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
 

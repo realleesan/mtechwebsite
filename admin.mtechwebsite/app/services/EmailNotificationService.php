@@ -718,7 +718,7 @@ HTML;
             <p style="color:#777; font-size:13px;">Nếu đây là bạn, bạn có thể bỏ qua email này. Nếu không phải, vui lòng liên hệ ngay để bảo vệ tài khoản.</p>
 
             <div class="btn-block">
-                <a href="https://admin.truongvinalogistics.com.vn" class="btn">Truy cập Admin Panel</a>
+                <a href="https://adminmtechjsc.gt.tc" class="btn">Truy cập Admin Panel</a>
             </div>
         </div>
         <div class="footer">
@@ -1562,7 +1562,7 @@ HTML;
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://admin.truongvinalogistics.com.vn/assets/images/logo.png" alt="MTECH.JSC">
+            <img src="https://adminmtechjsc.gt.tc/assets/images/logo.png" alt="MTECH.JSC">
             <h1>Đặt lại mật khẩu Admin</h1>
             <p>MTECH.JSC &mdash; ADMIN PANEL</p>
         </div>

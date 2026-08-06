@@ -130,7 +130,7 @@ class ProjectsController extends BaseController
 
         // Handle file uploads
         $uploadDir = __DIR__ . '/../../assets/uploads/projects/';
-        $baseUrl = 'https://admin.truongvinalogistics.com.vn/assets/uploads/projects/';
+        $baseUrl = 'https://adminmtechjsc.gt.tc/assets/uploads/projects/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -277,7 +277,7 @@ class ProjectsController extends BaseController
 
         // Handle file uploads
         $uploadDir = __DIR__ . '/../../assets/uploads/projects/';
-        $baseUrl = 'https://admin.truongvinalogistics.com.vn/assets/uploads/projects/';
+        $baseUrl = 'https://adminmtechjsc.gt.tc/assets/uploads/projects/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }

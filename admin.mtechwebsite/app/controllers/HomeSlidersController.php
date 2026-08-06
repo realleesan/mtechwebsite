@@ -59,7 +59,7 @@ class HomeSlidersController extends BaseController
         }
 
         foreach ($uploaded as $field => $filename) {
-            $uploaded[$field] = 'https://admin.truongvinalogistics.com.vn/assets/uploads/home-sliders/' . $filename;
+            $uploaded[$field] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $filename;
         }
 
         $data = array_merge($data, $uploaded);
@@ -115,15 +115,15 @@ class HomeSlidersController extends BaseController
             if ($uploaded !== false) {
                 if (!empty($uploaded['image_1'])) {
                     $this->deleteOldImage($slide['image_1']);
-                    $data['image_1'] = 'https://admin.truongvinalogistics.com.vn/assets/uploads/home-sliders/' . $uploaded['image_1'];
+                    $data['image_1'] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $uploaded['image_1'];
                 }
                 if (!empty($uploaded['image_2'])) {
                     $this->deleteOldImage($slide['image_2']);
-                    $data['image_2'] = 'https://admin.truongvinalogistics.com.vn/assets/uploads/home-sliders/' . $uploaded['image_2'];
+                    $data['image_2'] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $uploaded['image_2'];
                 }
                 if (!empty($uploaded['image_3'])) {
                     $this->deleteOldImage($slide['image_3']);
-                    $data['image_3'] = 'https://admin.truongvinalogistics.com.vn/assets/uploads/home-sliders/' . $uploaded['image_3'];
+                    $data['image_3'] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $uploaded['image_3'];
                 }
             }
         }
@@ -263,7 +263,7 @@ class HomeSlidersController extends BaseController
     private function deleteOldImage($imagePath)
     {
         if (empty($imagePath)) return;
-        if (strpos($imagePath, 'admin.truongvinalogistics.com.vn') === false) return;
+        if (strpos($imagePath, 'adminmtechjsc.gt.tc') === false) return;
 
         $filename = basename($imagePath);
         $fullPath = __DIR__ . '/../../assets/uploads/home-sliders/' . $filename;
