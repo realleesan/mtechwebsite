@@ -13,11 +13,28 @@
                 <img src="assets/images/about_img.png" alt="About Our Industry">
             </div>
             <div class="about_text scroll-reveal reveal-right">
-                <h2 class="f_600 f_size_32 title_color mb_20">Về MTECH.JSC</h2>
+                <h2 class="f_600 f_size_32 title_color mb_20">Giới thiệu về MTECH.JSC</h2>
                 <p class="mb_30">Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH (thành lập từ năm 2011) là một trong những đơn vị uy tín hàng đầu tại Việt Nam, chuyên cung cấp các lĩnh vực khép kín từ lập quy hoạch, khảo sát, thiết kế bản vẽ thi công, đến giám sát và quản lý dự án cho các công trình công nghiệp, dân dụng và hạ tầng kỹ thuật.</p>
                 <a href="/lich-su-hinh-thanh-phat-trien" class="read_more btn_yellow">Tìm hiểu thêm</a>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- ===== SECTION 1.5: Our Vision ===== -->
+<section class="mission_area">
+    <!-- Left: yellow background with bg image overlay (flipped) -->
+    <div class="mision_right scroll-reveal reveal-left" style="background-image: url('assets/images/about_our_mission_bg.png');">
+        <div class="mission_content scroll-reveal reveal-up">
+            <h5 class="f_size_32 f_600 mb_20">Tầm nhìn của chúng tôi</h5>
+            <span class="title_br"></span>
+            <p class="mb_30">Trở thành đơn vị tư vấn kỹ thuật và thiết kế công nghiệp hàng đầu Việt Nam, tiên phong cung cấp các giải pháp công nghệ hiện đại, bền vững và hiệu quả cho các dự án công nghiệp quy mô lớn.</p>
+            <p class="mb_55">Góp phần kiến tạo những công trình có giá trị lâu dài cho nền kinh tế và cộng đồng, đồng thời phát triển bền vững theo các tiêu chuẩn quốc tế, khẳng định vị trí của MTECH.JSC như một nhà cung cấp giải pháp kỹ thuật đáng tin cậy trên trường quốc tế.</p>
+        </div>
+    </div>
+    <!-- Right: grayscale photo -->
+    <div class="mission_left_img scroll-reveal reveal-right">
+        <img src="assets/images/about_our_mission_bg.png" alt="Our Vision">
     </div>
 </section>
 
@@ -75,7 +92,8 @@
                 <div class="history_content">
                     <h4 class="f_play f_size_20 title_color d-inline-block">Thành lập từ năm 2011</h4>
                     <h5 class="f_size_20 title_color f_500 mb_20">Được thành lập ngày 26/05/2011, MTECH.JSC đã vươn lên mạnh mẽ và trở thành đối tác chiến lược của nhiều tập đoàn lớn như: Tập đoàn Xuân Thiện, Tập đoàn Long Sơn, Tập đoàn Vissai, Tập đoàn SCG.</h5>
-                    <p class="mb-0">Trải qua nhiều năm hoạt động chuyên sâu, MTECH tự hào sở hữu các chứng chỉ năng lực xây dựng cấp cao (Hạng I, Hạng II) do Bộ Xây dựng cấp phép trong lĩnh vực Thiết kế, Thẩm tra, Giám sát và Quản lý dự án công trình công nghiệp. Bằng việc áp dụng các công nghệ, quy chuẩn hiện đại và tối ưu hóa năng lượng, chúng tôi luôn mang tới những giá trị thiết thực nhất, đồng hành kiến tạo nên những công trình bền vững trên khắp cả nước.</p>
+                    <p class="mb_30">Trải qua nhiều năm hoạt động chuyên sâu, MTECH tự hào sở hữu các chứng chỉ năng lực xây dựng cấp cao (Hạng I, Hạng II) do Bộ Xây dựng cấp phép trong lĩnh vực Thiết kế, Thẩm tra, Giám sát và Quản lý dự án công trình công nghiệp. Bằng việc áp dụng các công nghệ, quy chuẩn hiện đại và tối ưu hóa năng lượng, chúng tôi luôn mang tới những giá trị thiết thực nhất, đồng hành kiến tạo nên những công trình bền vững trên khắp cả nước.</p>
+                    <a href="/lich-su-hinh-thanh-phat-trien" class="read_more btn_yellow">Chi tiết lịch sử hình thành <MTECH class="JSC"></MTECH></a>
                 </div>
             </div>
         </div>
