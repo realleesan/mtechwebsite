@@ -199,7 +199,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 ?>
                 <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Thư ngỏ" onclick="return false;">
-                        Giới thiệu
+                        GIỚI THIỆU
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">

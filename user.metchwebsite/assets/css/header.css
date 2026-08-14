@@ -122,9 +122,9 @@ body {
 
 .menu_absolute {
     width: 100%;
-    background: #3363DD;
+    background: #1749c9;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 18px 0;
+    padding: 15px 0;
     margin: 0;
 }
 
@@ -137,8 +137,8 @@ body {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 30px;
-    min-height: 70px;
+    padding: 0 0 0 0;
+    min-height: 110px;
     gap: 15px;
 }
 
@@ -150,14 +150,17 @@ body {
     text-decoration: none;
     margin-left: 0;
     margin-right: auto;
-    padding-left: 20px;
-    padding-right: 30px;
+    padding-left: 40px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 .navbar_logo_img {
-    height: 50px;
+    height: 78.125px;
     width: auto;
     display: block;
+    filter: brightness(1.2) contrast(1.15) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .navbar_logo_text {
@@ -170,6 +173,8 @@ body {
     line-height: 1.2;
     white-space: nowrap;
     text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.1);
 }
 
 /* Profile Button in Navbar */
@@ -244,11 +249,11 @@ body {
     align-items: center;
     flex: 1;
     justify-content: flex-end;
-    padding-right: 20px;
+    padding-right: 40px;
     height: auto;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    min-height: 80px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    min-height: 110px;
     margin-left: auto;
 }
 
@@ -898,7 +903,12 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
     .header_top_five { display: none; }
 
-    .menu_absolute { top: 0 !important; }
+    .menu_absolute { 
+        top: 0 !important;
+        position: fixed;
+        width: 100%;
+        z-index: 9999;
+    }
 
     .navbar-toggler { display: block; }
 
@@ -910,13 +920,13 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     /* Full-width dropdown below navbar (like TechCamp) */
     .navbar-collapse {
         position: fixed;
-        top: 70px;
+        top: 110px;
         left: 0;
         right: 0;
         width: 100%;
         height: auto;
-        max-height: calc(100vh - 70px);
-        background: #3363DD;
+        max-height: calc(100vh - 110px);
+        background: #1749c9;
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
@@ -955,12 +965,14 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
         cursor: pointer;
         transition: color 0.25s ease;
         outline: none;
-        margin-bottom: 8px;
+        margin-bottom: 0;
+        height: 110px;
+        justify-content: flex-start;
     }
 
     .nav-close-btn:hover,
     .nav-close-btn:active {
-        color: #3363DD;
+        color: #1749c9;
     }
 
     .nav-close-arrow {
@@ -974,7 +986,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     .nav-close-btn:hover .nav-close-arrow,
     .nav-close-btn:active .nav-close-arrow {
         transform: translateX(-5px);
-        color: #3363DD;
+        color: #1749c9;
     }
 
     .nav-close-text {
@@ -1069,7 +1081,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         padding: 12px 35px !important;
-        background: rgba(255, 255, 255, 0.1) !important;
+        background: rgba(23, 73, 201, 0.2) !important;
     }
 
     /* Caret rotate khi mo */
@@ -1240,7 +1252,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
     ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
         padding: 10px 20px !important;
-        background: rgba(255, 255, 255, 0.1) !important;
+        background: rgba(23, 73, 201, 0.2) !important;
     }
 }
 
@@ -1262,7 +1274,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .search_toggle:hover {
-    color: #3363DD;
+    color: #1749c9;
 }
 
 /* -- Language Switcher in Navbar -- */
@@ -1299,7 +1311,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .search_overlay_box {
-    background: #3363DD;
+    background: #1749c9;
     width: 100%;
     max-width: 560px;
     padding: 36px 40px 40px;
@@ -1331,11 +1343,11 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 .search_overlay_close:hover {
-    color: #3363DD;
+    color: #1749c9;
 }
 
 .search_overlay_label {
-    color: #3363DD;
+    color: #1749c9;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     font-size: 16px;
     font-weight: 700;

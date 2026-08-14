@@ -435,7 +435,7 @@
     font-size: 32px;
     font-weight: 700;
     font-style: normal;
-    color: #3363DD;
+    color: #1749c9;
     margin-bottom: 15px;
 }
 
@@ -443,7 +443,7 @@
     display: block;
     width: 60px;
     height: 3px;
-    background: #3363DD;
+    background: #1749c9;
     margin: 20px 0;
 }
 
@@ -452,7 +452,7 @@
     font-size: 16px;
     font-weight: 400;
     font-style: normal;
-    color: #8AA0C8;
+    color: #1749c9;
     line-height: 26px;
     max-width: 600px;
     margin: 7px auto 0;
@@ -638,7 +638,7 @@
 }
 
 .featured_area .section_title p {
-    color: #b0b0b0;
+    color: #fff;
     margin: 7px 0 0;
 }
 
