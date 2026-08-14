@@ -199,7 +199,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 ?>
                 <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Thư ngỏ" onclick="return false;">
-                        THƯ NGỎ
+                        Giới thiệu
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
@@ -298,7 +298,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 ?>
                 <li class="nav-item submenu <?php echo $isBlogActive ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Blog" onclick="return false;">
-                        TIN TỨC
+                        TIN TỨC - THƯ VIỆN
                         <span class="caret-drop"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
