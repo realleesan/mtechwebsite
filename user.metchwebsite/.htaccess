@@ -70,7 +70,8 @@ Options -Indexes
     # Projects - Làm đẹp URL
     # /du-an → index.php?page=projects
     # ------------------------------------------
-    RewriteRule ^du-an$ index.php?page=projects [L]
+    RewriteRule ^du-an$ index.php?page=projects [L,QSA]
+    RewriteRule ^projects$ index.php?page=projects [L,QSA]
 
     # ------------------------------------------
     # Search / Tìm kiếm - Làm đẹp URL

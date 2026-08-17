@@ -115,7 +115,7 @@ mb_http_output('UTF-8');
             echo '<link rel="stylesheet" href="assets/css/clients.css">';
             break;
         case 'projects':
-            echo '<link rel="stylesheet" href="assets/css/projects.css">';
+            echo '<link rel="stylesheet" href="assets/css/projects.css?v=1.2">';
             break;
         case 'project-details':
             echo '<link rel="stylesheet" href="assets/css/projects.details.css">';
@@ -353,7 +353,7 @@ mb_http_output('UTF-8');
             echo '<script src="assets/js/teams.js"></script>';
             break;
         case 'projects':
-            echo '<script src="assets/js/projects.js"></script>';
+            echo '<script src="assets/js/projects.js?v=1.2"></script>';
             break;
         case 'project-details':
             echo '<script src="assets/js/projects.details.js"></script>';

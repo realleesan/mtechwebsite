@@ -88,31 +88,6 @@ class ProjectsModel {
     }
     
     /**
-     * Lấy dự án theo danh mục (DEPRECATED - use getByService instead)
-     * @param string $category Tên danh mục
-     * @param int $limit Số lượng
-     * @return array Danh sách dự án
-     */
-    /*
-    public function getByCategory($category, $limit = 9) {
-        try {
-            $sql = "SELECT * FROM {$this->table} 
-                    WHERE category = ? 
-                    AND deleted_at IS NULL 
-                    AND status = 1 
-                    ORDER BY sort_order ASC, created_at DESC 
-                    LIMIT ?";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([$category, $limit]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("ProjectsModel::getByCategory Error: " . $e->getMessage());
-            return [];
-        }
-    }
-    */
-    
-    /**
      * Lấy dự án nổi bật (featured)
      * @param int $limit Số lượng
      * @return array Danh sách dự án nổi bật
@@ -180,26 +155,6 @@ class ProjectsModel {
             return 0;
         }
     }
-    
-    /**
-     * Lấy tất cả danh mục (DEPRECATED - use getServices instead)
-     * @return array Danh sách danh mục
-     */
-    /*
-    public function getCategories() {
-        try {
-            $sql = "SELECT DISTINCT category FROM {$this->table} 
-                    WHERE deleted_at IS NULL 
-                    AND category IS NOT NULL 
-                    ORDER BY category ASC";
-            $stmt = $this->db->query($sql);
-            return $stmt->fetchAll(PDO::FETCH_COLUMN);
-        } catch (PDOException $e) {
-            error_log("ProjectsModel::getCategories Error: " . $e->getMessage());
-            return [];
-        }
-    }
-    */
     
     /**
      * Tạo dự án mới
@@ -388,9 +343,9 @@ class ProjectsModel {
      /**
       * Lấy dự án theo lĩnh vực (qua bảng project_services)
       * @param int $serviceId ID lĩnh vực (categories)
-     * @param int $limit Số lượng
-     * @return array Danh sách dự án
-     */
+      * @param int $limit Số lượng
+      * @return array Danh sách dự án
+      */
     public function getByService($serviceId, $limit = 9) {
         try {
             $sql = "SELECT p.* FROM {$this->table} p
@@ -412,12 +367,12 @@ class ProjectsModel {
      /**
       * Lấy tất cả lĩnh vực (categories) có trong database
       * @return array Danh sách lĩnh vực
-     */
+      */
     public function getServices() {
         try {
-            $sql = "SELECT id, name, slug, image, description 
+            $sql = "SELECT id, parent_id, name, slug, image, description 
                     FROM categories 
-                    WHERE status = 1 
+                    WHERE status = 1 AND deleted_at IS NULL
                     ORDER BY sort_order ASC, name ASC";
             $stmt = $this->db->query($sql);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -431,7 +386,7 @@ class ProjectsModel {
       * Lấy lĩnh vực của một dự án cụ thể
       * @param int $projectId ID dự án
       * @return array Danh sách lĩnh vực của dự án
-     */
+      */
     public function getProjectServices($projectId) {
         try {
             $sql = "SELECT c.id, c.name, c.slug 
@@ -452,8 +407,8 @@ class ProjectsModel {
       * Thêm lĩnh vực cho dự án
       * @param int $projectId ID dự án
       * @param array $serviceIds Mảng ID lĩnh vực
-     * @return bool
-     */
+      * @return bool
+      */
     public function addProjectServices($projectId, $serviceIds) {
         try {
              // Xóa các lĩnh vực cũ của dự án
@@ -478,10 +433,10 @@ class ProjectsModel {
     
      /**
       * Lấy dự án liên quan (cùng lĩnh vực, loại trừ dự án hiện tại)
-     * @param int $projectId ID dự án hiện tại
-     * @param int $limit Số lượng tối đa
-     * @return array Danh sách dự án liên quan
-     */
+      * @param int $projectId ID dự án hiện tại
+      * @param int $limit Số lượng tối đa
+      * @return array Danh sách dự án liên quan
+      */
     public function getRelatedByServices($projectId, $limit = 3) {
         try {
             $sql = "SELECT DISTINCT p.* FROM {$this->table} p
@@ -537,6 +492,132 @@ class ProjectsModel {
             return $grouped;
         } catch (PDOException $e) {
             error_log("ProjectsModel::getProjectsServicesList Error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Lấy danh sách dự án có bộ lọc theo danh sách ID lĩnh vực (qua bảng project_services)
+     * @param array $categoryIds Danh sách ID lĩnh vực
+     * @param int $limit Số lượng bản ghi
+     * @param int $offset Vị trí bắt đầu
+     * @param int $status Trạng thái (1=active)
+     * @return array Danh sách dự án
+     */
+    public function getFilteredProjects(array $categoryIds = [], int $limit = 9, int $offset = 0, int $status = 1) {
+        try {
+            // Lọc các ID hợp lệ
+            $categoryIds = array_values(array_filter(array_map('intval', $categoryIds), function($id) {
+                return $id > 0;
+            }));
+
+            $limit = max(1, (int)$limit);
+            $offset = max(0, (int)$offset);
+
+            if (!empty($categoryIds)) {
+                $placeholders = implode(',', array_fill(0, count($categoryIds), '?'));
+                $sql = "SELECT * FROM {$this->table} 
+                        WHERE id IN (SELECT project_id FROM project_services WHERE category_id IN ({$placeholders}))
+                        AND deleted_at IS NULL";
+                
+                $params = $categoryIds;
+
+                if ($status !== null) {
+                    $sql .= " AND status = ?";
+                    $params[] = (int)$status;
+                }
+
+                $sql .= " ORDER BY sort_order ASC, created_at DESC LIMIT " . $limit . " OFFSET " . $offset;
+                
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute($params);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                $sql = "SELECT * FROM {$this->table} WHERE deleted_at IS NULL";
+                $params = [];
+                if ($status !== null) {
+                    $sql .= " AND status = ?";
+                    $params[] = (int)$status;
+                }
+                $sql .= " ORDER BY sort_order ASC, created_at DESC LIMIT " . $limit . " OFFSET " . $offset;
+                
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute($params);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getFilteredProjects Error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Đếm tổng số dự án sau khi lọc (qua bảng project_services)
+     * @param array $categoryIds Danh sách ID lĩnh vực
+     * @param int $status Trạng thái
+     * @return int Tổng số dự án
+     */
+    public function countFilteredProjects(array $categoryIds = [], int $status = 1): int {
+        try {
+            $categoryIds = array_values(array_filter(array_map('intval', $categoryIds), function($id) {
+                return $id > 0;
+            }));
+
+            if (!empty($categoryIds)) {
+                $placeholders = implode(',', array_fill(0, count($categoryIds), '?'));
+                $sql = "SELECT COUNT(*) FROM {$this->table} 
+                        WHERE id IN (SELECT project_id FROM project_services WHERE category_id IN ({$placeholders}))
+                        AND deleted_at IS NULL";
+
+                $params = $categoryIds;
+
+                if ($status !== null) {
+                    $sql .= " AND status = ?";
+                    $params[] = (int)$status;
+                }
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute($params);
+                return (int) $stmt->fetchColumn();
+            } else {
+                $sql = "SELECT COUNT(*) FROM {$this->table} WHERE deleted_at IS NULL";
+                $params = [];
+                if ($status !== null) {
+                    $sql .= " AND status = ?";
+                    $params[] = (int)$status;
+                }
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute($params);
+                return (int) $stmt->fetchColumn();
+            }
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::countFilteredProjects Error: " . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Lấy số lượng dự án theo từng lĩnh vực (categories) qua bảng project_services
+     * @return array Map [category_id => project_count]
+     */
+    public function getCategoryProjectCounts(): array {
+        try {
+            $sql = "SELECT ps.category_id, COUNT(DISTINCT ps.project_id) as project_count
+                    FROM project_services ps
+                    INNER JOIN {$this->table} p ON ps.project_id = p.id
+                    WHERE p.status = 1 AND p.deleted_at IS NULL
+                    GROUP BY ps.category_id";
+            $stmt = $this->db->query($sql);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $counts = [];
+            foreach ($results as $row) {
+                $counts[(int)$row['category_id']] = (int)$row['project_count'];
+            }
+            return $counts;
+        } catch (PDOException $e) {
+            error_log("ProjectsModel::getCategoryProjectCounts Error: " . $e->getMessage());
             return [];
         }
     }
