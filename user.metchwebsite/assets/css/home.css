@@ -779,7 +779,7 @@
 
 .featured_pr_item p {
     position: absolute;
-    bottom: -80px;
+    bottom: 0;
     left: 0;
     right: 0;
     color: #fff;
@@ -788,17 +788,18 @@
     font-weight: 700;
     font-style: normal;
     margin: 0;
-    padding: 15px;
+    padding: 15px 0;
     z-index: 2;
     transition: all 0.4s ease;
-    background: rgba(26, 63, 191, 0.85);
+    background: rgba(255, 255, 255, 0.3);
     text-align: center;
-    max-height: 80px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-}
-
-.featured_pr_item:hover p {
-    bottom: 0;
+    letter-spacing: 0;
+    word-spacing: 0;
 }
 
 .featured_pr_item a {
@@ -1818,4 +1819,181 @@
 .slider-lightbox-close:hover {
     background: rgba(255, 255, 255, 0.28);
     border-color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* ==========================================
+   SERVICES CAROUSEL (Pagination & Chevrons)
+   ========================================== */
+
+.services_carousel_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.services_carousel_wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.services_carousel_track {
+    display: grid;
+    grid-template-columns: 1fr;
+    transition: transform 0.5s ease;
+}
+
+.services_carousel_page {
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.services_carousel_page.active {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Chevron Buttons */
+.services_carousel_btn {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #3363DD;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #3363DD;
+    font-size: 20px;
+    padding: 0;
+}
+
+.services_carousel_btn:hover {
+    background: #3363DD;
+    color: #fff;
+}
+
+.services_carousel_btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.services_carousel_prev,
+.services_carousel_next {
+    order: -1, 1;
+}
+
+.services_carousel_next {
+    order: 1;
+}
+
+.services_carousel_prev {
+    order: -1;
+}
+
+/* Pagination Dots */
+.services_carousel_pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.services_carousel_dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #3363DD;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.services_carousel_dot.active {
+    background: #3363DD;
+}
+
+.services_carousel_dot:hover {
+    background: rgba(51, 99, 221, 0.5);
+}
+
+/* Responsive for Services Carousel */
+@media (max-width: 1199px) {
+    .services_carousel_container {
+        gap: 15px;
+    }
+    
+    .services_carousel_btn {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 991px) {
+    .services_carousel_container {
+        gap: 10px;
+    }
+    
+    .services_carousel_btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .service_area .row {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .services_carousel_container {
+        gap: 8px;
+    }
+    
+    .services_carousel_btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+        border-width: 1.5px;
+    }
+    
+    .service_area .row {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .services_carousel_btn {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+    
+    .service_area .row {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .services_carousel_pagination {
+        gap: 8px;
+    }
+    
+    .services_carousel_dot {
+        width: 10px;
+        height: 10px;
+    }
 }

@@ -105,7 +105,7 @@
      SECTION 2: SERVICES & FEATURED PROJECTS
      ========================================== -->
 
-<!-- Services Section -->
+<!-- Services Section with Carousel -->
 <section class="service_area sec_gap">
     <div class="container">
         <div class="section_title mb_55">
@@ -113,25 +113,74 @@
             <span class="title_br"></span>
             <p class="mt_7">Cung cấp các giải pháp tư vấn kỹ thuật chuyên sâu cho các dự án đầu tư xây dựng quy mô lớn trên toàn quốc.</p>
         </div>
-        <div class="row mb-50">
-            <?php if (isset($homeServices) && !empty($homeServices)): ?>
-                <?php foreach ($homeServices as $service): ?>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="service_item">
-                            <div class="service_img">
-                                <img src="<?php echo htmlspecialchars($service['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($service['name']); ?>">
-                                <div class="hover_content">
-                                    <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Xem thêm</a>
+        
+        <!-- Services Carousel Wrapper -->
+        <div class="services_carousel_container">
+            <!-- Previous Button -->
+            <button class="services_carousel_btn services_carousel_prev" aria-label="Previous services">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            
+            <!-- Carousel Track -->
+            <div class="services_carousel_wrapper">
+                <div class="services_carousel_track">
+                    <?php 
+                    if (isset($homeServices) && !empty($homeServices)): 
+                        // Calculate number of pages (8 items per page: 2 rows x 4 cols)
+                        $itemsPerPage = 8;
+                        $totalPages = ceil(count($homeServices) / $itemsPerPage);
+                        
+                        // Create pages of services
+                        for ($page = 0; $page < $totalPages; $page++):
+                            $pageStart = $page * $itemsPerPage;
+                            $pageServices = array_slice($homeServices, $pageStart, $itemsPerPage);
+                    ?>
+                    <div class="services_carousel_page" data-page="<?php echo $page; ?>">
+                        <div class="row">
+                            <?php foreach ($pageServices as $service): ?>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <div class="service_item">
+                                        <div class="service_img">
+                                            <img src="<?php echo htmlspecialchars($service['image'] ?? 'assets/images/placeholder.jpg'); ?>" alt="<?php echo htmlspecialchars($service['name']); ?>">
+                                            <div class="hover_content">
+                                                <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>" class="read_more">Xem thêm</a>
+                                            </div>
+                                        </div>
+                                        <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>">
+                                            <h3 class="f_size_20 title_color f_600"><?php echo htmlspecialchars($service['name']); ?></h3>
+                                        </a>
+                                        <span class="bottom_br"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <a href="/linh-vuc-<?php echo htmlspecialchars($service['slug']); ?>">
-                                <h3 class="f_size_20 title_color f_600"><?php echo htmlspecialchars($service['name']); ?></h3>
-                            </a>
-                            <span class="bottom_br"></span>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                    <?php 
+                        endfor;
+                    endif; 
+                    ?>
+                </div>
+            </div>
+            
+            <!-- Next Button -->
+            <button class="services_carousel_btn services_carousel_next" aria-label="Next services">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <!-- Pagination Dots -->
+        <div class="services_carousel_pagination" id="servicesCarouselPagination">
+            <?php 
+            if (isset($homeServices) && !empty($homeServices)): 
+                $itemsPerPage = 8;
+                $totalPages = ceil(count($homeServices) / $itemsPerPage);
+                for ($i = 0; $i < $totalPages; $i++):
+            ?>
+            <button class="services_carousel_dot <?php echo $i === 0 ? 'active' : ''; ?>" data-page="<?php echo $i; ?>"></button>
+            <?php 
+                endfor;
+            endif; 
+            ?>
         </div>
     </div>
 </section>

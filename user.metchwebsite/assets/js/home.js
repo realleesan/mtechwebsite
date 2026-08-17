@@ -201,9 +201,76 @@
     // ==========================================
 
     /**
+     * Initialize Services Carousel
+     */
+    function initServicesCarousel() {
+        const container = document.querySelector('.services_carousel_container');
+        if (!container) return;
+
+        const pages = document.querySelectorAll('.services_carousel_page');
+        const pagination = document.getElementById('servicesCarouselPagination');
+        const prevBtn = container.querySelector('.services_carousel_prev');
+        const nextBtn = container.querySelector('.services_carousel_next');
+
+        if (pages.length === 0) return;
+
+        let currentPage = 0;
+        const totalPages = pages.length;
+
+        function showPage(page) {
+            if (page < 0) page = 0;
+            if (page >= totalPages) page = totalPages - 1;
+
+            // Hide all pages
+            pages.forEach(p => p.classList.remove('active'));
+            // Show current page
+            pages[page].classList.add('active');
+
+            // Update pagination dots
+            if (pagination) {
+                const dots = pagination.querySelectorAll('.services_carousel_dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === page);
+                });
+            }
+
+            // Update button states
+            prevBtn.disabled = page === 0;
+            nextBtn.disabled = page === totalPages - 1;
+
+            currentPage = page;
+        }
+
+        // Previous button
+        prevBtn.addEventListener('click', () => {
+            showPage(currentPage - 1);
+        });
+
+        // Next button
+        nextBtn.addEventListener('click', () => {
+            showPage(currentPage + 1);
+        });
+
+        // Pagination dots
+        if (pagination) {
+            const dots = pagination.querySelectorAll('.services_carousel_dot');
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showPage(index);
+                });
+            });
+        }
+
+        // Initialize - show first page
+        showPage(0);
+    }
+
+    /**
      * Initialize Services Section
      */
     function initServices() {
+        initServicesCarousel();
+
         const serviceItems = document.querySelectorAll('.service_item');
         
         serviceItems.forEach(item => {

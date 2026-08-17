@@ -80,7 +80,7 @@
 }
 
 .f_logo img {
-    max-height: 25px;
+    max-height: 35px;
     width: auto;
     display: block;
 }
@@ -89,7 +89,7 @@
     font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-weight: 600;
     font-style: normal;
-    font-size: 25px;
+    font-size: 35px;
     color: #FFFFFF;
     letter-spacing: 0.3px;
     line-height: 1.3;

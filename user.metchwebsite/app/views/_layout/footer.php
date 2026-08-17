@@ -51,14 +51,14 @@ $companyInfo = [
                 <!-- Cột 1: Thông tin -->
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <aside class="f_widget info_widget">
-                        <h4 class="f_title f_size_20 f_500 color_w">Thông tin</h4>
+                        <h4 class="f_title f_size_20 f_500 color_w">Thông tin liên hệ</h4>
                         <div class="f_widget_body">
                             <div class="textwidget custom-html-widget">
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-map-marker"></i> <?php echo htmlspecialchars($companyInfo['office_address']); ?>
+                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội
                                 </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-map-marker"></i> <?php echo htmlspecialchars($companyInfo['business_address']); ?>
+                                    <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội
                                 </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0;">
                                     <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?><br>
