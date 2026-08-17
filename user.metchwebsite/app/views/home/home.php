@@ -105,9 +105,6 @@
      SECTION 2: SERVICES & FEATURED PROJECTS
      ========================================== -->
 
-<!-- Client Logos — Đối tác chiến lược -->
-<?php include_once __DIR__ . '/../_layout/client_logos.php'; ?>
-
 <!-- Services Section -->
 <section class="service_area sec_gap">
     <div class="container">
@@ -176,16 +173,11 @@ if (isset($homeProjects) && !empty($homeProjects)) {
 
 
 <!-- ==========================================
-     SECTION 3: AWARDS, LATEST NEWS, PROMO, CTA
+     SECTION 3: LATEST NEWS, PROMO, CTA
      ========================================== -->
 
-<!-- ---- 3A: AWARDS CAROUSEL ---- -->
-<?php
-require_once __DIR__ . '/../../models/AwardsModel.php';
-$awardsModel = new AwardsModel();
-$awards = $awardsModel->getAllActive();
-include_once __DIR__ . '/../about/awards.php';
-?>
+<!-- Client Logos — Đối tác chiến lược -->
+<?php include_once __DIR__ . '/../_layout/client_logos.php'; ?>
 
 <!-- ---- 3B: LATEST NEWS ---- -->
 <section class="lt_news_area bg_color">

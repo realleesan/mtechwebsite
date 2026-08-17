@@ -20,9 +20,8 @@ if (!isset($clientLogos) || empty($clientLogos)) {
 ?>
 
 <section class="clients_logo_area">
-    <div class="container">
-        <div class="client_logo_carousel_wrapper">
-            <div class="client_logo_carousel_track">
+    <div class="client_logo_carousel_wrapper">
+        <div class="client_logo_carousel_track">
                 <?php 
                 // Nhân đôi logos để tạo hiệu ứng infinite loop
                 $duplicatedLogos = array_merge($clientLogos, $clientLogos, $clientLogos);
@@ -40,5 +39,4 @@ if (!isset($clientLogos) || empty($clientLogos)) {
                 <?php endforeach; ?>
             </div>
         </div>
-    </div>
 </section>

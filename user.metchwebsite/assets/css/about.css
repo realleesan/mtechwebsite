@@ -14,11 +14,11 @@ html, body {
 }
 
 /* ---- Utility spacing ---- */
-.sec_gap       { padding: 100px 0; }
+.sec_gap       { padding: 60px 0; }
 .mb_20         { margin-bottom: 20px !important; }
 .mb_30         { margin-bottom: 30px !important; }
 .mb_40         { margin-bottom: 40px !important; }
-.mb_55         { margin-bottom: 55px !important; }
+.mb_55         { margin-bottom: 30px !important; }
 .mb_0          { margin-bottom: 0 !important; }
 .mt_7          { margin-top: 7px !important; }
 

@@ -12,7 +12,7 @@
 (function () {
     'use strict';
 
-    const SPEED          = 1.4;  // px/frame (~84px/s ở 60fps)
+    const SPEED          = 0;    // px/frame — TẮT animation tự động
     const DRAG_THRESHOLD = 5;    // px — dưới ngưỡng này vẫn là click
 
     function initCarousel() {
