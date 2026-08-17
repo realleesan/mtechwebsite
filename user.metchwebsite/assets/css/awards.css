@@ -386,3 +386,131 @@
         font-size: 12px;
     }
 }
+
+
+/* ============================================================
+   CAPACITY TABLE — Bảng chứng chỉ năng lực hoạt động xây dựng
+   ============================================================ */
+
+.capacity_table_area {
+    background: #fff;
+    padding: 60px 0;
+}
+
+.capacity_table_area .section_title {
+    text-align: left;
+}
+
+.capacity_table_area .section_title p {
+    text-align: left;
+    margin-left: 0;
+}
+
+.capacity_table_wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.capacity_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 15px;
+    color: #1a2a6c;
+    min-width: 500px;
+}
+
+/* Header */
+.capacity_table thead tr {
+    background: #dce6f7;
+}
+
+.capacity_table thead th {
+    padding: 12px 16px;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid #b0c4e8;
+    color: #1a2a6c;
+}
+
+.capacity_table thead th.col_name {
+    text-align: center;
+}
+
+/* Column widths */
+.capacity_table .col_tt   { width: 60px;  text-align: center; }
+.capacity_table .col_name { width: auto; }
+.capacity_table .col_rank { width: 130px; text-align: center; }
+
+/* All cells */
+.capacity_table td {
+    padding: 10px 16px;
+    border: 1px solid #c8d8f0;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+/* Hàng cha — nền xanh nhạt, chữ đậm */
+.capacity_row_parent td {
+    background: #eef3fc;
+    font-weight: 700;
+    color: #1a2a6c;
+}
+
+.capacity_row_parent .col_tt {
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* Hàng con — nền trắng */
+.capacity_row_child td {
+    background: #fff;
+    color: #1a2a6c;
+}
+
+.capacity_row_child .col_tt {
+    text-align: center;
+    color: #8899cc;
+}
+
+/* Dấu "–" trước tên mục con */
+.capacity_dash {
+    display: inline-block;
+    margin-right: 10px;
+    color: #1a2a6c;
+    font-weight: 400;
+}
+
+/* Cột hạng — in nghiêng, màu xanh */
+.capacity_row_child .col_rank {
+    text-align: center;
+    font-style: italic;
+    font-weight: 500;
+    color: #1a2a6c;
+}
+
+/* Hover */
+.capacity_row_child:hover td {
+    background: #f0f5ff;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .capacity_table_area {
+        padding: 40px 0;
+    }
+
+    .capacity_table {
+        font-size: 13px;
+    }
+
+    .capacity_table td,
+    .capacity_table th {
+        padding: 8px 10px;
+    }
+
+    .capacity_table .col_rank {
+        width: 90px;
+    }
+}

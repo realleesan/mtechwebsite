@@ -373,12 +373,42 @@
 
 @media (max-width: 767px) {
     .home_slider {
-        height: 150px;
-        padding: 0 15px;
+        height: auto;
+        padding: 0;
+    }
+
+    .slider_track {
+        height: auto;
+    }
+
+    .slider_page {
+        position: relative;
+        inset: auto;
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
+        transition: opacity 0.8s ease;
+    }
+
+    .slider_page.active {
+        opacity: 1;
+        height: auto;
+        overflow: visible;
     }
 
     .slider_grid {
-        gap: 10px;
+        grid-template-columns: 1fr;
+        gap: 0;
+        height: auto;
+    }
+
+    .slider_grid_item {
+        height: 200px;
+        width: 100%;
+    }
+
+    .home_banner_area {
+        margin-top: 10px;
     }
 
     .slider_line1,
@@ -412,6 +442,10 @@
 
     .promo_box_item {
         padding: 25px 20px;
+    }
+
+    .welcome_area {
+        padding: 25px 0 20px;
     }
 }
 
@@ -510,6 +544,97 @@
 }
 
 /* ==========================================
+   SERVICES CAROUSEL
+   ========================================== */
+.services_carousel_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.services_carousel_wrapper {
+    flex: 1;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.services_carousel_track {
+    display: flex;
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.services_carousel_page {
+    flex: 0 0 100%;
+    min-width: 100%;
+    width: 100%;
+}
+
+.services_carousel_page .row {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+.services_carousel_page .col-lg-3,
+.services_carousel_page .col-md-6,
+.services_carousel_page .col-sm-6 {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+    width: 100% !important;
+}
+
+.services_carousel_btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #3363DD;
+    cursor: pointer;
+    padding: 10px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.services_carousel_btn:hover {
+    color: #1a3fa8;
+    transform: scale(1.2);
+}
+
+.services_carousel_pagination {
+    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.services_carousel_dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #3363DD;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.services_carousel_dot.active {
+    background: #3363DD;
+}
+
+.services_carousel_dot:hover {
+    background: rgba(51, 99, 221, 0.5);
+}
+
+/* ==========================================
    SERVICES SECTION
    ========================================== */
 .service_area {
@@ -520,8 +645,13 @@
 /* Title vẫn trong container, grid ảnh tràn cạnh */
 .service_area .container {
     max-width: 100%;
-    padding-left: 40px;
-    padding-right: 40px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.service_area > .container {
+    padding: 0 40px;
 }
 
 .service_area .section_title {
@@ -529,6 +659,7 @@
     max-width: 1140px;
     margin-left: auto;
     margin-right: auto;
+    padding: 0;
 }
 
 .service_area .section_title p {
@@ -782,16 +913,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    color: #fff;
+    color: #3363DD;
     font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     font-style: normal;
     margin: 0;
     padding: 15px 0;
     z-index: 2;
     transition: all 0.4s ease;
-    background: rgba(255, 255, 255, 0.3);
+    background: #FFFFFF;
     text-align: center;
     height: 60px;
     display: flex;
@@ -825,6 +956,15 @@
 
 .projects_carousel_wrapper:active {
     cursor: grabbing;
+}
+
+@media (max-width: 767px) {
+    .projects_carousel_wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
 }
 
 .projects_carousel_track {
@@ -863,18 +1003,31 @@
 }
 
 @media (max-width: 767px) {
-    .projects_slide {
-        width: calc(50% - 10px);
-        min-width: 160px;
+    .projects_carousel_track {
+        scroll-snap-type: x mandatory;
     }
+
+    .projects_slide {
+        width: 100vw;
+        max-width: 100%;
+        min-width: 100%;
+        scroll-snap-align: start;
+        scroll-behavior: smooth;
+    }
+    
     .projects_slide .featured_pr_item {
-        height: 260px;
+        height: 400px;
     }
 }
 
 @media (max-width: 575px) {
     .projects_slide {
-        width: 280px;
+        width: 100vw;
+        max-width: 100%;
+    }
+    
+    .projects_slide .featured_pr_item {
+        height: 350px;
     }
 }
 
@@ -1863,6 +2016,26 @@
     visibility: visible;
 }
 
+/* Grid layout cho service items — 4 cột đều nhau */
+.services_carousel_page .row {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+.services_carousel_page .col-lg-3,
+.services_carousel_page .col-md-6,
+.services_carousel_page .col-sm-6 {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+    width: 100% !important;
+}
+
 /* Chevron Buttons */
 .services_carousel_btn {
     flex-shrink: 0;
@@ -1958,6 +2131,11 @@
     .service_area .row {
         grid-template-columns: repeat(2, 1fr) !important;
     }
+    
+    .services_carousel_page .row {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
 }
 
 @media (max-width: 767px) {
@@ -1975,6 +2153,11 @@
     .service_area .row {
         grid-template-columns: repeat(2, 1fr) !important;
     }
+    
+    .services_carousel_page .row {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+    }
 }
 
 @media (max-width: 575px) {
@@ -1986,6 +2169,11 @@
     
     .service_area .row {
         grid-template-columns: 1fr !important;
+    }
+    
+    .services_carousel_page .row {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
     }
     
     .services_carousel_pagination {

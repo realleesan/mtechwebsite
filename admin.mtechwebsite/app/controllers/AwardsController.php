@@ -1,49 +1,55 @@
 <?php
+/**
+ * AwardsController (admin)
+ * Đã thay hoàn toàn để quản lý bảng Chứng chỉ năng lực hoạt động xây dựng.
+ * Routes /awards/* → quản lý capacity_fields + capacity_field_items
+ */
+
 require_once __DIR__ . '/../../core/database.php';
-require_once __DIR__ . '/../models/AwardsModel.php';
+require_once __DIR__ . '/../models/CapacityFieldsModel.php';
 require_once __DIR__ . '/../middleware/AuthMiddleware.php';
 
 class AwardsController extends BaseController
 {
-    private $model;
-
-    /** Upload directory — lưu trong admin site, DB lưu URL tuyệt đối */
-    private const UPLOAD_DIR     = '/assets/uploads/awards/';
-    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
-    private const MAX_FILE_SIZE  = 2 * 1024 * 1024; // 2MB
-    private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    private CapacityFieldsModel $model;
 
     public function __construct()
     {
         AuthMiddleware::requireLogin();
-        $this->model = new AwardsModel();
+        $this->model = new CapacityFieldsModel();
     }
 
     // ----------------------------------------
-    // Index
+    // INDEX — Danh sách lĩnh vực + mục con
     // ----------------------------------------
 
     public function index()
     {
-        $awards = $this->model->getAll();
+        $fields = $this->model->getAllFields();
+        foreach ($fields as &$field) {
+            $field['items'] = $this->model->getItemsByField($field['id']);
+        }
+        unset($field);
+
         $this->view('awards/index', [
-            'title'  => 'Quản lý Giải thưởng - Admin MTech',
+            'title'  => 'Chứng chỉ năng lực - Admin MTech',
             'page'   => 'awards',
-            'awards' => $awards,
+            'fields' => $fields,
             'admin'  => AuthMiddleware::getAdmin(),
         ]);
     }
 
     // ----------------------------------------
-    // Create
+    // CREATE / STORE — Lĩnh vực cha
     // ----------------------------------------
 
     public function create()
     {
         $this->view('awards/create', [
-            'title' => 'Thêm giải thưởng - Admin MTech',
-            'page'  => 'award.create',
-            'admin' => AuthMiddleware::getAdmin(),
+            'title'     => 'Thêm lĩnh vực - Chứng chỉ năng lực',
+            'page'      => 'award.create',
+            'nextOrder' => $this->model->getNextFieldOrder(),
+            'admin'     => AuthMiddleware::getAdmin(),
         ]);
     }
 
@@ -56,35 +62,19 @@ class AwardsController extends BaseController
 
         $name = trim($_POST['name'] ?? '');
         if (empty($name)) {
-            $_SESSION['error'] = 'Vui lòng nhập tên giải thưởng';
+            $_SESSION['error'] = 'Vui lòng nhập tên lĩnh vực';
             $this->redirect('/awards/create');
             return;
         }
 
-        $data = [
-            'name'        => $name,
-            'certificate' => trim($_POST['certificate'] ?? ''),
-            'status'      => (int)($_POST['status']     ?? 1),
-            'sort_order'  => (int)($_POST['sort_order'] ?? 0),
-            'image'       => '',
-        ];
+        $id = $this->model->createField([
+            'sort_order' => (int)($_POST['sort_order'] ?? 1),
+            'name'       => $name,
+            'status'     => (int)($_POST['status']     ?? 1),
+        ]);
 
-        // Handle image upload
-        if (!empty($_FILES['image']['name'])) {
-            $imagePath = $this->handleImageUpload($_FILES['image']);
-            if ($imagePath === false) {
-                $_SESSION['error'] = 'Ảnh không hợp lệ. Chỉ chấp nhận JPG, PNG, GIF, WEBP và tối đa 2MB';
-                $this->redirect('/awards/create');
-                return;
-            }
-            $data['image'] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $imagePath;
-        }
-
-        $id = $this->model->create($data);
         if ($id) {
-            $this->model->reorderAwards($id, $data['sort_order']);
-            $this->model->normalizeOrders();
-            $_SESSION['success'] = 'Thêm giải thưởng thành công!';
+            $_SESSION['success'] = 'Thêm lĩnh vực thành công!';
             $this->redirect('/awards');
         } else {
             $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
@@ -93,21 +83,23 @@ class AwardsController extends BaseController
     }
 
     // ----------------------------------------
-    // Edit
+    // EDIT / UPDATE — Lĩnh vực cha
     // ----------------------------------------
 
     public function edit($id)
     {
-        $award = $this->model->getById($id);
-        if (!$award) {
-            $_SESSION['error'] = 'Không tìm thấy giải thưởng';
+        $field = $this->model->getFieldById((int)$id);
+        if (!$field) {
+            $_SESSION['error'] = 'Không tìm thấy lĩnh vực';
             $this->redirect('/awards');
             return;
         }
+        $field['items'] = $this->model->getItemsByField((int)$id);
+
         $this->view('awards/edit', [
-            'title' => 'Chỉnh sửa giải thưởng - Admin MTech',
+            'title' => 'Chỉnh sửa lĩnh vực - Chứng chỉ năng lực',
             'page'  => 'award.edit',
-            'award' => $award,
+            'field' => $field,
             'admin' => AuthMiddleware::getAdmin(),
         ]);
     }
@@ -119,48 +111,26 @@ class AwardsController extends BaseController
             return;
         }
 
-        $award = $this->model->getById($id);
-        if (!$award) {
-            $_SESSION['error'] = 'Không tìm thấy giải thưởng';
+        $field = $this->model->getFieldById((int)$id);
+        if (!$field) {
+            $_SESSION['error'] = 'Không tìm thấy lĩnh vực';
             $this->redirect('/awards');
             return;
         }
 
         $name = trim($_POST['name'] ?? '');
         if (empty($name)) {
-            $_SESSION['error'] = 'Vui lòng nhập tên giải thưởng';
+            $_SESSION['error'] = 'Vui lòng nhập tên lĩnh vực';
             $this->redirect('/awards/edit/' . $id);
             return;
         }
 
-        $data = [
-            'name'        => $name,
-            'certificate' => trim($_POST['certificate'] ?? ''),
-            'status'      => (int)($_POST['status']     ?? 1),
-            'sort_order'  => (int)($_POST['sort_order'] ?? 0),
-        ];
-
-        // Handle image upload (chỉ cập nhật nếu có file mới)
-        if (!empty($_FILES['image']['name'])) {
-            $imagePath = $this->handleImageUpload($_FILES['image']);
-            if ($imagePath === false) {
-                $_SESSION['error'] = 'Ảnh không hợp lệ. Chỉ chấp nhận JPG, PNG, GIF, WEBP và tối đa 2MB';
-                $this->redirect('/awards/edit/' . $id);
-                return;
-            }
-            // Xóa ảnh cũ nếu có
-            $this->deleteOldImage($award['image'] ?? '');
-            $data['image'] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $imagePath;
-        } elseif (!empty($_POST['remove_image']) && $_POST['remove_image'] === '1') {
-            // Admin bấm "Xóa ảnh" mà không upload ảnh mới → xóa ảnh cũ, set image = ''
-            $this->deleteOldImage($award['image'] ?? '');
-            $data['image'] = '';
-        }
-
-        if ($this->model->update($id, $data)) {
-            $this->model->reorderAwards($id, $data['sort_order'], $award['sort_order']);
-            $this->model->normalizeOrders();
-            $_SESSION['success'] = 'Cập nhật giải thưởng thành công!';
+        if ($this->model->updateField((int)$id, [
+            'sort_order' => (int)($_POST['sort_order'] ?? 1),
+            'name'       => $name,
+            'status'     => (int)($_POST['status']     ?? 1),
+        ])) {
+            $_SESSION['success'] = 'Cập nhật lĩnh vực thành công!';
             $this->redirect('/awards');
         } else {
             $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
@@ -169,7 +139,7 @@ class AwardsController extends BaseController
     }
 
     // ----------------------------------------
-    // Delete — Soft delete (chuyển vào thùng rác)
+    // DELETE — Lĩnh vực cha (soft delete kèm items)
     // ----------------------------------------
 
     public function delete($id)
@@ -179,154 +149,173 @@ class AwardsController extends BaseController
             return;
         }
 
-        $award = $this->model->getById($id);
-        if (!$award) {
-            $_SESSION['error'] = 'Không tìm thấy giải thưởng';
-            $this->redirect('/awards');
-            return;
-        }
-
-        if ($this->model->delete($id)) {
-            $_SESSION['success'] = 'Đã chuyển giải thưởng vào thùng rác';
+        if ($this->model->deleteField((int)$id)) {
+            $_SESSION['success'] = 'Đã xóa lĩnh vực thành công';
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa';
         }
-
         $this->redirect('/awards');
     }
 
     // ----------------------------------------
-    // Trash — Danh sách đã xóa
+    // ITEM: CREATE / STORE — Mục con
+    // Dùng route: /awards/{fieldId}/items/create  (thêm vào admin router)
     // ----------------------------------------
 
-    public function trash()
+    public function createItem($fieldId)
     {
-        $page    = max(1, (int)($_GET['page'] ?? 1));
-        $perPage = 20;
-        $offset  = ($page - 1) * $perPage;
+        $field = $this->model->getFieldById((int)$fieldId);
+        if (!$field) {
+            $_SESSION['error'] = 'Không tìm thấy lĩnh vực';
+            $this->redirect('/awards');
+            return;
+        }
 
-        $awards     = $this->model->getTrashed($perPage, $offset);
-        $total      = $this->model->countTrashed();
-        $totalPages = (int)ceil($total / $perPage);
-
-        $this->view('awards/trash', [
-            'title'       => 'Thùng rác - Giải thưởng - Admin MTech',
-            'page'        => 'awards',
-            'awards'      => $awards,
-            'total'       => $total,
-            'currentPage' => $page,
-            'totalPages'  => $totalPages,
-            'admin'       => AuthMiddleware::getAdmin(),
+        $this->view('awards/create-item', [
+            'title'     => 'Thêm mục - ' . htmlspecialchars($field['name']),
+            'page'      => 'award.create',
+            'field'     => $field,
+            'nextOrder' => $this->model->getNextItemOrder((int)$fieldId),
+            'admin'     => AuthMiddleware::getAdmin(),
         ]);
     }
 
-    // ----------------------------------------
-    // Restore — Khôi phục từ thùng rác
-    // ----------------------------------------
-
-    public function restore($id)
+    public function storeItem($fieldId)
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('/awards/trash');
+            $this->redirect('/awards/' . $fieldId . '/items/create');
             return;
         }
 
-        if ($this->model->restore((int)$id)) {
-            $_SESSION['success'] = 'Đã khôi phục giải thưởng thành công';
-        } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi khôi phục';
+        $field = $this->model->getFieldById((int)$fieldId);
+        if (!$field) {
+            $_SESSION['error'] = 'Không tìm thấy lĩnh vực';
+            $this->redirect('/awards');
+            return;
         }
 
-        $this->redirect('/awards/trash');
+        $name = trim($_POST['name'] ?? '');
+        if (empty($name)) {
+            $_SESSION['error'] = 'Vui lòng nhập tên mục';
+            $this->redirect('/awards/' . $fieldId . '/items/create');
+            return;
+        }
+
+        // Ưu tiên rank_custom nếu có
+        $rank = trim($_POST['rank_custom'] ?? '');
+        if (empty($rank)) {
+            $rank = trim($_POST['rank'] ?? '');
+        }
+
+        $id = $this->model->createItem([
+            'field_id'   => (int)$fieldId,
+            'name'       => $name,
+            'rank'       => $rank,
+            'sort_order' => (int)($_POST['sort_order'] ?? 1),
+            'status'     => (int)($_POST['status']     ?? 1),
+        ]);
+
+        if ($id) {
+            $_SESSION['success'] = 'Thêm mục thành công!';
+            $this->redirect('/awards/edit/' . $fieldId);
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            $this->redirect('/awards/' . $fieldId . '/items/create');
+        }
     }
 
     // ----------------------------------------
-    // Hard Delete — Xóa vĩnh viễn
+    // ITEM: EDIT / UPDATE
     // ----------------------------------------
 
-    public function hardDelete($id)
+    public function editItem($itemId)
+    {
+        $item = $this->model->getItemById((int)$itemId);
+        if (!$item) {
+            $_SESSION['error'] = 'Không tìm thấy mục';
+            $this->redirect('/awards');
+            return;
+        }
+        $field = $this->model->getFieldById($item['field_id']);
+
+        $this->view('awards/edit-item', [
+            'title' => 'Chỉnh sửa mục - Chứng chỉ năng lực',
+            'page'  => 'award.edit',
+            'item'  => $item,
+            'field' => $field,
+            'admin' => AuthMiddleware::getAdmin(),
+        ]);
+    }
+
+    public function updateItem($itemId)
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('/awards/trash');
+            $this->redirect('/awards/items/edit/' . $itemId);
             return;
         }
 
-        $award = $this->model->getById($id);
-        if (!$award) {
-            $_SESSION['error'] = 'Không tìm thấy giải thưởng';
-            $this->redirect('/awards/trash');
+        $item = $this->model->getItemById((int)$itemId);
+        if (!$item) {
+            $_SESSION['error'] = 'Không tìm thấy mục';
+            $this->redirect('/awards');
             return;
         }
 
-        if ($this->model->hardDelete((int)$id)) {
-            $this->deleteOldImage($award['image'] ?? '');
-            $this->model->normalizeOrders();
-            $_SESSION['success'] = 'Đã xóa vĩnh viễn giải thưởng';
+        $name = trim($_POST['name'] ?? '');
+        if (empty($name)) {
+            $_SESSION['error'] = 'Vui lòng nhập tên mục';
+            $this->redirect('/awards/items/edit/' . $itemId);
+            return;
+        }
+
+        $rank = trim($_POST['rank_custom'] ?? '');
+        if (empty($rank)) {
+            $rank = trim($_POST['rank'] ?? '');
+        }
+
+        if ($this->model->updateItem((int)$itemId, [
+            'name'       => $name,
+            'rank'       => $rank,
+            'sort_order' => (int)($_POST['sort_order'] ?? 1),
+            'status'     => (int)($_POST['status']     ?? 1),
+        ])) {
+            $_SESSION['success'] = 'Cập nhật mục thành công!';
+            $this->redirect('/awards/edit/' . $item['field_id']);
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa vĩnh viễn';
+            $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            $this->redirect('/awards/items/edit/' . $itemId);
         }
-
-        $this->redirect('/awards/trash');
     }
 
     // ----------------------------------------
-    // Helpers
+    // ITEM: DELETE
     // ----------------------------------------
 
-    /**
-     * Xử lý upload file ảnh giải thưởng.
-     * @return string|false  Tên file nếu thành công, false nếu thất bại
-     */
-    private function handleImageUpload(array $file): string|false
+    public function deleteItem($itemId)
     {
-        if ($file['error'] !== UPLOAD_ERR_OK) {
-            return false;
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('/awards');
+            return;
         }
 
-        if ($file['size'] > self::MAX_FILE_SIZE) {
-            return false;
+        $item    = $this->model->getItemById((int)$itemId);
+        $fieldId = $item['field_id'] ?? null;
+
+        if ($this->model->deleteItem((int)$itemId)) {
+            $_SESSION['success'] = 'Đã xóa mục thành công';
+        } else {
+            $_SESSION['error'] = 'Có lỗi xảy ra khi xóa';
         }
 
-        // Validate MIME type thực sự
-        $finfo    = finfo_open(FILEINFO_MIME_TYPE);
-        $mimeType = finfo_file($finfo, $file['tmp_name']);
-        finfo_close($finfo);
-
-        if (!in_array($mimeType, self::ALLOWED_TYPES)) {
-            return false;
-        }
-
-        $uploadDir = __DIR__ . '/../../assets/uploads/awards/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-        }
-
-        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        $filename  = 'award_' . uniqid('', true) . '.' . $extension;
-        $filepath  = $uploadDir . $filename;
-
-        if (move_uploaded_file($file['tmp_name'], $filepath)) {
-            return $filename;
-        }
-
-        return false;
+        $this->redirect($fieldId ? '/awards/edit/' . $fieldId : '/awards');
     }
 
-    /**
-     * Xóa file ảnh cũ khỏi disk.
-     * Chỉ xóa nếu là ảnh do admin upload (URL tuyệt đối của admin site).
-     */
-    private function deleteOldImage(string $imagePath): void
-    {
-        if (empty($imagePath)) return;
+    // ----------------------------------------
+    // Giữ các method cũ để router không lỗi
+    // (trash, restore, hardDelete không dùng nữa nhưng route còn đăng ký)
+    // ----------------------------------------
 
-        if (strpos($imagePath, self::ADMIN_BASE_URL) === false) return;
-
-        $filename = basename($imagePath);
-        $fullPath = __DIR__ . '/../../assets/uploads/awards/' . $filename;
-
-        if (file_exists($fullPath)) {
-            @unlink($fullPath);
-        }
-    }
+    public function trash()       { $this->redirect('/awards'); }
+    public function restore($id)  { $this->redirect('/awards'); }
+    public function hardDelete($id) { $this->redirect('/awards'); }
 }

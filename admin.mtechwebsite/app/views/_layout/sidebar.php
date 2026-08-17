@@ -66,11 +66,11 @@ $headerSettings = $headerModel->getSettingsWithFallback();
                 </a>
             </li>
 
-            <!-- Awards -->
+            <!-- Awards / Chứng chỉ năng lực -->
             <li class="nav-item">
                 <a href="/awards" class="nav-link <?= in_array($currentPage, ['awards', 'award.create', 'award.edit', 'award.trash']) ? 'active' : '' ?>">
-                    <i class="bi bi-trophy"></i>
-                    <span>Giải thưởng</span>
+                    <i class="bi bi-patch-check"></i>
+                    <span>Chứng chỉ năng lực</span>
                 </a>
             </li>
 

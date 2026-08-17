@@ -152,17 +152,39 @@ class AdminRouter
         $this->post('/teams/hard-delete/{id}',  'TeamsController@hardDelete');
 
         // ----------------------------------------
-        // Awards
+        // Capacity Fields (Chứng chỉ năng lực)
         // ----------------------------------------
-        $this->get('/awards',                   'AwardsController@index');
-        $this->get('/awards/create',            'AwardsController@create');
-        $this->post('/awards/store',            'AwardsController@store');
-        $this->get('/awards/edit/{id}',         'AwardsController@edit');
-        $this->post('/awards/update/{id}',      'AwardsController@update');
-        $this->post('/awards/delete/{id}',      'AwardsController@delete');
-        $this->get('/awards/trash',             'AwardsController@trash');
-        $this->post('/awards/restore/{id}',     'AwardsController@restore');
-        $this->post('/awards/hard-delete/{id}', 'AwardsController@hardDelete');
+        $this->get('/capacity-fields',                              'CapacityFieldsController@index');
+        $this->get('/capacity-fields/create',                       'CapacityFieldsController@createField');
+        $this->post('/capacity-fields/store',                       'CapacityFieldsController@storeField');
+        $this->get('/capacity-fields/edit/{id}',                    'CapacityFieldsController@editField');
+        $this->post('/capacity-fields/update/{id}',                 'CapacityFieldsController@updateField');
+        $this->post('/capacity-fields/delete/{id}',                 'CapacityFieldsController@deleteField');
+        $this->get('/capacity-fields/{fieldId}/items/create',       'CapacityFieldsController@createItem');
+        $this->post('/capacity-fields/{fieldId}/items/store',       'CapacityFieldsController@storeItem');
+        $this->get('/capacity-fields/items/edit/{itemId}',          'CapacityFieldsController@editItem');
+        $this->post('/capacity-fields/items/update/{itemId}',       'CapacityFieldsController@updateItem');
+        $this->post('/capacity-fields/items/delete/{itemId}',       'CapacityFieldsController@deleteItem');
+
+        // ----------------------------------------
+        // Awards → Chứng chỉ năng lực hoạt động xây dựng
+        // ----------------------------------------
+        $this->get('/awards',                           'AwardsController@index');
+        $this->get('/awards/create',                    'AwardsController@create');
+        $this->post('/awards/store',                    'AwardsController@store');
+        $this->get('/awards/edit/{id}',                 'AwardsController@edit');
+        $this->post('/awards/update/{id}',              'AwardsController@update');
+        $this->post('/awards/delete/{id}',              'AwardsController@delete');
+        // Items (mục con)
+        $this->get('/awards/{fieldId}/items/create',    'AwardsController@createItem');
+        $this->post('/awards/{fieldId}/items/store',    'AwardsController@storeItem');
+        $this->get('/awards/items/edit/{itemId}',       'AwardsController@editItem');
+        $this->post('/awards/items/update/{itemId}',    'AwardsController@updateItem');
+        $this->post('/awards/items/delete/{itemId}',    'AwardsController@deleteItem');
+        // Giữ lại để không lỗi 404 nếu URL cũ còn được gọi
+        $this->get('/awards/trash',                     'AwardsController@trash');
+        $this->post('/awards/restore/{id}',             'AwardsController@restore');
+        $this->post('/awards/hard-delete/{id}',         'AwardsController@hardDelete');
 
         // ----------------------------------------
         // Client Logos

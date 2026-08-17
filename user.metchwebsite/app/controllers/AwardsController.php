@@ -1,42 +1,43 @@
 <?php
 /**
- * AwardsController - Xử lý trang giải thưởng
- * Chuyển logic từ index.php case 'awards'
+ * AwardsController - Xử lý trang giải thưởng & chứng chỉ năng lực
  */
 
 require_once __DIR__ . '/../../core/BaseController.php';
 require_once __DIR__ . '/../models/AwardsModel.php';
+require_once __DIR__ . '/../models/CapacityFieldsModel.php';
 
 class AwardsController extends BaseController
 {
     private $awardsModel;
-    
+    private CapacityFieldsModel $capacityModel;
+
     public function __construct()
     {
-        $this->awardsModel = new AwardsModel();
+        $this->awardsModel   = new AwardsModel();
+        $this->capacityModel = new CapacityFieldsModel();
     }
-    
+
     /**
-     * Hiển thị danh sách giải thưởng
+     * Hiển thị trang chứng chỉ năng lực:
+     * - Bảng lĩnh vực hoạt động (capacity_fields + items)
+     * - Carousel ảnh giải thưởng / chứng chỉ (awards)
      */
     public function index()
     {
-        // Lấy dữ liệu từ model
-        $awards = $this->awardsModel->getAllActive();
-        
-        // Chuẩn bị data cho view
-        $data = [
-            'awards' => $awards,
-            
+        $awards         = $this->awardsModel->getAllActive();
+        $capacityFields = $this->capacityModel->getAllWithItems();
+
+        $this->view('about/awards.php', [
+            'awards'         => $awards,
+            'capacityFields' => $capacityFields,
+
             // Layout variables
-            'page' => 'awards',
-            'title' => 'Chứng chỉ năng lực - MTECH.JSC',
+            'page'           => 'awards',
+            'title'          => 'Chứng chỉ năng lực - MTECH.JSC',
             'showPageHeader' => true,
-            'showCTA' => false,
-            'showBreadcrumb' => true
-        ];
-        
-        // Render view
-        $this->view('about/awards.php', $data);
+            'showCTA'        => false,
+            'showBreadcrumb' => true,
+        ]);
     }
 }
