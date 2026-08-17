@@ -42,6 +42,13 @@ try {
     }
 
     echo "</ul>";
+
+    // Cập nhật logo cho header_settings
+    try {
+        $db->exec("UPDATE `header_settings` SET `logo_path` = 'assets/images/logo_mtech.png' WHERE `id` = 1");
+        echo "<li style='color:green;'>✅ Đã cập nhật logo header trong database sang <code>assets/images/logo_mtech.png</code></li>";
+    } catch (Exception $ex) {}
+
     echo "<h3 style='color:green;'>🎉 Bảng `projects` đã được cập nhật đầy đủ 10 trường thông số kỹ thuật và thư viện ảnh!</h3>";
 
 } catch (Exception $e) {

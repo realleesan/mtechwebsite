@@ -102,18 +102,27 @@ class ProjectsController extends BaseController
             // Mặc định (Root): hiển thị các lĩnh vực cấp 1
             $mode = 'categories';
             $displayCategories = $childrenMap[0] ?? [];
+        } elseif (!empty($_GET['categories'])) {
+            // Người dùng dùng BỘ LỌC SIDEBAR -> Lọc và hiển thị đúng các Thẻ Lĩnh vực được tick chọn (Hướng 2)
+            $mode = 'categories';
+            foreach ($selectedCatIds as $id) {
+                if (isset($categoryMap[$id])) {
+                    $displayCategories[] = $categoryMap[$id];
+                }
+            }
+            $breadcrumbs[] = ['title' => 'Lĩnh vực đã lọc (' . count($displayCategories) . ')', 'url' => null];
         } else {
-            // Có chọn danh mục
+            // Người dùng click vào một Thẻ Lĩnh vực (Drill-Down)
             if ($singleCategory !== null) {
                 $hasChildren = !empty($childrenMap[(int)$singleCategory['id']]);
-                if ($hasChildren && empty($_GET['categories'])) {
-                    // Lĩnh vực này là LĨNH VỰC CHA và CÓ CON -> Hiển thị danh sách lĩnh vực con
+                if ($hasChildren) {
+                    // Lĩnh vực này là LĨNH VỰC CHA và CÓ CON -> Hiển thị danh sách các thẻ lĩnh vực con
                     $mode = 'categories';
                     $currentParentCategory = $singleCategory;
                     $displayCategories = $childrenMap[(int)$singleCategory['id']] ?? [];
                     $breadcrumbs[] = ['title' => $singleCategory['name'], 'url' => null];
                 } else {
-                    // Lĩnh vực LÁ (không có con) hoặc được lọc từ sidebar -> Hiển thị danh sách dự án
+                    // Lĩnh vực LÁ (không có con hoặc cấp con cuối cùng) -> Hiển thị danh sách các Dự án
                     $mode = 'projects';
                     if (!empty($singleCategory['parent_id']) && isset($categoryMap[(int)$singleCategory['parent_id']])) {
                         $parentCat = $categoryMap[(int)$singleCategory['parent_id']];
@@ -122,8 +131,8 @@ class ProjectsController extends BaseController
                     $breadcrumbs[] = ['title' => $singleCategory['name'], 'url' => null];
                 }
             } else {
-                // Lọc nhiều danh mục cùng lúc từ sidebar -> Hiển thị danh sách dự án
-                $mode = 'projects';
+                $mode = 'categories';
+                $displayCategories = $childrenMap[0] ?? [];
             }
         }
 

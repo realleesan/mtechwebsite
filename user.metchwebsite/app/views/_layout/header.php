@@ -157,7 +157,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
         
         <!-- Logo + MTECH - Moved from Topbar -->
         <a class="navbar_logo" href="./">
-            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" class="navbar_logo_img">
+            <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($headerSettings['logo_alt'] ?? 'MTechJSC'); ?>" class="navbar_logo_img">
             <span class="navbar_logo_text">MTECH</span>
         </a>
         
