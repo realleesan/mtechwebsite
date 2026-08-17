@@ -31,7 +31,6 @@ $totalPages = $totalPages ?? 1;
             <div class="col-lg-9 order-2 order-lg-1">
                 
                 <!-- Filter Status Bar -->
-                <?php if (!empty($activeCategoryNames) || $totalProjects > 0): ?>
                 <div class="projects_filter_status_bar">
                     <div class="status_left">
                         <span class="projects_count_text">
@@ -39,8 +38,8 @@ $totalPages = $totalPages ?? 1;
                         </span>
                     </div>
 
-                    <?php if (!empty($activeCategoryNames)): ?>
                     <div class="status_right" id="active-filter-badges-wrapper">
+                        <?php if (!empty($activeCategoryNames)): ?>
                         <div class="active-filter-tags">
                             <span class="active-filter-label"><i class="fa fa-filter"></i> Đang lọc:</span>
                             <?php foreach ($activeCategoryNames as $catId => $name): ?>
@@ -49,12 +48,11 @@ $totalPages = $totalPages ?? 1;
                                     <button type="button" class="btn-remove-tag" data-id="<?php echo (int)$catId; ?>" title="Bỏ chọn">&times;</button>
                                 </span>
                             <?php endforeach; ?>
-                            <a href="/du-an" class="btn-clear-all-tags">Xóa tất cả</a>
+                            <button type="button" class="btn-clear-all-tags" id="btn-clear-all-filters">Xóa tất cả</button>
                         </div>
+                        <?php endif; ?>
                     </div>
-                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
 
                 <!-- Projects Grid Container -->
                 <div class="projects_grid_wrapper">

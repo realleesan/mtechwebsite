@@ -127,34 +127,51 @@
     }
 
     /**
-     * 4. Bỏ chọn một badge tag đang lọc
+     * 4. Bỏ chọn một badge tag đang lọc hoặc Xóa tất cả bộ lọc
      */
     function initActiveTagRemoval() {
         document.addEventListener('click', function(e) {
+            // Xử lý nút xóa 1 tag cụ thể (x)
             const removeBtn = e.target.closest('.btn-remove-tag');
-            if (!removeBtn) return;
+            if (removeBtn) {
+                e.preventDefault();
+                const catId = removeBtn.getAttribute('data-id');
+                if (!catId) return;
 
-            e.preventDefault();
-            const catId = removeBtn.getAttribute('data-id');
-            if (!catId) return;
-
-            // Tìm checkbox tương ứng và uncheck
-            const targetCb = document.querySelector(`.project-filter-checkbox[value="${catId}"]`);
-            if (targetCb) {
-                targetCb.checked = false;
-                const item = targetCb.closest('.project-cat-item');
-                if (item) {
-                    item.classList.remove('is-checked');
-                    const childCbs = item.querySelectorAll('.project-cat-children .project-filter-checkbox');
-                    childCbs.forEach(function(c) {
-                        c.checked = false;
-                        const cItem = c.closest('.project-cat-item');
-                        if (cItem) cItem.classList.remove('is-checked');
-                    });
+                // Tìm checkbox tương ứng và uncheck
+                const targetCb = document.querySelector(`.project-filter-checkbox[value="${catId}"]`);
+                if (targetCb) {
+                    targetCb.checked = false;
+                    const item = targetCb.closest('.project-cat-item');
+                    if (item) {
+                        item.classList.remove('is-checked');
+                        const childCbs = item.querySelectorAll('.project-cat-children .project-filter-checkbox');
+                        childCbs.forEach(function(c) {
+                            c.checked = false;
+                            const cItem = c.closest('.project-cat-item');
+                            if (cItem) cItem.classList.remove('is-checked');
+                        });
+                    }
                 }
+
+                applyFilter(1, false, true);
+                return;
             }
 
-            applyFilter(1, false, true);
+            // Xử lý nút "Xóa tất cả" / "Xóa bộ lọc"
+            const clearAllBtn = e.target.closest('.btn-clear-all-tags') || e.target.closest('#btn-reset-project-filter') || e.target.closest('.btn_filter_reset_inline');
+            if (clearAllBtn) {
+                e.preventDefault();
+                const checkboxes = document.querySelectorAll('.project-filter-checkbox');
+                checkboxes.forEach(function(cb) {
+                    cb.checked = false;
+                    const item = cb.closest('.project-cat-item');
+                    if (item) item.classList.remove('is-checked');
+                });
+
+                applyFilter(1, false, true);
+                return;
+            }
         });
     }
 

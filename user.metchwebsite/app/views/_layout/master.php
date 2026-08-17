@@ -353,7 +353,7 @@ mb_http_output('UTF-8');
             echo '<script src="assets/js/teams.js"></script>';
             break;
         case 'projects':
-            echo '<script src="assets/js/projects.js?v=1.2"></script>';
+            echo '<script src="assets/js/projects.js?v=1.3"></script>';
             break;
         case 'project-details':
             echo '<script src="assets/js/projects.details.js"></script>';
