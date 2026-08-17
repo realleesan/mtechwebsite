@@ -444,17 +444,18 @@ class ProjectsModel {
     }
 
     // ============================================================
-    // NEW METHODS FOR SERVICES (CATEGORIES)
+    // METHODS FOR SERVICES (CATEGORIES)
     // ============================================================
     
     /**
      * Lấy tất cả lĩnh vực (categories) kèm parent_id để build hierarchy
+     * Chỉ lấy các lĩnh vực chưa bị xóa (deleted_at IS NULL)
      * @return array Danh sách lĩnh vực phẳng
      */
     public function getServices() {
         try {
             $sql = "SELECT id, parent_id, name, slug FROM categories 
-                    WHERE status = 1 
+                    WHERE status = 1 AND deleted_at IS NULL 
                     ORDER BY sort_order ASC, name ASC";
             $stmt = $this->db->query($sql);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -508,7 +509,7 @@ class ProjectsModel {
      }
      
      /**
-      * Lấy lĩnh vực của một dự án
+      * Lấy lĩnh vực của một dự án (loại bỏ lĩnh vực trong thùng rác)
       * @param int $projectId ID dự án
       * @return array Danh sách lĩnh vực
       */
@@ -519,6 +520,7 @@ class ProjectsModel {
                      INNER JOIN categories c ON ps.category_id = c.id
                      WHERE ps.project_id = ? 
                      AND c.status = 1
+                     AND c.deleted_at IS NULL
                      ORDER BY c.sort_order ASC, c.name ASC";
              $stmt = $this->db->prepare($sql);
              $stmt->execute([$projectId]);
@@ -555,7 +557,7 @@ class ProjectsModel {
     }
     
     /**
-     * Get services for multiple projects
+     * Get services for multiple projects (loại bỏ lĩnh vực trong thùng rác)
      * @param array $projectIds Array of project IDs
      * @return array Services grouped by project ID
      */
@@ -572,6 +574,7 @@ class ProjectsModel {
                     INNER JOIN categories c ON ps.category_id = c.id
                     WHERE ps.project_id IN ($placeholders)
                     AND c.status = 1
+                    AND c.deleted_at IS NULL
                     ORDER BY ps.project_id, c.sort_order ASC, c.name ASC";
             
             $stmt = $this->db->prepare($sql);

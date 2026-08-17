@@ -221,7 +221,12 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                     </ul>
                 </li>
                 
-                <!-- Services (Dropdown Menu đa cấp) -->
+                <!-- Services (Dropdown Menu chỉ hiển thị lĩnh vực cấp 1) -->
+                <?php
+                $level1Services = array_filter($allServices, function($cat) {
+                    return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
+                });
+                ?>
                 <li class="nav-item submenu services-dropdown <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
                     <a class="nav-link" href="#" title="Lĩnh vực hoạt động" onclick="return false;">
                         LĨNH VỰC HOẠT ĐỘNG
@@ -231,7 +236,13 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         <li class="nav-item all-categories-item">
                             <a class="nav-link" href="/linh-vuc" title="Tất cả lĩnh vực">TẤT CẢ LĨNH VỰC</a>
                         </li>
-                        <?php echo renderDropdownMenuItems($servicesTree, 0, '/linh-vuc-'); ?>
+                        <?php foreach ($level1Services as $service): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/linh-vuc-<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
+                                <?php echo mb_strtoupper(htmlspecialchars($service['name']), 'UTF-8'); ?>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </li>
                 
