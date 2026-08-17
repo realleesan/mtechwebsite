@@ -1,60 +1,63 @@
 <?php
 /**
  * Projects Details Page View
- * Trang chi tiết dự án
+ * Trang chi tiết dự án - Bố cục 2 phần: Trái (Slider ảnh trực quan) & Phải (10 mục thông số)
  * 
  * Biến truyền vào từ ProjectsController:
- * - $project: array chứa thông tin dự án
+ * - $projectDetail: array thông tin dự án
+ * - $projectServices: array các lĩnh vực của dự án
  * - $relatedProjects: array dự án liên quan
- * - Các biến từ master.php: $title, $breadcrumbs, etc.
  */
 
 // Kiểm tra dữ liệu từ controller
 $projectDetail = $projectDetail ?? null;
 
-// Nếu không tìm thấy project, hiển thị thông báo lỗi
 if (!$projectDetail) {
     $projectNotFound = true;
 } else {
     $projectNotFound = false;
-  
-    // Parse tags thành array
-    $tags = [];
-    if (!empty($projectDetail['tags'])) {
-        $tags = array_map('trim', explode(',', $projectDetail['tags']));
+
+    // Thu thập danh sách ảnh cho Slider
+    $slideImages = [];
+    if (!empty($projectDetail['image'])) {
+        $slideImages[] = $projectDetail['image'];
     }
-  
-    // Parse result_items từ JSON
-    $resultItems = [];
-    if (!empty($projectDetail['result_items'])) {
-        $decoded = json_decode($projectDetail['result_items'], true);
-        if (is_array($decoded)) {
-            $resultItems = $decoded;
+    if (!empty($projectDetail['detail_image']) && !in_array($projectDetail['detail_image'], $slideImages)) {
+        $slideImages[] = $projectDetail['detail_image'];
+    }
+    if (!empty($projectDetail['gallery'])) {
+        $decodedGallery = json_decode($projectDetail['gallery'], true);
+        if (is_array($decodedGallery)) {
+            foreach ($decodedGallery as $gImg) {
+                if (!empty($gImg) && !in_array($gImg, $slideImages)) {
+                    $slideImages[] = $gImg;
+                }
+            }
         }
     }
-  
-    // Format ngày
-    $projectDate = '';
-    if (!empty($projectDetail['project_date'])) {
-        $months = ['January' => 'tháng 1', 'February' => 'tháng 2', 'March' => 'tháng 3', 'April' => 'tháng 4', 
-                   'May' => 'tháng 5', 'June' => 'tháng 6', 'July' => 'tháng 7', 'August' => 'tháng 8',
-                   'September' => 'tháng 9', 'October' => 'tháng 10', 'November' => 'tháng 11', 'December' => 'tháng 12'];
-        $englishDate = date('d F, Y', strtotime($projectDetail['project_date']));
-        $vietnameseDate = strtr($englishDate, $months);
-        $projectDate = $vietnameseDate;
+    if (empty($slideImages)) {
+        $slideImages[] = 'assets/images/placeholder-project.jpg';
     }
-    
-      
-    // Xác định ảnh sử dụng
-    $detailImage = $projectDetail['detail_image'] ?? ($projectDetail['image'] ?? '');
-    $whatWeDidImage = $projectDetail['what_we_did_image'] ?? '';
+
+    // 10 Mục thông số kỹ thuật chuẩn hóa
+    $specsList = [
+        1 => ['label' => 'Tên dự án', 'value' => $projectDetail['title'] ?? ''],
+        2 => ['label' => 'Công suất', 'value' => $projectDetail['capacity'] ?? ''],
+        3 => ['label' => 'Địa điểm xây dựng', 'value' => $projectDetail['location'] ?? ''],
+        4 => ['label' => 'Chủ đầu tư dự án', 'value' => $projectDetail['client'] ?? ''],
+        5 => ['label' => 'Tổng mức đầu tư', 'value' => $projectDetail['total_investment'] ?? ''],
+        6 => ['label' => 'Năm xây dựng / hoàn thành', 'value' => $projectDetail['construction_year'] ?? ''],
+        7 => ['label' => 'Hình thức gói thầu (EP/EPC)', 'value' => $projectDetail['bidding_form'] ?? ''],
+        8 => ['label' => 'Nhà thầu cung cấp thiết bị', 'value' => $projectDetail['equipment_contractor'] ?? ''],
+        9 => ['label' => 'Đơn vị tư vấn thiết kế xây dựng', 'value' => $projectDetail['design_consultant'] ?? ''],
+        10 => ['label' => 'Đơn vị tư vấn giám sát', 'value' => $projectDetail['supervision_consultant'] ?? ''],
+    ];
 }
 ?>
 
 <?php if ($projectNotFound): ?>
 
 <!-- Project Not Found State -->
-
 <section class="project_details_area sec_gap">
     <div class="container">
         <div class="project-not-found">
@@ -62,7 +65,7 @@ if (!$projectDetail) {
             <h2>Không tìm thấy dự án</h2>
             <p>Dự án bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
             <a href="/du-an" class="btn-back">
-                <i class="fa fa-arrow-left"></i> Quay lại dự án
+                <i class="fa fa-arrow-left"></i> Quay lại trang dự án
             </a>
         </div>
     </div>
@@ -70,166 +73,112 @@ if (!$projectDetail) {
 
 <?php else: ?>
 
-<!-- Project Details Area -->
-
+<!-- Project Details Area - 2 Columns Layout -->
 <section class="project_details_area sec_gap">
     <div class="container">
-        <div class="row">
-            <!-- Project Main Image -->
-            <div class="col-lg-8 pr_image">
-                <?php if ($detailImage): ?>
-                    <img class="img-fluid" src="<?php echo htmlspecialchars($detailImage); ?>" alt="<?php echo htmlspecialchars($projectDetail['title'] ?? 'Project'); ?>">
-                <?php else: ?>
-                    <img class="img-fluid" src="assets/images/placeholder-project.jpg" alt="<?php echo htmlspecialchars($projectDetail['title'] ?? 'Project'); ?>">
-                <?php endif; ?>
-            </div>
-
-    <!-- Project Info Box -->
-            <div class="col-lg-4">
-                <div class="project_info">
-                    <ul class="list-unstyled">
-                        <?php if (!empty($projectDetail['client'])): ?>
-                        <li>
-                            <span>Khách hàng :</span>
-                            <?php echo htmlspecialchars($projectDetail['client']); ?>
-                        </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($projectServices)): ?>
-                        <li>
-                            <span>Danh mục :</span>
-                            <?php 
-                            $serviceNames = [];
-                            foreach ($projectServices as $service) {
-                                $serviceNames[] = htmlspecialchars($service['name']);
-                            }
-                            echo implode(', ', $serviceNames);
-                            ?>
-                        </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($projectDetail['project_date'])): ?>
-                        <li>
-                            <span>Ngày :</span>
-                            <?php echo $projectDate ?? ''; ?>
-                        </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($projectDetail['status_label'])): ?>
-                        <li>
-                            <span>Trạng thái :</span>
-                            <?php echo htmlspecialchars($projectDetail['status_label']); ?>
-                        </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($projectDetail['live_demo'])): ?>
-                        <li>
-                            <span>Link dự án :</span>
-                            <a href="<?php echo htmlspecialchars($projectDetail['live_demo'] ?? ''); ?>" target="_blank" rel="noopener noreferrer">
-                                <?php echo htmlspecialchars($projectDetail['live_demo'] ?? ''); ?>
-                            </a>
-                        </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($tags)): ?>
-                        <li>
-                            <span>Thẻ :</span>
-                            <?php echo htmlspecialchars(implode(', ', $tags ?? [])); ?>
-                        </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Project Description -->
-
-            <?php if (!empty($projectDetail['content'])): ?>
-                <div class="col-lg-12 project-content-col">
-                    <div class="project-content">
-                        <?php echo $projectDetail['content']; ?>
-                    </div>
-                </div>
-            <?php elseif (!empty($projectDetail['description'])): ?>
-                <div class="col-lg-12 project-content-col">
-                    <p class="mb_30">
-                        <?php echo htmlspecialchars($projectDetail['description']); ?>
-                    </p>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-
-</section>
-
-<!-- What We Did Section -->
-
-<?php if (!empty($projectDetail['what_we_did'])): ?>
-
-<section class="project_list_area bg_color_two sec_gap">
-    <div class="container">
-        <div class="row project_list">
-            <div class="col-lg-8">
-                <div class="pr_content">
-                    <h2 class="f_size_32 f_600 title_color mb_20">
-                        <?php echo htmlspecialchars($projectDetail['what_we_did_title'] ?? 'Công việc thực hiện'); ?>
-                    </h2>
-
-                    <?php echo $projectDetail['what_we_did'] ?? ''; ?>
-                </div>
-            </div>
-
-                    <?php if ($whatWeDidImage): ?>
-            <div class="col-lg-4">
-                <img class="img-fluid" src="<?php echo htmlspecialchars($whatWeDidImage); ?>" alt="Công việc thực hiện">
-            </div>
-            <?php endif; ?>
-        </div>
-    </div>
-
-</section>
-<?php endif; ?>
-
-<!-- Results Section -->
-
-<?php if (!empty($projectDetail['results']) || !empty($resultItems)): ?>
-
-<section class="results_area sec_gap">
-    <div class="container">
-        <div class="result_content pr_content">
-            <h2 class="f_size_32 f_600 title_color mb_20">
-                <?php echo !empty($projectDetail['results_title']) ? htmlspecialchars($projectDetail['results_title']) : 'Kết quả'; ?>
-            </h2>
-
-                    <?php if (!empty($projectDetail['results'])): ?>
-                        <?php echo $projectDetail['results']; ?>
-                    <?php endif; ?>
-
-                    <?php if (!empty($resultItems)): ?>
-            <div class="pr_item_info">
-                <?php foreach ($resultItems as $item): ?>
-                <div class="pr_item">
-                    <span class="dot"></span>
-                    <?php echo $item; ?>
-                </div>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
-        </div>
-    </div>
-
-</section>
-<?php endif; ?>
-
-<!-- Back to Projects Button -->
-
-<section class="back-to-projects sec_gap" style="padding-top: 0;">
-    <div class="container">
-        <div class="text-center">
+        
+        <!-- Header & Breadcrumb Top Bar -->
+        <div class="project-details-topbar mb-4">
             <a href="/du-an" class="btn-back-projects">
-                <i class="fa fa-arrow-left"></i> Xem tất cả dự án
+                <i class="fa fa-arrow-left me-1"></i> Quay lại danh mục dự án
             </a>
         </div>
-    </div>
+
+        <div class="row align-items-start g-4">
+            
+            <!-- CỘT BÊN TRÁI (col-lg-7): Slider Ảnh Trực Quan Của Dự Án -->
+            <div class="col-lg-7">
+                <div class="project-slider-wrapper">
+                    
+                    <!-- Main Slider Stage -->
+                    <div class="project-main-slider-container" id="projectMainSlider">
+                        <div class="project-slides-track">
+                            <?php foreach ($slideImages as $index => $imgUrl): ?>
+                                <div class="project-slide-item <?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $index; ?>">
+                                    <img src="<?php echo htmlspecialchars($imgUrl); ?>" alt="<?php echo htmlspecialchars($projectDetail['title']); ?>" loading="<?php echo $index === 0 ? 'eager' : 'lazy'; ?>">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <!-- Prev / Next Navigation Controls -->
+                        <?php if (count($slideImages) > 1): ?>
+                            <button type="button" class="slider-arrow-btn prev-btn" id="sliderPrevBtn" aria-label="Ảnh trước">
+                                <i class="fa fa-angle-left"></i>
+                            </button>
+                            <button type="button" class="slider-arrow-btn next-btn" id="sliderNextBtn" aria-label="Ảnh tiếp">
+                                <i class="fa fa-angle-right"></i>
+                            </button>
+                        <?php endif; ?>
+
+                        <!-- Bullet Dots Indicator -->
+                        <?php if (count($slideImages) > 1): ?>
+                            <div class="slider-dots-container" id="sliderDots">
+                                <?php foreach ($slideImages as $index => $imgUrl): ?>
+                                    <button type="button" class="slider-dot <?php echo $index === 0 ? 'active' : ''; ?>" data-slide-to="<?php echo $index; ?>" aria-label="Đến ảnh <?php echo $index + 1; ?>"></button>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Thumbnails Navigation (Nếu có từ 2 ảnh trở lên) -->
+                    <?php if (count($slideImages) > 1): ?>
+                        <div class="project-slider-thumbnails mt-3">
+                            <?php foreach ($slideImages as $index => $imgUrl): ?>
+                                <div class="slider-thumb-item <?php echo $index === 0 ? 'active' : ''; ?>" data-thumb-index="<?php echo $index; ?>">
+                                    <img src="<?php echo htmlspecialchars($imgUrl); ?>" alt="Thumbnail <?php echo $index + 1; ?>">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            </div><!-- /.col-lg-7 -->
+
+            <!-- CỘT BÊN PHẢI (col-lg-5): 10 Mục Thông Số Dự Án -->
+            <div class="col-lg-5">
+                <div class="project-specs-card">
+                    <div class="specs-card-header">
+                        <h3 class="specs-card-title">Thông tin dự án</h3>
+                        <span class="specs-card-br"></span>
+                    </div>
+
+                    <div class="specs-card-body">
+                        <table class="table project-specs-table mb-0">
+                            <tbody>
+                                <?php foreach ($specsList as $num => $spec): ?>
+                                    <tr class="spec-row">
+                                        <th class="spec-label" scope="row">
+                                            <span class="spec-num"><?php echo $num; ?>.</span> <?php echo htmlspecialchars($spec['label']); ?>:
+                                        </th>
+                                        <td class="spec-value">
+                                            <?php 
+                                            $val = trim($spec['value']);
+                                            if (!empty($val)) {
+                                                echo htmlspecialchars($val);
+                                            } else {
+                                                echo '<span class="text-muted">—</span>';
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <?php if (!empty($projectDetail['description'])): ?>
+                        <div class="specs-card-description mt-3 pt-3 border-top">
+                            <h5 class="f_size_16 f_600 title_color mb-2">Mô tả tóm tắt:</h5>
+                            <p class="text-secondary small mb-0"><?php echo nl2br(htmlspecialchars($projectDetail['description'])); ?></p>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            </div><!-- /.col-lg-5 -->
+
+        </div><!-- /.row -->
+
+    </div><!-- /.container -->
 </section>
 
 <?php endif; ?>

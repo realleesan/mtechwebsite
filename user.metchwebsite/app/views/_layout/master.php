@@ -115,10 +115,10 @@ mb_http_output('UTF-8');
             echo '<link rel="stylesheet" href="assets/css/clients.css">';
             break;
         case 'projects':
-            echo '<link rel="stylesheet" href="assets/css/projects.css?v=1.2">';
+            echo '<link rel="stylesheet" href="assets/css/projects.css?v=2.0">';
             break;
         case 'project-details':
-            echo '<link rel="stylesheet" href="assets/css/projects.details.css">';
+            echo '<link rel="stylesheet" href="assets/css/projects.details.css?v=2.0">';
             break;
         case 'categories':
             echo '<link rel="stylesheet" href="assets/css/categories.css">';
@@ -353,10 +353,10 @@ mb_http_output('UTF-8');
             echo '<script src="assets/js/teams.js"></script>';
             break;
         case 'projects':
-            echo '<script src="assets/js/projects.js?v=1.3"></script>';
+            echo '<script src="assets/js/projects.js?v=2.0"></script>';
             break;
         case 'project-details':
-            echo '<script src="assets/js/projects.details.js"></script>';
+            echo '<script src="assets/js/projects.details.js?v=2.0"></script>';
             break;
         case 'categories':
             echo '<script src="assets/js/categories.js"></script>';

@@ -21,8 +21,14 @@ class CategoriesController extends BaseController
      */
     public function index()
     {
+        $allCategories = $this->categoriesModel->getAllCategories();
+        $level1Services = array_filter($allCategories, function($cat) {
+            return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
+        });
+
         // Chuẩn bị data cho view
         $data = [
+            'services' => $level1Services,
             // Layout variables
             'page' => 'categories',
             'title' => 'Lĩnh vực - MTECHJSC',

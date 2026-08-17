@@ -9,7 +9,14 @@
 if (!isset($services)) {
     require_once __DIR__ . '/../../../app/models/CategoriesModel.php';
     $categoriesModel = new CategoriesModel();
-    $services        = $categoriesModel->getAllCategories();
+    $allServices     = $categoriesModel->getAllCategories();
+    $services        = array_filter($allServices, function($cat) {
+        return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
+    });
+} else {
+    $services = array_filter($services, function($cat) {
+        return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
+    });
 }
 
 $templateImages = [

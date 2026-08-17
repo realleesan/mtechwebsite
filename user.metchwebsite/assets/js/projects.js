@@ -1,6 +1,5 @@
 /**
- * projects.js — Quản lý bộ lọc lĩnh vực và tương tác trang Dự án
- * Chỉ thực hiện lọc khi người dùng nhấn nút "Lọc dự án"
+ * projects.js — Quản lý bộ lọc lĩnh vực và điều hướng phân cấp (Drill-Down) trang Dự án
  */
 
 (function() {
@@ -18,12 +17,13 @@
         initCheckboxInteractions();
         initFilterFormSubmit();
         initActiveTagRemoval();
+        initDrillDownClicks();
         initPaginationClicks();
         initHistoryPopstate();
     }
 
     /**
-     * 1. Xử lý Chevron đóng/mở danh mục con
+     * 1. Xử lý Chevron đóng/mở danh mục con trong Sidebar
      */
     function initChevronToggle() {
         document.addEventListener('click', function(e) {
@@ -65,7 +65,7 @@
     }
 
     /**
-     * 2. Xử lý Checkbox cha - con (chọn cha tự động check/uncheck con)
+     * 2. Xử lý Checkbox cha - con trong Sidebar (chọn cha tự động check/uncheck con)
      * (KHÔNG tự động lọc, chỉ cập nhật trạng thái ô checkbox)
      */
     function initCheckboxInteractions() {
@@ -114,7 +114,7 @@
     }
 
     /**
-     * 3. Xử lý Submit Form khi người dùng bấm nút "Lọc dự án"
+     * 3. Xử lý Submit Form khi người dùng bấm nút "Lọc dự án" ở Sidebar
      */
     function initFilterFormSubmit() {
         const filterForm = document.getElementById('project-filter-form');
@@ -122,7 +122,23 @@
 
         filterForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            applyFilter(1, true, true);
+            
+            const checkedCheckboxes = document.querySelectorAll('.project-filter-checkbox:checked');
+            const selectedIds = [];
+            checkedCheckboxes.forEach(function(cb) {
+                const val = cb.value.trim();
+                if (val && !selectedIds.includes(val)) {
+                    selectedIds.push(val);
+                }
+            });
+
+            const params = new URLSearchParams();
+            if (selectedIds.length > 0) {
+                params.set('categories', selectedIds.join(','));
+            }
+            const queryUrl = params.toString() ? '/du-an?' + params.toString() : '/du-an';
+
+            fetchAndRender(queryUrl, 1, true, true);
         });
     }
 
@@ -154,11 +170,19 @@
                     }
                 }
 
-                applyFilter(1, false, true);
+                // Thu thập lại các IDs còn lại
+                const checked = document.querySelectorAll('.project-filter-checkbox:checked');
+                const remainingIds = [];
+                checked.forEach(function(c) {
+                    if (c.value) remainingIds.push(c.value);
+                });
+
+                const queryUrl = remainingIds.length > 0 ? '/du-an?categories=' + remainingIds.join(',') : '/du-an';
+                fetchAndRender(queryUrl, 1, false, true);
                 return;
             }
 
-            // Xử lý nút "Xóa tất cả" / "Xóa bộ lọc"
+            // Xử lý nút "Xóa tất cả" / "Xóa bộ lọc" / "Về tất cả lĩnh vực"
             const clearAllBtn = e.target.closest('.btn-clear-all-tags') || e.target.closest('#btn-reset-project-filter') || e.target.closest('.btn_filter_reset_inline');
             if (clearAllBtn) {
                 e.preventDefault();
@@ -169,14 +193,31 @@
                     if (item) item.classList.remove('is-checked');
                 });
 
-                applyFilter(1, false, true);
+                fetchAndRender('/du-an', 1, false, true);
                 return;
             }
         });
     }
 
     /**
-     * 5. Phân trang AJAX
+     * 5. Xử lý click vào Card Lĩnh vực (Drill-Down) hoặc Breadcrumbs
+     */
+    function initDrillDownClicks() {
+        document.addEventListener('click', function(e) {
+            // Click vào thẻ lĩnh vực hoặc link breadcrumb
+            const drillDownLink = e.target.closest('.btn-drilldown-cat') || e.target.closest('.btn-drilldown-cat-title') || e.target.closest('.drilldown-bc-link');
+            if (!drillDownLink) return;
+
+            e.preventDefault();
+            const href = drillDownLink.getAttribute('href');
+            if (href) {
+                fetchAndRender(href, 1, true, true);
+            }
+        });
+    }
+
+    /**
+     * 6. Phân trang AJAX
      */
     function initPaginationClicks() {
         document.addEventListener('click', function(e) {
@@ -191,74 +232,41 @@
 
             const targetPage = parseInt(pageLink.getAttribute('data-page'), 10);
             if (!isNaN(targetPage) && targetPage > 0) {
-                applyFilter(targetPage, true, true);
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('p', targetPage);
+                fetchAndRender(currentUrl.pathname + currentUrl.search, targetPage, true, true);
             }
         });
     }
 
     /**
-     * 6. Nút Back/Forward của trình duyệt
+     * 7. Nút Back/Forward của trình duyệt (History Popstate)
      */
     function initHistoryPopstate() {
         window.addEventListener('popstate', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const catParam = urlParams.get('categories') || '';
-            const pageParam = parseInt(urlParams.get('p') || '1', 10);
-            const selectedIds = catParam ? catParam.split(',').map(function(id) { return id.trim(); }) : [];
-
-            // Cập nhật lại checkbox
-            const checkboxes = document.querySelectorAll('.project-filter-checkbox');
-            checkboxes.forEach(function(cb) {
-                const isSelected = selectedIds.includes(cb.value);
-                cb.checked = isSelected;
-                const item = cb.closest('.project-cat-item');
-                if (item) {
-                    if (isSelected) item.classList.add('is-checked');
-                    else item.classList.remove('is-checked');
-                }
-            });
-
-            applyFilter(pageParam, false, false);
+            const currentPathWithSearch = window.location.pathname + window.location.search;
+            fetchAndRender(currentPathWithSearch, 1, false, false);
         });
     }
 
     /**
-     * Hàm lõi: Thực hiện lọc dự án qua AJAX
+     * HÀM LÕI: Gửi AJAX request và cập nhật toàn bộ giao diện
      */
-    function applyFilter(pageNum = 1, shouldScroll = false, shouldPushState = true) {
+    function fetchAndRender(targetUrlString, pageNum = 1, shouldScroll = false, shouldPushState = true) {
         if (isRequestRunning) return;
         isRequestRunning = true;
 
-        // 1. Lấy danh sách ID các checkbox được chọn
-        const checkedCheckboxes = document.querySelectorAll('.project-filter-checkbox:checked');
-        const selectedIds = [];
-        checkedCheckboxes.forEach(function(cb) {
-            const val = cb.value.trim();
-            if (val && !selectedIds.includes(val)) {
-                selectedIds.push(val);
-            }
-        });
+        // Parse target URL
+        const parsedUrl = new URL(targetUrlString, window.location.origin);
+        parsedUrl.searchParams.set('ajax', '1');
 
-        // 2. Hiệu ứng làm mờ nhẹ danh sách (không overlay)
         const listContainer = document.getElementById('projects-list-container');
         if (listContainer) {
-            listContainer.style.opacity = '0.6';
+            listContainer.style.opacity = '0.5';
             listContainer.style.transition = 'opacity 0.2s ease';
         }
 
-        // 3. Xây dựng URL
-        const currentPath = window.location.pathname;
-        const params = new URLSearchParams();
-        params.set('ajax', '1');
-        params.set('p', pageNum);
-        if (selectedIds.length > 0) {
-            params.set('categories', selectedIds.join(','));
-        }
-
-        const requestUrl = currentPath + '?' + params.toString();
-
-        // 4. Gửi AJAX request
-        fetch(requestUrl, {
+        fetch(parsedUrl.toString(), {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -273,43 +281,81 @@
         })
         .then(function(data) {
             if (data.status === 'success') {
-                // Cập nhật danh sách dự án
+                // 1. Cập nhật Grid chính
                 if (listContainer) {
                     listContainer.innerHTML = data.html;
                 }
 
-                // Cập nhật phân trang
+                // 2. Cập nhật Breadcrumbs
+                const breadcrumbsWrapper = document.getElementById('project-breadcrumbs-wrapper');
+                if (breadcrumbsWrapper) {
+                    breadcrumbsWrapper.innerHTML = data.breadcrumbs_html || '';
+                }
+
+                // 3. Cập nhật Phân trang
                 const paginationContainer = document.getElementById('projects-pagination-container');
                 if (paginationContainer) {
-                    paginationContainer.innerHTML = data.pagination_html;
+                    paginationContainer.innerHTML = data.pagination_html || '';
                 }
 
-                // Cập nhật số lượng dự án
-                const countTextStrong = document.querySelector('.projects_count_text strong');
-                if (countTextStrong && data.total !== undefined) {
-                    countTextStrong.textContent = data.total;
-                }
-
-                // Cập nhật badges
+                // 4. Cập nhật Badges
                 const badgesWrapper = document.getElementById('active-filter-badges-wrapper');
                 if (badgesWrapper) {
-                    badgesWrapper.innerHTML = data.badges_html;
+                    badgesWrapper.innerHTML = data.badges_html || '';
                 }
 
-                // Cập nhật URL trình duyệt
+                // 5. Cập nhật Count Text
+                const countTextSpan = document.querySelector('.projects_count_text');
+                if (countTextSpan && data.total !== undefined) {
+                    if (data.mode === 'categories') {
+                        countTextSpan.innerHTML = `Hiển thị <strong>${data.total}</strong> dự án theo lĩnh vực`;
+                    } else {
+                        countTextSpan.innerHTML = `Hiển thị <strong>${data.total}</strong> dự án`;
+                    }
+                }
+
+                // 6. Đồng bộ lại trạng thái Checkboxes trong Sidebar
+                const selectedIds = data.selected_ids || [];
+                const checkboxes = document.querySelectorAll('.project-filter-checkbox');
+                checkboxes.forEach(function(cb) {
+                    const isSelected = selectedIds.includes(parseInt(cb.value, 10)) || selectedIds.includes(cb.value);
+                    cb.checked = isSelected;
+                    const item = cb.closest('.project-cat-item');
+                    if (item) {
+                        if (isSelected) {
+                            item.classList.add('is-checked');
+                            // Mở rộng parent của nó
+                            let parentItem = item.parentElement.closest('.project-cat-item');
+                            while (parentItem) {
+                                parentItem.classList.add('is-expanded');
+                                const tBtn = parentItem.querySelector(':scope > .project-cat-row .btn-tree-toggle');
+                                if (tBtn) {
+                                    tBtn.setAttribute('aria-expanded', 'true');
+                                    const icon = tBtn.querySelector('i');
+                                    if (icon) {
+                                        icon.classList.remove('fa-chevron-right');
+                                        icon.classList.add('fa-chevron-down');
+                                    }
+                                }
+                                const cList = parentItem.querySelector(':scope > .project-cat-children');
+                                if (cList) cList.style.display = 'block';
+                                parentItem = parentItem.parentElement.closest('.project-cat-item');
+                            }
+                        } else {
+                            item.classList.remove('is-checked');
+                        }
+                    }
+                });
+
+                // 7. Cập nhật URL trình duyệt
                 if (shouldPushState) {
-                    const cleanParams = new URLSearchParams();
-                    if (pageNum > 1) {
-                        cleanParams.set('p', pageNum);
-                    }
-                    if (selectedIds.length > 0) {
-                        cleanParams.set('categories', selectedIds.join(','));
-                    }
-                    const newUrl = currentPath + (cleanParams.toString() ? '?' + cleanParams.toString() : '');
-                    window.history.pushState({ path: newUrl }, '', newUrl);
+                    const cleanUrl = new URL(targetUrlString, window.location.origin);
+                    cleanUrl.searchParams.delete('ajax');
+                    const newPath = cleanUrl.pathname + (cleanUrl.search ? cleanUrl.search : '');
+                    window.history.pushState({ path: newPath }, '', newPath);
                 }
 
-                // Cuộn trang mượt nếu cần
+                // 8. Cuộn trang mượt nếu cần
                 if (shouldScroll) {
                     const scrollTarget = document.querySelector('.projects_filter_status_bar') || document.querySelector('.projects_area');
                     if (scrollTarget) {
@@ -320,11 +366,10 @@
             }
         })
         .catch(function(error) {
-            console.error('[Projects Filter] Lỗi tải dữ liệu:', error);
-            // Fallback: nếu AJAX gặp lỗi trên hosting, submit form theo chuẩn HTML
-            const form = document.getElementById('project-filter-form');
-            if (form && shouldPushState) {
-                form.submit();
+            console.error('[Projects] Error fetching data:', error);
+            // Fallback: nếu AJAX gặp trục trặc, chuyển trang trình duyệt bình thường
+            if (shouldPushState) {
+                window.location.href = targetUrlString;
             }
         })
         .finally(function() {
