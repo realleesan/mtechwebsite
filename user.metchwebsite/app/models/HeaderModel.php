@@ -91,8 +91,8 @@ class HeaderModel
     public function getSettingsWithFallback()
     {
         $defaults = [
-            'logo_path'         => 'assets/images/logo.png',
-            'logo_alt'          => 'Wokrate Industrial',
+            'logo_path'         => 'assets/images/logo_mtech.png',
+            'logo_alt'          => 'MTechJSC',
             'phone'             => '0123 456 789',
             'phone_href'        => '0123456789',
             'iso_text'          => 'ISO 9001 - 2010',

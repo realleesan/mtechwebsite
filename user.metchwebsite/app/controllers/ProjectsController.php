@@ -20,7 +20,7 @@ class ProjectsController extends BaseController
     }
     
     /**
-     * Hiển thị danh sách dự án kèm bộ lọc lĩnh vực
+     * Hiển thị danh sách dự án kèm bộ lọc lĩnh vực và chế độ drill-down phân cấp danh mục
      */
     public function index()
     {
@@ -29,95 +29,21 @@ class ProjectsController extends BaseController
         $limit = 9;
         $offset = ($page - 1) * $limit;
         
-        // Parse selected category IDs từ mọi định dạng query parameters
-        $selectedCatIds = [];
-
-        // Hỗ trợ $_GET['categories'] dạng array hoặc string '1,2,3'
-        if (!empty($_GET['categories'])) {
-            if (is_array($_GET['categories'])) {
-                $selectedCatIds = array_merge($selectedCatIds, array_map('intval', $_GET['categories']));
-            } else {
-                $selectedCatIds = array_merge($selectedCatIds, array_map('intval', explode(',', $_GET['categories'])));
-            }
-        }
-
-        // Hỗ trợ $_GET['category'] dạng array hoặc string
-        if (!empty($_GET['category'])) {
-            if (is_array($_GET['category'])) {
-                $selectedCatIds = array_merge($selectedCatIds, array_map('intval', $_GET['category']));
-            } else {
-                $selectedCatIds = array_merge($selectedCatIds, array_map('intval', explode(',', $_GET['category'])));
-            }
-        }
-
-        // Hỗ trợ $_GET['category_id']
-        if (!empty($_GET['category_id'])) {
-            if (is_array($_GET['category_id'])) {
-                $selectedCatIds = array_merge($selectedCatIds, array_map('intval', $_GET['category_id']));
-            } else {
-                $selectedCatIds = array_merge($selectedCatIds, array_map('intval', explode(',', $_GET['category_id'])));
-            }
-        }
-
-        // Hỗ trợ $_GET['cat'] dạng ID hoặc Slug
-        if (!empty($_GET['cat'])) {
-            $catParam = trim($_GET['cat']);
-            if (is_numeric($catParam)) {
-                $selectedCatIds[] = (int)$catParam;
-            } else {
-                $catObj = $this->categoriesModel->getCategoryBySlug($catParam);
-                if ($catObj) {
-                    $selectedCatIds[] = (int)$catObj['id'];
-                }
-            }
-        }
-
-        // Fallback đọc trực tiếp từ $_SERVER['QUERY_STRING'] nếu $_GET bị server rewrite can thiệp
-        if (empty($selectedCatIds) && !empty($_SERVER['QUERY_STRING'])) {
-            parse_str($_SERVER['QUERY_STRING'], $parsedQs);
-            if (!empty($parsedQs['categories'])) {
-                if (is_array($parsedQs['categories'])) {
-                    $selectedCatIds = array_merge($selectedCatIds, array_map('intval', $parsedQs['categories']));
-                } else {
-                    $selectedCatIds = array_merge($selectedCatIds, array_map('intval', explode(',', $parsedQs['categories'])));
-                }
-            }
-            if (!empty($parsedQs['category'])) {
-                if (is_array($parsedQs['category'])) {
-                    $selectedCatIds = array_merge($selectedCatIds, array_map('intval', $parsedQs['category']));
-                } else {
-                    $selectedCatIds = array_merge($selectedCatIds, array_map('intval', explode(',', $parsedQs['category'])));
-                }
-            }
-            if (!empty($parsedQs['cat'])) {
-                $catParam = trim($parsedQs['cat']);
-                if (is_numeric($catParam)) {
-                    $selectedCatIds[] = (int)$catParam;
-                } else {
-                    $catObj = $this->categoriesModel->getCategoryBySlug($catParam);
-                    if ($catObj) {
-                        $selectedCatIds[] = (int)$catObj['id'];
-                    }
-                }
-            }
-        }
-
-        $selectedCatIds = array_values(array_filter(array_unique($selectedCatIds), function($id) {
-            return $id > 0;
-        }));
-
         // 2. Lấy dữ liệu tất cả categories và tính toán cây phân cấp + đếm số lượng dự án
         $allCategories = $this->categoriesModel->getAllCategories();
         $categoryCounts = $this->projectsModel->getCategoryProjectCounts();
         
-        // Map category ID => category info
+        // Map category ID => category info & Slug => category info
         $categoryMap = [];
+        $categorySlugMap = [];
+        $childrenMap = [];
         foreach ($allCategories as $cat) {
-            $categoryMap[(int)$cat['id']] = $cat;
+            $catId = (int)$cat['id'];
+            $parentId = empty($cat['parent_id']) ? 0 : (int)$cat['parent_id'];
+            $categoryMap[$catId] = $cat;
+            $categorySlugMap[$cat['slug']] = $cat;
+            $childrenMap[$parentId][] = $cat;
         }
-
-        // Tạo mảng allSelectedIds bao gồm cả ID cha và tất cả ID con của các cha đã chọn
-        $allFilterIds = $this->expandCategoryIdsWithChildren($allCategories, $selectedCatIds);
 
         // Gắn số lượng dự án cho từng category và dựng cây phân cấp
         $categoriesWithCounts = [];
@@ -126,30 +52,122 @@ class ProjectsController extends BaseController
             $cat['project_count'] = $categoryCounts[$catId] ?? 0;
             $categoriesWithCounts[] = $cat;
         }
-        
-        // Dựng cây danh mục cha - con
         $categoryTree = $this->categoriesModel->buildTree($categoriesWithCounts);
-        
-        // Tính tổng số lượng đệ quy cho các danh mục cha (bao gồm số dự án của danh mục con)
         $this->computeTreeCounts($categoryTree, $categoryCounts, $allCategories);
 
-        // 3. Lấy dữ liệu dự án đã lọc
-        $totalProjects = $this->projectsModel->countFilteredProjects($allFilterIds, 1);
-        $totalPages = $limit > 0 ? (int)ceil($totalProjects / $limit) : 1;
-        if ($page > $totalPages && $totalPages > 0) {
-            $page = $totalPages;
-            $offset = ($page - 1) * $limit;
+        // 3. Parse tham số xem và lọc
+        $selectedCatIds = [];
+        $singleCategory = null; // Danh mục cụ thể đang được chọn drill-down
+
+        if (!empty($_GET['cat'])) {
+            $catParam = trim($_GET['cat']);
+            if (is_numeric($catParam) && isset($categoryMap[(int)$catParam])) {
+                $singleCategory = $categoryMap[(int)$catParam];
+                $selectedCatIds = [(int)$catParam];
+            } elseif (isset($categorySlugMap[$catParam])) {
+                $singleCategory = $categorySlugMap[$catParam];
+                $selectedCatIds = [(int)$singleCategory['id']];
+            }
+        } elseif (!empty($_GET['category_id'])) {
+            $cId = is_array($_GET['category_id']) ? (int)$_GET['category_id'][0] : (int)$_GET['category_id'];
+            if (isset($categoryMap[$cId])) {
+                $singleCategory = $categoryMap[$cId];
+                $selectedCatIds = [$cId];
+            }
+        } elseif (!empty($_GET['categories'])) {
+            if (is_array($_GET['categories'])) {
+                $selectedCatIds = array_map('intval', $_GET['categories']);
+            } else {
+                $selectedCatIds = array_map('intval', explode(',', $_GET['categories']));
+            }
+            // Nếu chỉ chọn đúng 1 danh mục từ sidebar
+            if (count($selectedCatIds) === 1 && isset($categoryMap[$selectedCatIds[0]])) {
+                $singleCategory = $categoryMap[$selectedCatIds[0]];
+            }
         }
 
-        $projects = $this->projectsModel->getFilteredProjects($allFilterIds, $limit, $offset, 1);
+        $selectedCatIds = array_values(array_filter(array_unique($selectedCatIds), function($id) {
+            return $id > 0;
+        }));
 
-        // Gắn services vào từng project
-        $projectIds = array_column($projects, 'id');
-        $projectsServices = $this->projectsModel->getProjectsServicesList($projectIds);
-        foreach ($projects as &$project) {
-            $project['services'] = $projectsServices[$project['id']] ?? [];
+        // 4. Xác định chế độ hiển thị (Mode): 'categories' hay 'projects'
+        $mode = 'categories';
+        $displayCategories = [];
+        $currentParentCategory = null;
+        $breadcrumbs = [
+            ['title' => 'Tất cả lĩnh vực', 'url' => '/du-an']
+        ];
+
+        if (empty($selectedCatIds)) {
+            // Mặc định (Root): hiển thị các lĩnh vực cấp 1
+            $mode = 'categories';
+            $displayCategories = $childrenMap[0] ?? [];
+        } elseif (!empty($_GET['categories'])) {
+            // Người dùng dùng BỘ LỌC SIDEBAR -> Lọc và hiển thị đúng các Thẻ Lĩnh vực được tick chọn (Hướng 2)
+            $mode = 'categories';
+            foreach ($selectedCatIds as $id) {
+                if (isset($categoryMap[$id])) {
+                    $displayCategories[] = $categoryMap[$id];
+                }
+            }
+            $breadcrumbs[] = ['title' => 'Lĩnh vực đã lọc (' . count($displayCategories) . ')', 'url' => null];
+        } else {
+            // Người dùng click vào một Thẻ Lĩnh vực (Drill-Down)
+            if ($singleCategory !== null) {
+                $hasChildren = !empty($childrenMap[(int)$singleCategory['id']]);
+                if ($hasChildren) {
+                    // Lĩnh vực này là LĨNH VỰC CHA và CÓ CON -> Hiển thị danh sách các thẻ lĩnh vực con
+                    $mode = 'categories';
+                    $currentParentCategory = $singleCategory;
+                    $displayCategories = $childrenMap[(int)$singleCategory['id']] ?? [];
+                    $breadcrumbs[] = ['title' => $singleCategory['name'], 'url' => null];
+                } else {
+                    // Lĩnh vực LÁ (không có con hoặc cấp con cuối cùng) -> Hiển thị danh sách các Dự án
+                    $mode = 'projects';
+                    if (!empty($singleCategory['parent_id']) && isset($categoryMap[(int)$singleCategory['parent_id']])) {
+                        $parentCat = $categoryMap[(int)$singleCategory['parent_id']];
+                        $breadcrumbs[] = ['title' => $parentCat['name'], 'url' => '/du-an?cat=' . urlencode($parentCat['slug'])];
+                    }
+                    $breadcrumbs[] = ['title' => $singleCategory['name'], 'url' => null];
+                }
+            } else {
+                $mode = 'categories';
+                $displayCategories = $childrenMap[0] ?? [];
+            }
         }
-        unset($project);
+
+        // 5. Nếu ở chế độ 'projects', truy vấn dữ liệu dự án
+        $projects = [];
+        $totalProjects = 0;
+        $totalPages = 1;
+
+        if ($mode === 'projects') {
+            $allFilterIds = $this->expandCategoryIdsWithChildren($allCategories, $selectedCatIds);
+            $totalProjects = $this->projectsModel->countFilteredProjects($allFilterIds, 1);
+            $totalPages = $limit > 0 ? (int)ceil($totalProjects / $limit) : 1;
+            if ($page > $totalPages && $totalPages > 0) {
+                $page = $totalPages;
+                $offset = ($page - 1) * $limit;
+            }
+
+            $projects = $this->projectsModel->getFilteredProjects($allFilterIds, $limit, $offset, 1);
+
+            // Gắn services vào từng project
+            $projectIds = array_column($projects, 'id');
+            $projectsServices = $this->projectsModel->getProjectsServicesList($projectIds);
+            foreach ($projects as &$project) {
+                $project['services'] = $projectsServices[$project['id']] ?? [];
+            }
+            unset($project);
+        } else {
+            // Ở chế độ categories, đếm tổng số dự án của danh mục đang xem
+            if ($currentParentCategory !== null) {
+                $parentFilterIds = $this->expandCategoryIdsWithChildren($allCategories, [(int)$currentParentCategory['id']]);
+                $totalProjects = $this->projectsModel->countFilteredProjects($parentFilterIds, 1);
+            } else {
+                $totalProjects = $this->projectsModel->countFilteredProjects([], 1);
+            }
+        }
 
         // Danh sách tên các lĩnh vực đang được chọn để hiển thị badges
         $activeCategoryNames = [];
@@ -159,44 +177,60 @@ class ProjectsController extends BaseController
             }
         }
 
-        // 4. Xử lý AJAX request
+        // 6. Xử lý AJAX request
         $isAjax = isset($_GET['ajax']) && $_GET['ajax'] == '1' 
                || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 
         if ($isAjax) {
-            // Render partial views for AJAX response
             ob_start();
-            $this->renderProjectsGrid($projects);
+            if ($mode === 'categories') {
+                $this->renderCategoriesGrid($displayCategories, $categoryCounts, $allCategories);
+            } else {
+                $this->renderProjectsGrid($projects);
+            }
             $gridHtml = ob_get_clean();
 
             ob_start();
-            $this->renderPagination($page, $totalPages, $selectedCatIds);
+            if ($mode === 'projects') {
+                $this->renderPagination($page, $totalPages, $selectedCatIds);
+            }
             $paginationHtml = ob_get_clean();
 
             ob_start();
             $this->renderActiveFilterBadges($activeCategoryNames);
             $badgesHtml = ob_get_clean();
 
+            ob_start();
+            $this->renderBreadcrumbsNav($breadcrumbs);
+            $breadcrumbsHtml = ob_get_clean();
+
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode([
                 'status' => 'success',
+                'mode' => $mode,
                 'total' => $totalProjects,
                 'page' => $page,
                 'totalPages' => $totalPages,
                 'html' => $gridHtml,
                 'pagination_html' => $paginationHtml,
                 'badges_html' => $badgesHtml,
+                'breadcrumbs_html' => $breadcrumbsHtml,
                 'selected_ids' => $selectedCatIds
             ], JSON_UNESCAPED_UNICODE);
             exit;
         }
 
-        // 5. Chuẩn bị data cho view chính
+        // 7. Chuẩn bị data cho view chính
         $data = [
+            'mode' => $mode,
+            'displayCategories' => $displayCategories,
+            'currentParentCategory' => $currentParentCategory,
+            'breadcrumbs' => $breadcrumbs,
             'projects' => $projects,
             'totalProjects' => $totalProjects,
             'categoryTree' => $categoryTree,
             'allCategories' => $allCategories,
+            'categoryCounts' => $categoryCounts,
             'selectedCatIds' => $selectedCatIds,
             'activeCategoryNames' => $activeCategoryNames,
             'currentPageNum' => $page,
@@ -271,6 +305,90 @@ class ProjectsController extends BaseController
             }
         }
         unset($node);
+    }
+
+    /**
+     * Render grid các lĩnh vực (Chế độ xem phân cấp lĩnh vực)
+     */
+    public function renderCategoriesGrid(array $categories, array $countsMap = [], array $allCategories = []): void
+    {
+        if (!empty($categories)):
+            // Map children count
+            $childrenCountMap = [];
+            foreach ($allCategories as $c) {
+                $pId = empty($c['parent_id']) ? 0 : (int)$c['parent_id'];
+                $childrenCountMap[$pId] = ($childrenCountMap[$pId] ?? 0) + 1;
+            }
+
+            foreach ($categories as $cat):
+                $catId = (int)$cat['id'];
+                $hasChildren = !empty($childrenCountMap[$catId]);
+                $catUrl = '/du-an?cat=' . urlencode($cat['slug']);
+                $imageUrl = !empty($cat['image']) ? $cat['image'] : 'assets/images/services/service-1.jpg';
+                $projectCount = (int)($cat['project_count'] ?? ($countsMap[$catId] ?? 0));
+                $actionText = $hasChildren ? 'Xem lĩnh vực con' : 'Xem dự án';
+            ?>
+            <div class="col-lg-4 col-md-6 project-grid-item category-card-col">
+                <div class="service_item project_service_card category_drilldown_card" data-id="<?php echo $catId; ?>" data-has-children="<?php echo $hasChildren ? '1' : '0'; ?>">
+                    <div class="service_img">
+                        <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="<?php echo htmlspecialchars($cat['name'] ?? ''); ?>" loading="lazy">
+                        <div class="hover_content">
+                            <a href="<?php echo htmlspecialchars($catUrl); ?>" class="read_more btn-drilldown-cat" data-id="<?php echo $catId; ?>" data-slug="<?php echo htmlspecialchars($cat['slug']); ?>">
+                                <?php echo $actionText; ?> <i class="fa <?php echo $hasChildren ? 'fa-folder-open-o' : 'fa-arrow-right'; ?>"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <a href="<?php echo htmlspecialchars($catUrl); ?>" class="btn-drilldown-cat-title" data-id="<?php echo $catId; ?>" data-slug="<?php echo htmlspecialchars($cat['slug']); ?>">
+                        <h3 class="f_size_20 title_color f_600 project_item_title"><?php echo htmlspecialchars($cat['name'] ?? ''); ?></h3>
+                    </a>
+                    <span class="bottom_br"></span>
+                    <p class="project_cat_subtitle">
+                        <?php if ($hasChildren): ?>
+                            <span class="badge-cat-type"><i class="fa fa-sitemap"></i> <?php echo $childrenCountMap[$catId]; ?> lĩnh vực con</span>
+                        <?php else: ?>
+                            <span class="badge-cat-type"><i class="fa fa-briefcase"></i> <?php echo $projectCount; ?> dự án</span>
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="col-12">
+                <div class="no-projects-found">
+                    <div class="no-projects-icon">
+                        <i class="fa fa-folder-open-o"></i>
+                    </div>
+                    <h4>Chưa có lĩnh vực nào trong mục này</h4>
+                    <p>Vui lòng quay lại danh sách tất cả lĩnh vực.</p>
+                    <a href="/du-an" class="btn_filter_reset_inline">
+                        <i class="fa fa-arrow-left"></i> Về trang dự án
+                    </a>
+                </div>
+            </div>
+        <?php endif;
+    }
+
+    /**
+     * Render Breadcrumbs Navigation cho trang Dự án
+     */
+    public function renderBreadcrumbsNav(array $breadcrumbs): void
+    {
+        if (count($breadcrumbs) <= 1) {
+            return;
+        }
+        ?>
+        <nav class="project-drilldown-breadcrumbs mb-3">
+            <ol class="breadcrumb-drilldown-list">
+                <?php foreach ($breadcrumbs as $idx => $bc): ?>
+                    <?php if (!empty($bc['url'])): ?>
+                        <li class="breadcrumb-item"><a href="<?php echo htmlspecialchars($bc['url']); ?>" class="drilldown-bc-link"><i class="fa fa-folder-o me-1"></i><?php echo htmlspecialchars($bc['title']); ?></a></li>
+                    <?php else: ?>
+                        <li class="breadcrumb-item active"><i class="fa fa-folder-open me-1"></i><?php echo htmlspecialchars($bc['title']); ?></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ol>
+        </nav>
+        <?php
     }
 
     /**

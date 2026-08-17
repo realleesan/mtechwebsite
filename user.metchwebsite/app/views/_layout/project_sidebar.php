@@ -132,7 +132,7 @@ if (!function_exists('renderProjectCategoryTree')) {
             <!-- Action Buttons: Chỉ lọc khi bấm nút -->
             <div class="filter_actions_box">
                 <button type="submit" class="btn_filter_apply" id="btn-apply-project-filter">
-                    <i class="fa fa-filter"></i> Lọc dự án
+                    <i class="fa fa-filter"></i> Lọc lĩnh vực
                 </button>
 
                 <?php if ($hasActiveFilter): ?>

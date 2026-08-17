@@ -38,8 +38,8 @@ $companyInfo = [
 <footer class="footer_area">
     <!-- Phần tiêu đề: Logo + Tên công ty -->
     <div class="footer_header" style="text-align: center;">
-        <a href="./" class="f_logo" style="justify-content: center; display: flex;">
-            <img src="assets/images/logo.png" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>">
+        <a href="./" class="f_logo" style="justify-content: center; display: flex; align-items: center; gap: 12px;">
+            <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>" style="max-height: 48px; width: auto;">
             <span class="footer_logo_text" style="font-size: calc(1em + 10px);"><?php echo htmlspecialchars($companyInfo['short_name']); ?> | <?php echo htmlspecialchars($companyInfo['name']); ?></span>
         </a>
     </div>

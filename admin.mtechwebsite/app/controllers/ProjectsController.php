@@ -105,10 +105,17 @@ class ProjectsController extends BaseController
         $data = [
             'title' => $_POST['title'],
             'slug' => $_POST['slug'],
+            'capacity' => $_POST['capacity'] ?? '',
+            'location' => $_POST['location'] ?? '',
+            'client' => $_POST['client'] ?? '',
+            'total_investment' => $_POST['total_investment'] ?? '',
+            'construction_year' => $_POST['construction_year'] ?? '',
+            'bidding_form' => $_POST['bidding_form'] ?? '',
+            'equipment_contractor' => $_POST['equipment_contractor'] ?? '',
+            'design_consultant' => $_POST['design_consultant'] ?? '',
+            'supervision_consultant' => $_POST['supervision_consultant'] ?? '',
             'description' => $_POST['description'] ?? '',
             'content' => $_POST['content'] ?? '',
-            'client' => $_POST['client'] ?? '',
-            'location' => $_POST['location'] ?? '',
             'project_date' => $_POST['project_date'] ?? '',
             'status' => $_POST['status'] ?? 1,
             'sort_order' => (int)($_POST['sort_order'] ?? 0),
@@ -160,7 +167,7 @@ class ProjectsController extends BaseController
         }
 
         // Handle gallery images
-        if (!empty($_FILES['gallery'])) {
+        if (!empty($_FILES['gallery']['name'][0])) {
             $galleryImages = [];
             foreach ($_FILES['gallery']['name'] as $key => $name) {
                 if (!empty($name)) {
@@ -254,10 +261,17 @@ class ProjectsController extends BaseController
         $data = [
             'title' => $_POST['title'],
             'slug' => $_POST['slug'],
+            'capacity' => $_POST['capacity'] ?? '',
+            'location' => $_POST['location'] ?? '',
+            'client' => $_POST['client'] ?? '',
+            'total_investment' => $_POST['total_investment'] ?? '',
+            'construction_year' => $_POST['construction_year'] ?? '',
+            'bidding_form' => $_POST['bidding_form'] ?? '',
+            'equipment_contractor' => $_POST['equipment_contractor'] ?? '',
+            'design_consultant' => $_POST['design_consultant'] ?? '',
+            'supervision_consultant' => $_POST['supervision_consultant'] ?? '',
             'description' => $_POST['description'] ?? '',
             'content' => $_POST['content'] ?? '',
-            'client' => $_POST['client'] ?? '',
-            'location' => $_POST['location'] ?? '',
             'project_date' => $_POST['project_date'] ?? '',
             'status' => $_POST['status'] ?? 1,
             'sort_order' => (int)($_POST['sort_order'] ?? 0),
@@ -312,15 +326,17 @@ class ProjectsController extends BaseController
             $data['what_we_did_image'] = $_POST['existing_what_we_did_image'];
         }
 
-        // Handle gallery images - get existing gallery first
-        $existingProject = $this->model->getById($id);
-        $existingGallery = [];
-        if ($existingProject && !empty($existingProject['gallery'])) {
-            $existingGallery = json_decode($existingProject['gallery'], true) ?: [];
+        // Handle gallery images
+        $keptGallery = [];
+        if (isset($_POST['kept_gallery']) && is_array($_POST['kept_gallery'])) {
+            $keptGallery = array_values(array_filter($_POST['kept_gallery']));
+        } elseif (isset($_POST['existing_gallery_raw'])) {
+            $decoded = json_decode($_POST['existing_gallery_raw'], true);
+            if (is_array($decoded)) $keptGallery = $decoded;
         }
 
         $newGalleryImages = [];
-        if (!empty($_FILES['gallery'])) {
+        if (!empty($_FILES['gallery']['name'][0])) {
             foreach ($_FILES['gallery']['name'] as $key => $name) {
                 if (!empty($name)) {
                     $file = [
@@ -338,14 +354,8 @@ class ProjectsController extends BaseController
             }
         }
 
-        // Merge existing gallery with new images
-        if (!empty($newGalleryImages)) {
-            $allGallery = array_merge($existingGallery, $newGalleryImages);
-            $data['gallery'] = json_encode($allGallery);
-        } elseif (!empty($existingGallery)) {
-            // Keep existing gallery if no new uploads
-            $data['gallery'] = json_encode($existingGallery);
-        }
+        $finalGallery = array_merge($keptGallery, $newGalleryImages);
+        $data['gallery'] = !empty($finalGallery) ? json_encode($finalGallery) : null;
 
         // Update project
         if ($this->model->update($id, $data)) {

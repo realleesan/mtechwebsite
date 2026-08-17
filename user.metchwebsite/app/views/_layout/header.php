@@ -157,7 +157,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
         
         <!-- Logo + MTECH - Moved from Topbar -->
         <a class="navbar_logo" href="./">
-            <img src="<?php echo htmlspecialchars($headerSettings['logo_path']); ?>" alt="<?php echo htmlspecialchars($headerSettings['logo_alt']); ?>" class="navbar_logo_img">
+            <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($headerSettings['logo_alt'] ?? 'MTechJSC'); ?>" class="navbar_logo_img">
             <span class="navbar_logo_text">MTECH</span>
         </a>
         
@@ -246,24 +246,9 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                     </ul>
                 </li>
                 
-                <!-- Projects -->
-                <li class="nav-item submenu <?php echo ($currentPage === 'projects' || $currentPage === 'project-details') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="Dự án" onclick="return false;">
-                        DỰ ÁN
-                        <span class="caret-drop"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/du-an" title="Tất cả dự án">TẤT CẢ DỰ ÁN</a>
-                        </li>
-                        <?php foreach ($menuProjects as $project): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/chi-tiet-du-an-<?php echo urlencode($project['slug']); ?>" title="<?php echo htmlspecialchars($project['title']); ?>">
-                                <?php echo mb_strtoupper(htmlspecialchars($project['title']), 'UTF-8'); ?>
-                            </a>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
+                <!-- Projects (Direct Link) -->
+                <li class="nav-item <?php echo ($currentPage === 'projects' || $currentPage === 'project-details') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/du-an" title="Dự án">DỰ ÁN</a>
                 </li>
 
                 <!-- Blog with Hierarchical Categories -->

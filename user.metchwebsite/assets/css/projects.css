@@ -1,6 +1,7 @@
 /* ============================================================
    projects.css — Trang Dự án MTECH
    Đồng bộ hoàn toàn với thiết kế trang Lĩnh vực (categories.css) và hệ thống widget (blogs.css)
+   Hỗ trợ chế độ duyệt phân cấp (Drill-Down: Lĩnh vực cha -> con -> dự án)
    ============================================================ */
 
 /* ---- Utilities & Section wrapper ---- */
@@ -48,7 +49,59 @@
 }
 
 /* ============================================================
-   PROJECTS GRID — Dạng Card đồng bộ với service_item của categories.css
+   DRILL-DOWN BREADCRUMBS NAVIGATION
+   ============================================================ */
+.project-drilldown-breadcrumbs {
+    background: #ffffff;
+    padding: 10px 18px;
+    border: 1px solid #e8e8e8;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.breadcrumb-drilldown-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 8px;
+    font-size: 14px;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
+}
+
+.breadcrumb-drilldown-list .breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    color: #666;
+}
+
+.breadcrumb-drilldown-list .breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    padding-right: 8px;
+    color: #bbb;
+}
+
+.breadcrumb-drilldown-list .breadcrumb-item a {
+    color: #3363DD;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb-drilldown-list .breadcrumb-item a:hover {
+    color: #1530A0;
+    text-decoration: underline;
+}
+
+.breadcrumb-drilldown-list .breadcrumb-item.active {
+    color: #1a1a2e;
+    font-weight: 600;
+}
+
+/* ============================================================
+   PROJECTS & CATEGORIES GRID — Dạng Card đồng bộ service_item
    ============================================================ */
 .project_info_two {
     display: flex;
@@ -165,6 +218,18 @@
     text-overflow: ellipsis;
 }
 
+.badge-cat-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #555;
+    font-size: 13px;
+}
+
+.badge-cat-type i {
+    color: #3363DD;
+}
+
 /* ============================================================
    STATUS BAR & ACTIVE TAGS
    ============================================================ */
@@ -238,7 +303,11 @@
     font-size: 12px;
     font-weight: 600;
     text-decoration: underline;
+    background: transparent;
+    border: none;
+    cursor: pointer;
     margin-left: 6px;
+    padding: 0;
 }
 
 .btn-clear-all-tags:hover {
