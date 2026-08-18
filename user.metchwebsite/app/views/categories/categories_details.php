@@ -28,6 +28,11 @@ if (empty($categoryDetail)) {
     return;
 }
 
+// Lọc chỉ lấy các lĩnh vực cấp 1 (c1) cho sidebar
+$level1Categories = array_filter($allCategories ?? [], function($cat) {
+    return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
+});
+
 // Helper: lấy giá trị an toàn
 $h = fn($v) => htmlspecialchars((string)($v ?? ''), ENT_QUOTES, 'UTF-8');
 $currentSlug = $categoryDetail['slug'] ?? '';
@@ -39,14 +44,14 @@ $currentSlug = $categoryDetail['slug'] ?? '';
         <div class="row">
 
             <!-- ================================================
-                 SIDEBAR TRÁI
+                 SIDEBAR TRÁI: Chỉ hiển thị lĩnh vực cấp 1
                  ================================================ -->
             <div class="col-lg-3">
                 <div class="service_left_sidebar">
 
-                    <!-- Danh sách tất cả services -->
+                    <!-- Danh sách các lĩnh vực cấp 1 -->
                     <ul class="nav service_menu_tab mb_40">
-                        <?php foreach ($allCategories as $cat): 
+                        <?php foreach ($level1Categories as $cat): 
                             $isActive = (trim($currentSlug) === trim($cat['slug']));
                         ?>
                             <li class="nav-item <?php echo $isActive ? 'active' : ''; ?>">
@@ -58,8 +63,6 @@ $currentSlug = $categoryDetail['slug'] ?? '';
                             </li>
                         <?php endforeach; ?>
                     </ul>
-
-                 
 
                 </div>
             </div><!-- /.col-lg-3 -->
