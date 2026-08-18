@@ -82,10 +82,16 @@ function slugifyVi(str) {
             const topLink  = item.querySelector(':scope > a.nav-link');
             if (!dropdown) return;
 
-            // Chặn navigate khi click vào nav link có dropdown (mọi thiết bị)
+            // Chặn navigate khi click vào nav link có dropdown (CHỈ desktop)
+            // CRITICAL: Chỉ áp dụng stopImmediatePropagation() trên desktop (width >= 1200px)
             if (topLink) {
                 topLink.addEventListener('click', function (e) {
-                    e.preventDefault();
+                    // Trên desktop: chặn hoàn toàn
+                    if (window.innerWidth >= 1200) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                    }
                 });
             }
 
@@ -199,6 +205,8 @@ function slugifyVi(str) {
             link.addEventListener('click', function (e) {
                 if (window.innerWidth < 1200) {
                     e.preventDefault();
+                    // CHỈ mobile: không dùng stopImmediatePropagation() để cho phép mobile click xử lý
+                    e.stopPropagation();
 
                     const parent = this.closest('li.nav-item.submenu');
                     const isOpen = parent.classList.contains('show');
@@ -224,6 +232,8 @@ function slugifyVi(str) {
             link.addEventListener('click', function (e) {
                 if (window.innerWidth < 1200) {
                     e.preventDefault();
+                    e.stopPropagation();
+                    // Không dùng stopImmediatePropagation() - cho phép mobile xử lý
 
                     const parent = this.closest('li.nav-item.submenu');
                     const childMenu = parent.querySelector(':scope > ul.dropdown-menu');
@@ -258,6 +268,8 @@ function slugifyVi(str) {
                 
                 if (window.innerWidth < 1200 && submenu) {
                     e.preventDefault();
+                    e.stopPropagation();
+                    // Không dùng stopImmediatePropagation() - cho phép mobile xử lý
                     parentItem.classList.toggle('show');
                 }
             });

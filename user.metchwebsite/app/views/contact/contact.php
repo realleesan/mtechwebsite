@@ -6,15 +6,15 @@
 
 // Thông tin liên hệ MTECH chuẩn từ hồ sơ năng lực
 $contactInfo = [
-    'address' => 'Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội',
     'headquarters' => 'Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội',
-    'phone_primary' => '0243.6231691',
-    'phone_secondary' => '0913.034.656',
+    'address' => 'Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội',
+    'phone_primary' => '0913.034.656',
+    'phone_secondary' => '0243.6231691',
     'email' => 'mtechjsc2011.info@gmail.com',
     'email_alt' => 'mtechjsc.info@gmail.com',
     'website' => 'www.mtechjsc.com',
     'description' => 'Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại MTECH (MTECH.JSC) là đơn vị chuyên nghiệp được thành lập từ năm 2011, chuyên cung cấp các lĩnh vực tư vấn kỹ thuật chuyên sâu cho các dự án đầu tư xây dựng quy mô lớn.',
-    'map_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1770.29856830816!2d105.82591253855631!3d20.9965573951612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac8841f5e629%3A0x9e2493836c1f1359!2zMjI3IFAuIE5ndXnhu4VuIE5n4buNYyBO4bqhaSwgUGjGsMahbmcgTGnhu4d0LCBIw6AgTuG7mWkgMTAwMDAwLCBWaeG7h3QgTmFt!5e1!3m2!1svi!2s!4v1777798035503!5m2!1svi!2s',
+    'map_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.7956659916516!2d105.82541372346818!3d20.99655369999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac8841f5e629%3A0x9e2493836c1f1359!2zMjI3IFAuIE5ndXnhu4VuIE5n4buNYyBO4bqhaSwgUGjGsMahbmcgTGnhu4d0LCBIw6AgTuG7mWkgMTAwMDAwLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2svi!4v1629800000000!5m2!1svi!2svi',
     'map_label' => 'Tòa nhà 227 phố Nguyễn Ngọc Nại, Khương Mai, Thanh Xuân, Hà Nội'
 ];
 ?>
@@ -99,6 +99,17 @@ $contactInfo = [
                     <h4 class="f_500 f_p title_color mb_20">Thông tin liên hệ</h4>
                     <p class="mb_40"><?php echo htmlspecialchars($contactInfo['description']); ?></p>
 
+                       <!-- Headquarters -->
+                    <div class="contact_info_item">
+                        <div class="icon">
+                            <img src="assets/icons/land-layer-location.svg" alt="Trụ sở" class="svg-icon">
+                        </div>
+                        <div class="content">
+                            <h6 class="f_size_18 title_color f_500">Trụ sở chính:</h6>
+                            <p><?php echo htmlspecialchars($contactInfo['headquarters']); ?></p>
+                        </div>
+                    </div>
+
                     <!-- Address -->
                     <div class="contact_info_item">
                         <div class="icon">
@@ -107,17 +118,6 @@ $contactInfo = [
                         <div class="content">
                             <h6 class="f_size_18 title_color f_500">Văn phòng giao dịch:</h6>
                             <p><?php echo htmlspecialchars($contactInfo['address']); ?></p>
-                        </div>
-                    </div>
-
-                    <!-- Headquarters -->
-                    <div class="contact_info_item">
-                        <div class="icon">
-                            <img src="assets/icons/land-layer-location.svg" alt="Trụ sở" class="svg-icon">
-                        </div>
-                        <div class="content">
-                            <h6 class="f_size_18 title_color f_500">Trụ sở chính:</h6>
-                            <p><?php echo htmlspecialchars($contactInfo['headquarters']); ?></p>
                         </div>
                     </div>
 

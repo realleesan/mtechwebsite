@@ -198,7 +198,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 $isAboutActive = in_array($currentPage, $aboutPages);
                 ?>
                 <li class="nav-item submenu <?php echo $isAboutActive ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="Thư ngỏ" onclick="return false;">
+                    <a class="nav-link" href="javascript:void(0);" title="Thư ngỏ">
                         GIỚI THIỆU
                         <span class="caret-drop"></span>
                     </a>
@@ -228,7 +228,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 });
                 ?>
                 <li class="nav-item submenu services-dropdown <?php echo ($currentPage === 'categories' || $currentPage === 'categories-details') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="Lĩnh vực hoạt động" onclick="return false;">
+                    <a class="nav-link" href="javascript:void(0);" title="Lĩnh vực hoạt động">
                         LĨNH VỰC HOẠT ĐỘNG
                         <span class="caret-drop"></span>
                     </a>
@@ -293,7 +293,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 }
                 ?>
                 <li class="nav-item submenu <?php echo $isBlogActive ? 'active' : ''; ?>">
-                    <a class="nav-link" href="#" title="Blog" onclick="return false;">
+                    <a class="nav-link" href="javascript:void(0);" title="Blog">
                         TIN TỨC - THƯ VIỆN
                         <span class="caret-drop"></span>
                     </a>
@@ -338,15 +338,15 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
     </nav>
 
     <!-- Search Overlay -->
-    <div class="search_overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search_overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Tìm kiếm">
         <div class="search_overlay_box">
-            <button class="search_overlay_close" id="searchClose" aria-label="Close search">&times;</button>
-            <p class="search_overlay_label">SEARCH</p>
+            <button class="search_overlay_close" id="searchClose" aria-label="Đóng tìm kiếm">&times;</button>
+            <p class="search_overlay_label">TÌM KIẾM</p>
             <form class="search_overlay_inner" id="searchOverlayForm">
                 <input type="text" id="searchInput" class="search_overlay_input"
-                       placeholder="Search for..." autocomplete="off"
+                       placeholder="Tìm kiếm cho..." autocomplete="off"
                        value="">
-                <button class="search_overlay_submit" type="submit" aria-label="Submit search">
+                <button class="search_overlay_submit" type="submit" aria-label="Gửi tìm kiếm">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </button>
             </form>

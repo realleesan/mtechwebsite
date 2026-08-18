@@ -1,6 +1,22 @@
 ﻿/* ========================================
-   Header CSS - MTech Website
+   Header CSS - MTech Website - RESPONSIVE OPTIMIZED
    ======================================== */
+
+:root {
+    /* Breakpoint variables */
+    --breakpoint-xs: 320px;    /* Extra small phones */
+    --breakpoint-sm: 360px;    /* Standard phones */
+    --breakpoint-md: 480px;    /* Larger phones */
+    --breakpoint-tablet-v: 600px;  /* Tablet portrait */
+    --breakpoint-tablet-h: 834px;  /* Tablet landscape */
+    --breakpoint-lg: 1024px;   /* Small laptops */
+    --breakpoint-xl: 1280px;   /* HD laptops */
+    
+    /* Fluid font sizes using clamp() */
+    --font-nav: clamp(0.875rem, 1.5vw, 1rem);
+    --font-logo: clamp(1rem, 2.5vw, 1.25rem);
+    --font-dropdown: clamp(0.8125rem, 1.3vw, 0.9375rem);
+}
 
 * {
     box-sizing: border-box;
@@ -9,6 +25,7 @@
 html {
     overflow-x: hidden;
     width: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -17,9 +34,7 @@ body {
     width: 100%;
 }
 
-/* -- Layout topbar - REMOVED -- */
-
-/* An dong branding Elfsight */
+/* ---- Elfsight branding ---- */
 .eapps-widget-toolbar,
 .eapps-link,
 [class*="eapps-"][class*="-branding"],
@@ -30,6 +45,7 @@ body {
     pointer-events: none !important;
 }
 
+/* ---- Language Selector ---- */
 .lang_selector {
     position: relative;
     cursor: pointer;
@@ -38,16 +54,17 @@ body {
 .lang_current {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: clamp(4px, 1vw, 7px);
     color: #fff;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif;
-    font-size: 16px;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
     font-weight: 400;
     font-style: normal;
-    padding: 4px 8px;
+    padding: clamp(2px, 0.5vw, 4px) clamp(6px, 1vw, 8px);
     border-radius: 3px;
     transition: background 0.25s ease;
     user-select: none;
+    white-space: nowrap;
 }
 
 .lang_current:hover {
@@ -55,14 +72,14 @@ body {
 }
 
 .lang_caret {
-    font-size: 10px;
+    font-size: clamp(8px, 1vw, 10px);
     opacity: 0.7;
-    margin-left: 2px;
+    margin-left: clamp(1px, 0.3vw, 2px);
 }
 
 .flag_icon {
-    width: 22px;
-    height: 15px;
+    width: clamp(18px, 3vw, 22px);
+    height: clamp(12px, 2vw, 15px);
     object-fit: cover;
     border-radius: 2px;
     display: inline-block;
@@ -73,15 +90,16 @@ body {
     display: none;
     position: absolute;
     top: calc(100% + 8px);
-    right: 0;
-    min-width: 150px;
+    right: clamp(-10px, 2vw, 0);
+    min-width: clamp(130px, 25vw, 150px);
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     list-style: none;
     margin: 0;
-    padding: 6px 0;
+    padding: clamp(4px, 1vw, 6px) 0;
     z-index: 10001;
+    max-width: calc(100vw - 20px);
 }
 
 .lang_dropdown.show {
@@ -91,14 +109,15 @@ body {
 .lang_dropdown li a {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
+    gap: clamp(8px, 1.5vw, 10px);
+    padding: clamp(8px, 1vw, 10px) clamp(12px, 2vw, 16px);
     color: #333;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif;
-    font-size: 16px;
+    font-size: clamp(0.875rem, 1.3vw, 1rem);
     font-style: normal;
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
 }
 
 .lang_dropdown li a:hover,
@@ -107,7 +126,7 @@ body {
     color: #fff;
 }
 
-/* -- Wrapper: static, không chạy theo scroll -- */
+/* ---- Main Menu Area ---- */
 .main_menu_area {
     position: static;
     width: 100%;
@@ -115,7 +134,6 @@ body {
     padding: 0 !important;
 }
 
-/* Gradient protection layer - ẩn vì header giờ không còn transparent */
 .home-page .main_menu_area::before {
     display: none;
 }
@@ -124,40 +142,38 @@ body {
     width: 100%;
     background: #1749c9;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 15px 0;
+    padding: clamp(10px, 2vw, 15px) 0;
     margin: 0;
 }
 
-/* Sticky state - override nav link colors */
-/* Removed - header is no longer sticky */
-
-/* -- Navbar Layout -- */
+/* ---- Navbar Layout ---- */
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 0 0 0;
-    min-height: 110px;
-    gap: 15px;
+    padding: 0;
+    min-height: max(70px, clamp(60px, 12vw, 110px));
+    gap: clamp(8px, 1.5vw, 15px);
 }
 
-/* -- Navbar Logo + MTECH - Moved from Topbar -- */
+/* ---- Navbar Logo + MTECH ---- */
 .navbar_logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: clamp(6px, 1vw, 10px);
     text-decoration: none;
     margin-left: 0;
     margin-right: auto;
-    padding-left: 40px;
-    padding-right: 20px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-left: clamp(15px, 4vw, 40px);
+    padding-right: clamp(12px, 2vw, 20px);
+    padding-top: clamp(4px, 1vw, 8px);
+    padding-bottom: clamp(4px, 1vw, 8px);
+    flex-shrink: 0;
 }
 
 .navbar_logo_img {
-    height: 78.125px;
+    height: clamp(45px, 8vw, 78px);
     width: auto;
     display: block;
     filter: brightness(1.2) contrast(1.15) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
@@ -167,9 +183,9 @@ body {
     font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
     font-style: normal;
     font-weight: 750;
-    font-size: 20px;
+    font-size: clamp(0.9rem, 2.5vw, 1.25rem);
     color: #FFFFFF;
-    letter-spacing: 2px;
+    letter-spacing: clamp(1px, 0.3vw, 2px);
     line-height: 1.2;
     white-space: nowrap;
     text-transform: uppercase;
@@ -177,23 +193,24 @@ body {
     filter: brightness(1.1);
 }
 
-/* Profile Button in Navbar */
+/* ---- Profile Button ---- */
 .nav-profile-btn {
-    padding: 0 8px !important;
+    padding: 0 clamp(4px, 1vw, 8px) !important;
+    display: none;
 }
 
 .btn_profile_download_nav {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: clamp(3px, 0.8vw, 5px);
     background: #ffffff;
     color: #3363DD !important;
     font-family: "Noto Sans", "Noto Sans SC", sans-serif;
-    font-size: 12px;
+    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
     font-weight: 700;
     font-style: normal;
     text-decoration: none !important;
-    padding: 4px 10px;
+    padding: clamp(3px, 0.8vw, 4px) clamp(8px, 1.5vw, 10px);
     border-radius: 4px;
     white-space: nowrap;
     transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
@@ -202,6 +219,8 @@ body {
 
 .btn_profile_download_nav svg {
     flex-shrink: 0;
+    width: clamp(10px, 2vw, 13px);
+    height: clamp(10px, 2vw, 13px);
 }
 
 .btn_profile_download_nav:hover {
@@ -210,50 +229,17 @@ body {
     transform: translateY(-1px);
 }
 
-/* -- Logo -- */
-.navbar-brand img {
-    height: 50px;
-    width: auto;
-    display: block;
-}
-
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-}
-
-.logo-img {
-    height: 60px;
-    width: auto;
-    display: block;
-    filter: brightness(0) invert(1);
-}
-
-.logo-text {
-    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 26px;
-    color: #FFFFFF;
-    letter-spacing: 3px;
-    line-height: 1;
-    white-space: nowrap;
-    text-transform: uppercase;
-}
-
-/* -- Collapse wrapper -- */
+/* ---- Navbar Collapse ---- */
 .navbar-collapse {
     display: flex;
     align-items: center;
     flex: 1;
     justify-content: flex-end;
-    padding-right: 40px;
+    padding-right: clamp(15px, 3vw, 40px);
     height: auto;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    min-height: 110px;
+    padding-top: clamp(8px, 1.5vw, 12px);
+    padding-bottom: clamp(8px, 1.5vw, 12px);
+    min-height: max(70px, clamp(60px, 12vw, 110px));
     margin-left: auto;
 }
 
@@ -264,13 +250,15 @@ ul.menu {
     list-style: none;
     margin: 0;
     padding: 0;
+    gap: clamp(2px, 1.5vw, 10px);
+    flex-wrap: wrap;
 }
 
 /* -- Menu item -- */
 ul.menu > li.nav-item {
     position: relative;
     margin: 0;
-    padding: 0 8px;
+    padding: 0 clamp(3px, 1vw, 8px);
 }
 
 /* -- Nav link (top level) -- */
@@ -279,16 +267,18 @@ ul.menu > li.nav-item > a.nav-link {
     font-family: "Noto Sans", "Noto Sans SC", sans-serif;
     font-weight: 500;
     font-style: normal;
-    font-size: 16px;
-    line-height: 38px;
+    font-size: var(--font-nav);
+    line-height: clamp(1.2, 2vw, 1.5);
     text-decoration: none;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: clamp(3px, 0.8vw, 5px);
     transition: color 0.3s ease, background 0.3s ease, text-shadow 0.3s ease, border-radius 0.3s ease;
     position: relative;
-    padding: 5px 15px;
+    padding: clamp(3px, 0.8vw, 5px) clamp(8px, 1.5vw, 15px);
+    min-height: clamp(32px, 5vw, 48px);
+    overflow-wrap: break-word;
 }
 
 /* Border bottom indicator */
@@ -296,8 +286,8 @@ ul.menu > li.nav-item > a.nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 15px;
-    right: 15px;
+    left: clamp(8px, 1.5vw, 15px);
+    right: clamp(8px, 1.5vw, 15px);
     height: 3px;
     background: #3363DD;
     border-radius: 2px;
@@ -318,19 +308,15 @@ ul.menu > li.nav-item.active > a.nav-link::after {
     border-radius: 2px;
 }
 
-/* -- Caret arrow - STANDARDIZED --
- * Thiết kế: Mũi tên nét mảnh (không tam giác đặc)
- * Hình dạng: Vẽ bằng border-bottom + border-right + transform rotate
- * Mặc định: Hướng phải (rotate(0deg) = ►)
- */
+/* -- Caret arrow ---- */
 .caret-drop {
     display: inline-block;
-    width: 6px;
-    height: 6px;
+    width: clamp(4px, 0.8vw, 6px);
+    height: clamp(4px, 0.8vw, 6px);
     border: solid currentColor;
     border-width: 0 2px 2px 0;
     padding: 0;
-    margin-left: 3px;
+    margin-left: clamp(2px, 0.5vw, 3px);
     vertical-align: middle;
     flex-shrink: 0;
     transform: rotate(-45deg);
@@ -346,8 +332,8 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     transform: translateX(-50%);
     right: auto;
     width: max-content;
-    max-width: 90vw;
-    background: rgba(51, 99, 221, 0.97);
+    max-width: calc(100vw - 20px);
+    background: rgba(23, 73, 201, 0.97);
     border-top: 3px solid #ffffff;
     border-left: none;
     border-right: none;
@@ -355,7 +341,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     list-style: none;
     margin: 0;
-    padding: 10px 0;
+    padding: clamp(6px, 1.5vw, 10px) 0;
     z-index: 10000;
     pointer-events: auto;
 }
@@ -551,7 +537,7 @@ ul.menu > li.nav-item.submenu > ul.dropdown-menu > li.nav-item.submenu:hover > a
     right: calc(100% + 5px);
     width: max-content;
     max-width: 90vw;
-    background: rgba(51, 99, 221, 0.97);
+    background: #1749C9;
     border-top: 3px solid #ffffff;
     border-left: none;
     border-right: none;
@@ -627,7 +613,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu ul.dropdo
     left: calc(100% + 5px);
     width: max-content;
     max-width: 90vw;
-    background: rgba(51, 99, 221, 0.97);
+    background: #1749C9;
     border-top: 3px solid #ffffff;
     border-left: none;
     border-right: none;
@@ -727,7 +713,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li:not(.n
     white-space: nowrap !important;
     word-wrap: break-word;
     transition: color 0.25s ease, padding-left 0.25s ease;
-    background: rgba(51, 99, 221, 0.97) !important;
+    background: #1749C9 !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
@@ -890,13 +876,139 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 }
 
 /* ========================================
-   Responsive
+   Responsive Breakpoints - OPTIMIZED
    ======================================== */
 
-@media (max-width: 1280px) {
-    .navbar { padding: 0 20px; }
-    .topbar_inner { padding: 0 20px; }
+/* Extra Small: 320px (iPhone SE) */
+@media (max-width: 359px) {
+    .navbar { padding: 0 clamp(8px, 2vw, 10px); }
+    .navbar_logo { padding-left: clamp(10px, 2vw, 15px); }
+    .navbar_logo_text { display: none; }
+    ul.menu > li.nav-item > a.nav-link { font-size: clamp(0.75rem, 1.2vw, 0.875rem); }
+    .search_toggle svg { width: 18px !important; height: 18px !important; }
 }
+
+/* Standard Mobile: 360px - 440px */
+@media (max-width: 440px) {
+    .navbar { padding: 0 clamp(10px, 2.5vw, 12px); }
+    .navbar_logo { padding-left: clamp(12px, 3vw, 15px); }
+    .navbar_logo_text { display: none; }
+    .navbar-toggler { display: block; }
+    ul.menu > li.nav-item > a.nav-link { 
+        font-size: clamp(0.75rem, 1.3vw, 0.875rem);
+        padding: clamp(4px, 1vw, 6px) clamp(10px, 1.5vw, 12px);
+    }
+    .btn_profile_download_nav { display: none !important; }
+    .nav-profile-btn { display: none !important; }
+}
+
+/* Larger Mobile: 480px */
+@media (max-width: 599px) {
+    .navbar { padding: 0 clamp(12px, 3vw, 15px); }
+    .navbar_logo_text { display: block; font-size: clamp(0.9rem, 2vw, 1rem); }
+    ul.menu > li.nav-item > a.nav-link { 
+        font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+        padding: clamp(5px, 1.2vw, 7px) clamp(10px, 2vw, 14px);
+    }
+    .search_toggle svg { width: 20px !important; height: 20px !important; }
+}
+
+/* Tablet Portrait: 600px - 834px */
+@media (max-width: 834px) {
+    .navbar { 
+        padding: 0 clamp(12px, 2.5vw, 15px); 
+        min-height: max(65px, clamp(60px, 10vw, 100px));
+    }
+    .navbar_logo_text { display: block; font-size: clamp(1rem, 2.2vw, 1.1rem); }
+    .menu_absolute { padding: clamp(12px, 1.5vw, 15px) 0; }
+    .navbar-toggler { display: block; }
+    .header-phone { display: none; }
+    
+    /* Mobile dropdown styling */
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu {
+        position: static;
+        display: block;
+        max-height: 0;
+        overflow: hidden !important;
+        background: transparent !important;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        min-width: unset;
+        width: 100%;
+        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: none !important;
+        left: 0 !important;
+        right: auto !important;
+    }
+
+    ul.menu > li.nav-item.submenu.show > ul.dropdown-menu {
+        max-height: clamp(200px, 40vh, 2500px) !important;
+    }
+
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
+        padding: clamp(10px, 2vw, 12px) clamp(25px, 4vw, 35px) !important;
+        font-size: clamp(0.8125rem, 1.3vw, 0.9375rem) !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: transparent !important;
+        text-align: left !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
+        background: rgba(23, 73, 201, 0.2) !important;
+    }
+
+    /* Caret rotation for mobile */
+    ul.menu > li.nav-item.submenu .caret-drop {
+        transform: rotate(45deg) !important;
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    ul.menu > li.nav-item.submenu.show .caret-drop {
+        transform: rotate(-135deg) !important;
+    }
+}
+
+/* Tablet Landscape / Small Laptop: 834px - 1023px */
+@media (max-width: 1023px) {
+    .navbar { padding: 0 clamp(12px, 2vw, 15px); }
+    ul.menu > li.nav-item > a.nav-link { 
+        font-size: clamp(0.875rem, 1.3vw, 0.95rem);
+        padding: clamp(5px, 1vw, 7px) clamp(10px, 1.5vw, 14px);
+    }
+    .search_toggle svg { width: 22px !important; height: 22px !important; }
+}
+
+/* Laptop Small: 1024px - 1280px */
+@media (min-width: 1024px) and (max-width: 1280px) {
+    .navbar { padding: 0 clamp(15px, 2vw, 20px); }
+    ul.menu > li.nav-item > a.nav-link { 
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+        padding: clamp(5px, 1vw, 6px) clamp(12px, 1.5vw, 15px);
+    }
+}
+
+/* Desktop: 1281px+ */
+@media (min-width: 1281px) {
+    .navbar { padding: 0 20px; }
+    ul.menu > li.nav-item > a.nav-link { 
+        font-size: 1rem;
+        padding: 5px 15px;
+    }
+    .navbar_logo_text { font-size: 1.25rem; }
+}
+
+/* ========================================
+   Responsive Mobile Menu
+   ======================================== */
 
 @media (max-width: 1199px) {
     .navbar { padding: 0 15px; }
@@ -914,18 +1026,16 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
 
     .header-phone { display: none; }
 
-    /* Hide navbar brand text on mobile */
     .navbar_brand_text { display: none; }
 
-    /* Full-width dropdown below navbar (like TechCamp) */
     .navbar-collapse {
         position: fixed;
-        top: 110px;
+        top: clamp(60px, 12vw, 110px);
         left: 0;
         right: 0;
         width: 100%;
         height: auto;
-        max-height: calc(100vh - 110px);
+        max-height: calc(100vh - clamp(60px, 12vw, 110px));
         background: #1749c9;
         flex-direction: column;
         align-items: stretch;
@@ -947,12 +1057,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
         visibility: visible;
     }
 
-    /* Overlay */
-    .navbar-collapse::after {
-        display: none;
-    }
-
-    /* -- Close Button -- */
+    /* Close Button */
     .nav-close-btn {
         display: flex;
         align-items: center;
@@ -961,12 +1066,12 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
         border: none;
         border-bottom: 1px solid rgba(255,255,255,0.1);
         color: #fff;
-        padding: 18px 20px;
+        padding: clamp(14px, 2vw, 18px) clamp(15px, 3vw, 20px);
         cursor: pointer;
         transition: color 0.25s ease;
         outline: none;
         margin-bottom: 0;
-        height: 110px;
+        height: clamp(70px, 10vw, 110px);
         justify-content: flex-start;
     }
 
@@ -976,7 +1081,7 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     }
 
     .nav-close-arrow {
-        font-size: 22px;
+        font-size: clamp(18px, 3vw, 22px);
         line-height: 1;
         display: inline-block;
         transition: transform 0.25s ease, color 0.25s ease;
@@ -997,7 +1102,8 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     ul.menu {
         flex-direction: column;
         width: 100%;
-        padding: 0 0 20px;
+        padding: 0 0 clamp(15px, 2vw, 20px);
+        gap: 0;
     }
 
     ul.menu > li.nav-item {
@@ -1018,59 +1124,33 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     }
 
     .search_toggle {
-        padding: 12px 20px !important;
+        padding: clamp(10px, 2vw, 12px) clamp(15px, 3vw, 20px) !important;
     }
 
     .search_toggle svg {
-        width: 24px !important;
-        height: 24px !important;
+        width: clamp(20px, 3vw, 24px) !important;
+        height: clamp(20px, 3vw, 24px) !important;
     }
 
     .btn_profile_download_nav {
-        font-size: 16px !important;
-        padding: 10px 16px !important;
+        font-size: clamp(0.875rem, 1.5vw, 1rem) !important;
+        padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2vw, 16px) !important;
     }
 
     .btn_profile_download_nav svg {
-        width: 20px !important;
-        height: 20px !important;
+        width: clamp(16px, 2.5vw, 20px) !important;
+        height: clamp(16px, 2.5vw, 20px) !important;
     }
 
     ul.menu > li.nav-item > a.nav-link {
-        padding: 14px 20px;
-        line-height: 1.5;
+        padding: clamp(12px, 2vw, 14px) clamp(18px, 3vw, 20px);
+        line-height: clamp(1.2, 2vw, 1.5);
         justify-content: space-between;
     }
 
-    /* Mobile dropdown */
-    ul.menu > li.nav-item.submenu > ul.dropdown-menu {
-        position: static;
-        display: block;
-        max-height: 0;
-        overflow: hidden !important;
-        background: transparent !important;
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        min-width: unset;
-        width: 100%;
-        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: none !important;
-        left: 0 !important;
-        right: auto !important;
-    }
-
-    ul.menu > li.nav-item.submenu.show > ul.dropdown-menu {
-        max-height: 2500px !important;
-    }
-
-    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a {
-        padding: 12px 35px !important;
-        font-size: 14px !important;
-        color: #ffffff !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        background: transparent !important;
+    /* Mobile nested dropdowns */
+    ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu > a.nav-link {
+        padding: clamp(10px, 2vw, 12px) clamp(30px, 5vw, 35px) !important;
         text-align: left !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;
@@ -1079,33 +1159,8 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
         align-items: center !important;
     }
 
-    ul.menu > li.nav-item.submenu > ul.dropdown-menu > li > a:hover {
-        padding: 12px 35px !important;
-        background: rgba(23, 73, 201, 0.2) !important;
-    }
-
-    /* Caret rotate khi mo */
-    ul.menu > li.nav-item.submenu .caret-drop {
-        transition: transform 0.3s ease;
-        margin-left: 8px !important;
-        margin-right: 0 !important;
-        transform: rotate(45deg) !important;
-    }
-
-    ul.menu > li.nav-item.submenu.show .caret-drop {
-        transform: rotate(-135deg) !important;
-    }
-
-    /* Caret cho danh mục con - chỉ phải mặc định, chỉ xuống khi show */
-    /* ✅ FIX: Mobile - mũi tên mặc định hướng xuống */
-    ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu > a.nav-link .caret-drop {
-        transform: rotate(45deg) !important;
-        transition: transform 0.3s ease !important;
-    }
-
-    /* ✅ FIX: Mobile - khi click mở, hướng lên */
-    ul.menu > li.nav-item.submenu:not(.services-dropdown) ul.dropdown-menu li.nav-item.submenu.show > a.nav-link .caret-drop {
-        transform: rotate(-135deg) !important;
+    ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show > a.nav-link .caret-drop {
+        transform: rotate(-135deg);
     }
 
     /* ========================================
