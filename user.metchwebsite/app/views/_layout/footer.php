@@ -60,13 +60,12 @@ $companyInfo = [
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
                                     <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội
                                 </p>
-                                <p class="f_contact_line">
-                                    <i class="fa fa-phone"></i>
-                                    <a href="tel:<?php echo htmlspecialchars(str_replace([' ', '.'], '', $companyInfo['phone'])); ?>"><?php echo htmlspecialchars($companyInfo['phone']); ?></a>
+                                <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
+                                    <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?>
                                 </p>
-                                <p class="f_contact_line">
-                                    <i class="fa fa-envelope"></i>
-                                    <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
+                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
+                                    <i class="fa fa-envelope"></i><br>
+                                    <?php echo htmlspecialchars($companyInfo['email']); ?>
                                 </p>
                             </div>
                         </div>
