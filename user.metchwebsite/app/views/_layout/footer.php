@@ -9,19 +9,25 @@ require_once __DIR__ . '/../../models/FooterModel.php';
 require_once __DIR__ . '/../../models/CategoriesModel.php';
 require_once __DIR__ . '/../../models/HeaderModel.php';
 
-$footerModel = new FooterModel();
-$categoriesModel = new CategoriesModel();
-$headerModel = new HeaderModel();
+$footerSettings = [];
+$usefulLinks    = [];
+$services       = [];
+$socialLinks    = [];
+$headerSettings = [];
 
-// Lấy dữ liệu footer
-$footerSettings = $footerModel->getSettings();
-$usefulLinks = $footerModel->getActiveLinks();
-$services = $categoriesModel->getMenuServices(5);
-$socialLinks = $footerModel->getVisibleSocialLinks();
-$headerSettings = $headerModel->getSettings();
+try {
+    $footerModel     = new FooterModel();
+    $categoriesModel = new CategoriesModel();
+    $headerModel     = new HeaderModel();
 
-// Debug: Kiểm tra dữ liệu social links
-error_log('Social Links Debug: ' . json_encode($socialLinks));
+    $footerSettings = $footerModel->getSettings();
+    $usefulLinks    = $footerModel->getActiveLinks();
+    $services       = $categoriesModel->getMenuServices(5);
+    $socialLinks    = $footerModel->getVisibleSocialLinks();
+    $headerSettings = $headerModel->getSettings();
+} catch (Throwable $e) {
+    error_log('Footer layout load error: ' . $e->getMessage());
+}
 
 // Thông tin MTECH chuẩn từ hồ sơ năng lực
 $companyInfo = [
@@ -39,7 +45,7 @@ $companyInfo = [
     <!-- Phần tiêu đề: Logo + Tên công ty -->
     <div class="footer_header" style="text-align: center;">
         <a href="./" class="f_logo" style="justify-content: center; display: flex; align-items: center; gap: 12px;">
-            <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>" style="max-height: 64px; width: auto;">
+            <img src="<?php echo image_url('assets/images/logo_mtech.png'); ?>" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>" style="max-height: 64px; width: auto;" loading="lazy" decoding="async">
             <span class="footer_logo_text" style="font-size: calc(1em + 10px); text-transform: uppercase;"><?php echo htmlspecialchars($companyInfo['short_name']); ?> | <?php echo htmlspecialchars($companyInfo['name']); ?></span>
         </a>
     </div>

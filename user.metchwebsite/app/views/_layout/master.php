@@ -36,24 +36,10 @@ mb_http_output('UTF-8');
     ?>
     <link rel="icon" href="<?php echo $baseUrl; ?>/assets/icons/favicon.ico?v=1.1">
     
-    <!-- NOTE: Google Fonts/External Fonts - Thêm fonts tại đây -->
+    <!-- NOTE: Google Fonts - Combined single optimized request with display=swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Noto Sans - Font chính cho site (hỗ trợ Việt, Anh, Trung) -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Noto Sans SC - Font hỗ trợ tiếng Trung (Simplified Chinese) -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Các font phụ khác -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- Ví dụ:
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <?php
     // Determine current page for conditional CSS/JS loading
@@ -62,21 +48,12 @@ mb_http_output('UTF-8');
     $currentPage = isset($page) ? $page : (isset($_GET['page']) ? $_GET['page'] : 'home');
     ?>
     
-    <!-- DEBUG: currentPage=<?php echo $currentPage; ?> page=<?php echo $page ?? 'null'; ?> -->
-    <?php if ($currentPage === 'blogs') { echo '<!-- CSS SECTION: currentPage is blogs -->'; } ?>
-    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <script src="https://elfsightcdn.com/platform.js" defer></script>
     <!-- Ẩn Information Panel (chỉ hiện khi đăng nhập Elfsight) khỏi làm vỡ layout -->
     <style>.eapps-widget-toolbar { display: none !important; }</style>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- ========================================== -->
-    <!-- NOTE: External CSS Libraries - Thêm thư viện CSS CDN tại đây -->
-    <!-- ========================================== -->
-    <!-- Bootstrap Grid -->
+    <!-- Bootstrap 4.6.2 CSS & Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <!-- ========================================== -->
@@ -316,19 +293,17 @@ mb_http_output('UTF-8');
     <?php include_once __DIR__ . '/pusher.php'; ?>
     
     <!-- ========================================== -->
-    <!-- NOTE: Core JavaScript Files - JS chung -->
+    <!-- NOTE: Core & External JavaScript Libraries -->
     <!-- ========================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+    
     <?php if (!isset($hideHeader) || !$hideHeader): ?>
         <script src="assets/js/header.js"></script>
     <?php endif; ?>
     <script src="assets/js/footer.js"></script>
     <script src="assets/js/pusher.js"></script>
     <script src="assets/js/client.logos.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Ví dụ các file JS khác:
-    -->
     
     <!-- ========================================== -->
     <!-- NOTE: Page-specific JavaScript - JS theo trang -->
@@ -384,17 +359,10 @@ mb_http_output('UTF-8');
         case '500':
             echo '<script src="assets/js/errors.js"></script>';
             break;
-        // NOTE: Thêm các case khác tại đây
         default:
             break;
     }
     ?>
-    
-    <!-- ========================================== -->
-    <!-- NOTE: External JavaScript Libraries - CDN -->
-    <!-- ========================================== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
     
     <!-- ========================================== -->
     <!-- NOTE: Additional JS - JavaScript động từ Controller -->

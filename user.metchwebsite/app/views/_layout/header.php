@@ -28,43 +28,31 @@ $allServices     = $categoriesModel->getAllCategories();
 // Lấy blog categories cho menu
 require_once __DIR__ . '/../../models/BlogsModel.php';
 $blogsModel         = new BlogsModel();
-// ✅ NEW: Gọi method flat thay vì tree - tương tự như services (CategoriesModel::getAllCategories)
 $menuBlogCategories = $blogsModel->getAllBlogCategoriesFlat(50);
-// ✅ Giữ lại tree version để dùng làm fallback nếu FilterConfig không có data
 $menuBlogCategoriesHierarchy = $blogsModel->getMenuBlogCategories(50);
 
 // --- Mega Menu: Dựng cây phân cấp ---
-// Thử dùng FilterConfigService nếu có cấu hình
 $servicesTree = [];
 $blogCategoriesTree = [];
 try {
     require_once __DIR__ . '/../../services/FilterConfigService.php';
     $filterService = new FilterConfigService();
     
-    // Services tree: dùng FilterConfigService nếu có cấu hình
     $servicesConfig = $filterService->getConfig('services');
     if (!empty($servicesConfig)) {
-        // Có config → dùng filtered tree (áp dụng drag-drop parent_id changes)
         $servicesTree = $filterService->getFilteredMenuTree('services', $allServices);
     } else {
-        // Không có config → dùng tree gốc
         $servicesTree = $categoriesModel->buildTree($allServices);
     }
     
-    // Blog Categories tree: dùng FilterConfigService nếu có cấu hình
-    // ✅ CRITICAL: Pass flattened array (NOT tree) để FilterConfigService rebuild tree từ config
     $blogCategoriesConfig = $filterService->getConfig('blog_categories');
     if (!empty($blogCategoriesConfig)) {
-        // Có config → rebuild tree từ flattened data + config parent_id changes
         $filteredBlogTree = $filterService->getFilteredMenuTree('blog_categories', $menuBlogCategories);
-        // ✅ FIX: Check nếu filtered tree empty → fallback to original
         $blogCategoriesTree = !empty($filteredBlogTree) ? $filteredBlogTree : $menuBlogCategoriesHierarchy;
     } else {
-        // Không có config → dùng tree gốc
         $blogCategoriesTree = $menuBlogCategoriesHierarchy;
     }
 } catch (Exception $e) {
-    // Fallback: dùng cây gốc nếu FilterConfigService chưa sẵn sàng
     error_log('Header FilterConfigService error: ' . $e->getMessage());
     $servicesTree = $categoriesModel->buildTree($allServices);
     $blogCategoriesTree = $menuBlogCategoriesHierarchy;
@@ -223,7 +211,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 
                 <!-- Services (Dropdown Menu chỉ hiển thị lĩnh vực cấp 1) -->
                 <?php
-                $level1Services = array_filter($allServices, function($cat) {
+                $level1Services = array_filter(is_array($allServices ?? null) ? $allServices : [], function($cat) {
                     return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
                 });
                 ?>
