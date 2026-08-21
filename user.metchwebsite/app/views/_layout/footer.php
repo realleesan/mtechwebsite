@@ -28,7 +28,7 @@ $companyInfo = [
     'name' => 'Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại',
     'short_name' => 'MTECH',
     'description' => 'CÔNG TY CỔ PHẦN TƯ VẤN KỸ THUẬT VÀ THƯƠNG MẠI',
-    'office_address' => 'Văn phòng làm việc: Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội',
+    'office_address' => 'Văn phòng làm việc: Tòa nhà số 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội',
     'business_address' => 'Địa chỉ đăng ký kinh doanh: Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội',
     'phone' => $headerSettings['phone'] ?? '0913.034.656',
     'email' => 'mtechjsc2011.info@gmail.com',
@@ -39,8 +39,8 @@ $companyInfo = [
     <!-- Phần tiêu đề: Logo + Tên công ty -->
     <div class="footer_header" style="text-align: center;">
         <a href="./" class="f_logo" style="justify-content: center; display: flex; align-items: center; gap: 12px;">
-            <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>" style="max-height: 48px; width: auto;">
-            <span class="footer_logo_text" style="font-size: calc(1em + 10px);"><?php echo htmlspecialchars($companyInfo['short_name']); ?> | <?php echo htmlspecialchars($companyInfo['name']); ?></span>
+            <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>" style="max-height: 64px; width: auto;">
+            <span class="footer_logo_text" style="font-size: calc(1em + 10px); text-transform: uppercase;"><?php echo htmlspecialchars($companyInfo['short_name']); ?> | <?php echo htmlspecialchars($companyInfo['name']); ?></span>
         </a>
     </div>
 
@@ -55,7 +55,7 @@ $companyInfo = [
                         <div class="f_widget_body">
                             <div class="textwidget custom-html-widget">
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội
+                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà số 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội
                                 </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
                                     <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội
@@ -64,8 +64,7 @@ $companyInfo = [
                                     <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?>
                                 </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                                    <i class="fa fa-envelope"></i><br>
-                                    <?php echo htmlspecialchars($companyInfo['email']); ?>
+                                    <i class="fa fa-envelope"></i> <?php echo htmlspecialchars($companyInfo['email']); ?>
                                 </p>
                             </div>
                         </div>
