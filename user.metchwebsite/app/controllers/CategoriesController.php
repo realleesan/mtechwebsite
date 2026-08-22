@@ -60,6 +60,9 @@ class CategoriesController extends BaseController
         // Lấy chi tiết category
         $categoryDetail = $this->categoriesModel->getCategoryDetailBySlug($slug);
         $allCategories = $this->categoriesModel->getAllCategories();
+        $level1Categories = array_filter($allCategories, function($cat) {
+            return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
+        });
         
         if (!$categoryDetail) {
             // 404 - Category không tồn tại
@@ -80,7 +83,7 @@ class CategoriesController extends BaseController
         // Chuẩn bị data cho view
         $data = [
             'categoryDetail' => $categoryDetail,
-            'allCategories' => $allCategories,
+            'allCategories' => $level1Categories,
             
             // Layout variables
             'page' => 'categories-details',

@@ -215,7 +215,7 @@ class CapacityFieldsModel
     {
         try {
             $stmt = $this->db->prepare(
-                "INSERT INTO capacity_field_items (field_id, name, rank, sort_order, status)
+                "INSERT INTO capacity_field_items (field_id, name, `rank`, sort_order, status)
                  VALUES (:field_id, :name, :rank, :sort_order, :status)"
             );
             $stmt->execute([
@@ -240,7 +240,7 @@ class CapacityFieldsModel
         try {
             $stmt = $this->db->prepare(
                 "UPDATE capacity_field_items
-                 SET name = :name, rank = :rank, sort_order = :sort_order, status = :status
+                 SET name = :name, `rank` = :rank, sort_order = :sort_order, status = :status
                  WHERE id = :id"
             );
             $stmt->execute([

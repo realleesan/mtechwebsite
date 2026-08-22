@@ -32,7 +32,7 @@ class CapacityFieldsModel
 
             foreach ($fields as &$field) {
                 $items = $this->db->prepare(
-                    "SELECT name, rank, sort_order
+                    "SELECT name, `rank`, sort_order
                      FROM capacity_field_items
                      WHERE field_id = ? AND status = 1 AND deleted_at IS NULL
                      ORDER BY sort_order ASC, id ASC"

@@ -30,9 +30,10 @@ if (!isset($clientLogos) || empty($clientLogos)) {
                     <div class="client_logo_slide">
                         <a href="<?php echo htmlspecialchars($client['url'] ?? '#'); ?>"
                            <?php echo ($client['url'] !== '#') ? 'target="_blank" rel="noopener"' : ''; ?>>
-                            <img src="<?php echo htmlspecialchars($client['logo']); ?>"
+                            <img src="<?php echo htmlspecialchars(image_url($client['logo'])); ?>"
                                  alt="<?php echo htmlspecialchars($client['name']); ?>"
-                                 class="client_logo_img">
+                                 class="client_logo_img"
+                                 loading="lazy" decoding="async">
                         </a>
                         <span class="client_logo_name"><?php echo htmlspecialchars($client['name']); ?></span>
                     </div>

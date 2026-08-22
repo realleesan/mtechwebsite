@@ -9,19 +9,25 @@ require_once __DIR__ . '/../../models/FooterModel.php';
 require_once __DIR__ . '/../../models/CategoriesModel.php';
 require_once __DIR__ . '/../../models/HeaderModel.php';
 
-$footerModel = new FooterModel();
-$categoriesModel = new CategoriesModel();
-$headerModel = new HeaderModel();
+$footerSettings = [];
+$usefulLinks    = [];
+$services       = [];
+$socialLinks    = [];
+$headerSettings = [];
 
-// Lấy dữ liệu footer
-$footerSettings = $footerModel->getSettings();
-$usefulLinks = $footerModel->getActiveLinks();
-$services = $categoriesModel->getMenuServices(5);
-$socialLinks = $footerModel->getVisibleSocialLinks();
-$headerSettings = $headerModel->getSettings();
+try {
+    $footerModel     = new FooterModel();
+    $categoriesModel = new CategoriesModel();
+    $headerModel     = new HeaderModel();
 
-// Debug: Kiểm tra dữ liệu social links
-error_log('Social Links Debug: ' . json_encode($socialLinks));
+    $footerSettings = $footerModel->getSettings();
+    $usefulLinks    = $footerModel->getActiveLinks();
+    $services       = $categoriesModel->getMenuServices(5);
+    $socialLinks    = $footerModel->getVisibleSocialLinks();
+    $headerSettings = $headerModel->getSettings();
+} catch (Throwable $e) {
+    error_log('Footer layout load error: ' . $e->getMessage());
+}
 
 // Thông tin MTECH chuẩn từ hồ sơ năng lực
 $companyInfo = [
@@ -39,8 +45,8 @@ $companyInfo = [
     <!-- Phần tiêu đề: Logo + Tên công ty -->
     <div class="footer_header" style="text-align: center;">
         <a href="./" class="f_logo" style="justify-content: center; display: flex; align-items: center; gap: 12px;">
-            <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>" style="max-height: 48px; width: auto;">
-            <span class="footer_logo_text" style="font-size: calc(1em + 10px);"><?php echo htmlspecialchars($companyInfo['short_name']); ?> | <?php echo htmlspecialchars($companyInfo['name']); ?></span>
+            <img src="<?php echo image_url('assets/images/logo_mtech.png'); ?>" alt="<?php echo htmlspecialchars($companyInfo['short_name']); ?>" style="max-height: 64px; width: auto;" loading="lazy" decoding="async">
+            <span class="footer_logo_text" style="font-size: calc(1em + 10px); text-transform: uppercase;"><?php echo htmlspecialchars($companyInfo['short_name']); ?> | <?php echo htmlspecialchars($companyInfo['name']); ?></span>
         </a>
     </div>
 
@@ -55,13 +61,15 @@ $companyInfo = [
                         <div class="f_widget_body">
                             <div class="textwidget custom-html-widget">
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội
+                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà số 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội
                                 </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
                                     <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội
                                 </p>
+                                <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
+                                    <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?>
+                                </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                                    <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?><br>
                                     <i class="fa fa-envelope"></i> <?php echo htmlspecialchars($companyInfo['email']); ?>
                                 </p>
                             </div>

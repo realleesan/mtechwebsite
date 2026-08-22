@@ -3,6 +3,23 @@
  * helpers.php - Helper functions dùng chung cho toàn bộ ứng dụng
  */
 
+require_once __DIR__ . '/ImageHelper.php';
+
+/**
+ * Trả về URL ảnh đã được tối ưu (ưu tiên .webp nếu có)
+ */
+function image_url($path) {
+    return ImageHelper::getUrl($path);
+}
+
+/**
+ * Render thẻ <img> đã được tối ưu với WebP & Lazy Loading
+ */
+function render_img($src, $alt = '', $class = '', $isLazy = true, $attributes = []) {
+    return ImageHelper::renderImg($src, $alt, $class, $isLazy, $attributes);
+}
+
+
 /**
  * Chuyển đổi ngày tháng từ tiếng Anh sang tiếng Việt
  * Ví dụ: "28 April, 2026" -> "28 Tháng 4, 2026"
