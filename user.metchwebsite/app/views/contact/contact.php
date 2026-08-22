@@ -7,7 +7,7 @@
 // Thông tin liên hệ MTECH chuẩn từ hồ sơ năng lực
 $contactInfo = [
     'headquarters' => 'Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội',
-    'address' => 'Tòa nhà 227 phố Nguyễn Ngọc Nại, phường Khương Mai, Quận Thanh Xuân, TP. Hà Nội',
+    'address' => 'Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội',
     'phone_primary' => '0913.034.656',
     'phone_secondary' => '0243.6231691',
     'email' => 'mtechjsc2011.info@gmail.com',
