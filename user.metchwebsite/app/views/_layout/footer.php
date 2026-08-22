@@ -34,8 +34,8 @@ $companyInfo = [
     'name' => 'CÔNG TY CỔ PHẦN TƯ VẤN KỸ THUẬT VÀ THƯƠNG MẠI',
     'short_name' => 'MTECH',
     'description' => 'CÔNG TY CỔ PHẦN TƯ VẤN KỸ THUẬT VÀ THƯƠNG MẠI',
-    'office_address' => 'Văn phòng làm việc: Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội',
-    'business_address' => 'Địa chỉ đăng ký kinh doanh: Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội',
+    'office_address' => 'Văn phòng làm việc: Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, TP. Hà Nội',
+    'business_address' => 'Địa chỉ đăng ký kinh doanh: Số 8, ngõ 151, phố Định Công, Phường Định Công, TP. Hà Nội',
     'phone' => $headerSettings['phone'] ?? '0913.034.656',
     'email' => 'mtechjsc2011.info@gmail.com',
     'website' => 'www.mtechjsc.com'
@@ -60,17 +60,17 @@ $companyInfo = [
                         <h4 class="f_title f_size_20 f_500 color_w">Thông tin liên hệ</h4>
                         <div class="f_widget_body">
                             <div class="textwidget custom-html-widget">
-                                <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội
-                                </p>
-                                <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội
-                                </p>
-                                <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-phone"></i> <?php echo htmlspecialchars($companyInfo['phone']); ?>
+                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
+                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, TP. Hà Nội
                                 </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                                    <i class="fa fa-envelope"></i> <?php echo htmlspecialchars($companyInfo['email']); ?>
+                                    <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, TP. Hà Nội
+                                </p>
+                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
+                                    <i class="fa fa-phone"></i> <strong>Điện thoại:</strong> <span style="display: inline-block;">0913.034.656 (Hotline)</span><br><span class="phone-second-line">0243.623.1691</span>
+                                </p>
+                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
+                                    <i class="fa fa-envelope"></i> <strong>Email:</strong> <?php echo htmlspecialchars($companyInfo['email']); ?>
                                 </p>
                             </div>
                         </div>
