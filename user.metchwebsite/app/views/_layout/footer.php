@@ -31,7 +31,7 @@ try {
 
 // Thông tin MTECH chuẩn từ hồ sơ năng lực
 $companyInfo = [
-    'name' => 'Công ty Cổ phần Tư vấn Kỹ thuật và Thương mại',
+    'name' => 'CÔNG TY CỔ PHẦN TƯ VẤN KỸ THUẬT VÀ THƯƠNG MẠI',
     'short_name' => 'MTECH',
     'description' => 'CÔNG TY CỔ PHẦN TƯ VẤN KỸ THUẬT VÀ THƯƠNG MẠI',
     'office_address' => 'Văn phòng làm việc: Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội',
@@ -61,7 +61,7 @@ $companyInfo = [
                         <div class="f_widget_body">
                             <div class="textwidget custom-html-widget">
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
-                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà số 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội
+                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Tòa nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, quận Thanh Xuân, TP. Hà Nội
                                 </p>
                                 <p style="font-size: 14px; line-height: 1.6; margin: 0; margin-bottom: 12px;">
                                     <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, Quận Hoàng Mai, TP. Hà Nội
@@ -155,7 +155,7 @@ $companyInfo = [
                     Bản quyền © <?php echo date('Y'); ?> <a href="./"><?php echo htmlspecialchars($companyInfo['short_name']); ?></a>. Đã đăng ký bảo hộ.
                 </div>
                 <div class="pull-right">
-                    Thiết kế bởi: <a href="https://www.mistydev.id.vn/" target="_blank">MistyTeam</a>
+                    Thiết kế bởi: <a href="https://www.mistydev.id.vn/" target="_blank">MistySoft</a>
                 </div>
             </div>
         </div>

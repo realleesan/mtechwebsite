@@ -94,6 +94,7 @@
     letter-spacing: 0.3px;
     line-height: 1.3;
     white-space: normal;
+    text-transform: uppercase;
 }
 
 /* ═══════════════════════════════════════════════════════════ */
@@ -178,13 +179,29 @@
 /* ═══════════════════════════════════════════════════════════ */
 
 .link_widget {
-    margin-left: 30px;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link_widget .f_title {
+    text-align: left;
+    width: 100%;
+    max-width: fit-content;
+}
+
+.link_widget .f_widget_body {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .link_widget ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    text-align: left;
 }
 
 .link_widget ul li {
