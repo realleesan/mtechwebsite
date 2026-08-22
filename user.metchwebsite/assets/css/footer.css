@@ -180,24 +180,31 @@
 
 .link_widget {
     margin-left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: center; /* Căn giữa khung bọc trên toàn cột */
+}
+
+/* Khối bao quanh tiêu đề + danh sách: tự co theo chiều rộng nội dung và căn trái bên trong */
+.link_widget .link_inner_wrap {
+    display: inline-block;
+    text-align: left;
 }
 
 .link_widget .f_title {
+    margin-bottom: 20px;
     text-align: left;
-    align-self: flex-start;
-    margin-left: auto;
-    margin-right: auto;
+    display: block;
+    width: auto;
+}
+
+.link_widget .f_title_inner {
+    text-align: left;
 }
 
 .link_widget .f_widget_body {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+    display: block;
 }
 
+/* Giữ nguyên toàn bộ CSS của danh sách bên dưới */
 .link_widget ul {
     list-style: none;
     padding: 0;
@@ -220,7 +227,6 @@
 .link_widget ul li a:hover {
     color: #B5D3FF;
 }
-
 /* ═══════════════════════════════════════════════════════════ */
 /* COLUMN 3: ĐĂNG KÝ NHẬN TIN (Newsletter) */
 /* ═══════════════════════════════════════════════════════════ */

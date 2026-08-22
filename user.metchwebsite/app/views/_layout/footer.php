@@ -80,27 +80,31 @@ $companyInfo = [
                 <!-- Cột 2: Liên kết -->
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <aside class="f_widget link_widget">
-                        <h4 class="f_title f_size_20 f_500 color_w">
-                            <?php echo htmlspecialchars($footerSettings['useful_links_title'] ?? 'Liên kết'); ?>
-                        </h4>
-                        <div class="f_widget_body">
-                            <ul class="list-unstyled mb-0">
-                                <?php foreach ($usefulLinks as $link): ?>
-                                <li>
-                                    <a href="<?php echo htmlspecialchars($link['url']); ?>">
-                                        <?php echo htmlspecialchars($link['title']); ?>
-                                    </a>
-                                </li>
-                                <?php endforeach; ?>
-                                <?php if (empty($usefulLinks)): ?>
-                                <li><a href="./">Trang chủ</a></li>
-                                <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
-                                <li><a href="/linh-vuc">Lĩnh vực</a></li>
-                                <li><a href="/du-an">Dự án</a></li>
-                                <li><a href="/tin-tuc">Tin tức</a></li>
-                                <li><a href="/lien-he">Liên hệ</a></li>
-                                <?php endif; ?>
-                            </ul>
+                        <div class="link_inner_wrap">
+                            <h4 class="f_title f_size_20 f_500 color_w">
+                                <span class="f_title_inner">
+                                    <?php echo htmlspecialchars($footerSettings['useful_links_title'] ?? 'Liên kết'); ?>
+                                </span>
+                            </h4>
+                            <div class="f_widget_body">
+                                <ul class="list-unstyled mb-0">
+                                    <?php foreach ($usefulLinks as $link): ?>
+                                    <li>
+                                        <a href="<?php echo htmlspecialchars($link['url']); ?>">
+                                            <?php echo htmlspecialchars($link['title']); ?>
+                                        </a>
+                                    </li>
+                                    <?php endforeach; ?>
+                                    <?php if (empty($usefulLinks)): ?>
+                                    <li><a href="./">Trang chủ</a></li>
+                                    <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
+                                    <li><a href="/linh-vuc">Lĩnh vực</a></li>
+                                    <li><a href="/du-an">Dự án</a></li>
+                                    <li><a href="/tin-tuc">Tin tức</a></li>
+                                    <li><a href="/lien-he">Liên hệ</a></li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
                         </div>
                     </aside>
                 </div>
