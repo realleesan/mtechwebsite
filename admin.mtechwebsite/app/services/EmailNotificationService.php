@@ -67,6 +67,15 @@ class EmailNotificationService
             $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;
         }
 
+        // SMTPOptions tránh lỗi SSL Certificate trên Hosting Shared
+        $this->mailer->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+
         // Default sender
         $this->mailer->setFrom(
             $this->config['from_email'], 
