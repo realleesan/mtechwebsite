@@ -315,7 +315,7 @@ class CategoriesModel
                   feature_1_icon, feature_1_title, feature_1_text,
                   feature_2_icon, feature_2_title, feature_2_text,
                   faq_items, status, sort_order, show_in_footer, featured_project_id)
-                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             );
             $ok = $stmt->execute([
                 $data['parent_id']           ?? null,
