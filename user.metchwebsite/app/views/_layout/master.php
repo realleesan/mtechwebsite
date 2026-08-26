@@ -59,13 +59,13 @@ mb_http_output('UTF-8');
     <!-- ========================================== -->
     <!-- NOTE: Core CSS Files - Thêm CSS chung tại đây -->
     <!-- ========================================== -->
-    <link rel="stylesheet" href="assets/css/typography.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/pageheader.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
-    <link rel="stylesheet" href="assets/css/pusher.css">
-    <link rel="stylesheet" href="assets/css/client.logos.css">
-    <link rel="stylesheet" href="assets/css/flash.messages.css">
+    <link rel="stylesheet" href="/assets/css/typography.css?v=2.1">
+    <link rel="stylesheet" href="/assets/css/header.css?v=2.1">
+    <link rel="stylesheet" href="/assets/css/pageheader.css?v=2.1">
+    <link rel="stylesheet" href="/assets/css/footer.css?v=2.1">
+    <link rel="stylesheet" href="/assets/css/pusher.css?v=2.1">
+    <link rel="stylesheet" href="/assets/css/client.logos.css?v=2.1">
+    <link rel="stylesheet" href="/assets/css/flash.messages.css?v=2.1">
     
     <!-- ========================================== -->
     <!-- NOTE: Page-specific CSS - Thêm CSS theo từng trang -->

@@ -61,28 +61,28 @@ $companyInfo = [
                         <h4 class="f_title f_size_20 f_500 color_w">Thông tin liên hệ</h4>
                         <div class="f_widget_body">
                             <div class="textwidget custom-html-widget">
-                                <div class="f_contact_item">
-                                    <i class="fa fa-map-marker f_contact_icon"></i>
-                                    <div class="f_contact_text">
+                                <div class="f_contact_item" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                                    <i class="fa fa-map-marker f_contact_icon" style="flex: 0 0 16px; width: 16px; margin-top: 4px; text-align: center; color: rgba(255, 255, 255, 0.85); font-size: 14px;"></i>
+                                    <div class="f_contact_text" style="flex: 1; font-size: 14px; line-height: 1.6; color: #ffffff; word-break: break-word;">
                                         <strong>Văn phòng làm việc:</strong> Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, TP. Hà Nội
                                     </div>
                                 </div>
-                                <div class="f_contact_item">
-                                    <i class="fa fa-map-marker f_contact_icon"></i>
-                                    <div class="f_contact_text">
+                                <div class="f_contact_item" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                                    <i class="fa fa-map-marker f_contact_icon" style="flex: 0 0 16px; width: 16px; margin-top: 4px; text-align: center; color: rgba(255, 255, 255, 0.85); font-size: 14px;"></i>
+                                    <div class="f_contact_text" style="flex: 1; font-size: 14px; line-height: 1.6; color: #ffffff; word-break: break-word;">
                                         <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, TP. Hà Nội
                                     </div>
                                 </div>
-                                <div class="f_contact_item">
-                                    <i class="fa fa-phone f_contact_icon"></i>
-                                    <div class="f_contact_text">
+                                <div class="f_contact_item" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                                    <i class="fa fa-phone f_contact_icon" style="flex: 0 0 16px; width: 16px; margin-top: 4px; text-align: center; color: rgba(255, 255, 255, 0.85); font-size: 14px;"></i>
+                                    <div class="f_contact_text" style="flex: 1; font-size: 14px; line-height: 1.6; color: #ffffff; word-break: break-word;">
                                         <strong>Điện thoại:</strong> 0913.034.656 (Hotline)<br>0243.623.1691
                                     </div>
                                 </div>
-                                <div class="f_contact_item">
-                                    <i class="fa fa-envelope f_contact_icon"></i>
-                                    <div class="f_contact_text">
-                                        <strong>Email:</strong> <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
+                                <div class="f_contact_item" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0;">
+                                    <i class="fa fa-envelope f_contact_icon" style="flex: 0 0 16px; width: 16px; margin-top: 4px; text-align: center; color: rgba(255, 255, 255, 0.85); font-size: 14px;"></i>
+                                    <div class="f_contact_text" style="flex: 1; font-size: 14px; line-height: 1.6; color: #ffffff; word-break: break-word;">
+                                        <strong>Email:</strong> <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>" style="color: #ffffff; text-decoration: none;"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
                                     </div>
                                 </div>
                             </div>
