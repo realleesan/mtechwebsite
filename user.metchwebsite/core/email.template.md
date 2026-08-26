@@ -8,8 +8,8 @@ return [
     // SMTP Configuration
     'smtp_host' => 'smtp.gmail.com',
     'smtp_port' => 587,
-    'smtp_username' => 'baominhkpkp@gmail.com', // Thay đổi thành email thực
-    'smtp_password' => 'gjvz qdrq pogq sheb', // Thay đổi thành app password
+    'smtp_username' => 'trkklinh@gmail.com', // Thay đổi thành email thực
+    'smtp_password' => 'unbk dugz vper uujy', // Thay đổi thành app password
     'smtp_secure' => 'tls', // Will be converted to PHPMailer constant in service
     'smtp_auth' => true,
     'use_smtp' => true,

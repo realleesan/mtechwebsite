@@ -131,7 +131,7 @@ This project is proprietary software. All rights reserved.
 
 ## 📞 Support
 
-- **Email**: baominhkpkp@gmail.com
+- **Email**: trkklinh@gmail.com
 - **Website**: https://truongvinalogistics.com.vn/
 - **Admin Panel**: https://admin.truongvinalogistics.com.vn/
 
