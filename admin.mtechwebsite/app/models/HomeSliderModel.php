@@ -13,7 +13,7 @@ class HomeSliderModel
     /** @var string Tên bảng */
     private $table = 'home_sliders';
 
-    private $adminBaseUrl = 'https://adminmtechjsc.gt.tc';
+    private $adminBaseUrl = 'https://admin.mtechjsc.com';
     private $uploadDir    = '/assets/uploads/home-sliders/';
     private $maxFileSize  = 5 * 1024 * 1024; // 5MB
     private $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
@@ -22,11 +22,17 @@ class HomeSliderModel
 
     public function __construct($database = null)
     {
+        if (function_exists('env')) {
+            $this->adminBaseUrl = env('ADMIN_BASE_URL', 'https://admin.mtechjsc.com');
+        }
         if ($database) {
             $this->db = $database;
         } else {
             require_once __DIR__ . '/../../core/database.php';
             $this->db = getDBConnection();
+            if (function_exists('env')) {
+                $this->adminBaseUrl = env('ADMIN_BASE_URL', 'https://admin.mtechjsc.com');
+            }
         }
     }
 

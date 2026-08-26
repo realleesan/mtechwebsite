@@ -165,7 +165,8 @@ class JobApplicationsController extends BaseController
                 $cvUrl = $cvFile;
             } else {
                 // cv_file là relative path → build URL
-                $cvUrl = 'https://mtechjsc.gt.tc/' . ltrim($cvFile, '/');
+                $userBaseUrl = env('USER_BASE_URL', 'https://mtechjsc.com');
+                $cvUrl = rtrim($userBaseUrl, '/') . '/' . ltrim($cvFile, '/');
             }
         }
 

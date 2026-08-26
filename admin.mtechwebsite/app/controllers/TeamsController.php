@@ -9,9 +9,14 @@ class TeamsController extends BaseController
 
     /** Upload directory — lưu trong admin site, DB lưu URL tuyệt đối */
     private const UPLOAD_DIR     = '/assets/uploads/teams/';
-    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
+    private const ADMIN_BASE_URL = 'https://admin.mtechjsc.com';
     private const MAX_FILE_SIZE  = 2 * 1024 * 1024;
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+
+    private function getAdminBaseUrl(): string
+    {
+        return env('ADMIN_BASE_URL', self::ADMIN_BASE_URL);
+    }
 
     public function __construct()
     {
@@ -69,7 +74,7 @@ class TeamsController extends BaseController
             $this->redirect('/teams/create');
             return;
         }
-        $imageValue = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $uploaded;
+        $imageValue = $this->getAdminBaseUrl() . self::UPLOAD_DIR . $uploaded;
 
         $sortOrder = (int)($_POST['sort_order'] ?? 0);
 
@@ -176,7 +181,7 @@ class TeamsController extends BaseController
                 return;
             }
             $this->deleteOldImage($team['image'] ?? '');
-            $data['image'] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $uploaded;
+            $data['image'] = $this->getAdminBaseUrl() . self::UPLOAD_DIR . $uploaded;
         } elseif (!empty($_POST['remove_image']) && $_POST['remove_image'] === '1') {
             $this->deleteOldImage($team['image'] ?? '');
             $data['image'] = '';
@@ -333,7 +338,9 @@ class TeamsController extends BaseController
     {
         if (empty($imagePath)) return;
         // Chỉ xóa nếu là file upload nội bộ (URL tuyệt đối của admin site)
-        if (strpos($imagePath, self::ADMIN_BASE_URL) === false) return;
+        if (strpos($imagePath, $this->getAdminBaseUrl()) === false &&
+            strpos($imagePath, 'adminmtechjsc.gt.tc') === false &&
+            strpos($imagePath, self::UPLOAD_DIR) === false) return;
 
         $filename = basename($imagePath);
         $fullPath = __DIR__ . '/../../assets/uploads/teams/' . $filename;

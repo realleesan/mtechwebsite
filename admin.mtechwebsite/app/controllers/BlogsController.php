@@ -13,9 +13,14 @@ class BlogsController extends BaseController
     
     // Upload constants
     private const UPLOAD_DIR     = '/assets/uploads/blogs/';
-    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
+    private const ADMIN_BASE_URL = 'https://admin.mtechjsc.com';
     private const MAX_FILE_SIZE  = 5 * 1024 * 1024; // 5MB
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+
+    private function getAdminBaseUrl(): string
+    {
+        return env('ADMIN_BASE_URL', self::ADMIN_BASE_URL);
+    }
 
     public function __construct()
     {
@@ -556,7 +561,7 @@ class BlogsController extends BaseController
         }
 
         // Return absolute URL
-        $absoluteUrl = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $filename;
+        $absoluteUrl = $this->getAdminBaseUrl() . self::UPLOAD_DIR . $filename;
         return ['success' => true, 'path' => $absoluteUrl];
     }
 
@@ -601,15 +606,17 @@ class BlogsController extends BaseController
             return ['success' => false, 'error' => 'Không thể lưu ảnh đã chỉnh sửa'];
         }
 
-        return ['success' => true, 'path' => self::ADMIN_BASE_URL . self::UPLOAD_DIR . $filename];
+        return ['success' => true, 'path' => $this->getAdminBaseUrl() . self::UPLOAD_DIR . $filename];
     }
 
     private function deleteOldImage($imagePath)
     {
         if (empty($imagePath)) return;
         
-        // Only delete images uploaded to admin site
-        if (strpos($imagePath, self::ADMIN_BASE_URL) === false) return;
+        // Only delete images uploaded to admin site (support current domain, old domain, or local upload dir)
+        if (strpos($imagePath, $this->getAdminBaseUrl()) === false &&
+            strpos($imagePath, 'adminmtechjsc.gt.tc') === false &&
+            strpos($imagePath, self::UPLOAD_DIR) === false) return;
         
         $filename = basename($imagePath);
         $fullPath = __DIR__ . '/../../assets/uploads/blogs/' . $filename;

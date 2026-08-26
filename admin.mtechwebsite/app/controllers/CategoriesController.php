@@ -7,10 +7,15 @@ class CategoriesController extends BaseController
 {
     private $model;
 
-    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
+    private const ADMIN_BASE_URL = 'https://admin.mtechjsc.com';
     private const UPLOAD_DIR     = '/assets/uploads/categories/';
     private const MAX_FILE_SIZE  = 5 * 1024 * 1024; // 5MB
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+
+    private function getAdminBaseUrl(): string
+    {
+        return env('ADMIN_BASE_URL', self::ADMIN_BASE_URL);
+    }
 
     // Tất cả các field ảnh trong bảng categories
     private const IMAGE_FIELDS = ['image', 'image_1', 'image_2', 'image_3', 'benefit_image', 'feature_image'];
@@ -91,7 +96,7 @@ class CategoriesController extends BaseController
                     $this->redirect('/categories/create');
                     return;
                 }
-                $data[$field] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $uploaded;
+                $data[$field] = $this->getAdminBaseUrl() . self::UPLOAD_DIR . $uploaded;
             }
         }
 
@@ -173,7 +178,7 @@ class CategoriesController extends BaseController
                 // Xóa ảnh cũ nếu có
                 $this->deleteOldImage($category[$field] ?? '');
                 // Gán URL ảnh mới
-                $data[$field] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $uploaded;
+                $data[$field] = $this->getAdminBaseUrl() . self::UPLOAD_DIR . $uploaded;
             } else {
                 // KHÔNG có file mới - GIỮ NGUYÊN ảnh cũ từ database
                 $data[$field] = $category[$field] ?? '';
@@ -346,7 +351,9 @@ class CategoriesController extends BaseController
     private function deleteOldImage(string $imagePath): void
     {
         if (empty($imagePath)) return;
-        if (strpos($imagePath, self::ADMIN_BASE_URL) === false) return;
+        if (strpos($imagePath, $this->getAdminBaseUrl()) === false &&
+            strpos($imagePath, 'adminmtechjsc.gt.tc') === false &&
+            strpos($imagePath, self::UPLOAD_DIR) === false) return;
 
         $filename = basename($imagePath);
         $fullPath = __DIR__ . '/../../assets/uploads/categories/' . $filename;

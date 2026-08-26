@@ -13,6 +13,11 @@ class HomeSlidersController extends BaseController
 {
     private $model;
 
+    private function getAdminBaseUrl(): string
+    {
+        return env('ADMIN_BASE_URL', 'https://admin.mtechjsc.com');
+    }
+
     public function __construct()
     {
         AuthMiddleware::requireLogin();
@@ -59,7 +64,7 @@ class HomeSlidersController extends BaseController
         }
 
         foreach ($uploaded as $field => $filename) {
-            $uploaded[$field] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $filename;
+            $uploaded[$field] = $this->getAdminBaseUrl() . '/assets/uploads/home-sliders/' . $filename;
         }
 
         $data = array_merge($data, $uploaded);
@@ -115,15 +120,15 @@ class HomeSlidersController extends BaseController
             if ($uploaded !== false) {
                 if (!empty($uploaded['image_1'])) {
                     $this->deleteOldImage($slide['image_1']);
-                    $data['image_1'] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $uploaded['image_1'];
+                    $data['image_1'] = $this->getAdminBaseUrl() . '/assets/uploads/home-sliders/' . $uploaded['image_1'];
                 }
                 if (!empty($uploaded['image_2'])) {
                     $this->deleteOldImage($slide['image_2']);
-                    $data['image_2'] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $uploaded['image_2'];
+                    $data['image_2'] = $this->getAdminBaseUrl() . '/assets/uploads/home-sliders/' . $uploaded['image_2'];
                 }
                 if (!empty($uploaded['image_3'])) {
                     $this->deleteOldImage($slide['image_3']);
-                    $data['image_3'] = 'https://adminmtechjsc.gt.tc/assets/uploads/home-sliders/' . $uploaded['image_3'];
+                    $data['image_3'] = $this->getAdminBaseUrl() . '/assets/uploads/home-sliders/' . $uploaded['image_3'];
                 }
             }
         }
@@ -263,7 +268,9 @@ class HomeSlidersController extends BaseController
     private function deleteOldImage($imagePath)
     {
         if (empty($imagePath)) return;
-        if (strpos($imagePath, 'adminmtechjsc.gt.tc') === false) return;
+        if (strpos($imagePath, $this->getAdminBaseUrl()) === false &&
+            strpos($imagePath, 'adminmtechjsc.gt.tc') === false &&
+            strpos($imagePath, '/assets/uploads/home-sliders/') === false) return;
 
         $filename = basename($imagePath);
         $fullPath = __DIR__ . '/../../assets/uploads/home-sliders/' . $filename;

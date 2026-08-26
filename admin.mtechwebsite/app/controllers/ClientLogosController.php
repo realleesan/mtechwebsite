@@ -9,9 +9,14 @@ class ClientLogosController extends BaseController
 
     /** Upload directory — lưu trong admin site, DB lưu URL tuyệt đối */
     private const UPLOAD_DIR     = '/assets/uploads/client-logos/';
-    private const ADMIN_BASE_URL = 'https://adminmtechjsc.gt.tc';
+    private const ADMIN_BASE_URL = 'https://admin.mtechjsc.com';
     private const MAX_FILE_SIZE  = 2 * 1024 * 1024; // 2MB
     private const ALLOWED_TYPES  = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+
+    private function getAdminBaseUrl(): string
+    {
+        return env('ADMIN_BASE_URL', self::ADMIN_BASE_URL);
+    }
 
     public function __construct()
     {
@@ -77,7 +82,7 @@ class ClientLogosController extends BaseController
                 $this->redirect('/client-logos/create');
                 return;
             }
-            $data['logo'] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $logoPath;
+            $data['logo'] = $this->getAdminBaseUrl() . self::UPLOAD_DIR . $logoPath;
         }
 
         $id = $this->model->create($data);
@@ -152,7 +157,7 @@ class ClientLogosController extends BaseController
             }
             // Xóa ảnh cũ nếu có
             $this->deleteOldLogo($logo['logo'] ?? '');
-            $data['logo'] = self::ADMIN_BASE_URL . self::UPLOAD_DIR . $logoPath;
+            $data['logo'] = $this->getAdminBaseUrl() . self::UPLOAD_DIR . $logoPath;
         }
 
         if ($this->model->update($id, $data)) {
@@ -324,9 +329,10 @@ class ClientLogosController extends BaseController
     {
         if (empty($logoPath)) return;
 
-        // Chỉ xóa file nếu là ảnh do admin upload (URL tuyệt đối của admin site)
-        // Ảnh cũ dạng relative path (assets/images/...) thì bỏ qua, không xóa
-        if (strpos($logoPath, self::ADMIN_BASE_URL) === false) return;
+        // Chỉ xóa file nếu là ảnh do admin upload
+        if (strpos($logoPath, $this->getAdminBaseUrl()) === false &&
+            strpos($logoPath, 'adminmtechjsc.gt.tc') === false &&
+            strpos($logoPath, self::UPLOAD_DIR) === false) return;
 
         $filename = basename($logoPath);
         $fullPath = __DIR__ . '/../../assets/uploads/client-logos/' . $filename;

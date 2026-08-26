@@ -3,7 +3,7 @@
  * Diagnostic & Testing Tool for Hosting Environment
  * MTech Website
  *
- * Mở file này trên trình duyệt (ví dụ: http://mtechjsc.gt.tc/test_hosting.php)
+ * Mở file này trên trình duyệt (ví dụ: http://mtechjsc.com/test_hosting.php)
  * để kiểm tra nguyên nhân gây lỗi trên Hosting.
  */
 
