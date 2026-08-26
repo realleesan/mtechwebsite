@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Teams Page Styles
  * Carousel giống awards.css — ảnh vuông, chạy từ phải qua trái
  */
@@ -7,7 +7,7 @@
    Utility / Shared Classes
    ======================================== */
 
-.sec_gap        { padding: 100px 0; }
+.sec_gap        { padding: 45px 0; }
 .f_600          { font-weight: 600; }
 .f_size_32      { font-size: 32px; }
 .f_size_20      { font-size: 20px; }

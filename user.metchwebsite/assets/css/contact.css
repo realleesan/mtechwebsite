@@ -4,7 +4,7 @@
 
 /* Contact Area Section */
 .contact_area {
-    padding: 100px 0;
+    padding: 45px 0 25px;
     background: #fff;
 }
 
@@ -200,7 +200,7 @@
 /* Google Maps Section */
 .map_section {
     width: 100%;
-    margin: 40px 0 0 0;
+    margin: 20px 0 0 0;
 }
 
 .elementor-custom-embed {
@@ -321,7 +321,7 @@
 /* Responsive Styles */
 @media (max-width: 991px) {
     .contact_area {
-        padding: 60px 0;
+        padding: 35px 0 20px;
     }
     
     .contact_info {
@@ -340,7 +340,7 @@
 
 @media (max-width: 767px) {
     .contact_area {
-        padding: 40px 0;
+        padding: 25px 0 15px;
     }
     
     .contact_info {
