@@ -1,4 +1,4 @@
-﻿<?php if (!isset($logo) || empty($logo)): ?>
+<?php if (!isset($logo) || empty($logo)): ?>
     <?php header('Location: /client-logos'); exit; ?>
 <?php endif; ?>
 

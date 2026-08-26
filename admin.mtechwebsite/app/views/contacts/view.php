@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (!isset($contact) || empty($contact)) {
     header('Location: /contacts'); exit;
 }

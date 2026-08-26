@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Render category checkboxes with hierarchy support
  */

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (!isset($application) || empty($application)) {
     header('Location: /job-applications'); exit;
 }

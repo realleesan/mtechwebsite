@@ -1,4 +1,4 @@
-﻿<div class="page-header">
+<div class="page-header">
     <h4><i class="bi bi-patch-check me-2"></i>Thêm lĩnh vực mới</h4>
     <a href="/awards" class="btn btn-outline-secondary btn-sm">
         <i class="bi bi-arrow-left me-1"></i>Quay lại

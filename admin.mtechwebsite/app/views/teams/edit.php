@@ -1,4 +1,4 @@
-﻿<?php if (!isset($team) || empty($team)): ?>
+<?php if (!isset($team) || empty($team)): ?>
     <?php header('Location: /teams'); exit; ?>
 <?php endif; ?>
 
