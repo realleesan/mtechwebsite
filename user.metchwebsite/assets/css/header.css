@@ -824,6 +824,53 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     color: #3363DD !important;
 }
 
+/* -- Profile Download Button -- */
+.nav-profile-btn {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.btn_profile_download_nav {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 20px;
+    padding: 5px 14px !important;
+    font-family: "Noto Sans", "Noto Sans SC", sans-serif;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.btn_profile_download_nav:hover {
+    background: #ffffff !important;
+    color: #1749c9 !important;
+    border-color: #ffffff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn_profile_download_nav svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    transition: transform 0.3s ease;
+}
+
+.btn_profile_download_nav:hover svg {
+    transform: translateY(2px);
+}
+
 /* -- Hamburger toggler -- */
 .navbar-toggler {
     display: none;
