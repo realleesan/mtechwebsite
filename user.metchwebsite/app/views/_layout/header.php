@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Header Layout - Mega Menu Navigation
  * Dự án: MTech Website
@@ -37,14 +38,14 @@ $blogCategoriesTree = [];
 try {
     require_once __DIR__ . '/../../services/FilterConfigService.php';
     $filterService = new FilterConfigService();
-    
+
     $servicesConfig = $filterService->getConfig('services');
     if (!empty($servicesConfig)) {
         $servicesTree = $filterService->getFilteredMenuTree('services', $allServices);
     } else {
         $servicesTree = $categoriesModel->buildTree($allServices);
     }
-    
+
     $blogCategoriesConfig = $filterService->getConfig('blog_categories');
     if (!empty($blogCategoriesConfig)) {
         $filteredBlogTree = $filterService->getFilteredMenuTree('blog_categories', $menuBlogCategories);
@@ -86,10 +87,10 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             $html .= '<span class="caret-drop"></span>';
             $html .= '</a>';
             $html .= '<ul class="dropdown-menu" role="menu">';
-            
+
             // Render các category con recursively - không giới hạn cấp
             $html .= renderDropdownMenuItems($item['children'], $depth + 1, $urlPrefix);
-            
+
             // Thêm dự án vào cuối submenu (nếu có)
             if (!empty($projects)) {
                 foreach ($projects as $project) {
@@ -102,7 +103,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                     $html .= '</li>';
                 }
             }
-            
+
             $html .= '</ul>';
             $html .= '</li>';
         } elseif (!empty($projects)) {
@@ -142,13 +143,13 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
 
     <!-- Main Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light menu_absolute">
-        
+
         <!-- Logo + MTECH - Moved from Topbar -->
         <a class="navbar_logo" href="./">
             <img src="/assets/images/logo_mtech.png" alt="<?php echo htmlspecialchars($headerSettings['logo_alt'] ?? 'MTechJSC'); ?>" class="navbar_logo_img">
             <span class="navbar_logo_text">MTECH</span>
         </a>
-        
+
         <!-- Hamburger Menu Button for Mobile -->
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="menu_toggle">
@@ -163,23 +164,23 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 </span>
             </span>
         </button>
-        
+
         <!-- Navigation Menu -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
+
             <!-- Close Button (Mobile only) -->
             <button class="nav-close-btn" aria-label="Close menu">
                 <span class="nav-close-arrow">&#8592;</span>
                 <span class="nav-close-text">Back</span>
             </button>
-            
+
             <ul class="navbar-nav menu">
-                
+
                 <!-- Home -->
                 <li class="nav-item <?php echo ($currentPage === 'home') ? 'active' : ''; ?>">
                     <a class="nav-link" href="./" title="Home">TRANG CHỦ</a>
                 </li>
-                
+
                 <!-- About -->
                 <?php
                 $aboutPages = ['about', 'company.history', 'teams', 'awards', 'clients'];
@@ -208,10 +209,10 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         </li>
                     </ul>
                 </li>
-                
+
                 <!-- Services (Dropdown Menu chỉ hiển thị lĩnh vực cấp 1) -->
                 <?php
-                $level1Services = array_filter(is_array($allServices ?? null) ? $allServices : [], function($cat) {
+                $level1Services = array_filter(is_array($allServices ?? null) ? $allServices : [], function ($cat) {
                     return empty($cat['parent_id']) || (int)$cat['parent_id'] === 0;
                 });
                 ?>
@@ -225,15 +226,15 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                             <a class="nav-link" href="/linh-vuc" title="Tất cả lĩnh vực">TẤT CẢ LĨNH VỰC</a>
                         </li>
                         <?php foreach ($level1Services as $service): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/linh-vuc-<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
-                                <?php echo mb_strtoupper(htmlspecialchars($service['name']), 'UTF-8'); ?>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/linh-vuc-<?php echo urlencode($service['slug']); ?>" title="<?php echo htmlspecialchars($service['name']); ?>">
+                                    <?php echo mb_strtoupper(htmlspecialchars($service['name']), 'UTF-8'); ?>
+                                </a>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 </li>
-                
+
                 <!-- Projects (Direct Link) -->
                 <li class="nav-item <?php echo ($currentPage === 'projects' || $currentPage === 'project-details') ? 'active' : ''; ?>">
                     <a class="nav-link" href="/du-an" title="Dự án">DỰ ÁN</a>
@@ -241,18 +242,19 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
 
                 <!-- Blog with Hierarchical Categories -->
                 <?php
-                $isBlogActive = ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) || 
-                               ($currentPage === 'blog-details');
-                
+                $isBlogActive = ($currentPage === 'blogs' && !(isset($_GET['cat']) && $_GET['cat'] == '7')) ||
+                    ($currentPage === 'blog-details');
+
                 // Function to render blog category hierarchy recursively (supports n-levels)
-                function renderBlogCategoryMenu($categories, $depth = 0) {
+                function renderBlogCategoryMenu($categories, $depth = 0)
+                {
                     if (empty($categories)) return '';
-                    
+
                     $html = '';
                     foreach ($categories as $category) {
                         $hasChildren = !empty($category['children']);
                         $categoryUrl = '/tin-tuc-' . urlencode($category['slug']);
-                        
+
                         if ($hasChildren) {
                             // Category có con - thêm class submenu + caret-drop cho TẤT CẢ cấp
                             // data-depth cho debugging/styling nếu cần
@@ -262,10 +264,10 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                             $html .= '<span class="caret-drop"></span>';
                             $html .= '</a>';
                             $html .= '<ul class="dropdown-menu" role="menu">';
-                            
+
                             // Render các category con recursively - không giới hạn cấp
                             $html .= renderBlogCategoryMenu($category['children'], $depth + 1);
-                            
+
                             $html .= '</ul>';
                             $html .= '</li>';
                         } else {
@@ -292,7 +294,7 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         <?php echo renderBlogCategoryMenu($blogCategoriesTree); ?>
                     </ul>
                 </li>
-                
+
                 <!-- Contact -->
                 <li class="nav-item <?php echo ($currentPage === 'contact') ? 'active' : ''; ?>">
                     <a class="nav-link" href="/lien-he" title="Liên hệ">LIÊN HỆ</a>
@@ -301,14 +303,36 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 <!-- Search Icon -->
                 <li class="nav-item nav-search-btn">
                     <button class="search_toggle" aria-label="Open search" title="Search">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
                     </button>
                 </li>
 
                 <!-- Profile Button - Before Language Switcher -->
+                <?php
+                $rawProfilePath = $headerSettings['profile_pdf_path'] ?? 'assets/files/ho-so-nang-luc.pdf';
+                if (preg_match('/^https?:\/\//i', $rawProfilePath)) {
+                    $profileDownloadUrl = $rawProfilePath;
+                } else {
+                    $cleanProfilePath = ltrim($rawProfilePath, '/');
+                    $localProfileFile = __DIR__ . '/../../' . $cleanProfilePath;
+                    if (file_exists($localProfileFile)) {
+                        $profileDownloadUrl = '/' . $cleanProfilePath;
+                    } else {
+                        $adminBaseUrl = $_ENV['ADMIN_BASE_URL'] ?? 'https://admin.mtechjsc.com';
+                        $profileDownloadUrl = rtrim($adminBaseUrl, '/') . '/' . $cleanProfilePath;
+                    }
+                }
+                ?>
                 <li class="nav-item nav-profile-btn">
-                    <a href="<?php echo '/' . ltrim(htmlspecialchars($headerSettings['profile_pdf_path'] ?? 'assets/files/ho-so-nang-luc.pdf'), '/'); ?>" class="btn_profile_download_nav" download title="<?php echo htmlspecialchars($headerSettings['profile_pdf_label'] ?? 'Hồ Sơ Năng Lực'); ?>">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <a href="<?php echo htmlspecialchars($profileDownloadUrl); ?>" class="btn_profile_download_nav" download title="<?php echo htmlspecialchars($headerSettings['profile_pdf_label'] ?? 'Profile'); ?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
                         <span><?php echo htmlspecialchars($headerSettings['profile_pdf_label'] ?? 'Profile'); ?></span>
                     </a>
                 </li>
@@ -319,9 +343,9 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                         <div class="elfsight-app-c8ccbe90-5ee0-4fcc-a0ab-0bd32c144dd7" data-elfsight-app-lazy></div>
                     </div>
                 </li>
-                
+
             </ul>
-            
+
         </div>
     </nav>
 
@@ -332,10 +356,13 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
             <p class="search_overlay_label">TÌM KIẾM</p>
             <form class="search_overlay_inner" id="searchOverlayForm">
                 <input type="text" id="searchInput" class="search_overlay_input"
-                       placeholder="Tìm kiếm cho..." autocomplete="off"
-                       value="">
+                    placeholder="Tìm kiếm cho..." autocomplete="off"
+                    value="">
                 <button class="search_overlay_submit" type="submit" aria-label="Gửi tìm kiếm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
                 </button>
             </form>
         </div>

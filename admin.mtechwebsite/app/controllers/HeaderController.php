@@ -141,7 +141,13 @@ class HeaderController extends BaseController
             $targetPath = $uploadDir . $fileName;
             
             if (move_uploaded_file($_FILES['profile_pdf']['tmp_name'], $targetPath)) {
-                $data['profile_pdf_path'] = 'assets/files/' . $fileName;
+                $userFilesDir = __DIR__ . '/../../../user.metchwebsite/assets/files/';
+                if (!is_dir($userFilesDir)) {
+                    @mkdir($userFilesDir, 0755, true);
+                }
+                @copy($targetPath, $userFilesDir . $fileName);
+                $adminBaseUrl = $_ENV['ADMIN_BASE_URL'] ?? 'https://admin.mtechjsc.com';
+                $data['profile_pdf_path'] = rtrim($adminBaseUrl, '/') . '/assets/files/' . $fileName;
             } else {
                 $_SESSION['error'] = 'Không thể di chuyển file PDF. Kiểm tra lại quyền thư mục.';
                 $this->redirect('/header/profile');
@@ -210,7 +216,13 @@ class HeaderController extends BaseController
             $fileName = 'hsnl_' . time() . '_' . $originalBaseName . '.pdf';
             
             if (move_uploaded_file($_FILES['profile_pdf']['tmp_name'], $uploadDir . $fileName)) {
-                $data['profile_pdf_path'] = 'assets/files/' . $fileName;
+                $userFilesDir = __DIR__ . '/../../../user.metchwebsite/assets/files/';
+                if (!is_dir($userFilesDir)) {
+                    @mkdir($userFilesDir, 0755, true);
+                }
+                @copy($uploadDir . $fileName, $userFilesDir . $fileName);
+                $adminBaseUrl = $_ENV['ADMIN_BASE_URL'] ?? 'https://admin.mtechjsc.com';
+                $data['profile_pdf_path'] = rtrim($adminBaseUrl, '/') . '/assets/files/' . $fileName;
             }
         }
 
