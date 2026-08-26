@@ -51,6 +51,10 @@ assets/files/*.rar
 */assets/files/*.zip
 */assets/files/*.rar
 
+# Allow static Profile PDF for user website
+!user.metchwebsite/assets/files/*.pdf
+!user.metchwebsite/assets/files/ho-so-nang-luc.pdf
+
 # ==========================================
 # SYSTEM FILES
 # ==========================================
