@@ -12,7 +12,13 @@ $headerSettings = $headerModel->getSettingsWithFallback();
     <!-- Logo -->
     <div class="sidebar-logo d-flex align-items-center px-3 py-4">
         <a href="/dashboard" class="d-flex align-items-center text-decoration-none">
-            <img src="<?php echo htmlspecialchars((string) ($headerSettings['logo_path'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" 
+            <?php 
+                $sidebarLogo = trim((string) ($headerSettings['logo_path'] ?? ''));
+                if (!empty($sidebarLogo) && !preg_match('#^https?://#i', $sidebarLogo)) {
+                    $sidebarLogo = '/' . ltrim($sidebarLogo, '/');
+                }
+            ?>
+            <img src="<?php echo htmlspecialchars($sidebarLogo, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" 
                  alt="<?php echo htmlspecialchars((string) ($headerSettings['logo_alt'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>" 
                  height="36" 
                  onerror="this.style.display='none'">

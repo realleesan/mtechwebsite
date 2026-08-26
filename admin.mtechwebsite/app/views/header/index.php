@@ -42,7 +42,7 @@
             <div class="row align-items-center">
                 <div class="col-md-3">
                     <div class="logo-preview-container" style="background: #0d1117; padding: 10px; border-radius: 4px;">
-                        <img src="/<?= htmlspecialchars($header['logo_path']) ?>" alt="Logo Preview" class="preview-logo">
+                        <img src="/<?= htmlspecialchars(ltrim($header['logo_path'], '/')) ?>" alt="Logo Preview" class="preview-logo">
                     </div>
                 </div>
                 <div class="col-md-9">

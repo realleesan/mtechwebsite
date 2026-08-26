@@ -26,6 +26,60 @@ class CategoriesModel
             require_once __DIR__ . '/../../core/database.php';
             $this->db = getDBConnection();
         }
+        $this->ensureColumns();
+    }
+
+    private function columnExists(string $column): bool
+    {
+        try {
+            $stmt = $this->db->prepare("SHOW COLUMNS FROM `{$this->table}` LIKE ?");
+            $stmt->execute([$column]);
+            return (bool)$stmt->fetch();
+        } catch (\Exception $e) {
+            try {
+                $this->db->query("SELECT `{$column}` FROM `{$this->table}` LIMIT 0");
+                return true;
+            } catch (\Exception $e2) {
+                return false;
+            }
+        }
+    }
+
+    public function ensureColumns(): void
+    {
+        $columns = [
+            'parent_id'           => "ALTER TABLE `{$this->table}` ADD COLUMN `parent_id` INT NULL DEFAULT NULL",
+            'detail_description'  => "ALTER TABLE `{$this->table}` ADD COLUMN `detail_description` LONGTEXT NULL DEFAULT NULL",
+            'image_1'             => "ALTER TABLE `{$this->table}` ADD COLUMN `image_1` VARCHAR(255) NULL DEFAULT NULL",
+            'image_2'             => "ALTER TABLE `{$this->table}` ADD COLUMN `image_2` VARCHAR(255) NULL DEFAULT NULL",
+            'image_3'             => "ALTER TABLE `{$this->table}` ADD COLUMN `image_3` VARCHAR(255) NULL DEFAULT NULL",
+            'benefit_image'       => "ALTER TABLE `{$this->table}` ADD COLUMN `benefit_image` VARCHAR(255) NULL DEFAULT NULL",
+            'benefit_title'       => "ALTER TABLE `{$this->table}` ADD COLUMN `benefit_title` VARCHAR(255) NULL DEFAULT NULL",
+            'benefit_description' => "ALTER TABLE `{$this->table}` ADD COLUMN `benefit_description` TEXT NULL DEFAULT NULL",
+            'benefit_items'       => "ALTER TABLE `{$this->table}` ADD COLUMN `benefit_items` LONGTEXT NULL DEFAULT NULL",
+            'feature_image'       => "ALTER TABLE `{$this->table}` ADD COLUMN `feature_image` VARCHAR(255) NULL DEFAULT NULL",
+            'feature_1_icon'      => "ALTER TABLE `{$this->table}` ADD COLUMN `feature_1_icon` VARCHAR(255) NULL DEFAULT NULL",
+            'feature_1_title'     => "ALTER TABLE `{$this->table}` ADD COLUMN `feature_1_title` VARCHAR(255) NULL DEFAULT NULL",
+            'feature_1_text'      => "ALTER TABLE `{$this->table}` ADD COLUMN `feature_1_text` TEXT NULL DEFAULT NULL",
+            'feature_2_icon'      => "ALTER TABLE `{$this->table}` ADD COLUMN `feature_2_icon` VARCHAR(255) NULL DEFAULT NULL",
+            'feature_2_title'     => "ALTER TABLE `{$this->table}` ADD COLUMN `feature_2_title` VARCHAR(255) NULL DEFAULT NULL",
+            'feature_2_text'      => "ALTER TABLE `{$this->table}` ADD COLUMN `feature_2_text` TEXT NULL DEFAULT NULL",
+            'faq_items'           => "ALTER TABLE `{$this->table}` ADD COLUMN `faq_items` LONGTEXT NULL DEFAULT NULL",
+            'show_in_footer'      => "ALTER TABLE `{$this->table}` ADD COLUMN `show_in_footer` TINYINT DEFAULT 0",
+            'featured_project_id' => "ALTER TABLE `{$this->table}` ADD COLUMN `featured_project_id` INT NULL DEFAULT NULL",
+            'deleted_at'          => "ALTER TABLE `{$this->table}` ADD COLUMN `deleted_at` DATETIME NULL DEFAULT NULL",
+            'updated_at'          => "ALTER TABLE `{$this->table}` ADD COLUMN `updated_at` DATETIME NULL DEFAULT NULL",
+        ];
+
+        foreach ($columns as $col => $sql) {
+            if (!$this->columnExists($col)) {
+                try {
+                    $this->db->exec($sql);
+                } catch (\Exception $e) {
+                    error_log("CategoriesModel::ensureColumns() failed for {$col}: " . $e->getMessage());
+                }
+            }
+        }
     }
 
     // ----------------------------------------------------------------

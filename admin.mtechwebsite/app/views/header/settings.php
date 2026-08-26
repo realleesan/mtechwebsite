@@ -45,7 +45,7 @@
                     <div class="mb-4">
                         <label for="logo" class="form-label fw-bold">Logo Website</label>
                         <div class="mb-3">
-                            <img id="logo-preview-img" src="/<?= htmlspecialchars($header['logo_path']) ?>" class="img-thumbnail mb-2" style="max-height: 100px; background: #0d1117;">
+                            <img id="logo-preview-img" src="/<?= htmlspecialchars(ltrim($header['logo_path'], '/')) ?>" class="img-thumbnail mb-2" style="max-height: 100px; background: #0d1117;">
                             <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
                         </div>
                         <div class="mb-3">

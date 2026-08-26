@@ -105,7 +105,8 @@ class CategoriesController extends BaseController
             $_SESSION['success'] = 'Đã thêm lĩnh vực thành công';
             $this->redirect('/categories');
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi thêm lĩnh vực';
+            $errDetail = CategoriesModel::getLastError();
+            $_SESSION['error'] = 'Có lỗi xảy ra khi thêm lĩnh vực' . ($errDetail ? ': ' . $errDetail : '');
             $this->redirect('/categories/create');
         }
     }
@@ -192,7 +193,8 @@ class CategoriesController extends BaseController
             $_SESSION['success'] = 'Đã cập nhật lĩnh vực thành công';
             $this->redirect('/categories');
         } else {
-            $_SESSION['error'] = 'Có lỗi xảy ra khi cập nhật lĩnh vực';
+            $errDetail = CategoriesModel::getLastError();
+            $_SESSION['error'] = 'Có lỗi xảy ra khi cập nhật lĩnh vực' . ($errDetail ? ': ' . $errDetail : '');
             $this->redirect('/categories/edit/' . $id);
         }
     }
