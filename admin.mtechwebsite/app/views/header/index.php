@@ -55,22 +55,12 @@
                             <label>ISO Text</label>
                             <span><?= htmlspecialchars($header['iso_text']) ?></span>
                         </div>
-                        <div class="info-box">
-                            <label>Hồ sơ năng lực</label>
-                            <span class="file-info-badge">
-                                <i class="bi bi-file-earmark-pdf me-1"></i>
-                                <?= htmlspecialchars($header['profile_pdf_label']) ?>
-                            </span>
-                        </div>
                     </div>
                 </div>
             </div>
             <div class="section-actions">
                 <a href="/header/settings" class="btn btn-sm btn-outline-primary">
                     <i class="bi bi-pencil me-1"></i>Chỉnh sửa cài đặt chung
-                </a>
-                <a href="/header/profile" class="btn btn-sm btn-outline-info">
-                    <i class="bi bi-pencil me-1"></i>Chỉnh sửa hồ sơ năng lực
                 </a>
             </div>
         </div>

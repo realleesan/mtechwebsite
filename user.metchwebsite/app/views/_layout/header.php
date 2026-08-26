@@ -310,30 +310,23 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                     </button>
                 </li>
 
-                <!-- Profile Button - Before Language Switcher -->
+                <!-- Profile Button - Static File ho-so-nang-luc.pdf -->
                 <?php
-                $rawProfilePath = $headerSettings['profile_pdf_path'] ?? 'assets/files/ho-so-nang-luc.pdf';
-                if (preg_match('/^https?:\/\//i', $rawProfilePath)) {
-                    $profileDownloadUrl = $rawProfilePath;
+                $staticProfilePath = 'assets/files/ho-so-nang-luc.pdf';
+                if (file_exists(__DIR__ . '/../../' . $staticProfilePath)) {
+                    $profileDownloadUrl = '/' . $staticProfilePath;
                 } else {
-                    $cleanProfilePath = ltrim($rawProfilePath, '/');
-                    $localProfileFile = __DIR__ . '/../../' . $cleanProfilePath;
-                    if (file_exists($localProfileFile)) {
-                        $profileDownloadUrl = '/' . $cleanProfilePath;
-                    } else {
-                        $adminBaseUrl = $_ENV['ADMIN_BASE_URL'] ?? 'https://admin.mtechjsc.com';
-                        $profileDownloadUrl = rtrim($adminBaseUrl, '/') . '/' . $cleanProfilePath;
-                    }
+                    $profileDownloadUrl = '/ho-so-nang-luc.pdf';
                 }
                 ?>
                 <li class="nav-item nav-profile-btn">
-                    <a href="<?php echo htmlspecialchars($profileDownloadUrl); ?>" class="btn_profile_download_nav" download title="<?php echo htmlspecialchars($headerSettings['profile_pdf_label'] ?? 'Profile'); ?>">
+                    <a href="<?php echo htmlspecialchars($profileDownloadUrl); ?>" class="btn_profile_download_nav" download="ho-so-nang-luc.pdf" title="Tải Hồ Sơ Năng Lực">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                             <polyline points="7 10 12 15 17 10" />
                             <line x1="12" y1="15" x2="12" y2="3" />
                         </svg>
-                        <span><?php echo htmlspecialchars($headerSettings['profile_pdf_label'] ?? 'Profile'); ?></span>
+                        <span>Hồ Sơ Năng Lực</span>
                     </a>
                 </li>
 
