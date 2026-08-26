@@ -159,6 +159,13 @@ $companyInfo = [
                                     <li><a href="<?php echo htmlspecialchars($socialLinks['youtube']); ?>" target="_blank" <?php echo $socialLinks['youtube'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-youtube"></i></a></li>
                                 <?php endif; ?>
                             </ul>
+                            <!-- DMCA Protected Badge -->
+                            <div class="dmca-widget-wrap" style="margin-top: 15px;">
+                                <a href="https://www.dmca.com/Protection/Status.aspx?ID=mtechjsc&refurl=https://mtechjsc.com" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopener noreferrer">
+                                    <img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=mtechjsc" alt="DMCA.com Protection Status" style="height: 28px; width: auto;" loading="lazy">
+                                </a>
+                                <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
+                            </div>
                         </div>
                     </aside>
                 </div>
@@ -167,9 +174,12 @@ $companyInfo = [
     </div>
     <div class="footer_copyright">
         <div class="container">
-            <div class="bottom_info d-flex justify-content-between">
-                <div class="pull-left">
-                    Bản quyền © <?php echo date('Y'); ?> <a href="./"><?php echo htmlspecialchars($companyInfo['short_name']); ?></a>.
+            <div class="bottom_info d-flex justify-content-between align-items-center flex-wrap" style="gap: 12px;">
+                <div class="pull-left d-flex align-items-center flex-wrap" style="gap: 12px;">
+                    <span>Bản quyền © <?php echo date('Y'); ?> <a href="./"><?php echo htmlspecialchars($companyInfo['short_name']); ?></a>. Đã đăng ký bảo hộ.</span>
+                    <a href="https://www.dmca.com/Protection/Status.aspx?ID=mtechjsc&refurl=https://mtechjsc.com" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+                        <img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=mtechjsc" alt="DMCA.com Protection Status" style="height: 24px; width: auto; vertical-align: middle;">
+                    </a>
                 </div>
                 <div class="pull-right">
                     Thiết kế bởi: <a href="https://www.mistydev.id.vn/" target="_blank">MistySoft</a>
