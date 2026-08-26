@@ -1,4 +1,4 @@
-﻿/* ========================================
+/* ========================================
    Header CSS - MTech Website - RESPONSIVE OPTIMIZED
    ======================================== */
 
@@ -936,10 +936,46 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     }
     .navbar_logo_text { display: block; font-size: clamp(1rem, 2.2vw, 1.1rem); }
     .menu_absolute { padding: 6px 0; }
-    .navbar-toggler { display: block; }
-    .header-phone { display: none; }
-    
-    /* Mobile dropdown styling */
+}
+
+/* Tablet Landscape / Small Laptop: 834px - 1023px */
+@media (max-width: 1023px) {
+    .navbar { padding: 0 clamp(12px, 2vw, 15px); }
+    .search_toggle svg { width: 22px !important; height: 22px !important; }
+}
+
+/* Desktop: 1200px+ */
+@media (min-width: 1200px) {
+    .navbar { padding: 0 20px; }
+    .navbar-toggler { display: none !important; }
+    .header-phone { display: flex !important; }
+    ul.menu > li.nav-item > a.nav-link { 
+        font-size: clamp(0.9rem, 1.1vw, 1rem);
+        padding: 5px clamp(10px, 1.2vw, 15px);
+    }
+    .navbar_logo_text { font-size: 1.25rem; }
+}
+
+/* ========================================
+   Responsive Mobile & Tablet Menu (width <= 1199px)
+   ======================================== */
+
+@media (max-width: 1199px) {
+    .navbar { padding: 0 15px; }
+
+    .header_top_five { display: none; }
+
+    .menu_absolute { 
+        top: 0 !important;
+        width: 100%;
+    }
+
+    .navbar-toggler { 
+        display: block !important; 
+        margin-left: auto;
+    }
+
+    /* Mobile dropdown styling cho tất cả màn hình <= 1199px */
     ul.menu > li.nav-item.submenu > ul.dropdown-menu {
         position: static;
         display: block;
@@ -990,52 +1026,6 @@ ul.menu > li.nav-item.submenu:not(.services-dropdown) li.nav-item.submenu.show >
     ul.menu > li.nav-item.submenu.show .caret-drop {
         transform: rotate(-135deg) !important;
     }
-}
-
-/* Tablet Landscape / Small Laptop: 834px - 1023px */
-@media (max-width: 1023px) {
-    .navbar { padding: 0 clamp(12px, 2vw, 15px); }
-    ul.menu > li.nav-item > a.nav-link { 
-        font-size: clamp(0.875rem, 1.3vw, 0.95rem);
-        padding: clamp(5px, 1vw, 7px) clamp(10px, 1.5vw, 14px);
-    }
-    .search_toggle svg { width: 22px !important; height: 22px !important; }
-}
-
-/* Laptop Small: 1024px - 1280px */
-@media (min-width: 1024px) and (max-width: 1280px) {
-    .navbar { padding: 0 clamp(15px, 2vw, 20px); }
-    ul.menu > li.nav-item > a.nav-link { 
-        font-size: clamp(0.9rem, 1.2vw, 1rem);
-        padding: clamp(5px, 1vw, 6px) clamp(12px, 1.5vw, 15px);
-    }
-}
-
-/* Desktop: 1281px+ */
-@media (min-width: 1281px) {
-    .navbar { padding: 0 20px; }
-    ul.menu > li.nav-item > a.nav-link { 
-        font-size: 1rem;
-        padding: 5px 15px;
-    }
-    .navbar_logo_text { font-size: 1.25rem; }
-}
-
-/* ========================================
-   Responsive Mobile Menu
-   ======================================== */
-
-@media (max-width: 1199px) {
-    .navbar { padding: 0 15px; }
-
-    .header_top_five { display: none; }
-
-    .menu_absolute { 
-        top: 0 !important;
-        width: 100%;
-    }
-
-    .navbar-toggler { display: block; }
 
     .header-phone { display: none; }
 

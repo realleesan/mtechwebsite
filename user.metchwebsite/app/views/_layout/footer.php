@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Footer Layout - Dynamic Data
  * Sử dụng FooterModel và CategoriesModel
@@ -60,18 +61,30 @@ $companyInfo = [
                         <h4 class="f_title f_size_20 f_500 color_w">Thông tin liên hệ</h4>
                         <div class="f_widget_body">
                             <div class="textwidget custom-html-widget">
-                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                                    <i class="fa fa-map-marker"></i> <strong>Văn phòng làm việc:</strong> Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, TP. Hà Nội
-                                </p>
-                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                                    <i class="fa fa-map-marker"></i> <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, TP. Hà Nội
-                                </p>
-                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                                    <i class="fa fa-phone"></i> <strong>Điện thoại:</strong> <span style="display: inline-block;">0913.034.656 (Hotline)</span><br><span class="phone-second-line">0243.623.1691</span>
-                                </p>
-                                <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                                    <i class="fa fa-envelope"></i> <strong>Email:</strong> <?php echo htmlspecialchars($companyInfo['email']); ?>
-                                </p>
+                                <div class="f_contact_item">
+                                    <i class="fa fa-map-marker f_contact_icon"></i>
+                                    <div class="f_contact_text">
+                                        <strong>Văn phòng làm việc:</strong> Toà nhà 227 Nguyễn Ngọc Nại, phường Phương Liệt, TP. Hà Nội
+                                    </div>
+                                </div>
+                                <div class="f_contact_item">
+                                    <i class="fa fa-map-marker f_contact_icon"></i>
+                                    <div class="f_contact_text">
+                                        <strong>Địa chỉ đăng ký kinh doanh:</strong> Số 8, ngõ 151, phố Định Công, Phường Định Công, TP. Hà Nội
+                                    </div>
+                                </div>
+                                <div class="f_contact_item">
+                                    <i class="fa fa-phone f_contact_icon"></i>
+                                    <div class="f_contact_text">
+                                        <strong>Điện thoại:</strong> 0913.034.656 (Hotline)<br>0243.623.1691
+                                    </div>
+                                </div>
+                                <div class="f_contact_item">
+                                    <i class="fa fa-envelope f_contact_icon"></i>
+                                    <div class="f_contact_text">
+                                        <strong>Email:</strong> <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </aside>
@@ -89,19 +102,19 @@ $companyInfo = [
                             <div class="f_widget_body">
                                 <ul class="list-unstyled mb-0">
                                     <?php foreach ($usefulLinks as $link): ?>
-                                    <li>
-                                        <a href="<?php echo htmlspecialchars($link['url']); ?>">
-                                            <?php echo htmlspecialchars($link['title']); ?>
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a href="<?php echo htmlspecialchars($link['url']); ?>">
+                                                <?php echo htmlspecialchars($link['title']); ?>
+                                            </a>
+                                        </li>
                                     <?php endforeach; ?>
                                     <?php if (empty($usefulLinks)): ?>
-                                    <li><a href="./">Trang chủ</a></li>
-                                    <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
-                                    <li><a href="/linh-vuc">Lĩnh vực</a></li>
-                                    <li><a href="/du-an">Dự án</a></li>
-                                    <li><a href="/tin-tuc">Tin tức</a></li>
-                                    <li><a href="/lien-he">Liên hệ</a></li>
+                                        <li><a href="./">Trang chủ</a></li>
+                                        <li><a href="/ve-chung-toi">Thư ngỏ</a></li>
+                                        <li><a href="/linh-vuc">Lĩnh vực</a></li>
+                                        <li><a href="/du-an">Dự án</a></li>
+                                        <li><a href="/tin-tuc">Tin tức</a></li>
+                                        <li><a href="/lien-he">Liên hệ</a></li>
                                     <?php endif; ?>
                                 </ul>
                             </div>
@@ -131,19 +144,19 @@ $companyInfo = [
                             </div>
                             <ul class="nav social_icon">
                                 <?php if (isset($socialLinks['facebook'])): ?>
-                                <li><a href="<?php echo htmlspecialchars($socialLinks['facebook']); ?>" target="_blank" <?php echo $socialLinks['facebook'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['facebook']); ?>" target="_blank" <?php echo $socialLinks['facebook'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-facebook"></i></a></li>
                                 <?php endif; ?>
                                 <?php if (isset($socialLinks['linkedin'])): ?>
-                                <li><a href="<?php echo htmlspecialchars($socialLinks['linkedin']); ?>" target="_blank" <?php echo $socialLinks['linkedin'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['linkedin']); ?>" target="_blank" <?php echo $socialLinks['linkedin'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-linkedin"></i></a></li>
                                 <?php endif; ?>
                                 <?php if (isset($socialLinks['twitter'])): ?>
-                                <li><a href="<?php echo htmlspecialchars($socialLinks['twitter']); ?>" target="_blank" <?php echo $socialLinks['twitter'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['twitter']); ?>" target="_blank" <?php echo $socialLinks['twitter'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-twitter"></i></a></li>
                                 <?php endif; ?>
                                 <?php if (isset($socialLinks['google'])): ?>
-                                <li><a href="<?php echo htmlspecialchars($socialLinks['google']); ?>" target="_blank" <?php echo $socialLinks['google'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-google"></i></a></li>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['google']); ?>" target="_blank" <?php echo $socialLinks['google'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-google"></i></a></li>
                                 <?php endif; ?>
                                 <?php if (isset($socialLinks['youtube'])): ?>
-                                <li><a href="<?php echo htmlspecialchars($socialLinks['youtube']); ?>" target="_blank" <?php echo $socialLinks['youtube'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-youtube"></i></a></li>
+                                    <li><a href="<?php echo htmlspecialchars($socialLinks['youtube']); ?>" target="_blank" <?php echo $socialLinks['youtube'] === '#' ? 'onclick="return false;"' : ''; ?>><i class="fa fa-youtube"></i></a></li>
                                 <?php endif; ?>
                             </ul>
                         </div>
@@ -156,7 +169,7 @@ $companyInfo = [
         <div class="container">
             <div class="bottom_info d-flex justify-content-between">
                 <div class="pull-left">
-                    Bản quyền © <?php echo date('Y'); ?> <a href="./"><?php echo htmlspecialchars($companyInfo['short_name']); ?></a>. Đã đăng ký bảo hộ.
+                    Bản quyền © <?php echo date('Y'); ?> <a href="./"><?php echo htmlspecialchars($companyInfo['short_name']); ?></a>.
                 </div>
                 <div class="pull-right">
                     Thiết kế bởi: <a href="https://www.mistydev.id.vn/" target="_blank">MistySoft</a>
@@ -167,30 +180,29 @@ $companyInfo = [
 </footer>
 
 <script>
-(function() {
-    function initFooterAccordion() {
-        if (window.innerWidth > 767) return;
+    (function() {
+        function initFooterAccordion() {
+            if (window.innerWidth > 767) return;
 
-        var toggles = document.querySelectorAll('.footer_accordion_toggle');
-        toggles.forEach(function(toggle) {
-            var widget = toggle.closest('.f_widget');
-            if (!widget || widget.classList.contains('about_widget')) return;
+            var toggles = document.querySelectorAll('.footer_accordion_toggle');
+            toggles.forEach(function(toggle) {
+                var widget = toggle.closest('.f_widget');
+                if (!widget || widget.classList.contains('about_widget')) return;
 
-            toggle.addEventListener('click', function() {
-                widget.classList.toggle('is-open');
-            });
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', initFooterAccordion);
-    window.addEventListener('resize', function() {
-        // Reset khi resize về desktop
-        if (window.innerWidth > 767) {
-            document.querySelectorAll('.f_widget.is-open').forEach(function(w) {
-                w.classList.remove('is-open');
+                toggle.addEventListener('click', function() {
+                    widget.classList.toggle('is-open');
+                });
             });
         }
-    });
-})();
-</script>
 
+        document.addEventListener('DOMContentLoaded', initFooterAccordion);
+        window.addEventListener('resize', function() {
+            // Reset khi resize về desktop
+            if (window.innerWidth > 767) {
+                document.querySelectorAll('.f_widget.is-open').forEach(function(w) {
+                    w.classList.remove('is-open');
+                });
+            }
+        });
+    })();
+</script>

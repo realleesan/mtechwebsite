@@ -188,22 +188,45 @@
     text-decoration: underline;
 }
 
-.info_widget .f_contact_line {
+/* Contact items flex layout: Icon fixed left, text block aligned right */
+.info_widget .f_contact_item {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.info_widget .f_contact_item:last-child {
+    margin-bottom: 0;
+}
+
+.info_widget .f_contact_icon {
+    flex: 0 0 16px;
+    width: 16px;
+    margin-top: 3px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+}
+
+.info_widget .f_contact_text {
+    flex: 1;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
+    font-size: 14px;
     line-height: 1.6;
-    margin: 0 0 6px;
-}
-
-.info_widget .f_contact_line i {
-    margin-right: 0;
-    flex: 0 0 auto;
-}
-
-.info_widget .f_contact_line a {
+    color: #ffffff;
     word-break: break-word;
-    overflow-wrap: anywhere;
+}
+
+.info_widget .f_contact_text a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.info_widget .f_contact_text a:hover {
+    color: #B5D3FF;
+    text-decoration: underline;
 }
 
 /* ═══════════════════════════════════════════════════════════ */
