@@ -311,16 +311,8 @@ function renderDropdownMenuItems(array $items, int $depth = 0, string $urlPrefix
                 </li>
 
                 <!-- Profile Button - Static File ho-so-nang-luc.pdf -->
-                <?php
-                $staticProfilePath = 'assets/files/ho-so-nang-luc.pdf';
-                if (file_exists(__DIR__ . '/../../' . $staticProfilePath)) {
-                    $profileDownloadUrl = '/' . $staticProfilePath;
-                } else {
-                    $profileDownloadUrl = '/ho-so-nang-luc.pdf';
-                }
-                ?>
                 <li class="nav-item nav-profile-btn">
-                    <a href="<?php echo htmlspecialchars($profileDownloadUrl); ?>" class="btn_profile_download_nav" download="ho-so-nang-luc.pdf" title="Tải Profile">
+                    <a href="/assets/files/ho-so-nang-luc.pdf" class="btn_profile_download_nav" download="ho-so-nang-luc.pdf" title="Tải Profile">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                             <polyline points="7 10 12 15 17 10" />
