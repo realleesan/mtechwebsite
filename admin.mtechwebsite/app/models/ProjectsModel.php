@@ -278,7 +278,7 @@ class ProjectsModel {
             $values = [];
             
             foreach ($fields as $field) {
-                if (isset($data[$field])) {
+                if (array_key_exists($field, $data)) {
                     $columns[] = $field;
                     $values[] = '?';
                     $insertData[] = $data[$field];
@@ -318,7 +318,7 @@ class ProjectsModel {
             $sets = [];
             
             foreach ($fields as $field) {
-                if (isset($data[$field])) {
+                if (array_key_exists($field, $data)) {
                     $sets[] = "{$field} = ?";
                     $updateData[] = $data[$field];
                 }

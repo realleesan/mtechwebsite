@@ -19,15 +19,9 @@ if (!$projectDetail) {
 
     // Thu thập danh sách ảnh cho Slider
     $slideImages = [];
-    if (!empty($projectDetail['image'])) {
-        $slideImages[] = $projectDetail['image'];
-    }
-    if (!empty($projectDetail['detail_image']) && !in_array($projectDetail['detail_image'], $slideImages)) {
-        $slideImages[] = $projectDetail['detail_image'];
-    }
     if (!empty($projectDetail['gallery'])) {
         $decodedGallery = json_decode($projectDetail['gallery'], true);
-        if (is_array($decodedGallery)) {
+        if (is_array($decodedGallery) && !empty($decodedGallery)) {
             foreach ($decodedGallery as $gImg) {
                 if (!empty($gImg) && !in_array($gImg, $slideImages)) {
                     $slideImages[] = $gImg;
@@ -35,6 +29,13 @@ if (!$projectDetail) {
             }
         }
     }
+    
+    // Nếu gallery trống, fallback sang ảnh đại diện chính
+    if (empty($slideImages) && !empty($projectDetail['image'])) {
+        $slideImages[] = $projectDetail['image'];
+    }
+    
+    // Nếu vẫn trống, dùng ảnh placeholder mặc định
     if (empty($slideImages)) {
         $slideImages[] = 'assets/images/placeholder-project.jpg';
     }

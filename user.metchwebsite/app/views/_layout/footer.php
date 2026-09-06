@@ -75,8 +75,12 @@ $companyInfo = [
                                 </div>
                                 <div class="f_contact_item" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
                                     <i class="fa fa-phone f_contact_icon" style="flex: 0 0 16px; width: 16px; margin-top: 4px; text-align: center; color: rgba(255, 255, 255, 0.85); font-size: 14px;"></i>
-                                    <div class="f_contact_text" style="flex: 1; font-size: 14px; line-height: 1.6; color: #ffffff; word-break: break-word;">
-                                        <strong>Điện thoại:</strong> 0913.034.656 (Hotline)<br>0243.623.1691
+                                    <div class="f_contact_text" style="flex: 1; font-size: 14px; line-height: 1.6; color: #ffffff; word-break: break-word; display: flex; align-items: flex-start; gap: 4px;">
+                                        <strong style="white-space: nowrap;">Điện thoại:</strong>
+                                        <div>
+                                            <div>0913.034.656 (Hotline)</div>
+                                            <div>0243.623.1691</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="f_contact_item" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0;">
@@ -161,8 +165,8 @@ $companyInfo = [
                             </ul>
                             <!-- DMCA Protected Badge -->
                             <div class="dmca-widget-wrap" style="margin-top: 15px;">
-                                <a href="https://www.dmca.com/Protection/Status.aspx?ID=mtechjsc&refurl=https://mtechjsc.com" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopener noreferrer">
-                                    <img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=mtechjsc" alt="DMCA.com Protection Status" style="height: 28px; width: auto;" loading="lazy">
+                                <a href="https://www.dmca.com/Protection/Status.aspx?refurl=https://mtechjsc.com" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopener noreferrer">
+                                    <img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png" alt="DMCA.com Protection Status" style="height: 28px; width: auto;" loading="lazy">
                                 </a>
                                 <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
                             </div>
@@ -177,8 +181,8 @@ $companyInfo = [
             <div class="bottom_info d-flex justify-content-between align-items-center flex-wrap" style="gap: 12px;">
                 <div class="pull-left d-flex align-items-center flex-wrap" style="gap: 12px;">
                     <span>Bản quyền © <?php echo date('Y'); ?> <a href="./"><?php echo htmlspecialchars($companyInfo['short_name']); ?></a>. Đã đăng ký bảo hộ.</span>
-                    <a href="https://www.dmca.com/Protection/Status.aspx?ID=mtechjsc&refurl=https://mtechjsc.com" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
-                        <img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=mtechjsc" alt="DMCA.com Protection Status" style="height: 24px; width: auto; vertical-align: middle;">
+                    <a href="https://www.dmca.com/Protection/Status.aspx?refurl=https://mtechjsc.com" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+                        <img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png" alt="DMCA.com Protection Status" style="height: 24px; width: auto; vertical-align: middle;">
                     </a>
                 </div>
                 <div class="pull-right">
